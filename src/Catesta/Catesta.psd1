@@ -135,18 +135,18 @@
                 'Linux',
                 'MacOS',
                 'Azure',
-                'Azure DevOps',
+                'Azure-DevOps',
                 'AWS',
                 'CodeBuild',
-                'AWS CodeBuild',
+                'AWS-CodeBuild',
                 'AppVeyor',
                 'GitHub',
                 'Actions',
-                'GitHub Actions'
+                'GitHub-Actions'
             )
 
             # A URL to the license for this module.
-            LicenseUri = 'https://github.com/techthoughts2/Catesta/blob/master/LICENSE'
+            # LicenseUri = 'https://github.com/techthoughts2/Catesta/blob/master/LICENSE'
 
             # A URL to the main website for this project.
             ProjectUri = 'https://github.com/techthoughts2/Catesta'
@@ -161,7 +161,7 @@
             # Prerelease = ''
 
             # Flag to indicate whether the module requires explicit user acceptance for install/update/save
-            RequireLicenseAcceptance = $true
+            RequireLicenseAcceptance = $false
 
             # External dependent modules of this module
             # ExternalModuleDependencies = @()
