@@ -1,0 +1,75 @@
+version: 1.0.{build}
+
+# https://www.appveyor.com/docs/build-configuration/
+# https://www.appveyor.com/docs/build-configuration/#specializing-matrix-job-configuration
+# https://www.appveyor.com/docs/appveyor-yml/
+
+image:
+<%
+If ($PLASTER_PARAM_Options -eq 'windows') {
+@'
+  - Visual Studio 2017
+'@
+}
+%>
+
+<%
+If ($PLASTER_PARAM_Options -eq 'pwshcore') {
+@'
+  - Visual Studio 2019
+'@
+}
+%>
+
+<%
+If ($PLASTER_PARAM_Options -eq 'linux') {
+@'
+  - Ubuntu1804
+'@
+}
+%>
+
+<%
+If ($PLASTER_PARAM_Options -eq 'macos') {
+@'
+  - macOS
+'@
+}
+%>
+skip_commits:
+  files:
+    - docs/*
+    - media/*
+  message: /updated readme.*|update readme.*s/
+build: off
+
+<%
+If ($PLASTER_PARAM_Options -eq 'windows') {
+@'
+for:
+-
+  matrix:
+    only:
+      - image: Visual Studio 2017
+  init:
+    - ps: $PSVersionTable
+  install:
+    - ps: . .\actions_bootstrap.ps1
+  build_script:
+    - ps: Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1
+'@
+}
+%>
+
+<%
+If ($PLASTER_PARAM_Options -eq 'macos' -or $PLASTER_PARAM_Options -eq 'linux' -or $PLASTER_PARAM_Options -eq 'pwshcore') {
+@'
+init:
+  - pwsh: $PSVersionTable
+install:
+  - pwsh: . .\actions_bootstrap.ps1
+build_script:
+  - pwsh: Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1
+'@
+}
+%>

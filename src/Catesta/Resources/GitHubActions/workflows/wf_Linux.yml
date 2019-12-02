@@ -1,0 +1,27 @@
+# https://help.github.com/en/actions/automating-your-workflow-with-github-actions
+# https://help.github.com/en/actions/automating-your-workflow-with-github-actions/virtual-environments-for-github-hosted-runners
+# https://help.github.com/en/actions/automating-your-workflow-with-github-actions/software-installed-on-github-hosted-runners
+# https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#using-a-specific-shell
+# https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions
+name: ActionsTest-Linux-Build
+on: [push, pull_request]
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v1
+    - name: Display the path
+      shell: pwsh
+      run: echo ${env:PATH}
+    - name: Version Display
+      shell: pwsh
+      run: $PSVersionTable
+    - name: Bootstrap
+      shell: pwsh
+      run: ./actions_bootstrap.ps1
+    - name: Test and Build
+      shell: pwsh
+      run: Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1

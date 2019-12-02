@@ -1,0 +1,96 @@
+
+jobs:
+  # https://docs.microsoft.com/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema
+  # https://docs.microsoft.com/azure/devops/pipelines/agents/hosted?view=azure-devops#use-a-microsoft-hosted-agent
+  # https://docs.microsoft.com/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
+<%
+If ($PLASTER_PARAM_Options -eq 'windows') {
+@'
+  - job: build_ps_WinLatest
+    pool:
+      vmImage: windows-latest
+    steps:
+    - powershell: |
+        $PSVersionTable
+        .\actions_bootstrap.ps1
+        Invoke-Build -File $(Build.SourcesDirectory)\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1
+      displayName: 'Build and Test - Windows PowerShell'
+    - task: PublishTestResults@2
+      inputs:
+        testRunner: 'NUnit'
+        testResultsFiles: '**/out/testResults.xml'
+        testRunTitle: 'ps_winLatest'
+'@
+}
+%>
+
+<%
+If ($PLASTER_PARAM_Options -eq 'pwshcore') {
+@'
+  - job: build_pwsh_WinLatest
+    pool:
+      vmImage: windows-latest
+    steps:
+    - pwsh: |
+        $PSVersionTable
+        .\actions_bootstrap.ps1
+        Invoke-Build -File $(Build.SourcesDirectory)\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1
+      displayName: 'Build and Test - Windows pwsh'
+    - task: PublishTestResults@2
+      inputs:
+        testRunner: 'NUnit'
+        testResultsFiles: '**/out/testResults.xml'
+        testRunTitle: 'pwsh_winLatest'
+      # displayName: 'Publish Test Results'
+'@
+}
+%>
+
+<%
+If ($PLASTER_PARAM_Options -eq 'linux') {
+@'
+  - job: build_pwsh_ubuntuLatest
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - script: |
+        sudo dpkg -i powershell_6.2.0-1.ubuntu.16.04_amd64.deb
+        sudo apt-get install -f
+      displayName: 'Install PowerShell Core'
+    - script: |
+        pwsh -c '$PSVersionTable;.\actions_bootstrap.ps1;Invoke-Build -File $(Build.SourcesDirectory)/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'
+      displayName: 'Build and Test - Linux'
+    - task: PublishTestResults@2
+      inputs:
+        testRunner: 'NUnit'
+        testResultsFiles: '**/out/testResults.xml'
+        testRunTitle: 'pwsh_ubuntuLatest'
+      # displayName: 'Publish Test Results'
+'@
+}
+%>
+
+<%
+If ($PLASTER_PARAM_Options -eq 'macos') {
+@'
+  - job: build_pwsh_macOSLatest
+    pool:
+      vmImage: macOS-latest
+    steps:
+    - script: |
+        brew update
+        brew tap caskroom/cask
+        brew cask install powershell
+      displayName: 'Install PowerShell Core'
+    - script: |
+        pwsh -c '$PSVersionTable;.\actions_bootstrap.ps1;Invoke-Build -File $(Build.SourcesDirectory)/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'
+      displayName: 'Build and Test'
+    - task: PublishTestResults@2
+      inputs:
+        testRunner: 'NUnit'
+        testResultsFiles: '**/out/testResults.xml'
+        testRunTitle: 'pwsh_macOSLatest'
+      # displayName: 'Publish Test Results'
+'@
+}
+%>

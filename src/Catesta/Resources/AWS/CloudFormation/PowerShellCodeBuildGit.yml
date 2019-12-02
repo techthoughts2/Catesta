@@ -1,0 +1,479 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "PS CodeBuild Stack: <%=$PLASTER_PARAM_ModuleName%>"
+
+Parameters:
+
+  ProjectName:
+    Description: name of PS Module. Used as project tag value for all resources.
+    Type: String
+    Default: <%=$PLASTER_PARAM_ModuleName%>
+
+  ProjectDescription:
+    Description: short description of your PS module project.
+    Type: String
+
+  RepositoryUrl:
+    Description: "HTTPS Clone URL of the repository in GitHub. Example: 'https://github.com/owner/repo.git'"
+    Type: String
+
+  #BranchName:
+  #  Default: master
+  #  Description: the GitHub branch that will be monitored for builds (CASE SENSITIVE).
+  #  Type: String
+
+  CodeBuildBadgeEnabled:
+    Type: String
+    Default: "true"
+    Description: Selects whether to enable CodeBuild Build Badges.
+    AllowedValues:
+      - "true"
+      - "false"
+
+  CodeBuildTimeoutInMinutes:
+    Type: Number
+    Default: 30
+    Description: The number of minutes before a CodeBuild build will timeout.
+
+  # https://docs.aws.amazon.com/codebuild/latest/userguide/create-project.html#create-project-cli
+  #CodeBuildEnvironment:
+  #  Type: String
+  #  Default: WINDOWS_CONTAINER
+  #  Description: The type of build environment.
+  #  AllowedValues:
+  #    - WINDOWS_CONTAINER
+  #    - LINUX_CONTAINER
+
+  # https://docs.aws.amazon.com/codebuild/latest/userguide/create-project.html#create-project-cli
+  #CodeBuildComputeType:
+  #  Type: String
+  #  Default: BUILD_GENERAL1_MEDIUM
+  #  Description: The size of the CodeBuild instance. (Windows Containers do NOT support small)
+  #  AllowedValues:
+  #    - BUILD_GENERAL1_SMALL
+  #    - BUILD_GENERAL1_MEDIUM
+  #    - BUILD_GENERAL1_LARGE
+
+  # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
+  #CodeBuildImage:
+  #  Type: String
+  #  Default : aws/codebuild/windows-base:1.0
+  #  Description: The size of the CodeBuild instance. (Windows Containers do NOT support small)
+  #  AllowedValues:
+  #    - aws/codebuild/windows-base:1.0
+  #    - aws/codebuild/dot-net:core-2.1
+
+  # BuildSpecFile:
+  #   Type: String
+  #   Default: buildspec_powershell_windows.yml
+  #   Description: The build file to be run by CodeBuild.
+  #   AllowedValues:
+  #     - buildspec_powershell_windows.yml
+  #     - buildspec_pwsh_windows.yml
+  #     - buildspec_pwsh_linux.yml
+
+  DeployEmailNotifications:
+    Type: String
+    Default: "no"
+    Description: "CodeBuild will send email notifications of state changes."
+    AllowedValues:
+      - "yes"
+      - "no"
+
+  EmailForNotifications:
+    Type: String
+    Default: ignored@doesnotexist.com
+    Description: Email Address for SNS Notifications
+    AllowedPattern: "^[\\x20-\\x45]?[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$"
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Project and Tagging
+        Parameters:
+          - ProjectName
+          - ProjectDescription
+      - Label:
+          default: Specify GitHub Repository and Branch
+        Parameters:
+          - RepositoryUrl
+          #- BranchName
+      - Label:
+          default: CodeBuild
+        Parameters:
+          - CodeBuildBadgeEnabled
+          - CodeBuildTimeoutInMinutes
+          #- CodeBuildEnvironment
+          #- CodeBuildComputeType
+          # - BuildSpecFile
+      - Label:
+          default: Email Notifications
+        Parameters:
+          - DeployEmailNotifications
+          - EmailForNotifications
+    ParameterLabels:
+      ProjectName:
+        default: Module Name
+      ProjectDescription:
+        default: Module Description
+      RepositoryUrl:
+        default: GitHub Repository URL
+      #BranchName:
+      #  default: Branch Name
+      CodeBuildBadgeEnabled:
+        default: Badge Enabled
+      CodeBuildTimeoutInMinutes:
+        default: Timeout in Minutes
+      #CodeBuildEnvironment:
+      #  default: Container Type
+      #CodeBuildComputeType:
+      #  default: Container Size
+      # BuildSpecFile:
+      #   default: Buildspec file
+      DeployEmailNotifications:
+        default: Deploy Email Notifications
+      EmailForNotifications:
+        default: Email Address
+
+#Mappings:
+
+Conditions:
+
+  DeployEmailNotificationsCondition:
+    !Equals [!Ref DeployEmailNotifications, "yes"]
+  # PSWindows: !Equals [!Ref BuildSpecFile, "buildspec_powershell_windows.yml"]
+  # PWSHWindows: !Equals [!Ref BuildSpecFile, "buildspec_pwsh_windows.yml"]
+  # WindowsImage:
+  #   Fn::Or:
+  #   - Condition: PSWindows
+  #   - Condition: PWSHWindows
+  #LinuxImage: !Equals [!Ref BuildSpecFile, "buildspec_pwsh_linux.yml"]
+  #WindowsImage: !Equals [!Ref CodeBuildEnvironment, "WINDOWS_CONTAINER"]
+
+Resources:
+
+  # The IAM Role CodeBuild will run the container as
+  # # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html
+  CodeBuildServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: CBCloudWatchPublishing
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource:
+                  - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/<%=$PLASTER_PARAM_ModuleName%>*"
+        - PolicyName: CBS3ArtifactAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                Resource:
+                  - arn:aws:s3:::codepipeline-${AWS::Region}-*
+
+<%
+    if ($PLASTER_PARAM_Options -eq 'ps') {
+@'
+  # The CodeBuild Project configuration
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
+  # https://docs.amazonaws.cn/en_us/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
+  CodeBuildpsProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Artifacts:
+        Type: NO_ARTIFACTS
+      BadgeEnabled: !Ref CodeBuildBadgeEnabled
+      Description: !Ref ProjectDescription
+      Environment:
+        #ComputeType: !Ref CodeBuildComputeType
+        ComputeType: BUILD_GENERAL1_MEDIUM
+        Image: "aws/codebuild/windows-base:2.0"
+        #Type: !Ref CodeBuildEnvironment
+        Type: WINDOWS_CONTAINER
+      Name: !Join
+        - "-"
+        - - !Ref ProjectName
+          - powershell_windows
+      ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+      Source:
+        Type: GITHUB
+        Auth:
+          Type: OAUTH
+        Location: !Ref RepositoryUrl
+        BuildSpec: buildspec_powershell_windows.yml
+      Tags:
+        - Key: Service
+          Value: !Ref ProjectName
+      TimeoutInMinutes: !Ref CodeBuildTimeoutInMinutes
+      Triggers:
+        Webhook: true
+        FilterGroups:
+          - - Type: EVENT
+              Pattern: PUSH
+          - - Type: BASE_REF
+              Pattern: ^refs/heads/master$
+            - Type: EVENT
+              Pattern: PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED
+'@
+    }
+%>
+<%
+    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+@'
+  # The CodeBuild Project configuration
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
+  # https://docs.amazonaws.cn/en_us/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
+  CodeBuildpwshcoreProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Artifacts:
+        Type: NO_ARTIFACTS
+      BadgeEnabled: !Ref CodeBuildBadgeEnabled
+      Description: !Ref ProjectDescription
+      Environment:
+        #ComputeType: !Ref CodeBuildComputeType
+        ComputeType: BUILD_GENERAL1_MEDIUM
+        Image: "aws/codebuild/windows-base:2.0"
+        #Type: !Ref CodeBuildEnvironment
+        Type: WINDOWS_CONTAINER
+      Name: !Join
+        - "-"
+        - - !Ref ProjectName
+          - pwsh_windows
+      ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+      Source:
+        Type: GITHUB
+        Auth:
+          Type: OAUTH
+        Location: !Ref RepositoryUrl
+        BuildSpec: buildspec_pwsh_windows.yml
+      Tags:
+        - Key: Service
+          Value: !Ref ProjectName
+      TimeoutInMinutes: !Ref CodeBuildTimeoutInMinutes
+      Triggers:
+        Webhook: true
+        FilterGroups:
+          - - Type: EVENT
+              Pattern: PUSH
+          - - Type: BASE_REF
+              Pattern: ^refs/heads/master$
+            - Type: EVENT
+              Pattern: PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED
+'@
+    }
+%>
+<%
+    if ($PLASTER_PARAM_Options -eq 'pwsh') {
+@'
+  # The CodeBuild Project configuration
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
+  # https://docs.amazonaws.cn/en_us/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
+  CodeBuildpwshProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Artifacts:
+        Type: NO_ARTIFACTS
+      BadgeEnabled: !Ref CodeBuildBadgeEnabled
+      Description: !Ref ProjectDescription
+      Environment:
+        #ComputeType: !Ref CodeBuildComputeType
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: "aws/codebuild/standard:3.0"
+        #Type: !Ref CodeBuildEnvironment
+        Type: LINUX_CONTAINER
+      Name: !Join
+        - "-"
+        - - !Ref ProjectName
+          - pwsh_linux
+      ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+      Source:
+        Type: GITHUB
+        Auth:
+          Type: OAUTH
+        Location: !Ref RepositoryUrl
+        BuildSpec: buildspec_pwsh_linux.yml
+      Tags:
+        - Key: Service
+          Value: !Ref ProjectName
+      TimeoutInMinutes: !Ref CodeBuildTimeoutInMinutes
+      Triggers:
+        Webhook: true
+        FilterGroups:
+          - - Type: EVENT
+              Pattern: PUSH
+          - - Type: BASE_REF
+              Pattern: ^refs/heads/master$
+            - Type: EVENT
+              Pattern: PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED
+'@
+    }
+%>
+
+  # An SNS Topic used for CodeBuild status updates
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
+  SNSTopicForCodeBuildUpdates:
+    Type: AWS::SNS::Topic
+
+  # The SNS Topic Policy
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-policy.html
+  SNSTopicPolicy:
+    Type: AWS::SNS::TopicPolicy
+    Properties:
+      PolicyDocument:
+        Id: SNSTopicPolicy
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AllowEvents
+            Effect: Allow
+            Principal:
+              Service:
+                - events.amazonaws.com
+            Action: sns:Publish
+            Resource: !Ref SNSTopicForCodeBuildUpdates
+      Topics:
+        - !Ref SNSTopicForCodeBuildUpdates
+
+  # The SNS Email Subscription
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sns-subscription.html
+  SNSEmailSubscription:
+    Type: AWS::SNS::Subscription
+    Condition: DeployEmailNotificationsCondition
+    Properties:
+      Endpoint: !Ref EmailForNotifications
+      Protocol: email
+      TopicArn: !Ref SNSTopicForCodeBuildUpdates
+
+  # The CodeBuild event for status updates
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-events-rule.html
+  CodeBuildEventsRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: Trigger notifications based on CodeBuild state changes
+      EventPattern:
+        source:
+          - aws.codebuild
+        detail-type:
+          - CodeBuild Build State Change
+        detail:
+          build-status:
+            - IN_PROGRESS
+            - SUCCEEDED
+            - FAILED
+            - STOPPED
+          project-name:
+<%
+    if ($PLASTER_PARAM_Options -eq 'ps') {
+@'
+            - !Ref CodeBuildpsProject
+'@
+    }
+%>
+<%
+    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+@'
+            - !Ref CodeBuildpwshcoreProject
+'@
+    }
+%>
+<%
+    if ($PLASTER_PARAM_Options -eq 'pwsh') {
+@'
+            - !Ref CodeBuildpwshProject
+'@
+    }
+%>
+      State: ENABLED
+      Targets:
+        - Arn: !Ref SNSTopicForCodeBuildUpdates
+          Id: !Sub "${AWS::StackName}"
+          InputTransformer:
+            InputTemplate: '"The PowerShell solution build for <projectname> is in state <status> at <at>."'
+            InputPathsMap:
+              projectname: "$.detail.project-name"
+              status: "$.detail.build-status"
+              at: "$.time"
+              account: "$.account"
+
+Outputs:
+
+  SNSTopic:
+    Description: The SNS Topic used for CodeBuild status updates
+    Value: !Ref SNSTopicForCodeBuildUpdates
+<%
+    if ($PLASTER_PARAM_Options -eq 'ps') {
+@'
+  CodeBuildpsProject:
+    Description: The name of the CodeBuild Project.
+    Value: !Ref CodeBuildpsProject
+  CodeBuildpsURL:
+    Description: CodeBuild URL
+    Value:
+      Fn::Join:
+        - ""
+        - - https://console.aws.amazon.com/codebuild/home?region=
+          - Ref: AWS::Region
+          - "#/projects/"
+          - Ref: CodeBuildpsProject
+          - "/view"
+'@
+    }
+%>
+<%
+    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+@'
+  CodeBuildpwshcoreProject:
+    Description: The name of the CodeBuild Project.
+    Value: !Ref CodeBuildpwshcoreProject
+  CodeBuildpwshcoreURL:
+    Description: CodeBuild URL
+    Value:
+      Fn::Join:
+        - ""
+        - - https://console.aws.amazon.com/codebuild/home?region=
+          - Ref: AWS::Region
+          - "#/projects/"
+          - Ref: CodeBuildpwshcoreProject
+          - "/view"
+'@
+    }
+%>
+<%
+    if ($PLASTER_PARAM_Options -eq 'pwsh') {
+@'
+  CodeBuildpwshProject:
+    Description: The name of the CodeBuild Project.
+    Value: !Ref CodeBuildpwshProject
+  CodeBuildpwshURL:
+    Description: CodeBuild URL
+    Value:
+      Fn::Join:
+        - ""
+        - - https://console.aws.amazon.com/codebuild/home?region=
+          - Ref: AWS::Region
+          - "#/projects/"
+          - Ref: CodeBuildpwshProject
+          - "/view"
+'@
+    }
+%>

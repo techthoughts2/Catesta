@@ -1,0 +1,25 @@
+# This is a simple CodeBuild build file for PowerShell.
+# - pre_build step will ensure the Module Name / Version has not previously been built for production (plans to add this at a later time)
+# - build step will perform Clean, ValidateRequirements, Analyze, Test, CreateHelp, Build, Archive
+
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - powershell -command '.\configure_aws_credential.ps1'
+      #- aws s3 cp s3://ps-invoke-modules/PowerShell-6.1.1-win-x64.msi PowerShell-6.1.1-win-x64.msi --quiet
+      - powershell -command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;$url = """https://github.com/PowerShell/PowerShell/releases/download/v6.2.3/PowerShell-6.2.3-win-x64.msi""";$output = """$env:CODEBUILD_SRC_DIR\PowerShell-6.2.3-win-x64.msi""";Invoke-WebRequest -Uri $url -OutFile $output -ErrorAction Stop;if (-not(Test-Path $output)) {throw """PSCore failed to DL"""}'
+      - powershell -command "Start-Process $env:CODEBUILD_SRC_DIR\PowerShell-6.2.3-win-x64.msi -ArgumentList '/qn /norestart' -Wait"
+      - '& "C:\Program Files\PowerShell\6\pwsh.exe" -command ''.\install_modules.ps1'''
+  pre_build:
+    commands:
+      # - powershell -command 'New-Item -Path C:\Test -ItemType Directory | Out-Null'
+      # - '& "C:\Program Files\PowerShell\6\pwsh.exe" -command ''Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.Settings.ps1 -Task ValidateUniqueModuleVersion'''
+  build:
+    commands:
+      - '& "C:\Program Files\PowerShell\6\pwsh.exe" -command ''$PSVersionTable;Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1'''
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'src\Archive'
