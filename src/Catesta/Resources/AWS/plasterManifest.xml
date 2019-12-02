@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plasterManifest schemaVersion="1.1" templateType="Project"
+  xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
+  <metadata>
+    <name>AWSCBManifestPS</name>
+    <id>83670531-579c-4a4c-a70a-ddc60eaefa40</id>
+    <version>0.9.2</version>
+    <title>PowerShell Module Template for AWS CodeBuild</title>
+    <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using AWS CodeBuild</description>
+    <author>Jake Morrison</author>
+    <tags>PowerShell,Template,CodeBuild,PowerShell Module,AWS</tags>
+  </metadata>
+  <parameters>
+    <parameter name='ModuleName' type='text' prompt='Enter the name of the module'/>
+    <parameter name='Description' type='text' prompt='Enter a description for the module'/>
+    <parameter name='Version' type='text' prompt='Enter the version number of the module' default='0.0.1'/>
+    <parameter name='FN' type='user-fullname' store='text' prompt='Enter your full name'/>
+    <parameter name='RepoType' type='choice' default='0' store='text' prompt='Where will this project be hosted?'>
+      <choice label='&amp;GitHub ' help="Hosted on GitHub." value="GITHUB"/>
+      <choice label='&amp;AWS CodeCommit' help="Hosted on AWS CodeCommit." value="CC"/>
+    </parameter>
+    <parameter name='Changelog' type='choice' default='0' store='text' prompt='Would you like to generate a Changelog file?'>
+      <choice label='&amp;Changelog' help="Adds a Changelog file." value="CHANGELOG"/>
+      <choice label='&amp;None' help="Does not add a Changelog file." value="NOCHANGELOG"/>
+    </parameter>
+    <parameter name='License' type='choice' default='0' store='text' prompt='Select a License for your module. (Help deciding: https://choosealicense.com/)'>
+      <choice label='&amp;MIT' help='Adds a MIT License file.' value='MIT'/>
+      <choice label='&amp;Apache' help='Adds an Apache License file.' value="Apache"/>
+      <choice label='&amp;GNU' help='Adds a GNU GENERAL PUBLIC LICENSE file.' value="GNU"/>
+      <choice label='&amp;ISC' help='Adds an ISC License file.' value="ISC"/>
+      <choice label='&amp;None' help='Does not add a License file.' value='None'/>
+    </parameter>
+    <parameter name='COC' type='choice' default='0' store='text' prompt='Would you like to generate a Code of Conduct file?'>
+      <choice label='&amp;conduct' help="Adds a Code of Conduct file." value="CONDUCT"/>
+      <choice label='&amp;None' help="Does not add a Changelog file." value="NOCONDUCT"/>
+    </parameter>
+    <parameter name='Contribute' type='choice' default='0' store='text' prompt='Would you like to generate a Contributing guidelines file?'>
+      <choice label='&amp;Contribute' help="Adds a Contributing file." value="CONTRIBUTING"/>
+      <choice label='&amp;None' help="Does not add a Contributing file." value="NOCONTRIBUTING"/>
+    </parameter>
+    <parameter name='CodingStyle' type='choice' default='0' store='text' prompt='Would you like to specify a coding style for the project?'>
+      <choice label='&amp;Stroustrup' help="Sets Stroustrup as the preferred coding style." value="Stroustrup"/>
+      <choice label='&amp;OTBS' help="Sets OTBS as the preferred coding style." value="OTBS"/>
+      <choice label='&amp;Allman' help="Sets Allman as the preferred coding style." value="Allman"/>
+      <choice label='&amp;None' help="No coding style is set for the project." value="None"/>
+    </parameter>
+    <parameter name='Help' type='choice' default='0' store='text' prompt='Would you like to use platyPS to generate help documentation files for your project?'>
+      <choice label='&amp;Yes' help="platyPS will generate MarkDown help and external xml help" value="Yes"/>
+      <choice label='&amp;No' help="No help files will be generated." value="No"/>
+    </parameter>
+    <parameter name='S3Bucket' type='text' prompt='Enter S3 bucket name to download needed PS modules from S3 location. Leave blank to DL modules from PSGallery.' default='PSGallery'/>
+    <parameter name='Options' type='multichoice' default='0' store='text' prompt='Select desired buildpsec file options?'>
+      <choice label='&amp;Windows - PowerShell' help="Adds a powershell focused buildspec.yml for Windows CodeBuild." value="ps"/>
+      <choice label='&amp;Core (Windows)- pwsh' help="Adds a pwsh focused buildspec.yml for Windows CodeBuild." value="pwshcore"/>
+      <choice label='&amp;Linux - pwsh' help="Adds a pwsh focused buildspec.yml for Linux CodeBuild." value="pwsh"/>
+      <choice label='&amp;None' help="Does not add a buildspec file." value="None"/>
+    </parameter>
+  </parameters>
+  <content>
+    <message>&#10;&#10;Scaffolding your PowerShell Module for AWS CodeBuild...&#10;&#10;&#10;</message>
+    <file source='' destination='docs'/>
+    <file source='' destination='media'/>
+    <file source='' destination='src'/>
+    <file source='' destination='CloudFormation'/>
+    <file source='' destination='src\Archive'/>
+    <file source='' destination='src\Artifacts'/>
+    <file source='' destination='src\Tests'/>
+    <file source='' destination='src\Tests\Infrastrcuture'/>
+    <file source='' destination='src\Tests\Unit'/>
+    <file source='' destination='src\${PLASTER_PARAM_ModuleName}'/>
+    <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Public'/>
+    <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Private'/>
+    <file source='..\editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
+    <file source='..\editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
+    <templateFile source='..\editor\VSCode\settings.json' destination='.vscode\settings.json' />
+
+    <templateFile source='..\Module\src\Tests\PSModule-Module.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
+    <templateFile source='..\Module\src\Tests\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />
+    <templateFile source='..\Module\src\Tests\Module-Function.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Function.Tests.ps1' />
+
+    <templateFile source='..\Module\src\Module\Public\Get-HelloWorld.ps1' destination='src\${PLASTER_PARAM_ModuleName}\Public\Get-HelloWorld.ps1' />
+    <templateFile source='..\Module\src\Module\Private\Get-PrivateHelloWorld.ps1' destination='src\${PLASTER_PARAM_ModuleName}\Private\Get-PrivateHelloWorld.ps1' />
+
+    <templateFile source='..\Module\src\PSModule.build.ps1' destination='src\${PLASTER_PARAM_ModuleName}.build.ps1'/>
+    <file source='..\Module\src\PSModule.Settings.ps1' destination='src\${PLASTER_PARAM_ModuleName}.Settings.ps1'/>
+    <file source='..\Module\src\PSScriptAnalyzerSettings.psd1' destination='src\PSScriptAnalyzerSettings.psd1'/>
+
+    <file source='configure_aws_credential.ps1' destination='configure_aws_credential.ps1'/>
+
+    <file source='CloudFormation\S3BucketsForPowerShellDevelopment.yml' destination='CloudFormation\S3BucketsForPowerShellDevelopment.yml'/>
+
+    <file source='..\GitHubFiles\.gitignore' destination='.gitignore' />
+    <templateFile condition="$PLASTER_PARAM_Changelog -eq 'CHANGELOG'" source='..\GitHubFiles\CHANGELOG.md' destination='.github\CHANGELOG.md' />
+    <templateFile condition="$PLASTER_PARAM_License -eq 'MIT'" source='..\GitHubFiles\MITLICENSE' destination='LICENSE' />
+    <templateFile condition="$PLASTER_PARAM_License -eq 'Apache'" source='..\GitHubFiles\APACHELICENSE' destination='LICENSE' />
+    <templateFile condition="$PLASTER_PARAM_License -eq 'GNU'" source='..\GitHubFiles\GNULICENSE' destination='LICENSE' />
+    <templateFile condition="$PLASTER_PARAM_License -eq 'ISC'" source='..\GitHubFiles\ISCLICENSE' destination='LICENSE' />
+    <file condition="$PLASTER_PARAM_COC -eq 'CONDUCT'" source='..\GitHubFiles\CODE_OF_CONDUCT.md' destination='.github\CODE_OF_CONDUCT.md' />
+    <templateFile condition="$PLASTER_PARAM_Contribute -eq 'CONTRIBUTING'" source='..\GitHubFiles\CONTRIBUTING.md' destination='.github\CONTRIBUTING.md' />
+    <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\GitHubFiles\PULL_REQUEST_TEMPLATE.md' destination='.github\PULL_REQUEST_TEMPLATE.md'/>
+    <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\GitHubFiles\ISSUE_TEMPLATE\bug-report.md' destination='.github\ISSUE_TEMPLATE\bug-report.md'/>
+    <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\GitHubFiles\ISSUE_TEMPLATE\feature_request.md' destination='.github\ISSUE_TEMPLATE\feature_request.md'/>
+
+    <templateFile condition="$PLASTER_PARAM_Options -eq 'ps'" source='buildspec_powershell_windows.yml' destination='buildspec_powershell_windows.yml' />
+    <templateFile condition="$PLASTER_PARAM_Options -eq 'pwshcore'" source='buildspec_pwsh_windows.yml' destination='buildspec_pwsh_windows.yml' />
+    <templateFile condition="$PLASTER_PARAM_Options -eq 'pwsh'" source='buildspec_pwsh_linux.yml' destination='buildspec_pwsh_linux.yml' />
+    <templateFile source='install_modules.ps1' destination='install_modules.ps1'/>
+    <templateFile condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='CloudFormation\PowerShellCodeBuildGit.yml' destination='CloudFormation\PowerShellCodeBuildGit.yml'/>
+    <templateFile condition="$PLASTER_PARAM_RepoType -eq 'CC'" source='CloudFormation\PowerShellCodeBuildCC.yml' destination='CloudFormation\PowerShellCodeBuildCC.yml'/>
+
+    <newModuleManifest destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_Version' rootModule='${PLASTER_PARAM_ModuleName}.psm1' encoding='UTF8-NoBOM' openInEditor="true" author='$PLASTER_PARAM_FN' description='$PLASTER_PARAM_description'/>
+    <file source='..\Module\src\Module\Imports.ps1' destination='src\${PLASTER_PARAM_ModuleName}\Imports.ps1'/>
+    <file source='..\Module\src\Module\Module.psm1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psm1' openInEditor="true"/>
+
+    <requireModule name="Pester" minimumVersion="4.7.2" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 4.5.0, VS Code will not display Pester warnings and errors in the Problems panel."/>
+    <requireModule name="InvokeBuild" minimumVersion="5.4.2" message="Without InvokeBuild, you will not be able to run local builds."/>
+    <requireModule name="platyPS" requiredVersion ="0.12.0" message="This template requires platyPS v0.12.0 module to properly generate help."/>
+
+    <message>
+
+Your new PowerShell module project '$PLASTER_PARAM_ModuleName' has been created.
+
+    </message>
+
+    <message>
+Several Pester tests have been created to validate various components of the module.  Add additional tests to the test directory.
+You can run the Pester tests in your project by executing the 'test' task.  Press Ctrl+P, then type 'task test'.
+    </message>
+
+    <message>
+
+CloudFormation files have been generated for this project. You can find these in the CloudFormation folder.
+You can login to your AWS account and utilize these file to quickly create a stack for your project build.
+More information: https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-AWS.md
+    </message>
+
+  </content>
+</plasterManifest>

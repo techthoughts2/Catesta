@@ -1,0 +1,4 @@
+{
+    "files.trimTrailingWhitespace": true,
+    "powershell.codeFormatting.preset":"Stroustrup"
+}

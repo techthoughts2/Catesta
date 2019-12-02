@@ -1,0 +1,23 @@
+# This is a simple CodeBuild build file for PowerShell.
+# - pre_build step will ensure the Module Name / Version has not previously been built for production (plans to add this at a later time)
+# - build step will perform Clean, ValidateRequirements, Analyze, Test, CreateHelp, Build, Archive
+
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - powershell -command '.\configure_aws_credential.ps1'
+      - powershell -command '.\install_modules.ps1'
+  pre_build:
+    commands:
+      - powershell -command '$PSVersionTable'
+      # - powershell -command 'New-Item -Path C:\Test -ItemType Directory | Out-Null'
+      # - powershell -command 'Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.Settings.ps1 -Task ValidateUniqueModuleVersion'
+  build:
+    commands:
+      - powershell -command 'Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1'
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'src\Archive'
