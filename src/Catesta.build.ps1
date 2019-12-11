@@ -8,9 +8,9 @@
         - FormattingCheck
         - Analyze
         - Test
-        - InfraTest
         - CreateHelpStart
         - Build
+        - InfraTest
         - Archive
 .EXAMPLE
     Invoke-Build
@@ -35,9 +35,9 @@ $ModuleName = (Split-Path -Path $BuildFile -Leaf).Split('.')[0]
 $str = @()
 $str = 'Clean', 'ValidateRequirements'
 $str += 'FormattingCheck'
-$str += 'Analyze', 'Test', 'InfraTest'
+$str += 'Analyze', 'Test'
 $str += 'CreateHelpStart'
-$str += 'Build', 'Archive'
+$str += 'Build', 'InfraTest', 'Archive'
 Add-BuildTask -Name . -Jobs $str
 
 #Local testing build process
@@ -253,37 +253,6 @@ Add-BuildTask Test {
     }
 }#Test
 
-#Synopsis: Invokes all Pester Infrastructure Tests in the Tests\Infrastructure folder (if it exists)
-Add-BuildTask InfraTest {
-    if (Test-Path -Path $script:InfraTestsPath) {
-
-        $invokePesterParams = @{
-            Path       = 'Tests\Infrastructure'
-            Strict     = $true
-            PassThru   = $true
-            Verbose    = $false
-            EnableExit = $false
-        }
-
-        Write-Build White "      Performing Pester Infrastructure Tests in $($invokePesterParams.path)"
-        # Publish Test Results as NUnitXml
-        $testResults = Invoke-Pester @invokePesterParams
-
-        # This will output a nice json for each failed test (if running in CodeBuild)
-        if ($env:CODEBUILD_BUILD_ARN) {
-            $testResults.TestResult | ForEach-Object {
-                if ($_.Result -ne 'Passed') {
-                    ConvertTo-Json -InputObject $_ -Compress
-                }
-            }
-        }
-
-        $numberFails = $testResults.FailedCount
-        Assert-Build($numberFails -eq 0) ('Failed "{0}" unit tests.' -f $numberFails)
-        Write-Build Green '      ...Pester Infrastructure Tests Complete!'
-    }
-}#InfraTest
-
 #Synopsis: Used primarily during active development to generate xml file to graphically display code coverage in VSCode using Coverage Gutters
 Add-BuildTask DevCC {
     Write-Build White '      Generating code coverage report at root...'
@@ -437,6 +406,37 @@ Add-BuildTask Build {
     Remove-Item "$($script:ArtifactsPath)\Private" -Recurse -Force -ErrorAction SilentlyContinue
     Write-Build Green '        ...Build Complete!'
 }#Build
+
+#Synopsis: Invokes all Pester Infrastructure Tests in the Tests\Infrastructure folder (if it exists)
+Add-BuildTask InfraTest {
+    if (Test-Path -Path $script:InfraTestsPath) {
+
+        $invokePesterParams = @{
+            Path       = 'Tests\Infrastructure'
+            Strict     = $true
+            PassThru   = $true
+            Verbose    = $false
+            EnableExit = $false
+        }
+
+        Write-Build White "      Performing Pester Infrastructure Tests in $($invokePesterParams.path)"
+        # Publish Test Results as NUnitXml
+        $testResults = Invoke-Pester @invokePesterParams
+
+        # This will output a nice json for each failed test (if running in CodeBuild)
+        if ($env:CODEBUILD_BUILD_ARN) {
+            $testResults.TestResult | ForEach-Object {
+                if ($_.Result -ne 'Passed') {
+                    ConvertTo-Json -InputObject $_ -Compress
+                }
+            }
+        }
+
+        $numberFails = $testResults.FailedCount
+        Assert-Build($numberFails -eq 0) ('Failed "{0}" unit tests.' -f $numberFails)
+        Write-Build Green '      ...Pester Infrastructure Tests Complete!'
+    }
+}#InfraTest
 
 #Synopsis: Creates an archive of the built Module
 Add-BuildTask Archive {

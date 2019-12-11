@@ -12,7 +12,7 @@
     RootModule        = 'Catesta.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.8.0'
+    ModuleVersion     = '0.8.3'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -152,7 +152,7 @@
             ProjectUri = 'https://github.com/techthoughts2/Catesta'
 
             # A URL to an icon representing this module.
-            IconUri = 'https://github.com/techthoughts2/Catesta/raw/master/media/Catesta.png'
+            IconUri = 'https://github.com/techthoughts2/Catesta/raw/master/media/CatestaIcon.png'
 
             # ReleaseNotes of this module
             ReleaseNotes = 'https://github.com/techthoughts2/Catesta/blob/master/.github/CHANGELOG.md'
