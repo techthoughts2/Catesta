@@ -3,13 +3,8 @@ Set-Location -Path $PSScriptRoot
 #-------------------------------------------------------------------------
 $ModuleName = 'Catesta'
 #-------------------------------------------------------------------------
-#$PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
-#-------------------------------------------------------------------------
 $resourcePath = [System.IO.Path]::Combine('..', '..', $ModuleName, 'Resources')
 #-------------------------------------------------------------------------
-$WarningPreference = "SilentlyContinue"
-#-------------------------------------------------------------------------
-
 Describe 'File Checks' {
     Context 'Editor' {
         $editorFiles = Get-ChildItem -Path "$resourcePath\Editor\*" -Recurse
