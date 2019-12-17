@@ -85,7 +85,7 @@ Set-BuildHeader {
     # task location in a script
     Write-Build DarkGray "At $($Task.InvocationInfo.ScriptName):$($Task.InvocationInfo.ScriptLineNumber)"
     Write-Build Yellow "Manifest File: $script:ModuleManifestFile"
-    Write-Build Yellow "Manifest Info: $manifestInfo"
+    Write-Build Yellow "Manifest Version: $($manifestInfo.ModuleVersion)"
 }#Set-BuildHeader
 
 # Define footers similar to default but change the color to DarkGray.
