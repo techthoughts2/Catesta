@@ -45,25 +45,25 @@ $modulesToInstall = [System.Collections.ArrayList]::new()
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'Pester'
             ModuleVersion = '4.9.0'
-            BucketName    = $PLASTER_PARAM_S3Bucket
+            BucketName    = <%=$PLASTER_PARAM_S3Bucket%>
             KeyPrefix     = ''
         }))
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.5.5'
-            BucketName    = $PLASTER_PARAM_S3Bucket
+            ModuleVersion = '5.5.6'
+            BucketName    = <%=$PLASTER_PARAM_S3Bucket%>
             KeyPrefix     = ''
         }))
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'PSScriptAnalyzer'
-            ModuleVersion = '1.18.0'
-            BucketName    = $PLASTER_PARAM_S3Bucket
+            ModuleVersion = '1.18.3'
+            BucketName    = <%=$PLASTER_PARAM_S3Bucket%>
             KeyPrefix     = ''
         }))
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'platyPS'
             ModuleVersion = '0.12.0'
-            BucketName    = $PLASTER_PARAM_S3Bucket
+            BucketName    = <%=$PLASTER_PARAM_S3Bucket%>
             KeyPrefix     = ''
         }))
 
