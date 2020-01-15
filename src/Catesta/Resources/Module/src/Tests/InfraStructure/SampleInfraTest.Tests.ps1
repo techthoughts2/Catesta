@@ -9,7 +9,7 @@
 # #-------------------------------------------------------------------------
 # Import-Module $PathToManifest -Force
 # #-------------------------------------------------------------------------
-# Describe 'Infrastructure Tests' {
+# Describe 'Infrastructure Tests' -Tag Infrastructure {
 #     Context 'First Infra Tests' {
 #         It 'should pass the first infra test' {
 #             # test logic

@@ -418,7 +418,7 @@ Add-BuildTask Build {
     #$private = "$script:ModuleSourcePath\Private"
     $scriptContent = [System.Text.StringBuilder]::new()
     #$powerShellScripts = Get-ChildItem -Path $script:ModuleSourcePath -Filter '*.ps1' -Recurse
-    $powerShellScripts = Get-ChildItem -Path $script:ArtifactsPath -Filter '*.ps1' -Recurse
+    $powerShellScripts = Get-ChildItem -Path $script:ArtifactsPath -Recurse | Where-Object {$_.Name -match '^*.ps1$'}
     foreach ($script in $powerShellScripts) {
         $null = $scriptContent.Append((Get-Content -Path $script.FullName -Raw))
         $null = $scriptContent.AppendLine('')
@@ -435,7 +435,9 @@ Add-BuildTask Build {
     if (Test-Path "$($script:ArtifactsPath)\Private") {
         Remove-Item "$($script:ArtifactsPath)\Private" -Recurse -Force -ErrorAction Stop
     }
-
+    if (Test-Path "$($script:ArtifactsPath)\Imports.ps1") {
+        Remove-Item "$($script:ArtifactsPath)\Imports.ps1" -Force -ErrorAction SilentlyContinue
+    }
     # here you could move your docs up to your repos doc level if you wanted
     # Write-Build Gray '        Overwriting docs output...'
     # Move-Item "$($script:ArtifactsPath)\docs\*.md" -Destination "..\docs\" -Force
