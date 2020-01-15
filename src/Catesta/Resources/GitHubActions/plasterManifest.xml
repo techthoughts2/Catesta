@@ -71,7 +71,7 @@
     <templateFile source='..\Module\src\Tests\Unit\PSModule-Module.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
     <templateFile source='..\Module\src\Tests\Unit\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />
     <templateFile source='..\Module\src\Tests\Unit\Module-Function.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Function.Tests.ps1' />
-    <file source='..\Module\src\Tests\Infrastructure\SampleInfraTest.Tests.ps1' destination='src\Tests\Infrastructure\SampleInfraTest.Tests.ps1' />
+    <templateFile source='..\Module\src\Tests\Infrastructure\SampleInfraTest.Tests.ps1' destination='src\Tests\Infrastructure\SampleInfraTest.Tests.ps1' />
 
     <templateFile source='..\Module\src\Module\Public\Get-HelloWorld.ps1' destination='src\${PLASTER_PARAM_ModuleName}\Public\Get-HelloWorld.ps1' />
     <templateFile source='..\Module\src\Module\Private\Get-PrivateHelloWorld.ps1' destination='src\${PLASTER_PARAM_ModuleName}\Private\Get-PrivateHelloWorld.ps1' />
