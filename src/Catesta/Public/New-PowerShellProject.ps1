@@ -43,6 +43,8 @@
 .NOTES
     General notes
 .LINK
+    https://github.com/techthoughts2/Catesta/blob/master/docs/New-PowerShellProject.md
+.LINK
     https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module
 .LINK
     https://aws.amazon.com/codebuild/
