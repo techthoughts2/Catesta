@@ -60,7 +60,7 @@
             "label": ".",
             "type": "shell",
             "problemMatcher": "$msCompile",
-            "command": "$PSVersionTable;Invoke-Build -Task . -File './src/PoshGram.build.ps1'",
+            "command": "$PSVersionTable;Invoke-Build -Task . -File './src/Catesta.build.ps1'",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -70,67 +70,67 @@
             "label": "TestLocal",
             "type": "shell",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task TestLocal -File './src/PoshGram.build.ps1'"
+            "command": "Invoke-Build -Task TestLocal -File './src/Catesta.build.ps1'"
         },
         {
             "label": "HelpLocal",
             "type": "shell",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task HelpLocal -File './src/PoshGram.build.ps1'"
+            "command": "Invoke-Build -Task HelpLocal -File './src/Catesta.build.ps1'"
         },
         {
             "label": "Clean",
             "type": "shell",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task Clean -File './src/PoshGram.build.ps1'"
+            "command": "Invoke-Build -Task Clean -File './src/Catesta.build.ps1'"
         },
         {
             "label": "ValidateRequirements",
             "type": "shell",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task ValidateRequirements -File './src/PoshGram.build.ps1'"
+            "command": "Invoke-Build -Task ValidateRequirements -File './src/Catesta.build.ps1'"
         },
         {
             "label": "Analyze",
             "type": "shell",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task Analyze -File './src/PoshGram.build.ps1'"
+            "command": "Invoke-Build -Task Analyze -File './src/Catesta.build.ps1'"
         },
         {
             "label": "AnalyzeTests",
             "type": "shell",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task AnalyzeTests -File './src/PoshGram.build.ps1'"
+            "command": "Invoke-Build -Task AnalyzeTests -File './src/Catesta.build.ps1'"
         },
         {
             "label": "FormattingCheck",
             "type": "shell",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task FormattingCheck -File './src/PoshGram.build.ps1'"
+            "command": "Invoke-Build -Task FormattingCheck -File './src/Catesta.build.ps1'"
         },
         {
             "label": "Test",
             "type": "shell",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task Test -File './src/PoshGram.build.ps1'"
+            "command": "Invoke-Build -Task Test -File './src/Catesta.build.ps1'"
         },
         {
             "label": "DevCC",
             "type": "shell",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task DevCC -File './src/PoshGram.build.ps1'"
+            "command": "Invoke-Build -Task DevCC -File './src/Catesta.build.ps1'"
         },
         {
             "label": "Build",
             "type": "shell",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task Build -File './src/PoshGram.build.ps1'"
+            "command": "Invoke-Build -Task Build -File './src/Catesta.build.ps1'"
         },
         {
             "label": "InfraTest",
             "type": "shell",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task InfraTest -File './src/PoshGram.build.ps1'"
+            "command": "Invoke-Build -Task InfraTest -File './src/Catesta.build.ps1'"
         }
     ]
 }
