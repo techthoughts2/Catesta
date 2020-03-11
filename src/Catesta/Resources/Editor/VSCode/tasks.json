@@ -6,6 +6,9 @@
 // ${fileDirname}: the current opened file's dirname
 // ${fileExtname}: the current opened file's extension
 // ${cwd}: the current working directory of the spawned process
+// If you are using InvokeBuild you can enhance this tasks.json using the New-VSCodeTask command:
+// Install-Script New-VSCodeTask
+// New-VSCodeTask.ps1 -BuildFile .\src\YourModuleName.build.ps1
 {
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
@@ -16,8 +19,8 @@
         "options": {
             "shell": {
                 //"executable": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-                "executable": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
-                //"command": "${env:ProgramFiles}/PowerShell/7-preview/pwsh.exe",
+                // "executable": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
+                "executable": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
                 "args": [ "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command" ]
             }
         }
