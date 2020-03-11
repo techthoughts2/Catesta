@@ -1,7 +1,7 @@
 ---
 external help file: Catesta-help.xml
 Module Name: Catesta
-online version: https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module
+online version: https://github.com/techthoughts2/Catesta/blob/master/docs/New-PowerShellProject.md
 schema: 2.0.0
 ---
 
@@ -158,6 +158,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 General notes
 
 ## RELATED LINKS
+
+[https://github.com/techthoughts2/Catesta/blob/master/docs/New-PowerShellProject.md](https://github.com/techthoughts2/Catesta/blob/master/docs/New-PowerShellProject.md)
 
 [https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module](https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module)
 

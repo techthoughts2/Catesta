@@ -119,7 +119,8 @@ Additional Catesta documentation:
 
 ## Contributors
 
-[Andrew Pearce](https://twitter.com/austoonz)
+* [Andrew Pearce](https://twitter.com/austoonz)
+* [Dave Kaylor](https://twitter.com/KaylorDave)
 
 ## Notes
 

@@ -44,13 +44,13 @@ $VerbosePreference = 'SilentlyContinue'
 $modulesToInstall = [System.Collections.ArrayList]::new()
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'Pester'
-            ModuleVersion = '4.9.0'
+            ModuleVersion = '4.10.1'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
             KeyPrefix     = ''
         }))
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.5.6'
+            ModuleVersion = '5.5.7'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
             KeyPrefix     = ''
         }))

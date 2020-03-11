@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.12]
+
+* Updated Pester and InvokeBuild module references to latest versions
+* AWS:
+  * buildspec_pwsh_windows.yml now uses PowerShell 7 instead of PowerShell 6.3
+* Minor build updates:
+  * Updated tasks.json for better integration with InvokeBuild
+
 ## [0.8.10]
 
 * Added link to the online function documentation for New-PowerShellProject as its first link so it will open directly when `Get-Help -Name New-PowerShellProject -Online` is called.
