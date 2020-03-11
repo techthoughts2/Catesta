@@ -70,7 +70,7 @@
         },
         @{
             ModuleName      = 'platyPS'
-            RequiredVersion = '0.12.0'
+            RequiredVersion = '0.14.0'
         }
     )
 
