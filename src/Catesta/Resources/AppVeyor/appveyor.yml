@@ -1,6 +1,7 @@
 version: 1.0.{build}
 
 # https://www.appveyor.com/docs/build-configuration/
+# https://www.appveyor.com/docs/build-environment/
 # https://www.appveyor.com/docs/build-configuration/#specializing-matrix-job-configuration
 # https://www.appveyor.com/docs/appveyor-yml/
 
@@ -56,7 +57,7 @@ for:
   install:
     - ps: . .\actions_bootstrap.ps1
   build_script:
-    - ps: Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1
+    - ps: Remove-Module Pester -ErrorAction SilentlyContinue;Import-Module Pester -RequiredVersion 4.10.1;Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1
 '@
 }
 %>
@@ -73,3 +74,11 @@ build_script:
 '@
 }
 %>
+
+artifacts:
+  - path: src/Artifacts/testOutput/PesterTests.xml
+    name: PesterTestResults
+  - path: src/Artifacts/ccReport/CodeCoverage.xml
+    name: CodeCoverageResults
+  - path: src/Archive/*.zip
+    name: BuildArtifact

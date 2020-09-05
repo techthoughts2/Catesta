@@ -64,7 +64,7 @@
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}'/>
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Public'/>
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Private'/>
-    <file source='..\editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
+    <templateFile source='..\editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
     <file source='..\editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
     <templateFile source='..\editor\VSCode\settings.json' destination='.vscode\settings.json' />
 
@@ -112,7 +112,8 @@ Your new PowerShell module project '$PLASTER_PARAM_ModuleName' has been created.
 
     <message>
 Several Pester tests have been created to validate various components of the module.  Add additional tests to the test directory.
-You can run the Pester tests in your project by executing the 'test' task.  Press Ctrl+P, then type 'task test'.
+If using VSCode you can run the Pester tests in your project by executing the 'test' task.  Press Ctrl+P, then type 'task TestLocal'.
+Other build related tasks are also available. Press Ctrl+P, then type 'task' and press space. You will see a list of available build tasks.
     </message>
 
     <message>

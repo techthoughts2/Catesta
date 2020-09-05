@@ -2,6 +2,8 @@
 # - pre_build step will ensure the Module Name / Version has not previously been built for production (plans to add this at a later time)
 # - build step will perform Clean, ValidateRequirements, Analyze, Test, CreateHelp, Build, Archive
 # https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#runtime-versions-buildspec-file
+# https://docs.aws.amazon.com/codebuild/latest/userguide/test-reporting.html
+
 version: 0.2
 
 phases:
@@ -13,9 +15,9 @@ phases:
       - pwsh -command './install_modules.ps1'
   pre_build:
     commands:
-      - pwsh -command '$PSVersionTable'
       # - pwsh -command 'New-Item -Path /Test -ItemType Directory | Out-Null'
       # - pwsh -command 'Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.Settings.ps1 -Task ValidateUniqueModuleVersion'
+      - pwsh -command '$PSVersionTable'
   build:
     commands:
       - pwsh -command 'Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1'
@@ -23,3 +25,13 @@ artifacts:
   files:
     - '**/*'
   base-directory: 'src/Archive'
+reports:
+  PesterTestReport:
+    files:
+      - '**/*'
+    file-format: NunitXml
+    base-directory: 'src/Artifacts/testOutput'
+  CodeCoverageReport:
+    files:
+      - 'src/Artifacts/ccReport/CodeCoverage.xml'
+    file-format: 'JaCoCoXml'

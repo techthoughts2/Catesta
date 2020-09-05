@@ -112,7 +112,7 @@ Add-BuildTask Clean {
 Add-BuildTask ValidateRequirements {
     #running at least powershell 5?
     Write-Build White '      Verifying at least PowerShell 5...'
-    Assert-Build ($PSVersionTable.PSVersion.Major.ToString() -ge '5') 'At least Powershell 6 is required for this build to function properly'
+    Assert-Build ($PSVersionTable.PSVersion.Major.ToString() -ge '5') 'At least Powershell 5 is required for this build to function properly'
     Write-Build Green '      ...Verification Complete!'
 }#ValidateRequirements
 
@@ -165,14 +165,14 @@ Add-BuildTask AnalyzeTests -After Analyze {
 #Synopsis: Analyze scripts to verify if they adhere to desired coding format (Stroustrup / OTBS / Allman)
 Add-BuildTask FormattingCheck {
     $scriptAnalyzerParams = @{
-        Setting      = 'CodeFormattingStroustrup'
+        Setting     = 'CodeFormattingStroustrup'
         ExcludeRule = @(
             'PSUseConsistentIndentation',
             'PSUseConsistentWhitespace'
         )
         # ExcludeRule = 'PSUseConsistentWhitespace'
-        Recurse      = $true
-        Verbose      = $false
+        Recurse     = $true
+        Verbose     = $false
     }
 
     Write-Build White '      Performing script formatting checks...'
@@ -190,21 +190,25 @@ Add-BuildTask FormattingCheck {
 #Synopsis: Invokes all Pester Unit Tests in the Tests\Unit folder (if it exists)
 Add-BuildTask Test {
     $codeCovPath = "$script:ArtifactsPath\ccReport\"
+    $testOutPutPath = "$script:ArtifactsPath\testOutput\"
     if (-not(Test-Path $codeCovPath)) {
         New-Item -Path $codeCovPath -ItemType Directory | Out-Null
     }
+    if (-not(Test-Path $testOutPutPath)) {
+        New-Item -Path $testOutPutPath -ItemType Directory | Out-Null
+    }
     if (Test-Path -Path $script:UnitTestsPath) {
         $invokePesterParams = @{
-            Path                   = 'Tests\Unit'
-            Strict                 = $true
-            PassThru               = $true
-            Verbose                = $false
-            EnableExit             = $false
-            CodeCoverage           = "$ModuleName\*\*.ps1"
-            CodeCoverageOutputFile = "$codeCovPath\CodeCoverage.xml"
-            # CodeCoverage                 = "$ModuleName\*\*.ps1"
-            # CodeCoverageOutputFile       = "$codeCovPath\codecoverage.xml"
-            # CodeCoverageOutputFileFormat = 'JaCoCo'
+            Path                         = 'Tests\Unit'
+            Strict                       = $true
+            PassThru                     = $true
+            Verbose                      = $false
+            EnableExit                   = $false
+            CodeCoverage                 = "$ModuleName\*\*.ps1"
+            CodeCoverageOutputFile       = "$codeCovPath\CodeCoverage.xml"
+            CodeCoverageOutputFileFormat = 'JaCoCo'
+            OutputFile                   = "$testOutPutPath\PesterTests.xml"
+            OutputFormat                 = 'JUnitXml'
         }
 
         Write-Build White '      Performing Pester Unit Tests...'
@@ -304,7 +308,7 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
         }
     }
     # Replace each missing element we need for a proper generic module page .md file
-    $ModulePageFileContent = Get-Content -raw $ModulePage
+    $ModulePageFileContent = Get-Content -Raw $ModulePage
     $ModulePageFileContent = $ModulePageFileContent -replace '{{Manually Enter Description Here}}', $script:ModuleDescription
     $Script:FunctionsToExport | ForEach-Object {
         Write-Build DarkGray "             Updating definition for the following function: $($_)"

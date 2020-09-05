@@ -40,7 +40,7 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [AWS
         | buildspec_pwsh_windows.yml  | WINDOWS_CONTAINER  | pwsh (1) |
         | buildspec_pwsh_linux.yml  | LINUX_CONTAINER  | pwsh  |
 
-        * (1)PowerShell 6.2.3 will be downloaded, installed, and all build tasks will run under the context of pwsh*
+        * (1)PowerShell 7 will be downloaded, installed, and all build tasks will run under the context of pwsh*
 1. Create your CodeBuild project in your AWS account. You can do this manually, or use the generated CloudFormation template (recommended).
     * **GitHub**
       * The generated CFN template will guide you through the process. You will need a SEPERATE CodeBuild for each build type. So, if you wanted to build against all three platforms, you would deploy the template three times, specifying the desired buildspec for each stack deployment.
