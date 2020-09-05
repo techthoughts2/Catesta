@@ -41,6 +41,7 @@ Parameters:
   #  Default: WINDOWS_CONTAINER
   #  Description: The type of build environment.
   #  AllowedValues:
+  #    - WINDOWS_SERVER_2019_CONTAINER
   #    - WINDOWS_CONTAINER
   #    - LINUX_CONTAINER
 
@@ -60,8 +61,9 @@ Parameters:
   #  Default : aws/codebuild/windows-base:1.0
   #  Description: The size of the CodeBuild instance. (Windows Containers do NOT support small)
   #  AllowedValues:
-  #    - aws/codebuild/windows-base:1.0
-  #    - aws/codebuild/dot-net:core-2.1
+  #    - aws/codebuild/windows-base:2019-1.0
+  #    - aws/codebuild/windows-base:2.0
+  #    - aws/codebuild/standard:4.0
 
   # BuildSpecFile:
   #   Type: String
@@ -190,6 +192,22 @@ Resources:
                   - s3:GetObjectVersion
                 Resource:
                   - arn:aws:s3:::codepipeline-${AWS::Region}-*
+        - PolicyName: CBReportAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - codebuild:CreateReport
+                  - codebuild:CreateReportGroup
+                  - codebuild:UpdateReportGroup
+                  - codebuild:UpdateReport
+                  - codebuild:DeleteReportGroup
+                  - codebuild:DeleteReport
+                  - codebuild:BatchPutCodeCoverages
+                  - codebuild:BatchPutTestCases
+                Resource:
+                  - !Sub "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:report-group/<%=$PLASTER_PARAM_ModuleName%>*"
 
 <%
     if ($PLASTER_PARAM_Options -eq 'ps') {
@@ -207,9 +225,10 @@ Resources:
       Environment:
         #ComputeType: !Ref CodeBuildComputeType
         ComputeType: BUILD_GENERAL1_MEDIUM
-        Image: "aws/codebuild/windows-base:2.0"
-        #Type: !Ref CodeBuildEnvironment
-        Type: WINDOWS_CONTAINER
+        Image: "aws/codebuild/windows-base:2019-1.0"
+        # Type: !Ref CodeBuildEnvironment
+        Type: WINDOWS_SERVER_2019_CONTAINER
+        # Type: WINDOWS_CONTAINER
       Name: !Join
         - "-"
         - - !Ref ProjectName
@@ -253,9 +272,10 @@ Resources:
       Environment:
         #ComputeType: !Ref CodeBuildComputeType
         ComputeType: BUILD_GENERAL1_MEDIUM
-        Image: "aws/codebuild/windows-base:2.0"
-        #Type: !Ref CodeBuildEnvironment
-        Type: WINDOWS_CONTAINER
+        Image: "aws/codebuild/windows-base:2019-1.0"
+        Type: WINDOWS_SERVER_2019_CONTAINER
+        # Type: !Ref CodeBuildEnvironment
+        # Type: WINDOWS_CONTAINER
       Name: !Join
         - "-"
         - - !Ref ProjectName
@@ -299,7 +319,7 @@ Resources:
       Environment:
         #ComputeType: !Ref CodeBuildComputeType
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: "aws/codebuild/standard:3.0"
+        Image: "aws/codebuild/standard:4.0"
         #Type: !Ref CodeBuildEnvironment
         Type: LINUX_CONTAINER
       Name: !Join

@@ -12,7 +12,8 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-    - uses: actions/checkout@v1
+    - name: Check out repository
+      uses: actions/checkout@v2
     - name: Display the path
       shell: pwsh
       run: echo ${env:GITHUB_WORKSPACE}
@@ -25,3 +26,15 @@ jobs:
     - name: Test and Build
       shell: pwsh
       run: Invoke-Build -File .\src\Catesta.build.ps1
+    - name: Upload pester results
+      uses: actions/upload-artifact@v2
+      with:
+        name: pester-results
+        path: ./src/Artifacts/testOutput
+        if-no-files-found: warn
+    - name: Upload zip module archive build
+      uses: actions/upload-artifact@v2
+      with:
+        name: zip-archive
+        path: ./src/Archive
+        if-no-files-found: warn

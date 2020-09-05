@@ -1,4 +1,9 @@
 {
+    "[powershell]": {
+        "files.encoding": "utf8bom",
+        "files.autoGuessEncoding": true,
+        "editor.formatOnSave": false
+    },
     "files.trimTrailingWhitespace": true,
     "powershell.codeFormatting.preset":"Stroustrup"
 }

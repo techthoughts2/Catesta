@@ -24,11 +24,17 @@ Catesta is a PowerShell module project generator. It uses templates to rapidly s
 
 ## Description
 
-* Catesta scaffolds an empty PowerShell project that adheres to PowerShell community guidelines.
-* It generates a few Pester tests to get you started.
-* It makes a build file that analyzes your code for best practices and styling, runs the Pester tests, creates PowerShell help, and combines your functions together to build your project for publication.
+Catesta enables you to quickly scaffold a PowerShell module project with proper formatting, test + build automation, CI/CD integration, with just one line of code.
+
+* Catesta scaffolds an empty PowerShell module project that adheres to PowerShell community guidelines.
+* It generates a few [Pester](https://github.com/pester/Pester) tests to get you started.
+* It makes a [build file](https://github.com/nightroman/Invoke-Build) that analyzes your code for best practices and styling, runs Pester tests, creates PowerShell help, and combines your functions together to build your project for publication.
 * It will create resources you need to trigger CI/CD builds for your module.
 * When you commit your code to your chosen repository, the build(s) will run, and you can view the results.
+
+## Why
+
+Simplify the process of structuring your module so that you can focus on building a great PowerShell module instead of the layout and build requirements.
 
 ### Features
 
@@ -67,10 +73,6 @@ Catesta is a PowerShell module project generator. It uses templates to rapidly s
       * Issue Feature Request
       * Pull Request
 
-## Why
-
-Simplify the process of structuring your module so that you can focus on building a great PowerShell module instead of the layout and build requirements.
-
 ## Installation
 
 ```powershell
@@ -102,16 +104,21 @@ New-PowerShellProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOn
 1. Use Catesta to scaffold your PowerShell project with your desired CI/CD platform and builds.
 1. Write your module (the hardest part)
     * All build testing can be done locally by navigating to src and running ```Invoke-Build```
+    * If using VSCode as your primary editor you can use tasks to perform various local actions
+      * ```Press Ctrl+P, then type 'task test'```
 1. Commit your project to desired repository that is integrated with your CI/CD platform. This will trigger the build actions.
 1. Evaluate results of your builds and [display your README badges](https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-FAQ.md#how-do-i-display-the-badges-for-my-project) proudly!
 
-Additional Catesta documentation:
+Additional Catesta documentation that covers the process of CI/CD integration in depth:
 
 * [Catesta - AWS Doc](docs/Catesta-AWS.md)
 * [Catesta - GitHub Actions Doc](docs/Catesta-GHActions.md)
 * [Catesta - Azure Pipelines Doc](docs/Catesta-Azure.md)
 * [Catesta - GitHub AppVeyor Doc](docs/Catesta-AppVeyor.md)
-* **[Catesta - FAQ](docs/Catesta-FAQ.md)**
+
+## FAQ
+
+**[Catesta - FAQ](docs/Catesta-FAQ.md)**
 
 ## Author
 

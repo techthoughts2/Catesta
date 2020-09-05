@@ -1,6 +1,8 @@
 # This is a simple CodeBuild build file for PowerShell.
 # - pre_build step will ensure the Module Name / Version has not previously been built for production (plans to add this at a later time)
 # - build step will perform Clean, ValidateRequirements, Analyze, Test, CreateHelp, Build, Archive
+# https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#runtime-versions-buildspec-file
+# https://docs.aws.amazon.com/codebuild/latest/userguide/test-reporting.html
 
 version: 0.2
 
@@ -8,18 +10,29 @@ phases:
   install:
     commands:
       - powershell -command '.\configure_aws_credential.ps1'
-      # - aws s3 cp s3://ps-invoke-modules/PowerShell-7.0.0-win-x64.msi PowerShell-7.0.0-win-x64.msi --quiet
-      - powershell -command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;$url = """https://github.com/PowerShell/PowerShell/releases/download/v7.0.0/PowerShell-7.0.0-win-x64.msi""";$output = """$env:CODEBUILD_SRC_DIR\PowerShell-7.0.0-win-x64.msi""";Invoke-WebRequest -Uri $url -OutFile $output -ErrorAction Stop;if (-not(Test-Path $output)) {throw """PSCore failed to DL"""}'
-      - powershell -command "Start-Process $env:CODEBUILD_SRC_DIR\PowerShell-7.0.0-win-x64.msi -ArgumentList '/qn /norestart' -Wait"
+      # - aws s3 cp s3://ps-invoke-modules/PowerShell-7.0.3-win-x64.msi PowerShell-7.0.3-win-x64.msi --quiet
+      - powershell -command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;$url = """https://github.com/PowerShell/PowerShell/releases/download/v7.0.3/PowerShell-7.0.3-win-x64.msi""";$output = """$env:CODEBUILD_SRC_DIR\PowerShell-7.0.3-win-x64.msi""";Invoke-WebRequest -Uri $url -OutFile $output -ErrorAction Stop;if (-not(Test-Path $output)) {throw """PSCore failed to DL"""}'
+      - powershell -command "Start-Process $env:CODEBUILD_SRC_DIR\PowerShell-7.0.3-win-x64.msi -ArgumentList '/qn /norestart' -Wait"
       - '& "C:\Program Files\PowerShell\7\pwsh.exe" -command ''.\install_modules.ps1'''
   pre_build:
     commands:
       # - powershell -command 'New-Item -Path C:\Test -ItemType Directory | Out-Null'
       # - '& "C:\Program Files\PowerShell\7\pwsh.exe" -command ''Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.Settings.ps1 -Task ValidateUniqueModuleVersion'''
+      - pwsh -command '$PSVersionTable'
   build:
     commands:
-      - '& "C:\Program Files\PowerShell\7\pwsh.exe" -command ''$PSVersionTable;Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1'''
+      - '& "C:\Program Files\PowerShell\7\pwsh.exe" -command ''Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1'''
 artifacts:
   files:
     - '**/*'
   base-directory: 'src\Archive'
+reports:
+  PesterTestReport:
+    files:
+      - '**/*'
+    file-format: NunitXml
+    base-directory: 'src\Artifacts\testOutput'
+  CodeCoverageReport:
+    files:
+      - 'src\Artifacts\ccReport\CodeCoverage.xml'
+    file-format: 'JaCoCoXml'

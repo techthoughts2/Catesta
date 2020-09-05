@@ -226,21 +226,25 @@ Add-BuildTask FormattingCheck {
 #Synopsis: Invokes all Pester Unit Tests in the Tests\Unit folder (if it exists)
 Add-BuildTask Test {
     $codeCovPath = "$script:ArtifactsPath\ccReport\"
+    $testOutPutPath = "$script:ArtifactsPath\testOutput\"
     if (-not(Test-Path $codeCovPath)) {
         New-Item -Path $codeCovPath -ItemType Directory | Out-Null
     }
+    if (-not(Test-Path $testOutPutPath)) {
+        New-Item -Path $testOutPutPath -ItemType Directory | Out-Null
+    }
     if (Test-Path -Path $script:UnitTestsPath) {
         $invokePesterParams = @{
-            Path                   = 'Tests\Unit'
-            Strict                 = $true
-            PassThru               = $true
-            Verbose                = $false
-            EnableExit             = $false
-            CodeCoverage           = "$ModuleName\*\*.ps1"
-            CodeCoverageOutputFile = "$codeCovPath\CodeCoverage.xml"
-            # CodeCoverage                 = "$ModuleName\*\*.ps1"
-            # CodeCoverageOutputFile       = "$codeCovPath\codecoverage.xml"
-            # CodeCoverageOutputFileFormat = 'JaCoCo'
+            Path                         = 'Tests\Unit'
+            Strict                       = $true
+            PassThru                     = $true
+            Verbose                      = $false
+            EnableExit                   = $false
+            CodeCoverage                 = "$ModuleName\*\*.ps1"
+            CodeCoverageOutputFile       = "$codeCovPath\CodeCoverage.xml"
+            CodeCoverageOutputFileFormat = 'JaCoCo'
+            OutputFile                   = "$testOutPutPath\PesterTests.xml"
+            OutputFormat                 = 'NUnitXML'
         }
 
         Write-Build White '      Performing Pester Unit Tests...'
@@ -338,7 +342,7 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
         }
     }
     # Replace each missing element we need for a proper generic module page .md file
-    $ModulePageFileContent = Get-Content -raw $ModulePage
+    $ModulePageFileContent = Get-Content -Raw $ModulePage
     $ModulePageFileContent = $ModulePageFileContent -replace '{{Manually Enter Description Here}}', $script:ModuleDescription
     $Script:FunctionsToExport | ForEach-Object {
         Write-Build DarkGray "             Updating definition for the following function: $($_)"
@@ -418,7 +422,7 @@ Add-BuildTask Build {
     #$private = "$script:ModuleSourcePath\Private"
     $scriptContent = [System.Text.StringBuilder]::new()
     #$powerShellScripts = Get-ChildItem -Path $script:ModuleSourcePath -Filter '*.ps1' -Recurse
-    $powerShellScripts = Get-ChildItem -Path $script:ArtifactsPath -Recurse | Where-Object {$_.Name -match '^*.ps1$'}
+    $powerShellScripts = Get-ChildItem -Path $script:ArtifactsPath -Recurse | Where-Object { $_.Name -match '^*.ps1$' }
     foreach ($script in $powerShellScripts) {
         $null = $scriptContent.Append((Get-Content -Path $script.FullName -Raw))
         $null = $scriptContent.AppendLine('')

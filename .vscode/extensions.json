@@ -2,6 +2,10 @@
     // See http://go.microsoft.com/fwlink/?LinkId=827846
     // for the documentation about the extensions.json format
     "recommendations": [
+        "redhat.vscode-yaml",
+        "aws-scripting-guy.cform",
+        "danielthielking.aws-cloudformation-yaml",
+        "kddejong.vscode-cfn-lint",
         "ms-vscode.PowerShell",
         "ryanluker.vscode-coverage-gutters",
         "DavidAnson.vscode-markdownlint"

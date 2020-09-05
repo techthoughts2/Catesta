@@ -3,6 +3,8 @@ jobs:
   # https://docs.microsoft.com/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema
   # https://docs.microsoft.com/azure/devops/pipelines/agents/hosted?view=azure-devops#use-a-microsoft-hosted-agent
   # https://docs.microsoft.com/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
+  # https://docs.microsoft.com/azure/devops/pipelines/tasks/test/publish-code-coverage-results?view=azure-devops
+  # https://docs.microsoft.com/azure/devops/pipelines/artifacts/build-artifacts?view=azure-devops&tabs=yaml
 <%
 If ($PLASTER_PARAM_Options -eq 'windows') {
 @'
@@ -13,13 +15,28 @@ If ($PLASTER_PARAM_Options -eq 'windows') {
     - powershell: |
         $PSVersionTable
         .\actions_bootstrap.ps1
+        Remove-Module Pester -ErrorAction SilentlyContinue
+        Import-Module Pester -RequiredVersion 4.10.1
         Invoke-Build -File $(Build.SourcesDirectory)\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1
       displayName: 'Build and Test - Windows PowerShell'
     - task: PublishTestResults@2
       inputs:
         testRunner: 'NUnit'
-        testResultsFiles: '**/out/testResults.xml'
+        testResultsFiles: '**\Artifacts\testOutput\PesterTests.xml'
         testRunTitle: 'ps_winLatest'
+        failTaskOnFailedTests: true
+      displayName: "Publish Unit Test Results - Windows PowerShell"
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        summaryFileLocation: '**\Artifacts\ccReport\CodeCoverage.xml'
+        pathToSources: '$(System.DefaultWorkingDirectory)\src\Artifacts\ccReport'
+        failIfCoverageEmpty: false
+      displayName: "Publish Unit Test Code Coverage - Windows PowerShell"
+      condition: and(in(variables['Agent.JobStatus'], 'Succeeded', 'SucceededWithIssues', 'Failed'), eq(variables['System.PullRequest.IsFork'], false))
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: '$(System.DefaultWorkingDirectory)\src\Archive'
+        artifactName: <%=$PLASTER_PARAM_ModuleName%>-Archive
 '@
 }
 %>
@@ -39,9 +56,21 @@ If ($PLASTER_PARAM_Options -eq 'pwshcore') {
     - task: PublishTestResults@2
       inputs:
         testRunner: 'NUnit'
-        testResultsFiles: '**/out/testResults.xml'
+        testResultsFiles: '**\Artifacts\testOutput\PesterTests.xml'
         testRunTitle: 'pwsh_winLatest'
-      # displayName: 'Publish Test Results'
+        failTaskOnFailedTests: true
+      displayName: "Publish Unit Test Results - Windows pwsh"
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        summaryFileLocation: '**\Artifacts\ccReport\CodeCoverage.xml'
+        pathToSources: '$(System.DefaultWorkingDirectory)\src\Artifacts\ccReport'
+        failIfCoverageEmpty: false
+      displayName: "Publish Unit Test Code Coverage - Windows pwsh"
+      condition: and(in(variables['Agent.JobStatus'], 'Succeeded', 'SucceededWithIssues', 'Failed'), eq(variables['System.PullRequest.IsFork'], false))
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: '$(System.DefaultWorkingDirectory)\src\Archive'
+        artifactName: <%=$PLASTER_PARAM_ModuleName%>-Archive
 '@
 }
 %>
@@ -63,9 +92,21 @@ If ($PLASTER_PARAM_Options -eq 'linux') {
     - task: PublishTestResults@2
       inputs:
         testRunner: 'NUnit'
-        testResultsFiles: '**/out/testResults.xml'
+        testResultsFiles: '**/Artifacts/testOutput/PesterTests.xml'
         testRunTitle: 'pwsh_ubuntuLatest'
-      # displayName: 'Publish Test Results'
+        failTaskOnFailedTests: true
+      displayName: "Publish Unit Test Results - Linux"
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        summaryFileLocation: '**/Artifacts/ccReport/CodeCoverage.xml'
+        pathToSources: '$(System.DefaultWorkingDirectory)/src/Artifacts/ccReport'
+        failIfCoverageEmpty: false
+      displayName: "Publish Unit Test Code Coverage - Linux"
+      condition: and(in(variables['Agent.JobStatus'], 'Succeeded', 'SucceededWithIssues', 'Failed'), eq(variables['System.PullRequest.IsFork'], false))
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: '$(System.DefaultWorkingDirectory)/src/Archive'
+        artifactName: <%=$PLASTER_PARAM_ModuleName%>-Archive
 '@
 }
 %>
@@ -84,13 +125,25 @@ If ($PLASTER_PARAM_Options -eq 'macos') {
       displayName: 'Install PowerShell Core'
     - script: |
         pwsh -c '$PSVersionTable;.\actions_bootstrap.ps1;Invoke-Build -File $(Build.SourcesDirectory)/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'
-      displayName: 'Build and Test'
+      displayName: 'Build and Test - macOS'
     - task: PublishTestResults@2
       inputs:
         testRunner: 'NUnit'
-        testResultsFiles: '**/out/testResults.xml'
+        testResultsFiles: '**/Artifacts/testOutput/PesterTests.xml'
         testRunTitle: 'pwsh_macOSLatest'
-      # displayName: 'Publish Test Results'
+        failTaskOnFailedTests: true
+      displayName: "Publish Unit Test Results - macOS"
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        summaryFileLocation: '**/Artifacts/ccReport/CodeCoverage.xml'
+        pathToSources: '$(System.DefaultWorkingDirectory)/src/Artifacts/ccReport'
+        failIfCoverageEmpty: false
+      displayName: "Publish Unit Test Code Coverage - macOS"
+      condition: and(in(variables['Agent.JobStatus'], 'Succeeded', 'SucceededWithIssues', 'Failed'), eq(variables['System.PullRequest.IsFork'], false))
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: '$(System.DefaultWorkingDirectory)/src/Archive'
+        artifactName: <%=$PLASTER_PARAM_ModuleName%>-Archive
 '@
 }
 %>

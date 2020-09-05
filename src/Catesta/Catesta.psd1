@@ -12,7 +12,7 @@
     RootModule        = 'Catesta.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.8.12'
+    ModuleVersion     = '0.9.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -58,15 +58,15 @@
         },
         @{
             ModuleName    = 'Pester'
-            ModuleVersion = '4.9.0'
+            ModuleVersion = '4.10.1'
         },
         @{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.5.5'
+            ModuleVersion = '5.6.1'
         },
         @{
             ModuleName    = 'PSScriptAnalyzer'
-            ModuleVersion = '1.18.0'
+            ModuleVersion = '1.19.1'
         },
         @{
             ModuleName      = 'platyPS'
@@ -118,44 +118,44 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags = @(
-                'Module',
-                'Modules',
-                'Plaster',
-                'Template',
-                'Project',
-                'Scaffold',
-                'Cross-Platform',
-                'CrossPlatform',
-                'MultiCloud',
-                'PowerShell',
-                'pwsh',
-                'CICD',
-                'Windows',
-                'Linux',
-                'MacOS',
+            Tags                     = @(
+                'Actions',
+                'AppVeyor',
+                'AWS',
+                'AWS-CodeBuild',
                 'Azure',
                 'Azure-DevOps',
-                'AWS',
+                'CICD',
                 'CodeBuild',
-                'AWS-CodeBuild',
-                'AppVeyor',
+                'Cross-Platform',
+                'CrossPlatform',
                 'GitHub',
-                'Actions',
-                'GitHub-Actions'
+                'GitHub-Actions',
+                'Linux',
+                'MacOS',
+                'Module',
+                'Modules',
+                'MultiCloud',
+                'Plaster',
+                'PowerShell',
+                'Project',
+                'pwsh',
+                'Scaffold',
+                'Template',
+                'Windows'
             )
 
             # A URL to the license for this module.
             # LicenseUri = 'https://github.com/techthoughts2/Catesta/blob/master/LICENSE'
 
             # A URL to the main website for this project.
-            ProjectUri = 'https://github.com/techthoughts2/Catesta'
+            ProjectUri               = 'https://github.com/techthoughts2/Catesta'
 
             # A URL to an icon representing this module.
-            IconUri = 'https://github.com/techthoughts2/Catesta/raw/master/media/CatestaIcon.png'
+            IconUri                  = 'https://github.com/techthoughts2/Catesta/raw/master/media/CatestaIcon.png'
 
             # ReleaseNotes of this module
-            ReleaseNotes = 'https://github.com/techthoughts2/Catesta/blob/master/.github/CHANGELOG.md'
+            ReleaseNotes             = 'https://github.com/techthoughts2/Catesta/blob/master/.github/CHANGELOG.md'
 
             # Prerelease string of this module
             # Prerelease = ''
@@ -167,7 +167,7 @@
             # ExternalModuleDependencies = @()
 
             #https://github.com/PowerShell/Plaster/tree/master/examples/TemplateModule
-            Extensions   = @(
+            Extensions               = @(
                 @{
                     Module         = 'Plaster'
                     MinimumVersion = '1.1.3'

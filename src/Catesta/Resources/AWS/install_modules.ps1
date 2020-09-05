@@ -50,19 +50,25 @@ $null = $modulesToInstall.Add(([PSCustomObject]@{
         }))
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.5.7'
+            ModuleVersion = '5.6.1'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
             KeyPrefix     = ''
         }))
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'PSScriptAnalyzer'
-            ModuleVersion = '1.18.3'
+            ModuleVersion = '1.19.1'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
             KeyPrefix     = ''
         }))
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'platyPS'
             ModuleVersion = '0.12.0'
+            BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
+            KeyPrefix     = ''
+        }))
+$null = $modulesToInstall.Add(([PSCustomObject]@{
+            ModuleName    = 'AWS.Tools.Common'
+            ModuleVersion = '4.1.0.0'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
             KeyPrefix     = ''
         }))
@@ -163,7 +169,7 @@ else {
                 Install-Module $module.ModuleName -RequiredVersion $module.ModuleVersion -Repository PSGallery -Force -SkipPublisherCheck -ErrorAction Stop
             }
             else {
-                Install-Module $module.ModuleName -RequiredVersion $module.ModuleVersion -Repository PSGallery -Confirm:$false -Force -ErrorAction Stop
+                Install-Module $module.ModuleName -RequiredVersion $module.ModuleVersion -Repository PSGallery -Confirm:$false -Force -SkipPublisherCheck -ErrorAction Stop
             }
         }
         catch {
