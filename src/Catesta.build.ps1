@@ -327,7 +327,7 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
         Write-Build Yellow '             Please review the following sections in your comment based help, fill out missing information and rerun this build:'
         Write-Build Yellow '             (Note: This can happen if the .EXTERNALHELP CBH is defined for a function before running this build.)'
         Write-Build Yellow "             Path of files with issues: $($script:ArtifactsPath)\docs\"
-        $MissingDocumentation | Select-Object FileName, Matches | Format-Table -AutoSize
+        $MissingDocumentation | Select-Object FileName, Line | Format-Table -AutoSize
         throw 'Missing documentation. Please review and rebuild.'
     }
 
