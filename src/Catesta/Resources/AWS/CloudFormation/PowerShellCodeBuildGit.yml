@@ -191,7 +191,7 @@ Resources:
                   - s3:GetObject
                   - s3:GetObjectVersion
                 Resource:
-                  - arn:aws:s3:::codepipeline-${AWS::Region}-*
+                  - !Sub arn:aws:s3:::codepipeline-${AWS::Region}-*
         - PolicyName: CBReportAccess
           PolicyDocument:
             Version: "2012-10-17"
