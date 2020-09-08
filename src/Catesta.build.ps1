@@ -24,11 +24,17 @@
     This will perform only the Analyze and Test Add-BuildTasks.
 .NOTES
     This build will pull in configurations from the "<module>.Settings.ps1" file as well, where users can more easily customize the build process if required.
-    The 'InstallDependencies' Add-BuildTask isn't present here. pre-requisite modules are installed at a previous step in the pipeline.
     https://github.com/nightroman/Invoke-Build
     https://github.com/nightroman/Invoke-Build/wiki/Build-Scripts-Guidelines
     If using VSCode you can use the generated tasks.json to execute the various tasks in this build file.
         Ctrl + P | then type task (add space) - you will then be presented with a list of available tasks to run
+    The 'InstallDependencies' Add-BuildTask isn't present here.
+        Module dependencies are installed at a previous step in the pipeline.
+        If your manifest has module dependencies include all required modules in your CI/CD bootstrap file:
+            AWS - install_modules.ps1
+            Azure - actions_bootstrap.ps1
+            GitHub Actions - actions_bootstrap.ps1
+            AppVeyor  - actions_bootstrap.ps1
 #>
 
 #Include: Settings
