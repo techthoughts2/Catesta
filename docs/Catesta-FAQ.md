@@ -42,3 +42,20 @@ PSUseToExportFieldsInManifest       Warning      ActionsTes 75    Do not use wil
                                                  t.psd1           Explicitly specify a list for CmdletsToExport.
 PSUseToExportFieldsInManifest       Warning      ActionsTes 81    Do not use wildcard or $null in this field.
 ```
+
+### How does Catesta handle help creation?
+
+Catesta leverages [platyPS](https://github.com/PowerShell/platyPS) for external help creation.
+
+The *source of truth* for all help in your project is derived from the comment base help in your public functions.
+  * Functions located inside your public folder.
+
+During the help generation process your functions in the public folders are evaluated and the comment based help is used to create markdown files using [platyPS](https://github.com/PowerShell/platyPS). Once these markdown files are created, platyPS is used again to craft an external xml based help filed (common for PowerShell use).
+
+During the build process all functions are combined into the .psm1. All comment based help is stripped at this time and replaced with a reference to the external xml file.
+
+Your comment based help continues to persist in your public functions folder and remains the source of truth. If help is updated or changed, it will be updated on the next build that you run in the same fashion.
+
+Help workflow:
+
+Craft excellent comment based help -> Run build -> markdown files generated -> xml file generated from markdown -> functions combined to psm1 -> comment based help stripped in psm1 and replaced with reference to external xml file -> parent level markdown docs updated for easy documentation reading in markdown on your repo.

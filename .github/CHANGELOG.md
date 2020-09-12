@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.9.6]
+## [0.9.7]
 
 - Catesta template module changes
   - Fixed missing !Sub Intrinsic function reference in PowerShellCodeBuildGit.yml
@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Added additional checks for missing markdown documentation
     - Added build steps which import the module manifest explicitly
     - Corrected output in AnalyzeTests to not write out the word green
+    - Parent level markdown docs will now be updated on each build
   - Adjusted ExportedFunctions.Tests.ps1 to check for included example rather than example count
 - Catesta primary module changes
   - Improved PSModule.build.ps1

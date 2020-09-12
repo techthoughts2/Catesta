@@ -453,7 +453,7 @@ Add-BuildTask Build {
     $scriptContent.ToString() | Out-File -FilePath $script:BuildModuleRootFile -Encoding utf8 -Force
     Write-Build Gray '        ...Module creation complete.'
 
-    # here you could move your docs up to your repos doc level if you wanted
+    #here we update the parent level docs. If you would prefer not to update them, comment out this section.
     Write-Build Gray '        Overwriting docs output...'
     Move-Item "$($script:ArtifactsPath)\docs\*.md" -Destination "..\docs\" -Force
     Remove-Item "$($script:ArtifactsPath)\docs" -Recurse -Force -ErrorAction Stop
