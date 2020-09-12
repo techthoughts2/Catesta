@@ -47,6 +47,6 @@ foreach ($module in $modulesToInstall) {
     catch {
         $message = 'Failed to install {0}' -f $module.ModuleName
         "  - $message"
-        throw $message
+        throw
     }
 }

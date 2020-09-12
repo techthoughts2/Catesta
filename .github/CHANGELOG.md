@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.7]
+
+- Catesta template module changes
+  - Fixed missing !Sub Intrinsic function reference in PowerShellCodeBuildGit.yml
+  - Improved error message when modules fail to install with install_modules.ps1 and actions_bootstrap.ps1
+  - Improved output message when missing help information found during *.build.ps1
+  - Improved PSModule.build.ps1
+    - Resolved bug where CreateMarkdownHelp fails if module not imported
+    - Added additional checks for missing markdown documentation
+    - Added build steps which import the module manifest explicitly
+    - Corrected output in AnalyzeTests to not write out the word green
+    - Parent level markdown docs will now be updated on each build
+  - Adjusted ExportedFunctions.Tests.ps1 to check for included example rather than example count
+- Catesta primary module changes
+  - Improved PSModule.build.ps1
+    - Resolved bug where CreateMarkdownHelp fails if module not imported
+    - Added additional checks for missing markdown documentation
+    - Added build steps which import the module manifest explicitly
+    - Adjusted ExportedFunctions.Tests.ps1 to check for included example rather than example count
+- Updated a few areas of documentation/help to provide more clarification
+- Updated .vscode settings to use ```${workspaceFolderBasename}``` instead of hard-coded Catesta name
+
 ## [0.9.0]
 
 - Catesta primary module changes

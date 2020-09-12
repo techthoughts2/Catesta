@@ -3,11 +3,13 @@
     An Invoke-Build Build file.
 .DESCRIPTION
     Build steps can include:
-        - Clean
         - ValidateRequirements
-        - FormattingCheck
+        - ImportModuleManifest
+        - Clean
         - Analyze
+        - FormattingCheck
         - Test
+        - DevCC
         - CreateHelpStart
         - Build
         - InfraTest
@@ -22,18 +24,30 @@
     This will perform only the Analyze and Test Add-BuildTasks.
 .NOTES
     This build will pull in configurations from the "<module>.Settings.ps1" file as well, where users can more easily customize the build process if required.
-    The 'InstallDependencies' Add-BuildTask isn't present here. pre-requisite modules are installed at a previous step in the pipeline.
     https://github.com/nightroman/Invoke-Build
     https://github.com/nightroman/Invoke-Build/wiki/Build-Scripts-Guidelines
+    If using VSCode you can use the generated tasks.json to execute the various tasks in this build file.
+        Ctrl + P | then type task (add space) - you will then be presented with a list of available tasks to run
+    The 'InstallDependencies' Add-BuildTask isn't present here.
+        Module dependencies are installed at a previous step in the pipeline.
+        If your manifest has module dependencies include all required modules in your CI/CD bootstrap file:
+            AWS - install_modules.ps1
+            Azure - actions_bootstrap.ps1
+            GitHub Actions - actions_bootstrap.ps1
+            AppVeyor  - actions_bootstrap.ps1
 #>
 
 #Include: Settings
 $ModuleName = (Split-Path -Path $BuildFile -Leaf).Split('.')[0]
 . "./$ModuleName.Settings.ps1"
 
+function Test-ManifestBool ($Path) {
+    Get-ChildItem $Path | Test-ModuleManifest -ErrorAction SilentlyContinue | Out-Null; $?
+}
+
 #Default Build
 $str = @()
-$str = 'Clean', 'ValidateRequirements'
+$str = 'Clean', 'ValidateRequirements', 'ImportModuleManifest'
 <%
 If ($PLASTER_PARAM_CodingStyle -eq 'Stroustrup' -or $PLASTER_PARAM_CodingStyle -eq 'OTBS' -or $PLASTER_PARAM_CodingStyle -eq 'Allman') {
     @'
@@ -53,10 +67,10 @@ $str += 'Build', 'InfraTest', 'Archive'
 Add-BuildTask -Name . -Jobs $str
 
 #Local testing build process
-Add-BuildTask TestLocal Clean, Analyze, Test
+Add-BuildTask TestLocal Clean, ImportModuleManifest, Analyze, Test
 
 #Local help file creation process
-Add-BuildTask HelpLocal Clean, CreateHelpStart, UpdateCBH
+Add-BuildTask HelpLocal Clean, ImportModuleManifest, CreateHelpStart
 
 # Pre-build variables to be used by other portions of the script
 Enter-Build {
@@ -105,6 +119,34 @@ Set-BuildFooter {
     # Write-Build Gray ('=' * 79)
 }#Set-BuildFooter
 
+#Synopsis: Validate system requirements are met
+Add-BuildTask ValidateRequirements {
+    # this setting comes from the *.Settings.ps1
+    Write-Build White "      Verifying at least PowerShell $script:requiredPSVersion..."
+    Assert-Build ($PSVersionTable.PSVersion.Major.ToString() -ge $script:requiredPSVersion) "At least Powershell $script:requiredPSVersion is required for this build to function properly"
+    Write-Build Green '      ...Verification Complete!'
+}#ValidateRequirements
+
+# Synopsis: Import the current module manifest file for processing
+Add-BuildTask TestModuleManifest -Before ImportModuleManifest {
+    Write-Build White '      Running module manifest tests...'
+    Assert-Build (Test-Path $script:ModuleManifestFile) 'Unable to locate the module manifest file.'
+    Assert-Build (Test-ManifestBool -Path $script:ModuleManifestFile) 'Module Manifest test did not pass verification.'
+    Write-Build Green '      ...Module Manifest Verification Complete!'
+}
+
+# Synopsis: Load the module project
+Add-BuildTask ImportModuleManifest {
+    Write-Build White '      Attempting to load the project module.'
+    try {
+        Import-Module $script:ModuleManifestFile -Force -PassThru -ErrorAction Stop
+    }
+    catch {
+        throw 'Unable to load the project module'
+    }
+    Write-Build Green "      ...$script:ModuleName imported successfully"
+}
+
 #Synopsis: Clean and reset Artifacts/Archive Directory
 Add-BuildTask Clean {
     Write-Build White '      Clean up our Artifacts/Archive directory...'
@@ -116,14 +158,6 @@ Add-BuildTask Clean {
 
     Write-Build Green '      ...Clean Complete!'
 }#Clean
-
-#Synopsis: Validate system requirements are met
-Add-BuildTask ValidateRequirements {
-    #running at least powershell 5?
-    Write-Build White '      Verifying at least PowerShell 5...'
-    Assert-Build ($PSVersionTable.PSVersion.Major.ToString() -ge '5') 'At least Powershell 5 is required for this build to function properly'
-    Write-Build Green '      ...Verification Complete!'
-}#ValidateRequirements
 
 #Synopsis: Invokes PSScriptAnalyzer against the Module source path
 Add-BuildTask Analyze {
@@ -166,7 +200,7 @@ Add-BuildTask AnalyzeTests -After Analyze {
             throw '      One or more PSScriptAnalyzer errors/warnings where found.'
         }
         else {
-            Write-Build White Green '      ...Test Analyze Complete!'
+            Write-Build Green '      ...Test Analyze Complete!'
         }
     }
 }#AnalyzeTests
@@ -354,15 +388,37 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
     $ModulePageFileContent | Out-File $ModulePage -Force -Encoding:utf8
     Write-Build Gray '           ...Markdown replacements complete.'
 
-    Write-Build Gray '           Verifying documentation...'
+    Write-Build Gray '           Verifying GUID...'
+    $MissingGUID = Select-String -Path "$($script:ArtifactsPath)\docs\*.md" -Pattern "(00000000-0000-0000-0000-000000000000)"
+    if ($MissingGUID.Count -gt 0) {
+        Write-Build Yellow '             The documentation that got generated resulted in a generic GUID. Check the GUID entry of your module manifest.'
+        throw 'Missing GUID. Please review and rebuild.'
+    }
+
+    Write-Build Gray '           Checking for missing documentation in md files...'
     $MissingDocumentation = Select-String -Path "$($script:ArtifactsPath)\docs\*.md" -Pattern "({{.*}})"
     if ($MissingDocumentation.Count -gt 0) {
         Write-Build Yellow '             The documentation that got generated resulted in missing sections which should be filled out.'
         Write-Build Yellow '             Please review the following sections in your comment based help, fill out missing information and rerun this build:'
         Write-Build Yellow '             (Note: This can happen if the .EXTERNALHELP CBH is defined for a function before running this build.)'
         Write-Build Yellow "             Path of files with issues: $($script:ArtifactsPath)\docs\"
-        $MissingDocumentation | Select-Object FileName, Matches | Format-Table -AutoSize
+        $MissingDocumentation | Select-Object FileName, LineNumber, Line | Format-Table -AutoSize
         throw 'Missing documentation. Please review and rebuild.'
+    }
+
+    Write-Build Gray '           Checking for missing SYNOPSIS in md files...'
+    $fSynopsisOutput = @()
+    $synopsisEval = Select-String -Path "$($script:ArtifactsPath)\docs\*.md" -Pattern "^## SYNOPSIS$" -Context 0, 1
+    $synopsisEval | ForEach-Object {
+        $chAC = $_.Context.DisplayPostContext.ToCharArray()
+        if ($null -eq $chAC) {
+            $fSynopsisOutput += $_.FileName
+        }
+    }
+    if ($fSynopsisOutput) {
+        Write-Build Yellow "             The following files are missing SYNOPSIS:"
+        $fSynopsisOutput
+        throw 'SYNOPSIS information missing. Please review.'
     }
 
     Write-Build Gray '           ...Markdown generation complete.'
@@ -442,11 +498,12 @@ Add-BuildTask Build {
     if (Test-Path "$($script:ArtifactsPath)\Imports.ps1") {
         Remove-Item "$($script:ArtifactsPath)\Imports.ps1" -Force -ErrorAction SilentlyContinue
     }
-    # here you could move your docs up to your repos doc level if you wanted
-    # Write-Build Gray '        Overwriting docs output...'
-    # Move-Item "$($script:ArtifactsPath)\docs\*.md" -Destination "..\docs\" -Force
-    # Remove-Item "$($script:ArtifactsPath)\docs" -Recurse -Force -ErrorAction Stop
-    # Write-Build Gray '        ...Docs output completed.'
+
+    #here we update the parent level docs. If you would prefer not to update them, comment out this section.
+    Write-Build Gray '        Overwriting docs output...'
+    Move-Item "$($script:ArtifactsPath)\docs\*.md" -Destination "..\docs\" -Force
+    Remove-Item "$($script:ArtifactsPath)\docs" -Recurse -Force -ErrorAction Stop
+    Write-Build Gray '        ...Docs output completed.'
 
     Write-Build Green '      ...Build Complete!'
 }#Build

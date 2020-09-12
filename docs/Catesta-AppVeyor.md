@@ -41,6 +41,13 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using * [A
         * [M] MacOS
 1. Write a kick-ass module (the hardest part)
     * All build testing can be done locally by navigating to src and running ```Invoke-Build```
+    * If using VSCode as your primary editor you can use tasks to perform various local actions
+      * Examples:
+        * ```Press Ctrl+P, then type 'task .'``` - Runs complete build (all tasks)
+        * ```Press Ctrl+P, then type 'task Test'``` - Invokes all Pester Unit Tests
+        * ```Press Ctrl+P, then type 'task Analyze'``` - Invokes Script Analyzer checks
+        * ```Press Ctrl+P, then type 'task DevCC'``` - Generates generate xml file to graphically display code coverage in VSCode using [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters)
+1. *The comment based help in your functions will be used to generate/update markdown docs for your module in the docs folder.*
 1. Upload to your desired repository which now has a triggered/monitored build action.
 1. Evaluate results of your build and display your AppVeyor badge proudly!
 

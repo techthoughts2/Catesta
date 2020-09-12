@@ -105,7 +105,16 @@ New-PowerShellProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOn
 1. Write your module (the hardest part)
     * All build testing can be done locally by navigating to src and running ```Invoke-Build```
     * If using VSCode as your primary editor you can use tasks to perform various local actions
-      * ```Press Ctrl+P, then type 'task test'```
+      * Examples:
+        * ```Press Ctrl+P, then type 'task .'``` - Runs complete build (all tasks)
+        * ```Press Ctrl+P, then type 'task Test'``` - Invokes all Pester Unit Tests
+        * ```Press Ctrl+P, then type 'task Analyze'``` - Invokes Script Analyzer checks
+        * ```Press Ctrl+P, then type 'task DevCC'``` - Generates generate xml file to graphically display code coverage in VSCode using [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters)
+1. Add any module dependencies to your CI/CD bootstrap file:
+    * AWS: install_modules.ps1
+    * GitHub Actions: actions_bootstrap.ps1
+    * Azure: actions_bootstrap.ps1
+    * AppVeyor: actions_bootstrap.ps1
 1. Commit your project to desired repository that is integrated with your CI/CD platform. This will trigger the build actions.
 1. Evaluate results of your builds and [display your README badges](https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-FAQ.md#how-do-i-display-the-badges-for-my-project) proudly!
 
