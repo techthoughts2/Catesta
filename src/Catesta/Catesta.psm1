@@ -29,6 +29,3 @@ foreach ($file in @($public + $private)) {
 
     }
 }
-
-# export all public functions
-Export-ModuleMember -Function $public.Basename
