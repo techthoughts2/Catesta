@@ -16,8 +16,6 @@ Branch | Windows - PowerShell | Windows - pwsh | Linux | MacOS
 master | ![Build Status Windows PowerShell Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-PowerShell/badge.svg?branch=master) | ![Build Status Windows pwsh Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=master) | ![Build Status Linux Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Linux/badge.svg?branch=master) | ![Build Status MacOS Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-MacOS/badge.svg?branch=master)
 Enhancements | ![Build Status Windows PowerShell Enhancements](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-PowerShell/badge.svg?branch=Enhancements) | ![Build Status Windows pwsh Enhancements](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=Enhancements) | ![Build Status Linux Enhancements](https://github.com/techthoughts2/Catesta/workflows/Catesta-Linux/badge.svg?branch=Enhancements) | ![Build Status MacOS Enhancements](https://github.com/techthoughts2/Catesta/workflows/Catesta-MacOS/badge.svg?branch=Enhancements)
 
-
-
 ## Synopsis
 
 Catesta is a PowerShell module project generator. It uses templates to rapidly scaffold test and build integration for a variety of CI/CD platforms.

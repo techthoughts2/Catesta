@@ -4,8 +4,8 @@
   <metadata>
     <name>AppVeyorManifestPS</name>
     <id>e7c065d2-f8c5-4bf2-b33e-db50a62abbb4</id>
-    <version>0.1.0</version>
-    <title>PSModule template for AppVeyor</title>
+    <version>0.10.0</version>
+    <title>Catesta - PSModule template for AppVeyor</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using AppVeyor</description>
     <author>Jake Morrison</author>
     <tags>PowerShell,Template,GitHub,PowerShell Module,AppVeyor</tags>
@@ -18,6 +18,10 @@
     <parameter name='Changelog' type='choice' default='0' store='text' prompt='Would you like to generate a Changelog file?'>
       <choice label='&amp;Changelog' help="Adds a Changelog file." value="CHANGELOG"/>
       <choice label='&amp;None' help="Does not add a Changelog file." value="NOCHANGELOG"/>
+    </parameter>
+    <parameter name='RepoType' type='choice' default='0' store='text' prompt='Would you like to generate helpful GitHub templates? (issue/pullrequest/feature)'>
+      <choice label='&amp;GitHub ' help="Adds GitHub templates." value="GITHUB"/>
+      <choice label='&amp;None' help="Does not add GitHub templates." value="NOGITHUB"/>
     </parameter>
     <parameter name='License' type='choice' default='0' store='text' prompt='Select a License for your module. (Help deciding: https://choosealicense.com/)'>
       <choice label='&amp;MIT' help='Adds a MIT License file.' value='MIT'/>

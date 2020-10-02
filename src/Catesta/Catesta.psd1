@@ -12,7 +12,7 @@
     RootModule        = 'Catesta.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.9.7'
+    ModuleVersion     = '0.10.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -174,10 +174,15 @@
                     Details        = @{
                         TemplatePaths = @(
                             'Resources\AWS',
+                            'Resources\AWS\Vault',
                             'Resources\GitHubActions',
+                            'Resources\GitHubActions\Vault',
                             'Resources\Azure',
+                            'Resources\Azure\Vault',
                             'Resources\AppVeyor',
-                            'Resources\Vanilla'
+                            'Resources\AppVeyor\Vault',
+                            'Resources\Vanilla',
+                            'Resources\Vanilla\Vault'
                         )
                     }
                 }

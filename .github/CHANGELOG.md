@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.0]
+
+- Fixed bug where repository template options were not being presented as a choice
+- Added additional basic manifest checks to *PSModule*-Module.Tests.ps1
+- plaster manifest versions will now match Catesta module version
+
 ## [0.9.7]
 
 - Catesta template module changes

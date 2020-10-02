@@ -4,8 +4,8 @@
   <metadata>
     <name>GHAManifestPS</name>
     <id>c336d3e8-c2b9-451d-a041-be4b84259ec9</id>
-    <version>0.1.0</version>
-    <title>PowerShell Module Template for GitHub Actions</title>
+    <version>0.10.0</version>
+    <title>Catesta - PowerShell Module Template for GitHub Actions</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using GitHub Actions</description>
     <author>Jake Morrison</author>
     <tags>PowerShell,Template,GitHub,PowerShell Module,GitHub Actions,Actions,Workflows</tags>
@@ -18,6 +18,10 @@
     <parameter name='Changelog' type='choice' default='0' store='text' prompt='Would you like to generate a Changelog file?'>
       <choice label='&amp;Changelog' help="Adds a Changelog file." value="CHANGELOG"/>
       <choice label='&amp;None' help="Does not add a Changelog file." value="NOCHANGELOG"/>
+    </parameter>
+    <parameter name='RepoType' type='choice' default='0' store='text' prompt='Would you like to generate helpful repository files? (issue/pullrequest/feature)'>
+      <choice label='&amp;GitHub ' help="Adds GitHub templates." value="GITHUB"/>
+      <choice label='&amp;None' help="Does not add GitHub templates." value="NOGITHUB"/>
     </parameter>
     <parameter name='License' type='choice' default='0' store='text' prompt='Select a License for your module. (Help deciding: https://choosealicense.com/)'>
       <choice label='&amp;MIT' help='Adds a MIT License file.' value='MIT'/>

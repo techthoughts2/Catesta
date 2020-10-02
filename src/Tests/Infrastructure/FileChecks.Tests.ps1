@@ -3,6 +3,7 @@ Set-Location -Path $PSScriptRoot
 #-------------------------------------------------------------------------
 $ModuleName = 'Catesta'
 #-------------------------------------------------------------------------
+$PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
 $resourcePath = [System.IO.Path]::Combine('..', '..', $ModuleName, 'Resources')
 #-------------------------------------------------------------------------
 Describe 'File Checks' {
@@ -130,4 +131,20 @@ Describe 'File Checks' {
             $mOnlyFiles.Name.Contains('plasterManifest.xml') | Should -BeExactly $true
         }#it
     }#appVeyor
+    Context 'Manifests' {
+        $script:manifestEval = Test-ModuleManifest -Path $PathToManifest
+        [version]$scriptVersion = $script:manifestEval.Version
+        $manifests = Get-ChildItem -Path $resourcePath -Include '*.xml' -Recurse
+        $manifestCount = $manifests | Measure-Object | Select-Object -ExpandProperty Count
+        It 'should have the correct number of manifests' {
+            $manifestCount | should -BeExactly 6
+        }#it
+        foreach ($manifest in $manifests) {
+            It "$($manifest.FullName) version should match the module version" {
+                [xml]$eval = $null
+                $eval = Get-Content -Path $manifest.FullName
+                $eval.plasterManifest.metadata.version | Should -BeExactly $scriptVersion
+            }#it
+        }
+    }#manifests
 }#describe_File_Checks
