@@ -91,7 +91,8 @@
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
-        'New-PowerShellProject'
+        'New-PowerShellProject',
+        'New-VaultProject'
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
@@ -131,6 +132,7 @@
                 'CrossPlatform',
                 'GitHub',
                 'GitHub-Actions',
+                'Extension'
                 'Linux',
                 'MacOS',
                 'Module',
@@ -141,7 +143,10 @@
                 'Project',
                 'pwsh',
                 'Scaffold',
+                'Secret',
+                'Secrets'
                 'Template',
+                'Vault'
                 'Windows'
             )
 

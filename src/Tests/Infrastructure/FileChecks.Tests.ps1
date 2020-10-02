@@ -33,7 +33,26 @@ Describe 'File Checks' {
         It 'should have a private function example' {
             $srcFiles.Name.Contains('Get-PrivateHelloWorld.ps1') | Should -BeExactly $true
         }#it
-    }#context_Editor
+    }#context_module
+    Context 'Vault Source Files' {
+        $srcFiles = Get-ChildItem -Path "$resourcePath\Vault\*" -Recurse
+        It 'should have an extension module file' {
+            $srcFiles.Name.Contains('PSVault.Extension.psm1') | Should -BeExactly $true
+        }#it
+        It 'should have an extension manifest file' {
+            $srcFiles.Name.Contains('PSVault.Extension.psd1') | Should -BeExactly $true
+        }#it
+        It 'should have a manifest file' {
+            $srcFiles.Name.Contains('PSVault.psd1') | Should -BeExactly $true
+        }#it
+        It 'should have build files' {
+            $srcFiles.Name.Contains('PSVault.build.ps1') | Should -BeExactly $true
+            $srcFiles.Name.Contains('PSVault.Settings.ps1') | Should -BeExactly $true
+        }#it
+        It 'should have a PSScriptAnalyzerSettings file' {
+            $srcFiles.Name.Contains('PSScriptAnalyzerSettings.psd1') | Should -BeExactly $true
+        }#it
+    }#context_vault
     Context 'Github' {
         $gitFiles = Get-ChildItem -Path "$resourcePath\GitHubFiles\*" -Recurse
         It 'should have all license files' {
@@ -131,13 +150,13 @@ Describe 'File Checks' {
             $mOnlyFiles.Name.Contains('plasterManifest.xml') | Should -BeExactly $true
         }#it
     }#appVeyor
-    Context 'Manifests' {
+    Context 'Templates' {
         $script:manifestEval = Test-ModuleManifest -Path $PathToManifest
         [version]$scriptVersion = $script:manifestEval.Version
         $manifests = Get-ChildItem -Path $resourcePath -Include '*.xml' -Recurse
         $manifestCount = $manifests | Measure-Object | Select-Object -ExpandProperty Count
-        It 'should have the correct number of manifests' {
-            $manifestCount | should -BeExactly 6
+        It 'should have the correct number of templates' {
+            $manifestCount | should -BeExactly 10
         }#it
         foreach ($manifest in $manifests) {
             It "$($manifest.FullName) version should match the module version" {
@@ -146,5 +165,5 @@ Describe 'File Checks' {
                 $eval.plasterManifest.metadata.version | Should -BeExactly $scriptVersion
             }#it
         }
-    }#manifests
+    }#templates
 }#describe_File_Checks

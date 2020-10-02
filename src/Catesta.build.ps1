@@ -154,14 +154,19 @@ Add-BuildTask Clean {
 Add-BuildTask Analyze {
 
     $scriptAnalyzerParams = @{
-        Path    = $script:ModuleSourcePath
-        Setting = 'PSScriptAnalyzerSettings.psd1'
-        Recurse = $true
-        Verbose = $false
+        # Path    = $script:ModuleSourcePath
+        Setting = "PSScriptAnalyzerSettings.psd1"
+        # Recurse = $true
+        # Verbose = $false
     }
 
+    $filesToAnalyze = Get-ChildItem -Path $script:ModuleSourcePath -Exclude "*Extension.psm1" -Recurse
+
     Write-Build White '      Performing Module ScriptAnalyzer checks...'
-    $scriptAnalyzerResults = Invoke-ScriptAnalyzer @scriptAnalyzerParams
+    foreach ($file in $filesToAnalyze) {
+        $scriptAnalyzerResults = Invoke-ScriptAnalyzer @scriptAnalyzerParams -Path $file.FullName
+    }
+    # $scriptAnalyzerResults = Invoke-ScriptAnalyzer @scriptAnalyzerParams
 
     if ($scriptAnalyzerResults) {
         $scriptAnalyzerResults | Format-Table
