@@ -2,13 +2,13 @@
 <plasterManifest schemaVersion="1.1" templateType="Project"
   xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
   <metadata>
-    <name>BasicVaultExtension</name>
-    <id>02346b16-467d-4936-be14-939dfdd94495</id>
+    <name>GHAVaultExtension</name>
+    <id>02c6673d-bf8b-4997-b229-0d1856af4506</id>
     <version>0.10.0</version>
-    <title>Catesta - SecretManagement extension vault module template</title>
-    <description>Scaffolds a new PowerShell SecretManagement extension vault module project</description>
+    <title>Catesta - SecretManagement extension vault module template for GitHub Actions</title>
+    <description>Scaffolds a new PowerShell SecretManagement extension vault module project for CI/CD workflow using GitHub Actions</description>
     <author>Jake Morrison</author>
-    <tags>PowerShell,Template,SecretManagement,VaultExtension,Secret,module</tags>
+    <tags>PowerShell,Template,SecretManagement,VaultExtension,Secret,module,GitHub,Actions</tags>
   </metadata>
   <parameters>
     <parameter name='ModuleName' type='text' prompt='Enter the name of the extension vault module'/>
@@ -44,9 +44,15 @@
       <choice label='&amp;Allman' help="Sets Allman as the preferred coding style." value="Allman"/>
       <choice label='&amp;None' help="No coding style is set for the project." value="None"/>
     </parameter>
+    <parameter name='Options' type='multichoice' default='0' store='text' prompt='Select desired workflow action options? (If your module is cross-platform you should select multiple)'>
+      <choice label='&amp;Windows - PowerShell' help="Adds a Windows PowerShell based Workflow action." value="windows"/>
+      <choice label='&amp;Core (Windows)- pwsh' help="Adds a Windows pwsh based pipeline job." value="pwshcore"/>
+      <choice label='&amp;Linux' help="Adds a Linux based Workflow action." value="linux"/>
+      <choice label='&amp;MacOS' help="Adds a MacOS based Workflow action." value="macos"/>
+    </parameter>
   </parameters>
   <content>
-    <message>&#10;&#10;Scaffolding your SecretManagement extension vault module...&#10;&#10;&#10;</message>
+    <message>&#10;&#10;Scaffolding your SecretManagement extension vault module for GitHub Actions...&#10;&#10;&#10;</message>
     <file source='' destination='docs'/>
     <file source='' destination='media'/>
     <file source='' destination='src'/>
@@ -83,6 +89,12 @@
     <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\..\GitHubFiles\ISSUE_TEMPLATE\bug-report.md' destination='.github\ISSUE_TEMPLATE\bug-report.md'/>
     <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\..\GitHubFiles\ISSUE_TEMPLATE\feature_request.md' destination='.github\ISSUE_TEMPLATE\feature_request.md'/>
 
+    <templateFile source='..\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
+    <templateFile condition="$PLASTER_PARAM_Options -eq 'windows'" source='..\workflows\wf_Windows.yml' destination='.github\workflows\wf_Windows.yml' />
+    <templateFile condition="$PLASTER_PARAM_Options -eq 'pwshcore'" source='..\workflows\wf_Windows_Core.yml' destination='.github\workflows\wf_Windows_Core.yml' />
+    <templateFile condition="$PLASTER_PARAM_Options -eq 'linux'" source='..\workflows\wf_Linux.yml' destination='.github\workflows\wf_Linux.yml' />
+    <templateFile condition="$PLASTER_PARAM_Options -eq 'macos'" source='..\workflows\wf_MacOS.yml' destination='.github\workflows\wf_MacOS.yml' />
+
     <newModuleManifest destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_Version' encoding='UTF8-NoBOM' openInEditor="true" author='$PLASTER_PARAM_FN' description='$PLASTER_PARAM_description' nestedModules='./${PLASTER_PARAM_ModuleName}.Extension' />
 
     <requireModule name="Pester" minimumVersion="4.7.2" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 4.5.0, VS Code will not display Pester warnings and errors in the Problems panel."/>
@@ -99,6 +111,18 @@ Your new SecretManagement extension vault module project '$PLASTER_PARAM_ModuleN
     <message>
 Several Pester tests have been created to validate various components of the module.  Add additional tests to the test directory.
 You can run the Pester tests in your project by executing the 'test' task.  Press Ctrl+P, then type 'task test'.
+    </message>
+
+    <message>
+
+Action Workflow files have been generated for this project. You can find these in the .github/workflows folder.
+These will run automatically when you commit your project to your GitHub repository.
+More information: https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-GHActions.md
+    </message>
+
+    <message>
+
+Read more about SecretManagement extension vault module: https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-Vault-Extension.md
     </message>
 
   </content>
