@@ -7,10 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.10.0]
 
-- Fixed bug where repository template options were not being presented as a choice
-- Added additional basic manifest checks to *PSModule*-Module.Tests.ps1
-- plaster manifest versions will now match Catesta module version
-- Updated buildspec_pwsh_windows.yml to utilize dotnet pwsh 7 install
+- New features:
+  - Added **New-VaultProject** - Catesta now supports creating a PowerShell SecretManagement vault module project that adheres to community best practices.
+- Bug fixes:
+  - Fixed bug in plaster manifests where repository template options were not being presented as a choice
+  - Fixed bug in *.build.ps1 causing build to fail
+    - This bug was related to the overwrite of the parent level md docs. Build would fail if run before markdown help had been generated.
+- Updates:
+  - plaster manifest versions will now match Catesta module version
+  - Added additional basic manifest checks to *PSModule*-Module.Tests.ps1
+  - Updated buildspec_pwsh_windows.yml to utilize dotnet pwsh 7 install
 
 ## [0.9.7]
 

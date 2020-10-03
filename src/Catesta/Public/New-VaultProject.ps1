@@ -109,23 +109,23 @@ function New-VaultProject {
             switch ($CICDChoice) {
                 'AWS' {
                     Write-Verbose -Message 'AWS Template Selected.'
-                    $path = '\AWS'
+                    $path = '\AWS\Vault'
                 }#aws
                 'GitHubActions' {
                     Write-Verbose -Message 'GitHub Actions Template Selected.'
-                    $path = '\GitHubActions'
+                    $path = '\GitHubActions\Vault'
                 }#githubactions
                 'Azure' {
                     Write-Verbose -Message 'Azure Pipelines Template Selected.'
-                    $path = '\Azure'
+                    $path = '\Azure\Vault'
                 }#githubactions
                 'AppVeyor' {
                     Write-Verbose -Message 'AppVeyor Template Selected.'
-                    $path = '\AppVeyor'
+                    $path = '\AppVeyor\Vault'
                 }#appveyor
                 'ModuleOnly' {
                     Write-Verbose -Message 'Module Only Template Selected.'
-                    $path = '\Vanilla'
+                    $path = '\Vanilla\Vault'
                 }#moduleonly
             }#switch
 

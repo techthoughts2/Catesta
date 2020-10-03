@@ -348,11 +348,11 @@ Add-BuildTask CreateHelpStart {
 
 # Synopsis: Build markdown help files for module and fail if help information is missing
 Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
-    $ModulePage = "$($script:ArtifactsPath)\docs\$($ModuleName).md"
+    $ModulePage = "$script:ArtifactsPath\docs\$($ModuleName).md"
 
     $markdownParams = @{
         Module         = $ModuleName
-        OutputFolder   = "$($script:ArtifactsPath)\docs\"
+        OutputFolder   = "$script:ArtifactsPath\docs\"
         Force          = $true
         WithModulePage = $true
         Locale         = 'en-US'
@@ -366,7 +366,7 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
 
     Write-Build Gray '           Replacing markdown elements...'
     # Replace multi-line EXAMPLES
-    $OutputDir = "$($script:ArtifactsPath)\docs\"
+    $OutputDir = "$script:ArtifactsPath\docs\"
     $OutputDir | Get-ChildItem -File | ForEach-Object {
         # fix formatting in multiline examples
         $content = Get-Content $_.FullName -Raw
@@ -389,26 +389,26 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
     Write-Build Gray '           ...Markdown replacements complete.'
 
     Write-Build Gray '           Verifying GUID...'
-    $MissingGUID = Select-String -Path "$($script:ArtifactsPath)\docs\*.md" -Pattern "(00000000-0000-0000-0000-000000000000)"
+    $MissingGUID = Select-String -Path "$script:ArtifactsPath\docs\*.md" -Pattern "(00000000-0000-0000-0000-000000000000)"
     if ($MissingGUID.Count -gt 0) {
         Write-Build Yellow '             The documentation that got generated resulted in a generic GUID. Check the GUID entry of your module manifest.'
         throw 'Missing GUID. Please review and rebuild.'
     }
 
     Write-Build Gray '           Checking for missing documentation in md files...'
-    $MissingDocumentation = Select-String -Path "$($script:ArtifactsPath)\docs\*.md" -Pattern "({{.*}})"
+    $MissingDocumentation = Select-String -Path "$script:ArtifactsPath\docs\*.md" -Pattern "({{.*}})"
     if ($MissingDocumentation.Count -gt 0) {
         Write-Build Yellow '             The documentation that got generated resulted in missing sections which should be filled out.'
         Write-Build Yellow '             Please review the following sections in your comment based help, fill out missing information and rerun this build:'
         Write-Build Yellow '             (Note: This can happen if the .EXTERNALHELP CBH is defined for a function before running this build.)'
-        Write-Build Yellow "             Path of files with issues: $($script:ArtifactsPath)\docs\"
+        Write-Build Yellow "             Path of files with issues: $script:ArtifactsPath\docs\"
         $MissingDocumentation | Select-Object FileName, LineNumber, Line | Format-Table -AutoSize
         throw 'Missing documentation. Please review and rebuild.'
     }
 
     Write-Build Gray '           Checking for missing SYNOPSIS in md files...'
     $fSynopsisOutput = @()
-    $synopsisEval = Select-String -Path "$($script:ArtifactsPath)\docs\*.md" -Pattern "^## SYNOPSIS$" -Context 0, 1
+    $synopsisEval = Select-String -Path "$script:ArtifactsPath\docs\*.md" -Pattern "^## SYNOPSIS$" -Context 0, 1
     $synopsisEval | ForEach-Object {
         $chAC = $_.Context.DisplayPostContext.ToCharArray()
         if ($null -eq $chAC) {
@@ -427,7 +427,7 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
 # Synopsis: Build the external xml help file from markdown help files with PlatyPS
 Add-BuildTask CreateExternalHelp -After CreateMarkdownHelp {
     Write-Build Gray '           Creating external xml help file...'
-    $null = New-ExternalHelp "$($script:ArtifactsPath)\docs" -OutputPath "$($script:ArtifactsPath)\en-US\" -Force
+    $null = New-ExternalHelp "$script:ArtifactsPath\docs" -OutputPath "$script:ArtifactsPath\en-US\" -Force
     Write-Build Gray '           ...External xml help file created!'
 }#CreateExternalHelp
 
@@ -447,7 +447,7 @@ Add-BuildTask UpdateCBH -After AssetCopy {
 "@
 
     $CBHPattern = "(?ms)(\<#.*\.SYNOPSIS.*?#>)"
-    Get-ChildItem -Path "$($script:ArtifactsPath)\Public\*.ps1" -File | ForEach-Object {
+    Get-ChildItem -Path "$script:ArtifactsPath\Public\*.ps1" -File | ForEach-Object {
         $FormattedOutFile = $_.FullName
         Write-Output "      Replacing CBH in file: $($FormattedOutFile)"
         $UpdatedFile = (Get-Content  $FormattedOutFile -raw) -replace $CBHPattern, $ExternalHelp
@@ -489,21 +489,23 @@ Add-BuildTask Build {
 
     Write-Build Gray '        Cleaning up leftover artifacts...'
     #cleanup artifacts that are no longer required
-    if (Test-Path "$($script:ArtifactsPath)\Public") {
-        Remove-Item "$($script:ArtifactsPath)\Public" -Recurse -Force -ErrorAction Stop
+    if (Test-Path "$script:ArtifactsPath\Public") {
+        Remove-Item "$script:ArtifactsPath\Public" -Recurse -Force -ErrorAction Stop
     }
-    if (Test-Path "$($script:ArtifactsPath)\Private") {
-        Remove-Item "$($script:ArtifactsPath)\Private" -Recurse -Force -ErrorAction Stop
+    if (Test-Path "$script:ArtifactsPath\Private") {
+        Remove-Item "$script:ArtifactsPath\Private" -Recurse -Force -ErrorAction Stop
     }
-    if (Test-Path "$($script:ArtifactsPath)\Imports.ps1") {
-        Remove-Item "$($script:ArtifactsPath)\Imports.ps1" -Force -ErrorAction SilentlyContinue
+    if (Test-Path "$script:ArtifactsPath\Imports.ps1") {
+        Remove-Item "$script:ArtifactsPath\Imports.ps1" -Force -ErrorAction SilentlyContinue
     }
 
-    #here we update the parent level docs. If you would prefer not to update them, comment out this section.
-    Write-Build Gray '        Overwriting docs output...'
-    Move-Item "$($script:ArtifactsPath)\docs\*.md" -Destination "..\docs\" -Force
-    Remove-Item "$($script:ArtifactsPath)\docs" -Recurse -Force -ErrorAction Stop
-    Write-Build Gray '        ...Docs output completed.'
+    if (Test-Path "$script:ArtifactsPath\docs") {
+        #here we update the parent level docs. If you would prefer not to update them, comment out this section.
+        Write-Build Gray '        Overwriting docs output...'
+        Move-Item "$script:ArtifactsPath\docs\*.md" -Destination "..\docs\" -Force
+        Remove-Item "$script:ArtifactsPath\docs" -Recurse -Force -ErrorAction Stop
+        Write-Build Gray '        ...Docs output completed.'
+    }
 
     Write-Build Green '      ...Build Complete!'
 }#Build
