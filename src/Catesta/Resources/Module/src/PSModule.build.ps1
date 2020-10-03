@@ -502,7 +502,10 @@ Add-BuildTask Build {
     if (Test-Path "$script:ArtifactsPath\docs") {
         #here we update the parent level docs. If you would prefer not to update them, comment out this section.
         Write-Build Gray '        Overwriting docs output...'
-        Move-Item "$script:ArtifactsPath\docs\*.md" -Destination "..\docs\" -Force
+        if (-not (Test-Path '..\docs\')) {
+            New-Item -Path '..\docs\' -ItemType Directory -Force | Out-Null
+        }
+        Move-Item "$script:ArtifactsPath\docs\*.md" -Destination '..\docs\' -Force
         Remove-Item "$script:ArtifactsPath\docs" -Recurse -Force -ErrorAction Stop
         Write-Build Gray '        ...Docs output completed.'
     }
