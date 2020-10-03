@@ -9,19 +9,15 @@ version: 0.2
 phases:
   install:
     commands:
-      - powershell -command '.\configure_aws_credential.ps1'
-      # - aws s3 cp s3://ps-invoke-modules/PowerShell-7.0.3-win-x64.msi PowerShell-7.0.3-win-x64.msi --quiet
-      - powershell -command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;$url = """https://github.com/PowerShell/PowerShell/releases/download/v7.0.3/PowerShell-7.0.3-win-x64.msi""";$output = """$env:CODEBUILD_SRC_DIR\PowerShell-7.0.3-win-x64.msi""";Invoke-WebRequest -Uri $url -OutFile $output -ErrorAction Stop;if (-not(Test-Path $output)) {throw """PSCore failed to DL"""}'
-      - powershell -command "Start-Process $env:CODEBUILD_SRC_DIR\PowerShell-7.0.3-win-x64.msi -ArgumentList '/qn /norestart' -Wait"
-      - '& "C:\Program Files\PowerShell\7\pwsh.exe" -command ''.\install_modules.ps1'''
+      - dotnet tool install --global PowerShell --version 7.0.3
+      - pwsh -command '.\configure_aws_credential.ps1'
+      - pwsh -command '.\install_modules.ps1'
   pre_build:
     commands:
-      # - powershell -command 'New-Item -Path C:\Test -ItemType Directory | Out-Null'
-      # - '& "C:\Program Files\PowerShell\7\pwsh.exe" -command ''Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.Settings.ps1 -Task ValidateUniqueModuleVersion'''
       - pwsh -command '$PSVersionTable'
   build:
     commands:
-      - '& "C:\Program Files\PowerShell\7\pwsh.exe" -command ''Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1'''
+      - pwsh -command 'Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1'
 artifacts:
   files:
     - '**/*'

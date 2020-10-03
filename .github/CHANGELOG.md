@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed bug where repository template options were not being presented as a choice
 - Added additional basic manifest checks to *PSModule*-Module.Tests.ps1
 - plaster manifest versions will now match Catesta module version
+- Updated buildspec_pwsh_windows.yml to utilize dotnet pwsh 7 install
 
 ## [0.9.7]
 
