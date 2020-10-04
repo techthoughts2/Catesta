@@ -160,7 +160,7 @@ Add-BuildTask Analyze {
         # Verbose = $false
     }
 
-    $filesToAnalyze = Get-ChildItem -Path $script:ModuleSourcePath -Exclude "*Extension.psm1" -Recurse
+    $filesToAnalyze = Get-ChildItem -Path $script:ModuleSourcePath -Exclude "PSVault.Extension*" -Recurse
 
     Write-Build White '      Performing Module ScriptAnalyzer checks...'
     foreach ($file in $filesToAnalyze) {
