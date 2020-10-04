@@ -18,9 +18,9 @@ Badge examples:
     * *Organization Settings - Settings - Disable anonymous access to badge*
     * *Project Settings - Settings - Disable anonymous access to badge*
 
-### I created a fresh project and my build process is already showing a failure
+### I created a fresh module project and my build process is already showing a failure
 
-By default a freshly created module already violates one PSScriptAnalyzer rule:
+By default a freshly created PowerShell module already violates one PSScriptAnalyzer rule:
 
 *PSUseToExportFieldsInManifest - Do not use wildcard or $null in this field.*
 
@@ -47,8 +47,7 @@ PSUseToExportFieldsInManifest       Warning      ActionsTes 81    Do not use wil
 
 Catesta leverages [platyPS](https://github.com/PowerShell/platyPS) for external help creation.
 
-The *source of truth* for all help in your project is derived from the comment base help in your public functions.
-  * Functions located inside your public folder.
+The *source of truth* for all help in your project is derived from the comment base help in your public functions (*Functions located inside your public folder*).
 
 During the help generation process your functions in the public folders are evaluated and the comment based help is used to create markdown files using [platyPS](https://github.com/PowerShell/platyPS). Once these markdown files are created, platyPS is used again to craft an external xml based help filed (common for PowerShell use).
 
@@ -59,3 +58,16 @@ Your comment based help continues to persist in your public functions folder and
 Help workflow:
 
 Craft excellent comment based help -> Run build -> markdown files generated -> xml file generated from markdown -> functions combined to psm1 -> comment based help stripped in psm1 and replaced with reference to external xml file -> parent level markdown docs updated for easy documentation reading in markdown on your repo.
+
+### Why does Catesta not support help creation for Vault Extension projects?
+
+Because of the nested nature of the vault extension, and how user facing functions are surfaced up, Catesta does not support automated help generation via platyPS for Vault extension projects.
+
+### I created a fresh vault extension project and my build process is already showing a failure
+
+By default a freshly created vault extension module already violates several PSScriptAnalyzer rules:
+
+* *PSUseToExportFieldsInManifest*
+* *PSReviewUnusedParameter*
+
+This is normal, and the build / test validation process is doing it's job. You'll need to correct your manifest to not use wildcards. You will also need to add content to your extension psm1 to actually engage the variables.

@@ -22,9 +22,9 @@ Catesta is a PowerShell module project generator. It uses templates to rapidly s
 
 ## Description
 
-Catesta enables you to quickly scaffold a PowerShell module project with proper formatting, test + build automation, CI/CD integration, with just one line of code.
+Catesta enables you to quickly scaffold a [PowerShell module](https://docs.microsoft.com/powershell/scripting/developer/module/how-to-write-a-powershell-script-module?view=powershell-7) or [Vault extension](https://github.com/PowerShell/SecretManagement) project with proper formatting, test + build automation, CI/CD integration, with just one line of code.
 
-* Catesta scaffolds an empty PowerShell module project that adheres to PowerShell community guidelines.
+* Catesta scaffolds an empty PowerShell/Vault extension module project that adheres to PowerShell community guidelines.
 * It generates a few [Pester](https://github.com/pester/Pester) tests to get you started.
 * It makes a [build file](https://github.com/nightroman/Invoke-Build) that analyzes your code for best practices and styling, runs Pester tests, creates PowerShell help, and combines your functions together to build your project for publication.
 * It will create resources you need to trigger CI/CD builds for your module.
@@ -36,7 +36,9 @@ Simplify the process of structuring your module so that you can focus on buildin
 
 ### Features
 
-* [PowerShell module](https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module) layout following PowerShell community practices
+* Catesta can build two types of module projects:
+  1. [PowerShell module](https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module?view=powershell-7) layout following PowerShell community practices
+  1. [SecretManagement Vault extension module](https://github.com/PowerShell/SecretManagement) layout following PowerShell community practices
 * *[Selection]* Required CI/CD integration files generated:
   * [AWS](https://aws.amazon.com/codebuild/)
   * [GitHub Actions](https://help.github.com/actions)
@@ -80,6 +82,8 @@ Install-Module -Name Catesta -Repository PSGallery -Scope CurrentUser
 
 ## Quick start
 
+### PowerShell Module
+
 ```powershell
 # Scaffolds a PowerShell module project for integration with AWS CodeBuild.
 New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path\AWSProject
@@ -97,9 +101,29 @@ New-PowerShellProject -CICDChoice 'AppVeyor' -DestinationPath c:\path\AppVeyor
 New-PowerShellProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOnly
 ```
 
+### SecretManagement Vault Extension Module
+
+```powershell
+# Scaffolds a PowerShell SecretManagement vault module project for integration with AWS CodeBuild.
+New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path\AWSProject
+
+# Scaffolds a PowerShell SecretManagement vault module project for integration with GitHub Actions Workflows.
+New-VaultProject -CICDChoice 'GitHubActions' -DestinationPath c:\path\GitHubActions
+
+# Scaffolds a PowerShell SecretManagement vault module project for integration with Azure DevOps Pipelines.
+New-VaultProject -CICDChoice 'Azure' -DestinationPath c:\path\AzurePipeline
+
+# Scaffolds a PowerShell SecretManagement vault module project for integration with AppVeyor Projects.
+New-VaultProject -CICDChoice 'AppVeyor' -DestinationPath c:\path\AppVeyor
+
+# Scaffolds a basic PowerShell SecretManagement vault module project with no additional extras. You just get a basic module construct.
+New-VaultProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOnly
+```
+
+
 ## Getting Started
 
-1. Use Catesta to scaffold your PowerShell project with your desired CI/CD platform and builds.
+1. Use Catesta to scaffold your PowerShell/Vault project with your desired CI/CD platform and builds.
 1. Write your module (the hardest part)
     * All build testing can be done locally by navigating to src and running ```Invoke-Build```
     * If using VSCode as your primary editor you can use tasks to perform various local actions
@@ -137,6 +161,10 @@ Additional Catesta documentation that covers the process of CI/CD integration in
 * [Dave Kaylor](https://twitter.com/KaylorDave)
 
 ## Notes
+
+Additional Catesta documentation that covers PowerShell Vault Extension module projects more in depth:
+
+* [Catesta-Vault-Extension](docs/Catesta-Vault-Extension.md)
 
 ## Changelog
 
