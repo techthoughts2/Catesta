@@ -268,6 +268,7 @@ Add-BuildTask Test {
         New-Item -Path $testOutPutPath -ItemType Directory | Out-Null
     }
     if (Test-Path -Path $script:UnitTestsPath) {
+
         $invokePesterParams = @{
             Path                         = 'Tests\Unit'
             Strict                       = $true

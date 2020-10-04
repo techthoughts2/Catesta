@@ -54,6 +54,8 @@ for:
       - image: Visual Studio 2017
   init:
     - ps: $PSVersionTable
+    - ps: Install-PackageProvider -Name "NuGet" -Confirm:$false -Force -Verbose
+    - ps: Install-Module -Name PowerShellGet -Repository PSGallery -Force
   install:
     - ps: . .\actions_bootstrap.ps1
   build_script:

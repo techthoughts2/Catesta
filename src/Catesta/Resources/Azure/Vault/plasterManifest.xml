@@ -11,6 +11,7 @@
     <tags>PowerShell,Template,SecretManagement,VaultExtension,Secret,module,Azure,Azure Pipelines</tags>
   </metadata>
   <parameters>
+    <parameter name='VAULT' type='text' prompt='VAULT'/>
     <parameter name='ModuleName' type='text' prompt='Enter the name of the extension vault module'/>
     <parameter name='Description' type='text' prompt='Enter a description for the extension vault module'/>
     <parameter name='Version' type='text' prompt='Enter the version number of the extension vault module' default='0.0.1'/>
@@ -89,7 +90,7 @@
     <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\..\GitHubFiles\ISSUE_TEMPLATE\bug-report.md' destination='.github\ISSUE_TEMPLATE\bug-report.md'/>
     <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\..\GitHubFiles\ISSUE_TEMPLATE\feature_request.md' destination='.github\ISSUE_TEMPLATE\feature_request.md'/>
 
-    <file source='..\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
+    <templateFile source='..\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
     <templateFile source='..\azure-pipelines.yml' destination='azure-pipelines.yml' />
 
     <newModuleManifest destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_Version' encoding='UTF8-NoBOM' openInEditor="true" author='$PLASTER_PARAM_FN' description='$PLASTER_PARAM_description' nestedModules='./${PLASTER_PARAM_ModuleName}.Extension' />

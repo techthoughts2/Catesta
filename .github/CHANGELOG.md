@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - plaster manifest versions will now match Catesta module version
   - Added additional basic manifest checks to *PSModule*-Module.Tests.ps1
   - Updated buildspec_pwsh_windows.yml to utilize dotnet pwsh 7 install
+  - For all CI/CD actions using Windows PowerShell the latest NuGet and PowerShellGet will be installed.
 
 ## [0.9.7]
 

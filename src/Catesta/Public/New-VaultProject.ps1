@@ -63,7 +63,7 @@ function New-VaultProject {
     param (
         [Parameter(Mandatory = $true,
             HelpMessage = 'CICD Platform Choice')]
-        [ValidateSet('AWS', 'GitHubActions', 'Azure', 'AppVeyor','ModuleOnly')]
+        [ValidateSet('AWS', 'GitHubActions', 'Azure', 'AppVeyor', 'ModuleOnly')]
         [string]
         $CICDChoice,
         [Parameter(Mandatory = $true,
@@ -131,7 +131,15 @@ function New-VaultProject {
 
             Write-Verbose -Message 'Deploying template...'
             try {
-                $results = Invoke-Plaster -TemplatePath "$script:resourcePath\$path" -DestinationPath $DestinationPath -PassThru -ErrorAction Stop
+                Write-Verbose -Message "Template Path: $script:resourcePath\$path"
+                $invokePlasterSplat = @{
+                    TemplatePath    = "$script:resourcePath\$path"
+                    DestinationPath = $DestinationPath
+                    VAULT           = 'VAULT'
+                    PassThru        = $true
+                    ErrorAction     = 'Stop'
+                }
+                $results = Invoke-Plaster @invokePlasterSplat
                 Write-Verbose -Message 'Template Deployed.'
             }
             catch {

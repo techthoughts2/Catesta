@@ -42,9 +42,6 @@ Describe 'File Checks' {
         It 'should have an extension manifest file' {
             $srcFiles.Name.Contains('PSVault.Extension.psd1') | Should -BeExactly $true
         }#it
-        It 'should have a manifest file' {
-            $srcFiles.Name.Contains('PSVault.psd1') | Should -BeExactly $true
-        }#it
         It 'should have build files' {
             $srcFiles.Name.Contains('PSVault.build.ps1') | Should -BeExactly $true
             $srcFiles.Name.Contains('PSVault.Settings.ps1') | Should -BeExactly $true

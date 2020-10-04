@@ -263,7 +263,7 @@ Add-BuildTask Test {
             PassThru                     = $true
             Verbose                      = $false
             EnableExit                   = $false
-            CodeCoverage                 = "$ModuleName\*\*.ps1"
+            CodeCoverage                 = "$ModuleName\*\*.psm1"
             CodeCoverageOutputFile       = "$codeCovPath\CodeCoverage.xml"
             CodeCoverageOutputFileFormat = 'JaCoCo'
             OutputFile                   = "$testOutPutPath\PesterTests.xml"

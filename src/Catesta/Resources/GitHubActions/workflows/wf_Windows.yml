@@ -20,6 +20,12 @@ jobs:
     - name: Version Display
       shell: powershell
       run: $PSVersionTable
+    - name: NuGet Latest
+      shell: powershell
+      run: Install-PackageProvider -Name "NuGet" -Confirm:$false -Force -Verbose
+    - name: PowerShellGet Latest
+      shell: powershell
+      run: Install-Module -Name PowerShellGet -Repository PSGallery -Force
     - name: Bootstrap
       shell: powershell
       run: ./actions_bootstrap.ps1

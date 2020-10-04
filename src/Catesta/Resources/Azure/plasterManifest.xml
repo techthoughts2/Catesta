@@ -11,6 +11,7 @@
     <tags>PowerShell,Template,GitHub,PowerShell Module,Azure,Pipelines,Azure Pipelines</tags>
   </metadata>
   <parameters>
+    <parameter name='VAULT' type='text' prompt='NOTVAULT'/>
     <parameter name='ModuleName' type='text' prompt='Enter the name of the module'/>
     <parameter name='Description' type='text' prompt='Enter a description for the module'/>
     <parameter name='Version' type='text' prompt='Enter the version number of the module' default='0.0.1'/>
@@ -84,7 +85,7 @@
     <file source='..\Module\src\PSModule.Settings.ps1' destination='src\${PLASTER_PARAM_ModuleName}.Settings.ps1'/>
     <file source='..\Module\src\PSScriptAnalyzerSettings.psd1' destination='src\PSScriptAnalyzerSettings.psd1'/>
 
-    <file source='actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
+    <templateFile source='actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
 
     <file source='..\GitHubFiles\.gitignore' destination='.gitignore' />
     <templateFile condition="$PLASTER_PARAM_Changelog -eq 'CHANGELOG'" source='..\GitHubFiles\CHANGELOG.md' destination='.github\CHANGELOG.md' />
