@@ -155,12 +155,18 @@ Describe 'File Checks' {
         It 'should have the correct number of templates' {
             $manifestCount | should -BeExactly 10
         }#it
+        $ids = @()
         foreach ($manifest in $manifests) {
+            [xml]$eval = $null
+            $eval = Get-Content -Path $manifest.FullName
+            $ids += $eval.plasterManifest.metadata.id
             It "$($manifest.FullName) version should match the module version" {
-                [xml]$eval = $null
-                $eval = Get-Content -Path $manifest.FullName
                 $eval.plasterManifest.metadata.version | Should -BeExactly $scriptVersion
             }#it
         }
+        It 'should not have any duplicate manifest ids' {
+            $uniqueCount = $ids | Get-Unique | Measure-Object | Select-Object -ExpandProperty Count
+            $uniqueCount | Should -BeExactly 10
+        }#it
     }#templates
 }#describe_File_Checks

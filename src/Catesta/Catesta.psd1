@@ -144,6 +144,7 @@
                 'pwsh',
                 'Scaffold',
                 'Secret',
+                'SecretVault',
                 'Secrets'
                 'Template',
                 'Vault'
