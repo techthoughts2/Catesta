@@ -73,6 +73,19 @@ $null = $modulesToInstall.Add(([PSCustomObject]@{
             KeyPrefix     = ''
         }))
 
+<%
+If ($PLASTER_PARAM_VAULT -eq 'VAULT') {
+    @'
+$null = $modulesToInstall.Add(([PSCustomObject]@{
+            ModuleName    = 'Microsoft.PowerShell.SecretManagement'
+            ModuleVersion = '0.5.3-preview4'
+            BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
+            KeyPrefix     = ''
+        }))
+'@
+}
+%>
+
 if ($galleryDownload -eq $false) {
 
     $tempPath = [System.IO.Path]::GetTempPath()
@@ -164,13 +177,34 @@ else {
     #     Install-PackageProvider -Name "NuGet" -Confirm:$false -Force -Verbose
     # }
     foreach ($module in $modulesToInstall) {
+        $installSplat = @{
+            Name               = $module.ModuleName
+            RequiredVersion    = $module.ModuleVersion
+            Repository         = 'PSGallery'
+            SkipPublisherCheck = $true
+            Force              = $true
+            ErrorAction        = 'Stop'
+        }
         try {
-            if ($module.ModuleName -eq 'Pester' -and $PSEdition -eq 'Desktop') {
-                Install-Module $module.ModuleName -RequiredVersion $module.ModuleVersion -Repository PSGallery -Force -SkipPublisherCheck -ErrorAction Stop
+<%
+If ($PLASTER_PARAM_VAULT -eq 'VAULT') {
+    @'
+            if ($module.ModuleName -eq 'Microsoft.PowerShell.SecretManagement') {
+                Install-Module @installSplat -AllowPrerelease
             }
             else {
-                Install-Module $module.ModuleName -RequiredVersion $module.ModuleVersion -Repository PSGallery -Confirm:$false -Force -SkipPublisherCheck -ErrorAction Stop
+                Install-Module @installSplat
             }
+'@
+}
+else {
+    @'
+            Install-Module @installSplat
+'@
+}
+%>
+            Import-Module -Name $module.ModuleName -ErrorAction Stop
+            '  - Successfully installed {0}' -f $module.ModuleName
         }
         catch {
             $message = 'Failed to install {0}' -f $module.ModuleName

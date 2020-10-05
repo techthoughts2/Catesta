@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plasterManifest schemaVersion="1.1" templateType="Project"
+  xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
+  <metadata>
+    <name>GHAVaultExtension</name>
+    <id>02c6673d-bf8b-4997-b229-0d1856af4506</id>
+    <version>0.10.0</version>
+    <title>Catesta - SecretManagement extension vault module template for GitHub Actions</title>
+    <description>Scaffolds a new PowerShell SecretManagement extension vault module project for CI/CD workflow using GitHub Actions</description>
+    <author>Jake Morrison</author>
+    <tags>PowerShell,Template,SecretManagement,VaultExtension,Secret,module,GitHub,Actions</tags>
+  </metadata>
+  <parameters>
+    <parameter name='VAULT' type='text' prompt='VAULT'/>
+    <parameter name='ModuleName' type='text' prompt='Enter the name of the extension vault module'/>
+    <parameter name='Description' type='text' prompt='Enter a description for the extension vault module'/>
+    <parameter name='Version' type='text' prompt='Enter the version number of the extension vault module' default='0.0.1'/>
+    <parameter name='FN' type='user-fullname' store='text' prompt='Enter your full name'/>
+    <parameter name='Changelog' type='choice' default='0' store='text' prompt='Would you like to generate a Changelog file?'>
+      <choice label='&amp;Changelog' help="Adds a Changelog file." value="CHANGELOG"/>
+      <choice label='&amp;None' help="Does not add a Changelog file." value="NOCHANGELOG"/>
+    </parameter>
+    <parameter name='RepoType' type='choice' default='0' store='text' prompt='Would you like to generate helpful repository files? (issue/pullrequest/feature)'>
+      <choice label='&amp;GitHub ' help="Adds GitHub templates." value="GITHUB"/>
+      <choice label='&amp;None' help="Does not add GitHub templates." value="NOGITHUB"/>
+    </parameter>
+    <parameter name='License' type='choice' default='0' store='text' prompt='Select a License for your module. (Help deciding: https://choosealicense.com/)'>
+      <choice label='&amp;MIT' help='Adds a MIT License file.' value='MIT'/>
+      <choice label='&amp;Apache' help='Adds an Apache License file.' value="Apache"/>
+      <choice label='&amp;GNU' help='Adds a GNU GENERAL PUBLIC LICENSE file.' value="GNU"/>
+      <choice label='&amp;ISC' help='Adds an ISC License file.' value="ISC"/>
+      <choice label='&amp;None' help='Does not add a License file.' value='None'/>
+    </parameter>
+    <parameter name='COC' type='choice' default='0' store='text' prompt='Would you like to generate a Code of Conduct file?'>
+      <choice label='&amp;conduct' help="Adds a Code of Conduct file." value="CONDUCT"/>
+      <choice label='&amp;None' help="Does not add a Changelog file." value="NOCONDUCT"/>
+    </parameter>
+    <parameter name='Contribute' type='choice' default='0' store='text' prompt='Would you like to generate a Contributing guidelines file?'>
+      <choice label='&amp;Contribute' help="Adds a Contributing file." value="CONTRIBUTING"/>
+      <choice label='&amp;None' help="Does not add a Contributing file." value="NOCONTRIBUTING"/>
+    </parameter>
+    <parameter name='CodingStyle' type='choice' default='0' store='text' prompt='Would you like to specify a coding style for the project?'>
+      <choice label='&amp;Stroustrup' help="Sets Stroustrup as the preferred coding style." value="Stroustrup"/>
+      <choice label='&amp;OTBS' help="Sets OTBS as the preferred coding style." value="OTBS"/>
+      <choice label='&amp;Allman' help="Sets Allman as the preferred coding style." value="Allman"/>
+      <choice label='&amp;None' help="No coding style is set for the project." value="None"/>
+    </parameter>
+    <parameter name='Options' type='multichoice' default='0' store='text' prompt='Select desired workflow action options? (If your module is cross-platform you should select multiple)'>
+      <choice label='&amp;Windows - PowerShell' help="Adds a Windows PowerShell based Workflow action." value="windows"/>
+      <choice label='&amp;Core (Windows)- pwsh' help="Adds a Windows pwsh based pipeline job." value="pwshcore"/>
+      <choice label='&amp;Linux' help="Adds a Linux based Workflow action." value="linux"/>
+      <choice label='&amp;MacOS' help="Adds a MacOS based Workflow action." value="macos"/>
+    </parameter>
+  </parameters>
+  <content>
+    <message>&#10;&#10;Scaffolding your SecretManagement extension vault module for GitHub Actions...&#10;&#10;&#10;</message>
+    <file source='' destination='docs'/>
+    <file source='' destination='media'/>
+    <file source='' destination='src'/>
+    <file source='' destination='src\Archive'/>
+    <file source='' destination='src\Artifacts'/>
+    <file source='' destination='src\Tests'/>
+    <file source='' destination='src\Tests\Infrastructure'/>
+    <file source='' destination='src\Tests\Unit'/>
+    <file source='' destination='src\${PLASTER_PARAM_ModuleName}'/>
+    <templateFile source='..\..\editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
+    <file source='..\..\editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
+    <templateFile source='..\..\editor\VSCode\settings.json' destination='.vscode\settings.json' />
+
+    <templateFile source='..\..\Vault\src\Tests\Unit\PSVault-Module.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
+    <templateFile source='..\..\Vault\src\Tests\Unit\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />
+    <templateFile source='..\..\Vault\src\Tests\Unit\Module-Function.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Function.Tests.ps1' />
+
+    <templateFile source='..\..\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psd1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.Extension\${PLASTER_PARAM_ModuleName}.Extension.psd1' />
+    <file source='..\..\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psm1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.Extension\${PLASTER_PARAM_ModuleName}.Extension.psm1' />
+
+    <templateFile source='..\..\Vault\src\PSVault.build.ps1' destination='src\${PLASTER_PARAM_ModuleName}.build.ps1'/>
+    <file source='..\..\Vault\src\PSVault.Settings.ps1' destination='src\${PLASTER_PARAM_ModuleName}.Settings.ps1'/>
+    <file source='..\..\Vault\src\PSScriptAnalyzerSettings.psd1' destination='src\PSScriptAnalyzerSettings.psd1'/>
+
+    <file source='..\..\GitHubFiles\.gitignore' destination='.gitignore' />
+    <templateFile condition="$PLASTER_PARAM_Changelog -eq 'CHANGELOG'" source='..\..\GitHubFiles\CHANGELOG.md' destination='.github\CHANGELOG.md' />
+    <templateFile condition="$PLASTER_PARAM_License -eq 'MIT'" source='..\..\GitHubFiles\MITLICENSE' destination='LICENSE' />
+    <templateFile condition="$PLASTER_PARAM_License -eq 'Apache'" source='..\..\GitHubFiles\APACHELICENSE' destination='LICENSE' />
+    <templateFile condition="$PLASTER_PARAM_License -eq 'GNU'" source='..\..\GitHubFiles\GNULICENSE' destination='LICENSE' />
+    <templateFile condition="$PLASTER_PARAM_License -eq 'ISC'" source='..\..\GitHubFiles\ISCLICENSE' destination='LICENSE' />
+    <file condition="$PLASTER_PARAM_COC -eq 'CONDUCT'" source='..\..\GitHubFiles\CODE_OF_CONDUCT.md' destination='.github\CODE_OF_CONDUCT.md' />
+    <templateFile condition="$PLASTER_PARAM_Contribute -eq 'CONTRIBUTING'" source='..\..\GitHubFiles\CONTRIBUTING.md' destination='.github\CONTRIBUTING.md' />
+    <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\..\GitHubFiles\PULL_REQUEST_TEMPLATE.md' destination='.github\PULL_REQUEST_TEMPLATE.md'/>
+    <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\..\GitHubFiles\ISSUE_TEMPLATE\bug-report.md' destination='.github\ISSUE_TEMPLATE\bug-report.md'/>
+    <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\..\GitHubFiles\ISSUE_TEMPLATE\feature_request.md' destination='.github\ISSUE_TEMPLATE\feature_request.md'/>
+
+    <templateFile source='..\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
+    <templateFile condition="$PLASTER_PARAM_Options -eq 'windows'" source='..\workflows\wf_Windows.yml' destination='.github\workflows\wf_Windows.yml' />
+    <templateFile condition="$PLASTER_PARAM_Options -eq 'pwshcore'" source='..\workflows\wf_Windows_Core.yml' destination='.github\workflows\wf_Windows_Core.yml' />
+    <templateFile condition="$PLASTER_PARAM_Options -eq 'linux'" source='..\workflows\wf_Linux.yml' destination='.github\workflows\wf_Linux.yml' />
+    <templateFile condition="$PLASTER_PARAM_Options -eq 'macos'" source='..\workflows\wf_MacOS.yml' destination='.github\workflows\wf_MacOS.yml' />
+
+    <newModuleManifest destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_Version' encoding='UTF8-NoBOM' openInEditor="true" author='$PLASTER_PARAM_FN' description='$PLASTER_PARAM_description' nestedModules='./${PLASTER_PARAM_ModuleName}.Extension' />
+
+    <requireModule name="Pester" minimumVersion="4.7.2" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 4.5.0, VS Code will not display Pester warnings and errors in the Problems panel."/>
+    <requireModule name="InvokeBuild" minimumVersion="5.4.2" message="Without InvokeBuild, you will not be able to run local builds."/>
+    <requireModule name="platyPS" requiredVersion ="0.12.0" message="This template requires platyPS v0.12.0 module to properly generate help."/>
+    <requireModule name="Microsoft.PowerShell.SecretManagement" minimumVersion ="0.5.3" message="Without the PowerShell SecretManagement you will not be able to properly test your extension."/>
+
+    <message>
+
+Your new SecretManagement extension vault module project '$PLASTER_PARAM_ModuleName' has been created.
+
+    </message>
+
+    <message>
+Several Pester tests have been created to validate various components of the module.  Add additional tests to the test directory.
+You can run the Pester tests in your project by executing the 'test' task.  Press Ctrl+P, then type 'task test'.
+    </message>
+
+    <message>
+
+Action Workflow files have been generated for this project. You can find these in the .github/workflows folder.
+These will run automatically when you commit your project to your GitHub repository.
+More information: https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-GHActions.md
+    </message>
+
+    <message>
+
+Read more about SecretManagement extension vault module: https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-Vault-Extension.md
+    </message>
+
+  </content>
+</plasterManifest>

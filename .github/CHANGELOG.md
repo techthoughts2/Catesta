@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.0]
+
+- New features:
+  - Added **New-VaultProject** - Catesta now supports creating a PowerShell SecretManagement vault module project that adheres to community best practices.
+- Bug fixes:
+  - Fixed bug in plaster manifests where repository template options were not being presented as a choice
+  - Fixed bug in *.build.ps1 causing build to fail
+    - This bug was related to the overwrite of the parent level md docs. Build would fail if run before markdown help had been generated.
+- Updates:
+  - plaster manifest versions will now match Catesta module version
+  - Added additional basic manifest checks to *PSModule*-Module.Tests.ps1
+  - Updated buildspec_pwsh_windows.yml to utilize dotnet pwsh 7 install
+  - For all CI/CD actions using Windows PowerShell the latest NuGet and PowerShellGet will be installed.
+
 ## [0.9.7]
 
 - Catesta template module changes

@@ -4,13 +4,14 @@
   <metadata>
     <name>AzurePManifestPS</name>
     <id>74cef6b1-55b4-4247-9cc8-654d26cc1402</id>
-    <version>0.1.0</version>
-    <title>PowerShell Module Template for Azure Pipelines</title>
+    <version>0.10.0</version>
+    <title>Catesta - PowerShell Module Template for Azure Pipelines</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using Azure Pipelines</description>
     <author>Jake Morrison</author>
     <tags>PowerShell,Template,GitHub,PowerShell Module,Azure,Pipelines,Azure Pipelines</tags>
   </metadata>
   <parameters>
+    <parameter name='VAULT' type='text' prompt='NOTVAULT'/>
     <parameter name='ModuleName' type='text' prompt='Enter the name of the module'/>
     <parameter name='Description' type='text' prompt='Enter a description for the module'/>
     <parameter name='Version' type='text' prompt='Enter the version number of the module' default='0.0.1'/>
@@ -18,6 +19,10 @@
     <parameter name='Changelog' type='choice' default='0' store='text' prompt='Would you like to generate a Changelog file?'>
       <choice label='&amp;Changelog' help="Adds a Changelog file." value="CHANGELOG"/>
       <choice label='&amp;None' help="Does not add a Changelog file." value="NOCHANGELOG"/>
+    </parameter>
+    <parameter name='RepoType' type='choice' default='0' store='text' prompt='Would you like to generate helpful repository files? (issue/pullrequest/feature)'>
+      <choice label='&amp;GitHub ' help="Adds GitHub templates." value="GITHUB"/>
+      <choice label='&amp;None' help="Does not add GitHub templates." value="NOGITHUB"/>
     </parameter>
     <parameter name='License' type='choice' default='0' store='text' prompt='Select a License for your module. (Help deciding: https://choosealicense.com/)'>
       <choice label='&amp;MIT' help='Adds a MIT License file.' value='MIT'/>
@@ -80,7 +85,7 @@
     <file source='..\Module\src\PSModule.Settings.ps1' destination='src\${PLASTER_PARAM_ModuleName}.Settings.ps1'/>
     <file source='..\Module\src\PSScriptAnalyzerSettings.psd1' destination='src\PSScriptAnalyzerSettings.psd1'/>
 
-    <file source='actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
+    <templateFile source='actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
 
     <file source='..\GitHubFiles\.gitignore' destination='.gitignore' />
     <templateFile condition="$PLASTER_PARAM_Changelog -eq 'CHANGELOG'" source='..\GitHubFiles\CHANGELOG.md' destination='.github\CHANGELOG.md' />

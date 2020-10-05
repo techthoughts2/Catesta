@@ -14,6 +14,8 @@ If ($PLASTER_PARAM_Options -eq 'windows') {
     steps:
     - powershell: |
         $PSVersionTable
+        Install-PackageProvider -Name "NuGet" -Confirm:$false -Force -Verbose
+        Install-Module -Name PowerShellGet -Repository PSGallery -Force
         .\actions_bootstrap.ps1
         Remove-Module Pester -ErrorAction SilentlyContinue
         Import-Module Pester -RequiredVersion 4.10.1

@@ -12,7 +12,7 @@
     RootModule        = 'Catesta.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.9.7'
+    ModuleVersion     = '0.10.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -91,7 +91,8 @@
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
-        'New-PowerShellProject'
+        'New-PowerShellProject',
+        'New-VaultProject'
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
@@ -131,6 +132,7 @@
                 'CrossPlatform',
                 'GitHub',
                 'GitHub-Actions',
+                'Extension'
                 'Linux',
                 'MacOS',
                 'Module',
@@ -141,7 +143,11 @@
                 'Project',
                 'pwsh',
                 'Scaffold',
+                'Secret',
+                'SecretVault',
+                'Secrets'
                 'Template',
+                'Vault'
                 'Windows'
             )
 
@@ -174,10 +180,15 @@
                     Details        = @{
                         TemplatePaths = @(
                             'Resources\AWS',
+                            'Resources\AWS\Vault',
                             'Resources\GitHubActions',
+                            'Resources\GitHubActions\Vault',
                             'Resources\Azure',
+                            'Resources\Azure\Vault',
                             'Resources\AppVeyor',
-                            'Resources\Vanilla'
+                            'Resources\AppVeyor\Vault',
+                            'Resources\Vanilla',
+                            'Resources\Vanilla\Vault'
                         )
                     }
                 }

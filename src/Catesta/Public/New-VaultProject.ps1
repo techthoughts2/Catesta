@@ -1,32 +1,32 @@
 <#
 .SYNOPSIS
-    Scaffolds a PowerShell module project for use with desired CICD platform for easy cross platform PowerShell development.
+    Scaffolds a PowerShell SecretManagement vault module project for use with desired CICD platform for easy cross platform PowerShell development.
 .DESCRIPTION
-    Leverages plaster to scaffold a PowerShell module that adheres to community best practices.
+    Leverages plaster to scaffold a PowerShell SecretManagement vault module project that adheres to community best practices.
     Based on selections made this cmdlet will generate the necessary files for a variety of CICD platforms.
     Selections can also determine what CICD builds should be run enabling easy cross-platform verification (Windows/Linux/MacOS).
     InvokeBuild tasks will be created for validation / analysis / test / build automation.
     Additional selections can generate other helpful files such as GitHub community files and VSCode project files.
 .EXAMPLE
-    New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path\AWSProject
+    New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path\AWSProject
 
-    Scaffolds a PowerShell module project for integration with AWS CodeBuild.
+    Scaffolds a PowerShell SecretManagement vault module project for integration with AWS CodeBuild.
 .EXAMPLE
-    New-PowerShellProject -CICDChoice 'GitHubActions' -DestinationPath c:\path\GitHubActions
+    New-VaultProject -CICDChoice 'GitHubActions' -DestinationPath c:\path\GitHubActions
 
-    Scaffolds a PowerShell module project for integration with GitHub Actions Workflows.
+    Scaffolds a PowerShell SecretManagement vault module project for integration with GitHub Actions Workflows.
 .EXAMPLE
-    New-PowerShellProject -CICDChoice 'Azure' -DestinationPath c:\path\AzurePipeline
+    New-VaultProject -CICDChoice 'Azure' -DestinationPath c:\path\AzurePipeline
 
-    Scaffolds a PowerShell module project for integration with Azure DevOps Pipelines.
+    Scaffolds a PowerShell SecretManagement vault module project for integration with Azure DevOps Pipelines.
 .EXAMPLE
-    New-PowerShellProject -CICDChoice 'AppVeyor' -DestinationPath c:\path\AppVeyor
+    New-VaultProject -CICDChoice 'AppVeyor' -DestinationPath c:\path\AppVeyor
 
-    Scaffolds a PowerShell module project for integration with AppVeyor Projects.
+    Scaffolds a PowerShell SecretManagement vault module project for integration with AppVeyor Projects.
 .EXAMPLE
-    New-PowerShellProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOnly
+    New-VaultProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOnly
 
-    Scaffolds a basic PowerShell module project with no additional extras. You just get a basic PowerShell module construct.
+    Scaffolds a basic PowerShell SecretManagement vault module project with no additional extras. You just get a basic PowerShell module construct.
 .PARAMETER CICDChoice
     CICD Platform Choice
     AWS - AWS CodeBuild
@@ -35,7 +35,7 @@
     AppVeyor - AppVeyor Projects
     ModuleOnly - Just a Vanilla PowerShell module scaffold
 .PARAMETER DestinationPath
-    File path where PowerShell Module project will be created
+    File path where PowerShell SecretManagement vault module project will be created
 .PARAMETER Force
     Skip Confirmation
 .OUTPUTS
@@ -43,9 +43,9 @@
 .NOTES
     General notes
 .LINK
-    https://github.com/techthoughts2/Catesta/blob/master/docs/New-PowerShellProject.md
+    https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-Vault-Extension.md
 .LINK
-    https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module
+    https://github.com/PowerShell/SecretManagement
 .LINK
     https://aws.amazon.com/codebuild/
 .LINK
@@ -57,7 +57,7 @@
 .COMPONENT
     Catesta
 #>
-function New-PowerShellProject {
+function New-VaultProject {
     [CmdletBinding(ConfirmImpact = 'Low',
         SupportsShouldProcess = $true)]
     param (
@@ -67,7 +67,7 @@ function New-PowerShellProject {
         [string]
         $CICDChoice,
         [Parameter(Mandatory = $true,
-            HelpMessage = 'File path where PowerShell Module project will be created')]
+            HelpMessage = 'File path where PowerShell SecretManagement vault module project will be created')]
         [string]
         $DestinationPath,
         [Parameter(Mandatory = $false,
@@ -109,23 +109,23 @@ function New-PowerShellProject {
             switch ($CICDChoice) {
                 'AWS' {
                     Write-Verbose -Message 'AWS Template Selected.'
-                    $path = '\AWS'
+                    $path = '\AWS\Vault'
                 }#aws
                 'GitHubActions' {
                     Write-Verbose -Message 'GitHub Actions Template Selected.'
-                    $path = '\GitHubActions'
+                    $path = '\GitHubActions\Vault'
                 }#githubactions
                 'Azure' {
                     Write-Verbose -Message 'Azure Pipelines Template Selected.'
-                    $path = '\Azure'
+                    $path = '\Azure\Vault'
                 }#githubactions
                 'AppVeyor' {
                     Write-Verbose -Message 'AppVeyor Template Selected.'
-                    $path = '\AppVeyor'
+                    $path = '\AppVeyor\Vault'
                 }#appveyor
                 'ModuleOnly' {
                     Write-Verbose -Message 'Module Only Template Selected.'
-                    $path = '\Vanilla'
+                    $path = '\Vanilla\Vault'
                 }#moduleonly
             }#switch
 
@@ -135,11 +135,10 @@ function New-PowerShellProject {
                 $invokePlasterSplat = @{
                     TemplatePath    = "$script:resourcePath\$path"
                     DestinationPath = $DestinationPath
-                    VAULT           = 'NOTVAULT'
+                    VAULT           = 'VAULT'
                     PassThru        = $true
                     ErrorAction     = 'Stop'
                 }
-
                 $results = Invoke-Plaster @invokePlasterSplat
                 Write-Verbose -Message 'Template Deployed.'
             }
@@ -155,4 +154,4 @@ function New-PowerShellProject {
     End {
         return $results
     }#end
-}#New-PowerShellProject
+}#New-VaultProject

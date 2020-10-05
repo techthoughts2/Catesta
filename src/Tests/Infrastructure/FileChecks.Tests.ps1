@@ -3,6 +3,7 @@ Set-Location -Path $PSScriptRoot
 #-------------------------------------------------------------------------
 $ModuleName = 'Catesta'
 #-------------------------------------------------------------------------
+$PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
 $resourcePath = [System.IO.Path]::Combine('..', '..', $ModuleName, 'Resources')
 #-------------------------------------------------------------------------
 Describe 'File Checks' {
@@ -32,7 +33,23 @@ Describe 'File Checks' {
         It 'should have a private function example' {
             $srcFiles.Name.Contains('Get-PrivateHelloWorld.ps1') | Should -BeExactly $true
         }#it
-    }#context_Editor
+    }#context_module
+    Context 'Vault Source Files' {
+        $srcFiles = Get-ChildItem -Path "$resourcePath\Vault\*" -Recurse
+        It 'should have an extension module file' {
+            $srcFiles.Name.Contains('PSVault.Extension.psm1') | Should -BeExactly $true
+        }#it
+        It 'should have an extension manifest file' {
+            $srcFiles.Name.Contains('PSVault.Extension.psd1') | Should -BeExactly $true
+        }#it
+        It 'should have build files' {
+            $srcFiles.Name.Contains('PSVault.build.ps1') | Should -BeExactly $true
+            $srcFiles.Name.Contains('PSVault.Settings.ps1') | Should -BeExactly $true
+        }#it
+        It 'should have a PSScriptAnalyzerSettings file' {
+            $srcFiles.Name.Contains('PSScriptAnalyzerSettings.psd1') | Should -BeExactly $true
+        }#it
+    }#context_vault
     Context 'Github' {
         $gitFiles = Get-ChildItem -Path "$resourcePath\GitHubFiles\*" -Recurse
         It 'should have all license files' {
@@ -130,4 +147,26 @@ Describe 'File Checks' {
             $mOnlyFiles.Name.Contains('plasterManifest.xml') | Should -BeExactly $true
         }#it
     }#appVeyor
+    Context 'Templates' {
+        $script:manifestEval = Test-ModuleManifest -Path $PathToManifest
+        [version]$scriptVersion = $script:manifestEval.Version
+        $manifests = Get-ChildItem -Path $resourcePath -Include '*.xml' -Recurse
+        $manifestCount = $manifests | Measure-Object | Select-Object -ExpandProperty Count
+        It 'should have the correct number of templates' {
+            $manifestCount | should -BeExactly 10
+        }#it
+        $ids = @()
+        foreach ($manifest in $manifests) {
+            [xml]$eval = $null
+            $eval = Get-Content -Path $manifest.FullName
+            $ids += $eval.plasterManifest.metadata.id
+            It "$($manifest.FullName) version should match the module version" {
+                $eval.plasterManifest.metadata.version | Should -BeExactly $scriptVersion
+            }#it
+        }
+        It 'should not have any duplicate manifest ids' {
+            $uniqueCount = $ids | Get-Unique | Measure-Object | Select-Object -ExpandProperty Count
+            $uniqueCount | Should -BeExactly 10
+        }#it
+    }#templates
 }#describe_File_Checks

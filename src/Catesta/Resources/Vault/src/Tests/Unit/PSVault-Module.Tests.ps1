@@ -12,13 +12,13 @@ Describe 'Module Tests' -Tag Unit {
             { $script:manifestEval = Test-ModuleManifest -Path $PathToManifest } | Should Not throw
             $? | Should Be $true
         }#manifestTest
-        It 'root module <%=$PLASTER_PARAM_ModuleName%>.psm1 should exist' {
-            $PathToModule | Should Exist
+        It 'root module <%=$PLASTER_PARAM_ModuleName%>.psm1 should not exist' {
+            $PathToModule | Should -Not -Exist
             $? | Should Be $true
         }#psm1Exists
-        It 'manifest should contain <%=$PLASTER_PARAM_ModuleName%>.psm1' {
+        It 'manifest should not contain <%=$PLASTER_PARAM_ModuleName%>.psm1' {
             $PathToManifest |
-            Should -FileContentMatchExactly "<%=$PLASTER_PARAM_ModuleName%>.psm1"
+            Should -Not -Contain "<%=$PLASTER_PARAM_ModuleName%>.psm1"
         }#validPSM1
         It 'should have a matching module name in the manifest' {
             $script:manifestEval.Name | Should Be $ModuleName
@@ -40,6 +40,9 @@ Describe 'Module Tests' -Tag Unit {
                 $tag | Should Not Match '\s'
             }
         }#tagSpaces
+        It 'should include the SecretManagement tag in its PrivateData section' {
+            $script:manifestEval.Tags | Should -Contain 'SecretManagement'
+        }#SecretManagement
         It 'should have a valid project Uri' {
             $script:manifestEval.ProjectUri | Should -Not -BeNullOrEmpty
         }#uri

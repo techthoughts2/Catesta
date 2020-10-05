@@ -9,6 +9,8 @@ version: 0.2
 phases:
   install:
     commands:
+      - powershell -command 'Install-PackageProvider -Name "NuGet" -Confirm:$false -Force -Verbose'
+      - powershell -command 'Install-Module -Name PowerShellGet -Repository PSGallery -Force'
       - powershell -command '.\configure_aws_credential.ps1'
       - powershell -command '.\install_modules.ps1'
   pre_build:
