@@ -4,7 +4,7 @@
   <metadata>
     <name>AppVeyorVaultExtension</name>
     <id>0cb76f26-5b3b-4c6b-9396-91e2c6427b0f</id>
-    <version>0.10.0</version>
+    <version>0.10.2</version>
     <title>Catesta - SecretManagement extension vault module template for AppVeyor</title>
     <description>Scaffolds a new PowerShell SecretManagement extension vault module projectfor CI/CD workflow using AppVeyor</description>
     <author>Jake Morrison</author>
@@ -78,7 +78,7 @@
     <file source='..\..\Vault\src\PSVault.Settings.ps1' destination='src\${PLASTER_PARAM_ModuleName}.Settings.ps1'/>
     <file source='..\..\Vault\src\PSScriptAnalyzerSettings.psd1' destination='src\PSScriptAnalyzerSettings.psd1'/>
 
-    <file source='..\..\GitHubFiles\.gitignore' destination='.gitignore' />
+    <file source='..\..\GitHubFiles\agitignore' destination='.gitignore' />
     <templateFile condition="$PLASTER_PARAM_Changelog -eq 'CHANGELOG'" source='..\..\GitHubFiles\CHANGELOG.md' destination='.github\CHANGELOG.md' />
     <templateFile condition="$PLASTER_PARAM_License -eq 'MIT'" source='..\..\GitHubFiles\MITLICENSE' destination='LICENSE' />
     <templateFile condition="$PLASTER_PARAM_License -eq 'Apache'" source='..\..\GitHubFiles\APACHELICENSE' destination='LICENSE' />

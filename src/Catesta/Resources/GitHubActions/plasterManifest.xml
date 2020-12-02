@@ -4,7 +4,7 @@
   <metadata>
     <name>GHAManifestPS</name>
     <id>c336d3e8-c2b9-451d-a041-be4b84259ec9</id>
-    <version>0.10.0</version>
+    <version>0.10.2</version>
     <title>Catesta - PowerShell Module Template for GitHub Actions</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using GitHub Actions</description>
     <author>Jake Morrison</author>
@@ -87,7 +87,7 @@
 
     <templateFile source='actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
 
-    <file source='..\GitHubFiles\.gitignore' destination='.gitignore' />
+    <file source='..\GitHubFiles\agitignore' destination='.gitignore' />
     <templateFile condition="$PLASTER_PARAM_Changelog -eq 'CHANGELOG'" source='..\GitHubFiles\CHANGELOG.md' destination='.github\CHANGELOG.md' />
     <templateFile condition="$PLASTER_PARAM_License -eq 'MIT'" source='..\GitHubFiles\MITLICENSE' destination='LICENSE' />
     <templateFile condition="$PLASTER_PARAM_License -eq 'Apache'" source='..\GitHubFiles\APACHELICENSE' destination='LICENSE' />

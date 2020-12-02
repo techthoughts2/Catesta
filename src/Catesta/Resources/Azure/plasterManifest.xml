@@ -4,7 +4,7 @@
   <metadata>
     <name>AzurePManifestPS</name>
     <id>74cef6b1-55b4-4247-9cc8-654d26cc1402</id>
-    <version>0.10.0</version>
+    <version>0.10.2</version>
     <title>Catesta - PowerShell Module Template for Azure Pipelines</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using Azure Pipelines</description>
     <author>Jake Morrison</author>
@@ -87,7 +87,7 @@
 
     <templateFile source='actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
 
-    <file source='..\GitHubFiles\.gitignore' destination='.gitignore' />
+    <file source='..\GitHubFiles\agitignore' destination='.gitignore' />
     <templateFile condition="$PLASTER_PARAM_Changelog -eq 'CHANGELOG'" source='..\GitHubFiles\CHANGELOG.md' destination='.github\CHANGELOG.md' />
     <templateFile condition="$PLASTER_PARAM_License -eq 'MIT'" source='..\GitHubFiles\MITLICENSE' destination='LICENSE' />
     <templateFile condition="$PLASTER_PARAM_License -eq 'Apache'" source='..\GitHubFiles\APACHELICENSE' destination='LICENSE' />

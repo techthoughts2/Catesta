@@ -4,7 +4,7 @@
   <metadata>
     <name>AWSCBManifestPS</name>
     <id>83670531-579c-4a4c-a70a-ddc60eaefa40</id>
-    <version>0.10.0</version>
+    <version>0.10.2</version>
     <title>Catesta - PowerShell Module Template for AWS CodeBuild</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using AWS CodeBuild</description>
     <author>Jake Morrison</author>
@@ -91,7 +91,7 @@
 
     <file source='CloudFormation\S3BucketsForPowerShellDevelopment.yml' destination='CloudFormation\S3BucketsForPowerShellDevelopment.yml'/>
 
-    <file source='..\GitHubFiles\.gitignore' destination='.gitignore' />
+    <file source='..\GitHubFiles\agitignore' destination='.gitignore' />
     <templateFile condition="$PLASTER_PARAM_Changelog -eq 'CHANGELOG'" source='..\GitHubFiles\CHANGELOG.md' destination='.github\CHANGELOG.md' />
     <templateFile condition="$PLASTER_PARAM_License -eq 'MIT'" source='..\GitHubFiles\MITLICENSE' destination='LICENSE' />
     <templateFile condition="$PLASTER_PARAM_License -eq 'Apache'" source='..\GitHubFiles\APACHELICENSE' destination='LICENSE' />

@@ -4,7 +4,7 @@
   <metadata>
     <name>AppVeyorManifestPS</name>
     <id>e7c065d2-f8c5-4bf2-b33e-db50a62abbb4</id>
-    <version>0.10.0</version>
+    <version>0.10.2</version>
     <title>Catesta - PSModule template for AppVeyor</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using AppVeyor</description>
     <author>Jake Morrison</author>
@@ -87,7 +87,7 @@
 
     <templateFile source='actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
 
-    <file source='..\GitHubFiles\.gitignore' destination='.gitignore' />
+    <file source='..\GitHubFiles\agitignore' destination='.gitignore' />
     <templateFile condition="$PLASTER_PARAM_Changelog -eq 'CHANGELOG'" source='..\GitHubFiles\CHANGELOG.md' destination='.github\CHANGELOG.md' />
     <templateFile condition="$PLASTER_PARAM_License -eq 'MIT'" source='..\GitHubFiles\MITLICENSE' destination='LICENSE' />
     <templateFile condition="$PLASTER_PARAM_License -eq 'Apache'" source='..\GitHubFiles\APACHELICENSE' destination='LICENSE' />

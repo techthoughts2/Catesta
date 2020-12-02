@@ -12,7 +12,7 @@
     RootModule        = 'Catesta.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.10.0'
+    ModuleVersion     = '0.10.2'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
