@@ -60,10 +60,13 @@ Because of the nested nature of the vault extension, and how user facing functio
 * [SecretManagement Module Preview Design Changes](https://devblogs.microsoft.com/powershell/secretmanagement-module-preview-design-changes/)
 * [Secrets Management Module Vault Extensions](https://devblogs.microsoft.com/powershell/secrets-management-module-vault-extensions/)
 * [https://devblogs.microsoft.com/powershell/secretmanagement-preview-3/](https://devblogs.microsoft.com/powershell/secretmanagement-preview-3/)
+* [SecretManagement and SecretStore Updates](https://devblogs.microsoft.com/powershell/secretmanagement-and-secretstore-updates-2/)
 
 ## Vault Extension Examples
 
 * [Azure Vault](https://github.com/PowerShell/SecretManagement/blob/master/ExtensionModules/AKVaultScript/AKVaultScript.Extension/AKVaultScript.Extension.psm1)
+* [SecretStore](https://github.com/PowerShell/SecretStore)
 * [SecretManagement.LastPass](https://github.com/TylerLeonhardt/SecretManagement.LastPass)
 * [SecretManagement.KeePass](https://github.com/JustinGrote/SecretManagement.KeePass)
 * [KeybaseSecretManagementExtension](https://github.com/tiksn/KeybaseSecretManagementExtension)
+* [SecretManagement.KeyChain](https://github.com/SteveL-MSFT/SecretManagement.KeyChain)

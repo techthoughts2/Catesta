@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.2]
+
+- Adjusted addition of .gitignore file to be indirectly referenced due to PSGallery behavior of not including the .gitignore in the resource files
+
+## [0.10.1]
+
+- No change, redeployment due to missing .gitignore file in PowerShell gallery 0.10.2 version.
+
 ## [0.10.0]
 
 - New features:

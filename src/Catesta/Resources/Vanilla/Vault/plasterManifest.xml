@@ -4,7 +4,7 @@
   <metadata>
     <name>BasicVaultExtension</name>
     <id>02346b16-467d-4936-be14-939dfdd94495</id>
-    <version>0.10.0</version>
+    <version>0.10.2</version>
     <title>Catesta - SecretManagement extension vault module template</title>
     <description>Scaffolds a new PowerShell SecretManagement extension vault module project</description>
     <author>Jake Morrison</author>
@@ -72,7 +72,7 @@
     <file source='..\..\Vault\src\PSVault.Settings.ps1' destination='src\${PLASTER_PARAM_ModuleName}.Settings.ps1'/>
     <file source='..\..\Vault\src\PSScriptAnalyzerSettings.psd1' destination='src\PSScriptAnalyzerSettings.psd1'/>
 
-    <file source='..\..\GitHubFiles\.gitignore' destination='.gitignore' />
+    <file source='..\..\GitHubFiles\agitignore' destination='.gitignore' />
     <templateFile condition="$PLASTER_PARAM_Changelog -eq 'CHANGELOG'" source='..\..\GitHubFiles\CHANGELOG.md' destination='.github\CHANGELOG.md' />
     <templateFile condition="$PLASTER_PARAM_License -eq 'MIT'" source='..\..\GitHubFiles\MITLICENSE' destination='LICENSE' />
     <templateFile condition="$PLASTER_PARAM_License -eq 'Apache'" source='..\..\GitHubFiles\APACHELICENSE' destination='LICENSE' />
