@@ -62,6 +62,7 @@ The structure and layout of a SecretManagement Vault extension module differs qu
 
 ## Additional Reading
 
+* [PowerShell SecretManagement Module Design](https://github.com/PowerShell/SecretManagement/blob/master/Docs/DesignDoc.md)
 * [PowerShell Secrets Management – Part 1: Introduction](https://www.powershell.co.at/powershell-secrets-management-part-1-introduction/)
 * [PowerShell Secrets Management – Part 2: Installation and first steps](https://www.powershell.co.at/powershell-secrets-management-part-2-installation-and-first-steps/)
 * [SecretManagement and SecretStore Release Candidate 2](https://devblogs.microsoft.com/powershell/secretmanagement-and-secretstore-release-candidate-2/)

@@ -1,7 +1,7 @@
 #-------------------------------------------------------------------------
 Set-Location -Path $PSScriptRoot
 #-------------------------------------------------------------------------
-$ModuleName = '<%=$PLASTER_PARAM_ModuleName%>'
+$ModuleName = 'SecretManagement.<%=$PLASTER_PARAM_ModuleName%>'
 $PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
 $PathToModule = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psm1")
 #-------------------------------------------------------------------------
@@ -12,13 +12,13 @@ Describe 'Module Tests' -Tag Unit {
             { $script:manifestEval = Test-ModuleManifest -Path $PathToManifest } | Should Not throw
             $? | Should Be $true
         }#manifestTest
-        It 'root module <%=$PLASTER_PARAM_ModuleName%>.psm1 should not exist' {
+        It 'root module SecretManagement.<%=$PLASTER_PARAM_ModuleName%>.psm1 should not exist' {
             $PathToModule | Should -Not -Exist
             $? | Should Be $true
         }#psm1Exists
-        It 'manifest should not contain <%=$PLASTER_PARAM_ModuleName%>.psm1' {
+        It 'manifest should not contain SecretManagement.<%=$PLASTER_PARAM_ModuleName%>.psm1' {
             $PathToManifest |
-            Should -Not -Contain "<%=$PLASTER_PARAM_ModuleName%>.psm1"
+            Should -Not -Contain "SecretManagement.<%=$PLASTER_PARAM_ModuleName%>.psm1"
         }#validPSM1
         It 'should have a matching module name in the manifest' {
             $script:manifestEval.Name | Should Be $ModuleName

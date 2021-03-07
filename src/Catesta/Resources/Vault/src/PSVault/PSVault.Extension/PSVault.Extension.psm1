@@ -31,12 +31,27 @@ function Set-Secret {
         [string] $Name,
         [object] $Secret,
         [string] $VaultName,
-        [hashtable] $AdditionalParameters
+        [hashtable] $AdditionalParameters,
+        [hashtable] $Metadata  # Optional metadata parameter
     )
 
     # return [TestStore]::SetItem($Name, $Secret)
     return $false
 }
+
+# Optional function
+# function Set-SecretInfo
+# {
+#     [CmdletBinding()]
+#     param (
+#         [string] $Name,
+#         [hashtable] $Metadata,
+#         [string] $VaultName,
+#         [hashtable] $Metadata
+#     )
+
+#     #[TestStore]::SetItemMetadata($Name, $Metadata)
+# }
 
 function Remove-Secret {
     [CmdletBinding()]
@@ -60,3 +75,15 @@ function Test-SecretVault {
     # return [TestStore]::TestVault()
     return $true
 }
+
+# Optional function
+# function Unregister-SecretVault
+# {
+#     [CmdletBinding()]
+#     param (
+#         [string] $VaultName,
+#         [hashtable] $AdditionalParameters
+#     )
+
+#     [TestStore]::RunUnregisterCleanup()
+# }

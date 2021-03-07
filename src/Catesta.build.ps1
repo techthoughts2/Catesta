@@ -432,6 +432,7 @@ Add-BuildTask AssetCopy -Before Build {
     Copy-Item -Path "$script:ModuleSourcePath\Resources\Module\src\PSScriptAnalyzerSettings.psd1" -Destination "$script:ArtifactsPath\Resources\Module\src\PSScriptAnalyzerSettings.psd1" -ErrorAction Stop
     Copy-Item -Path "$script:ModuleSourcePath\Resources\Module\src\Module\Module.psm1" -Destination "$script:ArtifactsPath\Resources\Module\src\Module\Module.psm1" -ErrorAction Stop
     # Copy-Item -Path "$script:ModuleSourcePath\Resources\Vault\src\PSVault\PSVault.psd1" -Destination "$script:ArtifactsPath\Resources\Vault\src\PSVault\PSVault.psd1" -ErrorAction Stop
+    Copy-Item -Path "$script:ModuleSourcePath\Resources\Vault\src\PSVault\PSVault.psm1" -Destination "$script:ArtifactsPath\Resources\Vault\src\PSVault\PSVault.psm1" -ErrorAction Stop
     Copy-Item -Path "$script:ModuleSourcePath\Resources\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psd1" -Destination "$script:ArtifactsPath\Resources\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psd1" -ErrorAction Stop
     Copy-Item -Path "$script:ModuleSourcePath\Resources\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psm1" -Destination "$script:ArtifactsPath\Resources\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psm1" -ErrorAction Stop
     Copy-Item -Path "$script:ModuleSourcePath\Resources\Vault\src\PSScriptAnalyzerSettings.psd1" -Destination "$script:ArtifactsPath\Resources\Vault\src\PSScriptAnalyzerSettings.psd1" -ErrorAction Stop

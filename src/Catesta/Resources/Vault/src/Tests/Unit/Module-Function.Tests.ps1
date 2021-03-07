@@ -1,8 +1,8 @@
 #-------------------------------------------------------------------------
 Set-Location -Path $PSScriptRoot
 #-------------------------------------------------------------------------
-$ModuleName = '<%=$PLASTER_PARAM_ModuleName%>'
-$vaultName = '<%=$PLASTER_PARAM_ModuleName%>'
+$ModuleName = 'SecretManagement.<%=$PLASTER_PARAM_ModuleName%>'
+$vaultName = 'SecretManagement.<%=$PLASTER_PARAM_ModuleName%>'
 $PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
 #-------------------------------------------------------------------------
 if (Get-Module -Name $ModuleName -ErrorAction 'SilentlyContinue') {
@@ -14,7 +14,7 @@ Import-Module $PathToManifest -Force
 $WarningPreference = "SilentlyContinue"
 #-------------------------------------------------------------------------
 
-Describe '<%=$PLASTER_PARAM_ModuleName%> Vault Extension Tests' -Tag Unit {
+Describe 'SecretManagement.<%=$PLASTER_PARAM_ModuleName%> Vault Extension Tests' -Tag Unit {
     BeforeAll {
         Import-Module -Name Microsoft.PowerShell.SecretManagement
         Get-SecretVault $vaultName | Unregister-SecretVault
