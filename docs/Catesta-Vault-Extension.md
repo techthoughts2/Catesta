@@ -52,21 +52,34 @@ The structure and layout of a SecretManagement Vault extension module differs qu
 ./TestVault/TestVault.Extension/TestVault.Extension.psm1
 ```
 
-Because of the nested nature of the vault extension, and how user facing functions are surfaced up, Catesta does not support automated help generation via platyPS for Vault extension projects.
+*NOTE: Because of the nested nature of the vault extension, and how user facing functions are surfaced up, Catesta does not support automated help generation via platyPS for Vault extension projects.*
+
+## PowerShell SecretManagement Diagram
+
+<p align="center">
+    <img src="../media/powershell_secretmanagement_diagram.png" alt="PowerShell SecretManagement Diagram" >
+</p>
 
 ## Additional Reading
 
-* [PowerShell SecretManagement module GitHub](https://github.com/PowerShell/SecretManagement)
-* [SecretManagement Module Preview Design Changes](https://devblogs.microsoft.com/powershell/secretmanagement-module-preview-design-changes/)
+* [PowerShell Secrets Management – Part 1: Introduction](https://www.powershell.co.at/powershell-secrets-management-part-1-introduction/)
+* [PowerShell Secrets Management – Part 2: Installation and first steps](https://www.powershell.co.at/powershell-secrets-management-part-2-installation-and-first-steps/)
+* [SecretManagement and SecretStore Release Candidate 2](https://devblogs.microsoft.com/powershell/secretmanagement-and-secretstore-release-candidate-2/)
+  * [SecretManagement Module Preview Design Changes](https://devblogs.microsoft.com/powershell/secretmanagement-module-preview-design-changes/)
+  * [SecretManagement and SecretStore Updates](https://devblogs.microsoft.com/powershell/secretmanagement-and-secretstore-updates-2/)
 * [Secrets Management Module Vault Extensions](https://devblogs.microsoft.com/powershell/secrets-management-module-vault-extensions/)
-* [https://devblogs.microsoft.com/powershell/secretmanagement-preview-3/](https://devblogs.microsoft.com/powershell/secretmanagement-preview-3/)
-* [SecretManagement and SecretStore Updates](https://devblogs.microsoft.com/powershell/secretmanagement-and-secretstore-updates-2/)
+
+## SecretManagement and SecretStore Repos
+
+* [SecretManagement](https://github.com/PowerShell/SecretManagement)
+* [SecretStore](https://github.com/PowerShell/SecretStore)
+* [Azure Vault](https://github.com/PowerShell/SecretManagement/blob/master/ExtensionModules/AKVaultScript/AKVaultScript.Extension/AKVaultScript.Extension.psm1)
 
 ## Vault Extension Examples
 
-* [Azure Vault](https://github.com/PowerShell/SecretManagement/blob/master/ExtensionModules/AKVaultScript/AKVaultScript.Extension/AKVaultScript.Extension.psm1)
-* [SecretStore](https://github.com/PowerShell/SecretStore)
-* [SecretManagement.LastPass](https://github.com/TylerLeonhardt/SecretManagement.LastPass)
 * [SecretManagement.KeePass](https://github.com/JustinGrote/SecretManagement.KeePass)
-* [KeybaseSecretManagementExtension](https://github.com/tiksn/KeybaseSecretManagementExtension)
+* [SecretManagement.LastPass](https://github.com/TylerLeonhardt/SecretManagement.LastPass)
+* [SecretManagement.Hashicorp.Vault.KV](https://github.com/joshcorr/SecretManagement.Hashicorp.Vault.KV)
 * [SecretManagement.KeyChain](https://github.com/SteveL-MSFT/SecretManagement.KeyChain)
+* [KeybaseSecretManagementExtension](https://github.com/tiksn/KeybaseSecretManagementExtension)
+* [SecretManagement.Chromium](https://github.com/JustinGrote/SecretManagement.Chromium)
