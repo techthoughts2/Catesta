@@ -15,7 +15,7 @@ Scaffolds a [PowerShell SecretManagement vault module project](https://github.co
 
 1. Create your vault extension project using Catesta
 
-* *NOTE 1: As a community best practice SecretManagement projects have SecretManagement.VaultName added to a project name. Catesta will automatically accomplish this for you. Just select a name for your vault project and let Catesta do the rest*
+* *NOTE: As a community best practice SecretManagement projects have SecretManagement.VaultName added to a project name. Catesta will automatically accomplish this for you. Just select a name for your vault project and let Catesta do the rest*
 
     ```powershell
     New-VaultProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOnly
@@ -46,12 +46,13 @@ Scaffolds a [PowerShell SecretManagement vault module project](https://github.co
 The structure and layout of a SecretManagement Vault extension module differs quite a bit from a standard PowerShell module:
 
 ```powershell
-./TestVault
-./TestVault/TestVault.psd1
-./TestVault/TestStoreImplementation.dll
-./TestVault/TestVault.Extension
-./TestVault/TestVault.Extension/TestVault.Extension.psd1
-./TestVault/TestVault.Extension/TestVault.Extension.psm1
+./SecretManagement.TestVault
+./SecretManagement.TestVault/SecretManagement.TestVault.psd1
+./SecretManagement.TestVault/SecretManagement.TestVault.psm1
+./SecretManagement.TestVault/TestStoreImplementation.dll
+./SecretManagement.TestVault/SecretManagement.TestVault.Extension
+./SecretManagement.TestVault/SecretManagement.TestVault.Extension/SecretManagement.TestVault.Extension.psd1
+./SecretManagement.TestVault/SecretManagement.TestVault.Extension/SecretManagement.TestVault.Extension.psm1
 ```
 
 *NOTE: Because of the nested nature of the vault extension, and how user facing functions are surfaced up, Catesta does not support automated help generation via platyPS for Vault extension projects.*

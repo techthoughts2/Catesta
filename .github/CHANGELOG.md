@@ -7,14 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.11.0]
 
-- Vault module creation now adds SecretManagement prefix to all vault project names.
-  - *Ex: MyVault is automatically changed to SecretManagement.MyVault* This is to align with community best practices when naming vault extensions.
-  - *NOTE: You should continue to name your vault project normally, and not include SecretManagement. It will be automatically added for you.*
 - Adjusted vault templates to include the new capabilities in SecretManagement RC2
   - New optional cmdlets
   - New metadata parameter on several cmdlets
 - Added new optional vault parent .psm1 example file
-- Catesta now references the GA version of Microsoft.PowerShell.SecretManagement
+- Catesta now references the GA version of ```Microsoft.PowerShell.SecretManagement```
+- Added best practice naming suggestion to ```New-VaultProject```
 
 ## [0.10.2]
 

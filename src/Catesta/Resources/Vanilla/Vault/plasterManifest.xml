@@ -12,7 +12,7 @@
   </metadata>
   <parameters>
     <parameter name='VAULT' type='text' prompt='VAULT'/>
-    <parameter name='ModuleName' type='text' prompt='Enter the name of the extension vault module. (Do not include SecretManagement in the module name. - this will be added for you.)'/>
+    <parameter name='ModuleName' type='text' prompt='Enter the name of the extension vault module. (It is a community best practice that vault project names start with: SecretManagement. Example: SecretManagement.MyVault)'/>
     <parameter name='Description' type='text' prompt='Enter a description for the extension vault module'/>
     <parameter name='Version' type='text' prompt='Enter the version number of the extension vault module' default='0.0.1'/>
     <parameter name='FN' type='user-fullname' store='text' prompt='Enter your full name'/>
@@ -56,23 +56,23 @@
     <file source='' destination='src\Tests'/>
     <file source='' destination='src\Tests\Infrastructure'/>
     <file source='' destination='src\Tests\Unit'/>
-    <file source='' destination='src\SecretManagement.${PLASTER_PARAM_ModuleName}'/>
+    <file source='' destination='src\${PLASTER_PARAM_ModuleName}'/>
     <templateFile source='..\..\editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
     <file source='..\..\editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
     <templateFile source='..\..\editor\VSCode\settings.json' destination='.vscode\settings.json' />
 
-    <templateFile source='..\..\Vault\src\Tests\Unit\PSVault-Module.Tests.ps1' destination='src\Tests\Unit\SecretManagement.${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
+    <templateFile source='..\..\Vault\src\Tests\Unit\PSVault-Module.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
     <templateFile source='..\..\Vault\src\Tests\Unit\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />
-    <templateFile source='..\..\Vault\src\Tests\Unit\Module-Function.Tests.ps1' destination='src\Tests\Unit\SecretManagement.${PLASTER_PARAM_ModuleName}-Function.Tests.ps1' />
+    <templateFile source='..\..\Vault\src\Tests\Unit\Module-Function.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Function.Tests.ps1' />
 
-    <templateFile source='..\..\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psd1' destination='src\SecretManagement.${PLASTER_PARAM_ModuleName}\SecretManagement.${PLASTER_PARAM_ModuleName}.Extension\SecretManagement.${PLASTER_PARAM_ModuleName}.Extension.psd1' />
-    <file source='..\..\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psm1' destination='src\SecretManagement.${PLASTER_PARAM_ModuleName}\SecretManagement.${PLASTER_PARAM_ModuleName}.Extension\SecretManagement.${PLASTER_PARAM_ModuleName}.Extension.psm1' />
+    <templateFile source='..\..\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psd1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.Extension\${PLASTER_PARAM_ModuleName}.Extension.psd1' />
+    <file source='..\..\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psm1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.Extension\${PLASTER_PARAM_ModuleName}.Extension.psm1' />
 
-    <templateFile source='..\..\Vault\src\PSVault.build.ps1' destination='src\SecretManagement.${PLASTER_PARAM_ModuleName}.build.ps1'/>
-    <file source='..\..\Vault\src\PSVault.Settings.ps1' destination='src\SecretManagement.${PLASTER_PARAM_ModuleName}.Settings.ps1'/>
+    <templateFile source='..\..\Vault\src\PSVault.build.ps1' destination='src\${PLASTER_PARAM_ModuleName}.build.ps1'/>
+    <file source='..\..\Vault\src\PSVault.Settings.ps1' destination='src\${PLASTER_PARAM_ModuleName}.Settings.ps1'/>
     <file source='..\..\Vault\src\PSScriptAnalyzerSettings.psd1' destination='src\PSScriptAnalyzerSettings.psd1'/>
 
-    <templateFile source='..\..\Vault\src\PSVault\PSVault.psm1' destination='src\SecretManagement.${PLASTER_PARAM_ModuleName}\SecretManagement.${PLASTER_PARAM_ModuleName}.psm1'/>
+    <templateFile source='..\..\Vault\src\PSVault\PSVault.psm1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psm1'/>
 
     <file source='..\..\GitHubFiles\agitignore' destination='.gitignore' />
     <templateFile condition="$PLASTER_PARAM_Changelog -eq 'CHANGELOG'" source='..\..\GitHubFiles\CHANGELOG.md' destination='.github\CHANGELOG.md' />
@@ -86,7 +86,7 @@
     <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\..\GitHubFiles\ISSUE_TEMPLATE\bug-report.md' destination='.github\ISSUE_TEMPLATE\bug-report.md'/>
     <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\..\GitHubFiles\ISSUE_TEMPLATE\feature_request.md' destination='.github\ISSUE_TEMPLATE\feature_request.md'/>
 
-    <newModuleManifest destination='src\SecretManagement.${PLASTER_PARAM_ModuleName}\SecretManagement.${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_Version' encoding='UTF8-NoBOM' openInEditor="true" author='$PLASTER_PARAM_FN' description='$PLASTER_PARAM_description' nestedModules='./SecretManagement.${PLASTER_PARAM_ModuleName}.Extension' />
+    <newModuleManifest destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_Version' encoding='UTF8-NoBOM' openInEditor="true" author='$PLASTER_PARAM_FN' description='$PLASTER_PARAM_description' nestedModules='./${PLASTER_PARAM_ModuleName}.Extension' />
 
     <requireModule name="Pester" minimumVersion="4.7.2" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 4.5.0, VS Code will not display Pester warnings and errors in the Problems panel."/>
     <requireModule name="InvokeBuild" minimumVersion="5.6.1" message="Without InvokeBuild, you will not be able to run local builds."/>
