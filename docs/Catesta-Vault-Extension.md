@@ -15,22 +15,24 @@ Scaffolds a [PowerShell SecretManagement vault module project](https://github.co
 
 1. Create your vault extension project using Catesta
 
+* *NOTE 1: As a community best practice SecretManagement projects have SecretManagement.VaultName added to a project name. Catesta will automatically accomplish this for you. Just select a name for your vault project and let Catesta do the rest*
+
     ```powershell
     New-VaultProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOnly
     ```
 
     1. The Plaster logo will be displayed and you will see your first prompt
-    1. **Enter the name of the module:** *Name of your module*
-    1. **Enter a description for the module:** *Description of what your module does*
-    1. **Enter the version number of the module (0.0.1)**: *Starting version #*
-    1. **Enter your full name**: *Module author name*
-    1. **Would you like to generate a Changelog file?**
-    1. **Would you like to generate helpful repository files?** *GitHub issue/pullrequest/feature files*
-    1. **Select a License for your module. (Help deciding: [https://choosealicense.com/](https://choosealicense.com/))**
-    1. **Would you like to generate a Code of Conduct file?**
-    1. **Would you like to generate a Contributing guidelines file?**
-    1. **Would you like to specify a coding style for the project? [S] Stroustrup  [O] OTBS  [A] Allman  [N] None  [?] Help (default is "S"):** *The preferred coding style for the project*
-1. Write a kick-ass vault extension module (the hardest part)
+    2. **Enter the name of the module:** *Name of your module*
+    3. **Enter a description for the module:** *Description of what your module does*
+    4. **Enter the version number of the module (0.0.1)**: *Starting version #*
+    5. **Enter your full name**: *Module author name*
+    6. **Would you like to generate a Changelog file?**
+    7. **Would you like to generate helpful repository files?** *GitHub issue/pullrequest/feature files*
+    8. **Select a License for your module. (Help deciding: [https://choosealicense.com/](https://choosealicense.com/))**
+    9. **Would you like to generate a Code of Conduct file?**
+    10. **Would you like to generate a Contributing guidelines file?**
+    11. **Would you like to specify a coding style for the project? [S] Stroustrup  [O] OTBS  [A] Allman  [N] None  [?] Help (default is "S"):** *The preferred coding style for the project*
+2. Write a kick-ass vault extension module (the hardest part)
     * All build testing can be done locally by navigating to src and running ```Invoke-Build```
     * If using VSCode as your primary editor you can use tasks to perform various local actions
       * Examples:
@@ -62,6 +64,7 @@ The structure and layout of a SecretManagement Vault extension module differs qu
 
 ## Additional Reading
 
+* [SecretManagement and SecretStore are Generally Available](https://devblogs.microsoft.com/powershell/secretmanagement-and-secretstore-are-generally-available/)
 * [PowerShell SecretManagement Module Design](https://github.com/PowerShell/SecretManagement/blob/master/Docs/DesignDoc.md)
 * [PowerShell Secrets Management – Part 1: Introduction](https://www.powershell.co.at/powershell-secrets-management-part-1-introduction/)
 * [PowerShell Secrets Management – Part 2: Installation and first steps](https://www.powershell.co.at/powershell-secrets-management-part-2-installation-and-first-steps/)
@@ -78,9 +81,12 @@ The structure and layout of a SecretManagement Vault extension module differs qu
 
 ## Vault Extension Examples
 
-* [SecretManagement.KeePass](https://github.com/JustinGrote/SecretManagement.KeePass)
-* [SecretManagement.LastPass](https://github.com/TylerLeonhardt/SecretManagement.LastPass)
-* [SecretManagement.Hashicorp.Vault.KV](https://github.com/joshcorr/SecretManagement.Hashicorp.Vault.KV)
-* [SecretManagement.KeyChain](https://github.com/SteveL-MSFT/SecretManagement.KeyChain)
-* [KeybaseSecretManagementExtension](https://github.com/tiksn/KeybaseSecretManagementExtension)
+* [SecretManagement.1Password](https://github.com/cdhunt/SecretManagement.1Password)
+* [SecretManagement.BitWarden](https://github.com/Gaspack/SecretManagement.BitWarden)
 * [SecretManagement.Chromium](https://github.com/JustinGrote/SecretManagement.Chromium)
+* [SecretManagement.CyberArk](https://github.com/aaearon/SecretManagement.CyberArk)
+* [SecretManagement.Hashicorp.Vault.KV](https://github.com/joshcorr/SecretManagement.Hashicorp.Vault.KV)
+* [SecretManagement.KeePass](https://github.com/JustinGrote/SecretManagement.KeePass)
+* [KeybaseSecretManagementExtension](https://github.com/tiksn/KeybaseSecretManagementExtension)
+* [SecretManagement.KeyChain](https://github.com/SteveL-MSFT/SecretManagement.KeyChain)
+* [SecretManagement.LastPass](https://github.com/TylerLeonhardt/SecretManagement.LastPass)
