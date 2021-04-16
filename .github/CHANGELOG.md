@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - New optional cmdlets
   - New metadata parameter on several cmdlets
 - Added new optional vault parent .psm1 example file
+- Catesta now references the GA version of Microsoft.PowerShell.SecretManagement
 
 ## [0.10.2]
 
