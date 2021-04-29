@@ -19,7 +19,7 @@
 
   </parameters>
   <content>
-    <message>&#10;&#10;Scaffolding your PowerShell Module for GitHub Actions...&#10;&#10;&#10;</message>
+    <message>&#10;&#10;Scaffolding your PowerShell Module...&#10;&#10;&#10;</message>
     <file source='' destination='docs'/>
     <file source='' destination='media'/>
     <file source='' destination='src'/>

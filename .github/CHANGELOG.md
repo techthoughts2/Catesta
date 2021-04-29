@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added new optional vault parent .psm1 example file
 - Catesta now references the GA version of ```Microsoft.PowerShell.SecretManagement```
 - Added best practice naming suggestion to ```New-VaultProject```
+- Corrected verbiage on several commands to properly reflect which module project was being scaffold
 
 ## [0.10.2]
 
