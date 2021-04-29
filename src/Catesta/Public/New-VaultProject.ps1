@@ -87,7 +87,6 @@ function New-VaultProject {
         }
 
         Write-Verbose -Message ('[{0}] Confirm={1} ConfirmPreference={2} WhatIf={3} WhatIfPreference={4}' -f $MyInvocation.MyCommand, $Confirm, $ConfirmPreference, $WhatIf, $WhatIfPreference)
-
     }#begin
     Process {
         # -Confirm --> $ConfirmPreference = 'Low'

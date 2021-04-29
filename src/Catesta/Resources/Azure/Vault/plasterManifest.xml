@@ -4,7 +4,7 @@
   <metadata>
     <name>AzureVaultExtension</name>
     <id>a2ccc3ba-a95f-4e17-9c95-8fa2f455e5bc</id>
-    <version>0.10.2</version>
+    <version>0.11.0</version>
     <title>Catesta - SecretManagement extension vault module template for Azure Pipelines</title>
     <description>Scaffolds a new PowerShell SecretManagement extension vault module projectfor CI/CD workflow using Azure Pipelines</description>
     <author>Jake Morrison</author>
@@ -12,7 +12,7 @@
   </metadata>
   <parameters>
     <parameter name='VAULT' type='text' prompt='VAULT'/>
-    <parameter name='ModuleName' type='text' prompt='Enter the name of the extension vault module'/>
+    <parameter name='ModuleName' type='text' prompt='Enter the name of the extension vault module. (It is a community best practice that vault project names start with: SecretManagement. Example: SecretManagement.MyVault)'/>
     <parameter name='Description' type='text' prompt='Enter a description for the extension vault module'/>
     <parameter name='Version' type='text' prompt='Enter the version number of the extension vault module' default='0.0.1'/>
     <parameter name='FN' type='user-fullname' store='text' prompt='Enter your full name'/>
@@ -78,6 +78,8 @@
     <file source='..\..\Vault\src\PSVault.Settings.ps1' destination='src\${PLASTER_PARAM_ModuleName}.Settings.ps1'/>
     <file source='..\..\Vault\src\PSScriptAnalyzerSettings.psd1' destination='src\PSScriptAnalyzerSettings.psd1'/>
 
+    <templateFile source='..\..\Vault\src\PSVault\PSVault.psm1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psm1'/>
+
     <file source='..\..\GitHubFiles\agitignore' destination='.gitignore' />
     <templateFile condition="$PLASTER_PARAM_Changelog -eq 'CHANGELOG'" source='..\..\GitHubFiles\CHANGELOG.md' destination='.github\CHANGELOG.md' />
     <templateFile condition="$PLASTER_PARAM_License -eq 'MIT'" source='..\..\GitHubFiles\MITLICENSE' destination='LICENSE' />
@@ -96,9 +98,9 @@
     <newModuleManifest destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_Version' encoding='UTF8-NoBOM' openInEditor="true" author='$PLASTER_PARAM_FN' description='$PLASTER_PARAM_description' nestedModules='./${PLASTER_PARAM_ModuleName}.Extension' />
 
     <requireModule name="Pester" minimumVersion="4.7.2" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 4.5.0, VS Code will not display Pester warnings and errors in the Problems panel."/>
-    <requireModule name="InvokeBuild" minimumVersion="5.4.2" message="Without InvokeBuild, you will not be able to run local builds."/>
+    <requireModule name="InvokeBuild" minimumVersion="5.6.1" message="Without InvokeBuild, you will not be able to run local builds."/>
     <requireModule name="platyPS" requiredVersion ="0.12.0" message="This template requires platyPS v0.12.0 module to properly generate help."/>
-    <requireModule name="Microsoft.PowerShell.SecretManagement" minimumVersion ="0.5.3" message="Without the PowerShell SecretManagement you will not be able to properly test your extension."/>
+    <requireModule name="Microsoft.PowerShell.SecretManagement" minimumVersion ="1.0.0" message="Without the PowerShell SecretManagement you will not be able to properly test your extension."/>
 
     <message>
 

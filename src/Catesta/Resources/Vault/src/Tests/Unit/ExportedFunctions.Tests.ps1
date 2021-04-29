@@ -1,7 +1,7 @@
 #-------------------------------------------------------------------------
 Set-Location -Path $PSScriptRoot
 #-------------------------------------------------------------------------
-$ModuleName = '<%=$PLASTER_PARAM_ModuleName%>'
+$ModuleName = 'SecretManagement.<%=$PLASTER_PARAM_ModuleName%>'
 $PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
 #-------------------------------------------------------------------------
 if (Get-Module -Name $ModuleName -ErrorAction 'SilentlyContinue') {

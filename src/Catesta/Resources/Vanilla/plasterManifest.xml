@@ -4,7 +4,7 @@
   <metadata>
     <name>BasicManifestPS</name>
     <id>c95c4daa-7715-4429-839e-158412655abb</id>
-    <version>0.10.2</version>
+    <version>0.11.0</version>
     <title>Catesta - Basic PSModule template</title>
     <description>Scaffolds a new PowerShell module project</description>
     <author>Jake Morrison</author>
@@ -19,7 +19,7 @@
 
   </parameters>
   <content>
-    <message>&#10;&#10;Scaffolding your PowerShell Module for GitHub Actions...&#10;&#10;&#10;</message>
+    <message>&#10;&#10;Scaffolding your PowerShell Module...&#10;&#10;&#10;</message>
     <file source='' destination='docs'/>
     <file source='' destination='media'/>
     <file source='' destination='src'/>
@@ -49,7 +49,7 @@
     <file source='..\Module\src\Module\Module.psm1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psm1' openInEditor="true"/>
 
     <requireModule name="Pester" minimumVersion="4.7.2" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 4.5.0, VS Code will not display Pester warnings and errors in the Problems panel."/>
-    <requireModule name="InvokeBuild" minimumVersion="5.4.2" message="Without InvokeBuild, you will not be able to run local builds."/>
+    <requireModule name="InvokeBuild" minimumVersion="5.6.1" message="Without InvokeBuild, you will not be able to run local builds."/>
     <requireModule name="platyPS" requiredVersion ="0.12.0" message="This template requires platyPS v0.12.0 module to properly generate help."/>
 
     <message>

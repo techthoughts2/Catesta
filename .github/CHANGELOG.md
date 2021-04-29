@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.11.0]
+
+- Adjusted vault templates to include the new capabilities in SecretManagement RC2
+  - New optional cmdlets
+  - New metadata parameter on several cmdlets
+- Added new optional vault parent .psm1 example file
+- Catesta now references the GA version of ```Microsoft.PowerShell.SecretManagement```
+- Added best practice naming suggestion to ```New-VaultProject```
+- Corrected verbiage on several commands to properly reflect which module project was being scaffold
+- Fixed bug where module would fail to scaffold on Linux systems due to case sensitivity of path
+
 ## [0.10.2]
 
 - Adjusted addition of .gitignore file to be indirectly referenced due to PSGallery behavior of not including the .gitignore in the resource files

@@ -35,7 +35,7 @@ If ($PLASTER_PARAM_VAULT -eq 'VAULT') {
     @'
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'Microsoft.PowerShell.SecretManagement'
-            ModuleVersion = '0.5.3-preview4'
+            ModuleVersion = '1.0.0'
         }))
 '@
 }
@@ -52,23 +52,7 @@ foreach ($module in $modulesToInstall) {
         ErrorAction        = 'Stop'
     }
     try {
-<%
-If ($PLASTER_PARAM_VAULT -eq 'VAULT') {
-    @'
-        if ($module.ModuleName -eq 'Microsoft.PowerShell.SecretManagement') {
-            Install-Module @installSplat -AllowPrerelease
-        }
-        else {
-            Install-Module @installSplat
-        }
-'@
-}
-else {
-    @'
         Install-Module @installSplat
-'@
-}
-%>
         Import-Module -Name $module.ModuleName -ErrorAction Stop
         '  - Successfully installed {0}' -f $module.ModuleName
     }

@@ -2,7 +2,7 @@
 
 [![Minimum Supported PowerShell Version](https://img.shields.io/badge/PowerShell-5.1+-purple.svg)](https://github.com/PowerShell/PowerShell) [![PowerShell Gallery][psgallery-img]][psgallery-site] ![Cross Platform](https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-lightgrey) [![License][license-badge]](LICENSE)
 
-[psgallery-img]:   https://img.shields.io/powershellgallery/dt/Catesta.svg
+[psgallery-img]:   https://img.shields.io/powershellgallery/dt/Catesta?label=Powershell%20Gallery&logo=powershell
 [psgallery-site]:  https://www.powershellgallery.com/packages/Catesta
 [psgallery-v1]:    https://www.powershellgallery.com/packages/Catesta/0.8.1
 [license-badge]:   https://img.shields.io/github/license/techthoughts2/Catesta
