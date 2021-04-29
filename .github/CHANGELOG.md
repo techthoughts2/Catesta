@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Catesta now references the GA version of ```Microsoft.PowerShell.SecretManagement```
 - Added best practice naming suggestion to ```New-VaultProject```
 - Corrected verbiage on several commands to properly reflect which module project was being scaffold
+- Fixed bug where module would fail to scaffold on Linux systems due to case sensitivity of path
 
 ## [0.10.2]
 
