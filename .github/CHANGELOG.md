@@ -103,7 +103,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Added support for publishing test results
     - Added support for Code Coverage report
     - Updated actions_bootstrap.ps1 to install latest module versions
-    - For windows powershell based build added line to remove Pester 5 and Import Pester 4.10.1 specifically.
+    - For windows PowerShell based build added line to remove Pester 5 and Import Pester 4.10.1 specifically.
     - Added support for attaching build artifact of Archived module build
   - GitHub Actions
     - Updated actions_bootstrap.ps1 to install latest module versions
@@ -111,10 +111,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Changed checkout on all workflows from v1 to v2
     - Added pester test results artifact upload to all workflows
     - Renamed windows workflow that was using pwsh to ActionsTest-Windows-pwsh-Build
-    - For windows powershell based build added line to remove Pester 5 and Import Pester 4.10.1 specifically.
+    - For windows PowerShell based build added line to remove Pester 5 and Import Pester 4.10.1 specifically.
   - Appveyor Updates
     - Updated actions_bootstrap.ps1 to install latest module versions
-    - For windows powershell based build added line to remove Pester 5 and Import Pester 4.10.1 specifically.
+    - For windows PowerShell based build added line to remove Pester 5 and Import Pester 4.10.1 specifically.
     - Added support for all appveyor builds to include PesterTest, CodeCoverage, and build artifacts
 - Editor updates
   - Added InvokeBuild tasks to tasks.json
@@ -126,7 +126,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - buildspec_pwsh_windows.yml now uses PowerShell 7 instead of PowerShell 6.3
 - Minor build updates:
   - Updated tasks.json for better integration with InvokeBuild
-1
+
 ## [0.8.10]
 
 - Added link to the online function documentation for New-PowerShellProject as its first link so it will open directly when `Get-Help -Name New-PowerShellProject -Online` is called.
@@ -140,7 +140,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.8.5]
 
-- Corrected bug where AWS CI/CD choice was not correctly populating S3 bucketname for install_modules.ps1
+- Corrected bug where AWS CI/CD choice was not correctly populating S3 bucket name for install_modules.ps1
 - Bumped module references to latest versions
 
 ## [0.8.4]
@@ -153,7 +153,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Moved Infrastructure tests from pre-build to post build
   - Included sample Infrastructure test that references artifacts location for import for post-build import.
-- Corrected spelling error in Tests folder: Infrastrcuture to Infrastructure
+- Corrected spelling error in Tests folder: Infrastructure to Infrastructure
 
 ## [0.8.0]
 
