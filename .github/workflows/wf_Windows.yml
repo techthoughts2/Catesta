@@ -25,7 +25,7 @@ jobs:
       run: ./actions_bootstrap.ps1
     - name: Test and Build
       shell: powershell
-      run: Remove-Module Pester -ErrorAction SilentlyContinue;Import-Module Pester -RequiredVersion 4.10.1;Invoke-Build -File .\src\Catesta.build.ps1
+      run: Remove-Module Pester -ErrorAction SilentlyContinue;Import-Module Pester -RequiredVersion 5.2.2;Invoke-Build -File .\src\Catesta.build.ps1
     - name: Upload pester results
       uses: actions/upload-artifact@v2
       with:
