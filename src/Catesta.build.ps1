@@ -86,6 +86,8 @@ Enter-Build {
     $script:ArchivePath = Join-Path -Path $BuildRoot -ChildPath 'Archive'
 
     $script:BuildModuleRootFile = Join-Path -Path $script:ArtifactsPath -ChildPath "$($script:ModuleName).psm1"
+
+    Import-Module -Name Pester -MaximumVersion 4.99.99
 }#Enter-Build
 
 # Define headers as separator, task path, synopsis, and location, e.g. for Ctrl+Click in VSCode.

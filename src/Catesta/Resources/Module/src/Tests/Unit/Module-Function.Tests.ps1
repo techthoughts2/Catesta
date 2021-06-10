@@ -23,17 +23,17 @@ InModuleScope '<%=$PLASTER_PARAM_ModuleName%>' {
             <#
             It 'should ...' {
 
-            }#it
+            } #it
             #>
-        }#context_FunctionName
-    }#describe_PrivateFunctions
+        } #context_FunctionName
+    } #describe_PrivateFunctions
     Describe '<%=$PLASTER_PARAM_ModuleName%> Public Function Tests' -Tag Unit {
         Context 'FunctionName' {
             <#
                 It 'should ...' {
 
-                }#it
+                } #it
                 #>
-        }#context_FunctionName
-    }#describe_testFunctions
-}#inModule
+        } #context_FunctionName
+    } #describe_testFunctions
+} #inModule

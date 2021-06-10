@@ -153,7 +153,7 @@ Describe 'File Checks' {
         $manifests = Get-ChildItem -Path $resourcePath -Include '*.xml' -Recurse
         $manifestCount = $manifests | Measure-Object | Select-Object -ExpandProperty Count
         It 'should have the correct number of templates' {
-            $manifestCount | should -BeExactly 10
+            $manifestCount | Should -BeExactly 10
         }#it
         $ids = @()
         foreach ($manifest in $manifests) {
