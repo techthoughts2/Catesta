@@ -255,7 +255,7 @@ Add-BuildTask Test {
         $pesterConfiguration.CodeCoverage.CoveragePercentTarget = $script:coverageThreshold
         if ($IsMacOS) {
             $pesterConfiguration.CodeCoverage.Path = "../../../$ModuleName/*/*.ps1"
-            Write-Build Gray '      MacOS Path {0}' -f $pesterConfiguration.CodeCoverage.Path
+            Write-Build Gray "      $('MacOS Path {0}' -f $pesterConfiguration.CodeCoverage.Path)"
         }
         else {
             $pesterConfiguration.CodeCoverage.Path = "..\..\..\$ModuleName\*\*.ps1"
