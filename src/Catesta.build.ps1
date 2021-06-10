@@ -187,11 +187,11 @@ Add-BuildTask AnalyzeTests -After Analyze {
     if (Test-Path -Path $script:TestsPath) {
 
         $scriptAnalyzerParams = @{
-            Path    = $script:TestsPath
-            Setting = 'PSScriptAnalyzerSettings.psd1'
+            Path        = $script:TestsPath
+            Setting     = 'PSScriptAnalyzerSettings.psd1'
             ExcludeRule = 'PSUseDeclaredVarsMoreThanAssignments'
-            Recurse = $true
-            Verbose = $false
+            Recurse     = $true
+            Verbose     = $false
         }
 
         Write-Build White '      Performing Test ScriptAnalyzer checks...'
@@ -251,17 +251,16 @@ Add-BuildTask Test {
         $pesterConfiguration.run.Path = $script:TestsPath
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
-        $pesterConfiguration.CodeCoverage.Enabled = $true
-        $pesterConfiguration.CodeCoverage.CoveragePercentTarget = $script:coverageThreshold
         if ($IsMacOS) {
-            $pesterConfiguration.CodeCoverage.Path = "../../../$ModuleName/*/*.ps1"
-            Write-Build Gray "      $('MacOS Path {0}' -f $pesterConfiguration.CodeCoverage.Path.Value)"
+            $pesterConfiguration.CodeCoverage.Enabled = $false
         }
         else {
+            $pesterConfiguration.CodeCoverage.Enabled = $true
+            $pesterConfiguration.CodeCoverage.CoveragePercentTarget = $script:coverageThreshold
             $pesterConfiguration.CodeCoverage.Path = "..\..\..\$ModuleName\*\*.ps1"
+            $pesterConfiguration.CodeCoverage.OutputPath = "$codeCovPath\CodeCoverage.xml"
+            $pesterConfiguration.CodeCoverage.OutputFormat = 'JaCoCo'
         }
-        $pesterConfiguration.CodeCoverage.OutputPath = "$codeCovPath\CodeCoverage.xml"
-        $pesterConfiguration.CodeCoverage.OutputFormat = 'JaCoCo'
         $pesterConfiguration.TestResult.Enabled = $true
         $pesterConfiguration.TestResult.OutputPath = "$testOutPutPath\PesterTests.xml"
         $pesterConfiguration.TestResult.OutputFormat = 'NUnitXml'
