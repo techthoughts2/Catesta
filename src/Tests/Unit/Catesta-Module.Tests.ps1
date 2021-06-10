@@ -9,7 +9,7 @@ Describe 'Module Tests' -Tag Unit {
     Context "Module Tests" {
         $script:manifestEval = $null
         It 'Passes Test-ModuleManifest' {
-            { $script:manifestEval = Test-ModuleManifest -Path $PathToManifest } | Should Not throw
+            { $script:manifestEval = Test-ModuleManifest -Path $PathToManifest } | Should -Not -Throw
             $? | Should -BeTrue
         } #manifestTest
         It 'root module Catesta.psm1 should exist' {
