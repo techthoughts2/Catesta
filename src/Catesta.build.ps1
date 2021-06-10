@@ -251,15 +251,16 @@ Add-BuildTask Test {
         $pesterConfiguration.run.Path = $script:TestsPath
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
-        if ($IsMacOS) {
-            $pesterConfiguration.CodeCoverage.Enabled = $false
+        $pesterConfiguration.CodeCoverage.Enabled = $true
+        $pesterConfiguration.CodeCoverage.CoveragePercentTarget = $script:coverageThreshold
+        $pesterConfiguration.CodeCoverage.OutputPath = "$codeCovPath\CodeCoverage.xml"
+        $pesterConfiguration.CodeCoverage.OutputFormat = 'JaCoCo'
+        if ($env:CI -and $IsMacOS) {
+            Write-Build White "           CI: $env:CI and MacOS action detected. Hard coding path."
+            $pesterConfiguration.CodeCoverage.Path = "/Users/runner/work/Catesta/Catesta/src/Catesta/*/*.ps1"
         }
         else {
-            $pesterConfiguration.CodeCoverage.Enabled = $true
-            $pesterConfiguration.CodeCoverage.CoveragePercentTarget = $script:coverageThreshold
             $pesterConfiguration.CodeCoverage.Path = "..\..\..\$ModuleName\*\*.ps1"
-            $pesterConfiguration.CodeCoverage.OutputPath = "$codeCovPath\CodeCoverage.xml"
-            $pesterConfiguration.CodeCoverage.OutputFormat = 'JaCoCo'
         }
         $pesterConfiguration.TestResult.Enabled = $true
         $pesterConfiguration.TestResult.OutputPath = "$testOutPutPath\PesterTests.xml"
