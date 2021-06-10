@@ -160,7 +160,7 @@ Add-BuildTask Analyze {
 
     $scriptAnalyzerParams = @{
         # Path    = $script:ModuleSourcePath
-        Setting = "PSScriptAnalyzerSettings.psd1"
+        Setting = 'PSScriptAnalyzerSettings.psd1'
         # Recurse = $true
         # Verbose = $false
     }
@@ -256,6 +256,7 @@ Add-BuildTask Test {
         $pesterConfiguration.CodeCoverage.OutputPath = "$codeCovPath\CodeCoverage.xml"
         $pesterConfiguration.CodeCoverage.OutputFormat = 'JaCoCo'
         if ($env:CI -and $IsMacOS) {
+            # the MacOS github action does not properly detect the relative path.
             Write-Build White "           CI: $env:CI and MacOS action detected. Hard coding path."
             $pesterConfiguration.CodeCoverage.Path = "/Users/runner/work/Catesta/Catesta/src/Catesta/*/*.ps1"
         }
@@ -341,7 +342,7 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
 
     $markdownParams = @{
         Module         = $ModuleName
-        OutputFolder   = "$($script:ArtifactsPath)\docs\"
+        OutputFolder   = "$script:ArtifactsPath\docs\"
         Force          = $true
         WithModulePage = $true
         Locale         = 'en-US'
@@ -367,7 +368,7 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
     # Replace each missing element we need for a proper generic module page .md file
     $ModulePageFileContent = Get-Content -Raw $ModulePage
     $ModulePageFileContent = $ModulePageFileContent -replace '{{Manually Enter Description Here}}', $script:ModuleDescription
-    $Script:FunctionsToExport | ForEach-Object {
+    $script:FunctionsToExport | ForEach-Object {
         Write-Build DarkGray "             Updating definition for the following function: $($_)"
         $TextToReplace = "{{Manually Enter $($_) Description Here}}"
         $ReplacementText = (Get-Help -Detailed $_).Synopsis
@@ -418,7 +419,7 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
 # Synopsis: Build the external xml help file from markdown help files with PlatyPS
 Add-BuildTask CreateExternalHelp -After CreateMarkdownHelp {
     Write-Build Gray '           Creating external xml help file...'
-    $null = New-ExternalHelp "$script:ArtifactsPath\docs" -OutputPath "$($script:ArtifactsPath)\en-US\" -Force
+    $null = New-ExternalHelp "$script:ArtifactsPath\docs" -OutputPath "$script:ArtifactsPath\en-US\" -Force
     Write-Build Gray '           ...External xml help file created!'
 } #CreateExternalHelp
 
@@ -483,15 +484,15 @@ Add-BuildTask Build {
 
     #here we update the parent level docs. If you would prefer not to update them, comment out this section.
     Write-Build Gray '        Overwriting docs output...'
-    Move-Item "$($script:ArtifactsPath)\docs\*.md" -Destination "..\docs\" -Force
-    Remove-Item "$($script:ArtifactsPath)\docs" -Recurse -Force -ErrorAction Stop
+    Move-Item "$script:ArtifactsPath\docs\*.md" -Destination "..\docs\" -Force
+    Remove-Item "$script:ArtifactsPath\docs" -Recurse -Force -ErrorAction Stop
     Write-Build Gray '        ...Docs output completed.'
 
     Write-Build Gray '        Cleaning up leftover artifacts...'
     #cleanup artifacts that are no longer required
-    Remove-Item "$($script:ArtifactsPath)\Imports.ps1" -Force -ErrorAction SilentlyContinue
-    Remove-Item "$($script:ArtifactsPath)\Public" -Recurse -Force -ErrorAction SilentlyContinue
-    Remove-Item "$($script:ArtifactsPath)\Private" -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item "$script:ArtifactsPath\Imports.ps1" -Force -ErrorAction SilentlyContinue
+    Remove-Item "$script:ArtifactsPath\Public" -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item "$script:ArtifactsPath\Private" -Recurse -Force -ErrorAction SilentlyContinue
     Write-Build Green '        ...Build Complete!'
 } #Build
 

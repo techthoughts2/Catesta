@@ -85,7 +85,7 @@ Enter-Build {
     $manifestInfo = Import-PowerShellDataFile -Path $script:ModuleManifestFile
     $script:ModuleVersion = $manifestInfo.ModuleVersion
     $script:ModuleDescription = $manifestInfo.Description
-    $Script:FunctionsToExport = $manifestInfo.FunctionsToExport
+    $script:FunctionsToExport = $manifestInfo.FunctionsToExport
 
     $script:TestsPath = Join-Path -Path $BuildRoot -ChildPath 'Tests'
     $script:UnitTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Unit'
@@ -164,7 +164,7 @@ Add-BuildTask Analyze {
 
     $scriptAnalyzerParams = @{
         Path    = $script:ModuleSourcePath
-        Setting = "PSScriptAnalyzerSettings.psd1"
+        Setting = 'PSScriptAnalyzerSettings.psd1'
         Recurse = $true
         Verbose = $false
     }
@@ -187,7 +187,7 @@ Add-BuildTask AnalyzeTests -After Analyze {
 
         $scriptAnalyzerParams = @{
             Path    = $script:TestsPath
-            Setting = "PSScriptAnalyzerSettings.psd1"
+            Setting = 'PSScriptAnalyzerSettings.psd1'
             Recurse = $true
             Verbose = $false
         }
@@ -379,7 +379,7 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
     # Replace each missing element we need for a proper generic module page .md file
     $ModulePageFileContent = Get-Content -Raw $ModulePage
     $ModulePageFileContent = $ModulePageFileContent -replace '{{Manually Enter Description Here}}', $script:ModuleDescription
-    $Script:FunctionsToExport | ForEach-Object {
+    $script:FunctionsToExport | ForEach-Object {
         Write-Build DarkGray "             Updating definition for the following function: $($_)"
         $TextToReplace = "{{Manually Enter $($_) Description Here}}"
         $ReplacementText = (Get-Help -Detailed $_).Synopsis

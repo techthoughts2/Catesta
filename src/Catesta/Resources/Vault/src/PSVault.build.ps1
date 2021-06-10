@@ -74,7 +74,7 @@ Enter-Build {
     $manifestInfo = Import-PowerShellDataFile -Path $script:ModuleManifestFile
     $script:ModuleVersion = $manifestInfo.ModuleVersion
     $script:ModuleDescription = $manifestInfo.Description
-    $Script:FunctionsToExport = $manifestInfo.FunctionsToExport
+    $script:FunctionsToExport = $manifestInfo.FunctionsToExport
 
     $script:TestsPath = Join-Path -Path $BuildRoot -ChildPath 'Tests'
     $script:UnitTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Unit'
@@ -153,7 +153,7 @@ Add-BuildTask Analyze {
 
     $scriptAnalyzerParams = @{
         Path    = $script:ModuleSourcePath
-        Setting = "PSScriptAnalyzerSettings.psd1"
+        Setting = 'PSScriptAnalyzerSettings.psd1'
         Recurse = $true
         Verbose = $false
     }
@@ -176,7 +176,7 @@ Add-BuildTask AnalyzeTests -After Analyze {
 
         $scriptAnalyzerParams = @{
             Path    = $script:TestsPath
-            Setting = "PSScriptAnalyzerSettings.psd1"
+            Setting = 'PSScriptAnalyzerSettings.psd1'
             Recurse = $true
             Verbose = $false
         }
