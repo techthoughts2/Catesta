@@ -53,7 +53,7 @@
             },
             "problemMatcher": [ "$pester" ],
             "command": "Invoke-Pester '${workspaceFolder}/src/Tests/Unit' -PesterOption @{IncludeVSCodeMarker=$true}",
-        }
+        },
         {
             "label": ".",
             "type": "shell",
