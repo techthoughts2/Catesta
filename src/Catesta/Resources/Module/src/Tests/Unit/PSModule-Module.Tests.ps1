@@ -13,7 +13,7 @@ Describe 'Module Tests' -Tag Unit {
             $? | Should -BeTrue
         } #manifestTest
         It 'root module <%=$PLASTER_PARAM_ModuleName%>.psm1 should exist' {
-            $PathToModule | Should Exist
+            $PathToModule | Should -Exist
             $? | Should -BeTrue
         } #psm1Exists
         It 'manifest should contain <%=$PLASTER_PARAM_ModuleName%>.psm1' {

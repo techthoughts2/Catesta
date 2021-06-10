@@ -9,48 +9,53 @@ $PathToManifest = [System.IO.Path]::Combine('..', '..', '..', $ModuleName, "$Mod
 #-------------------------------------------------------------------------
 Import-Module $PathToManifest -Force
 #-------------------------------------------------------------------------
-$WarningPreference = "SilentlyContinue"
-$ErrorActionPreference = "SilentlyContinue"
-#-------------------------------------------------------------------------
 InModuleScope $ModuleName {
     $functionName = 'New-VaultProject'
     Describe "$functionName Function Tests" -Tag Unit {
-        Mock -CommandName Write-Error { }
-        Mock -CommandName Write-Warning { }
+        BeforeAll {
+            $WarningPreference = 'SilentlyContinue'
+            $ErrorActionPreference = 'SilentlyContinue'
+        } #beforeAll
+        # Mock -CommandName Write-Error { }
+        # Mock -CommandName Write-Warning { }
         Context 'ShouldProcess' {
             Mock -CommandName Invoke-Plaster { }
             Mock -CommandName Import-Module { }
             Mock -CommandName New-VaultProject -MockWith { } #endMock
+            BeforeEach {
+                Mock New-VaultProject {}
+            }
             It 'Should process by default' {
+
                 New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path
-                Assert-MockCalled New-VaultProject -Scope It -Exactly -Times 1
+                Should -Invoke -CommandName New-VaultProject -Exactly -Times 1 -Scope It
             } #it
             It 'Should not process on explicit request for confirmation (-Confirm)' {
                 { New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path -Confirm }
-                Assert-MockCalled New-VaultProject -Scope It -Exactly -Times 0
+                Should -Invoke -CommandName New-VaultProject -Exactly -Times 0 -Scope It
             } #it
             It 'Should not process on implicit request for confirmation (ConfirmPreference)' {
                 {
                     $ConfirmPreference = 'Low'
                     New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path
                 }
-                Assert-MockCalled New-VaultProject -Scope It -Exactly -Times 0
+                Should -Invoke -CommandName New-VaultProject -Exactly -Times 0 -Scope It
             } #it
             It 'Should not process on explicit request for validation (-WhatIf)' {
                 { New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path -WhatIf }
-                Assert-MockCalled New-VaultProject -Scope It -Exactly -Times 0
+                Should -Invoke -CommandName New-VaultProject -Exactly -Times 0 -Scope It
             } #it
             It 'Should not process on implicit request for validation (WhatIfPreference)' {
                 {
                     $WhatIfPreference = $true
                     New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path
                 }
-                Assert-MockCalled New-VaultProject -Scope It -Exactly -Times 0
+                Should -Invoke -CommandName New-VaultProject -Exactly -Times 0 -Scope It
             } #it
             It 'Should process on force' {
                 $ConfirmPreference = 'Medium'
                 New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path -Force
-                Assert-MockCalled New-VaultProject -Scope It -Exactly -Times 1
+                Should -Invoke -CommandName New-VaultProject -Exactly -Times 1 -Scope It
             } #it
         }
         BeforeEach {
@@ -73,7 +78,7 @@ InModuleScope $ModuleName {
                 Mock -CommandName Import-Module -MockWith {
                     throw 'Fake Error'
                 } #endMock
-                { New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path } | Should throw
+                { New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path } | Should -Throw
             } #it
             It 'should return success status false if an error is encountered' {
                 Mock -CommandName Invoke-Plaster -MockWith {

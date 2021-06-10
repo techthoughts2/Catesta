@@ -87,8 +87,11 @@ Enter-Build {
 
     $script:BuildModuleRootFile = Join-Path -Path $script:ArtifactsPath -ChildPath "$($script:ModuleName).psm1"
 
-    Import-Module -Name Pester -MaximumVersion 4.99.99
-}#Enter-Build
+    # Ensure our builds fail until if below a minimum defined code test coverage threshold
+    $script:coverageThreshold = 95
+
+    [version]$script:PesterVersion = '5.0.0'
+} #Enter-Build
 
 # Define headers as separator, task path, synopsis, and location, e.g. for Ctrl+Click in VSCode.
 # Also change the default color to Green. If you need task start times, use `$Task.Started`.
@@ -102,7 +105,7 @@ Set-BuildHeader {
     Write-Build DarkGray "At $($Task.InvocationInfo.ScriptName):$($Task.InvocationInfo.ScriptLineNumber)"
     Write-Build Yellow "Manifest File: $script:ModuleManifestFile"
     Write-Build Yellow "Manifest Version: $($manifestInfo.ModuleVersion)"
-}#Set-BuildHeader
+} #Set-BuildHeader
 
 # Define footers similar to default but change the color to DarkGray.
 Set-BuildFooter {
@@ -110,7 +113,7 @@ Set-BuildFooter {
     Write-Build DarkGray "Done $Path, $($Task.Elapsed)"
     # # separator line
     # Write-Build Gray ('=' * 79)
-}#Set-BuildFooter
+} #Set-BuildFooter
 
 #Synopsis: Validate system requirements are met
 Add-BuildTask ValidateRequirements {
@@ -118,7 +121,7 @@ Add-BuildTask ValidateRequirements {
     Write-Build White "      Verifying at least PowerShell $script:requiredPSVersion..."
     Assert-Build ($PSVersionTable.PSVersion.Major.ToString() -ge $script:requiredPSVersion) "At least Powershell $script:requiredPSVersion is required for this build to function properly"
     Write-Build Green '      ...Verification Complete!'
-}#ValidateRequirements
+} #ValidateRequirements
 
 # Synopsis: Import the current module manifest file for processing
 Add-BuildTask TestModuleManifest -Before ImportModuleManifest {
@@ -150,7 +153,7 @@ Add-BuildTask Clean {
     $null = New-Item $script:ArchivePath -ItemType:Directory
 
     Write-Build Green '      ...Clean Complete!'
-}#Clean
+} #Clean
 
 #Synopsis: Invokes PSScriptAnalyzer against the Module source path
 Add-BuildTask Analyze {
@@ -177,7 +180,7 @@ Add-BuildTask Analyze {
     else {
         Write-Build Green '      ...Module Analyze Complete!'
     }
-}#Analyze
+} #Analyze
 
 #Synopsis: Invokes Script Analyzer against the Tests path if it exists
 Add-BuildTask AnalyzeTests -After Analyze {
@@ -185,7 +188,8 @@ Add-BuildTask AnalyzeTests -After Analyze {
 
         $scriptAnalyzerParams = @{
             Path    = $script:TestsPath
-            Setting = "PSScriptAnalyzerSettings.psd1"
+            Setting = 'PSScriptAnalyzerSettings.psd1'
+            ExcludeRule = 'PSUseDeclaredVarsMoreThanAssignments'
             Recurse = $true
             Verbose = $false
         }
@@ -201,7 +205,7 @@ Add-BuildTask AnalyzeTests -After Analyze {
             Write-Build Green '      ...Test Analyze Complete!'
         }
     }
-}#AnalyzeTests
+} #AnalyzeTests
 
 #Synopsis: Analyze scripts to verify if they adhere to desired coding format (Stroustrup / OTBS / Allman)
 Add-BuildTask FormattingCheck {
@@ -226,10 +230,14 @@ Add-BuildTask FormattingCheck {
     else {
         Write-Build Green '      ...Formatting Analyze Complete!'
     }
-}#FormattingCheck
+} #FormattingCheck
 
 #Synopsis: Invokes all Pester Unit Tests in the Tests\Unit folder (if it exists)
 Add-BuildTask Test {
+
+    Write-Build White "      Importing desired Pester version: $script:PesterVersion..."
+    Import-Module -Name Pester -MinimumVersion $script:PesterVersion -ErrorAction 'Stop'
+
     $codeCovPath = "$script:ArtifactsPath\ccReport\"
     $testOutPutPath = "$script:ArtifactsPath\testOutput\"
     if (-not(Test-Path $codeCovPath)) {
@@ -239,22 +247,23 @@ Add-BuildTask Test {
         New-Item -Path $testOutPutPath -ItemType Directory | Out-Null
     }
     if (Test-Path -Path $script:UnitTestsPath) {
-        $invokePesterParams = @{
-            Path                         = 'Tests\Unit'
-            Strict                       = $true
-            PassThru                     = $true
-            Verbose                      = $false
-            EnableExit                   = $false
-            CodeCoverage                 = "$ModuleName\*\*.ps1"
-            CodeCoverageOutputFile       = "$codeCovPath\CodeCoverage.xml"
-            CodeCoverageOutputFileFormat = 'JaCoCo'
-            OutputFile                   = "$testOutPutPath\PesterTests.xml"
-            OutputFormat                 = 'NUnitXML'
-        }
+        $pesterConfiguration = [PesterConfiguration]::new()
+        $pesterConfiguration.run.Path = $script:TestsPath
+        $pesterConfiguration.Run.PassThru = $true
+        $pesterConfiguration.Run.Exit = $false
+        $pesterConfiguration.CodeCoverage.Enabled = $true
+        $pesterConfiguration.CodeCoverage.CoveragePercentTarget = $script:coverageThreshold
+        $pesterConfiguration.CodeCoverage.Path = "..\..\..\$ModuleName\*\*.ps1"
+        $pesterConfiguration.CodeCoverage.OutputPath = "$codeCovPath\CodeCoverage.xml"
+        $pesterConfiguration.CodeCoverage.OutputFormat = 'JaCoCo'
+        $pesterConfiguration.TestResult.Enabled = $true
+        $pesterConfiguration.TestResult.OutputPath = "$testOutPutPath\PesterTests.xml"
+        $pesterConfiguration.TestResult.OutputFormat = 'NUnitXml'
+        $pesterConfiguration.Output.Verbosity = 'Detailed'
 
         Write-Build White '      Performing Pester Unit Tests...'
         # Publish Test Results as NUnitXml
-        $testResults = Invoke-Pester @invokePesterParams
+        $testResults = Invoke-Pester -Configuration $pesterConfiguration
 
         # This will output a nice json for each failed test (if running in CodeBuild)
         if ($env:CODEBUILD_BUILD_ARN) {
@@ -268,12 +277,8 @@ Add-BuildTask Test {
         $numberFails = $testResults.FailedCount
         Assert-Build($numberFails -eq 0) ('Failed "{0}" unit tests.' -f $numberFails)
 
-        # Ensure our builds fail until if below a minimum defined code test coverage threshold
-        $coverageThreshold = 95
-        $coveragePercent = '{0:N2}' -f ($testResults.CodeCoverage.NumberOfCommandsExecuted / $testResults.CodeCoverage.NumberOfCommandsAnalyzed * 100)
-
-        if ($testResults.CodeCoverage.NumberOfCommandsExecuted -ne 0) {
-            $coveragePercent = '{0:N2}' -f ($testResults.CodeCoverage.NumberOfCommandsExecuted / $testResults.CodeCoverage.NumberOfCommandsAnalyzed * 100)
+        if ($testResults.CodeCoverage.CommandsExecutedCount -ne 0 -and $coverageThreshold -ne 0) {
+            $coveragePercent = '{0:N2}' -f ($testResults.CodeCoverage.CommandsExecutedCount / $testResults.CodeCoverage.CommandsAnalyzedCount * 100)
 
             <#
             if ($testResults.CodeCoverage.NumberOfCommandsMissed -gt 0) {
@@ -285,7 +290,7 @@ Add-BuildTask Test {
                 throw ('Failed to meet code coverage threshold of {0}% with only {1}% coverage' -f $coverageThreshold, $coveragePercent)
             }
             else {
-                Write-Build Cyan "      $('Covered {0}% of {1} analyzed commands in {2} files.' -f $coveragePercent,$testResults.CodeCoverage.NumberOfCommandsAnalyzed,$testResults.CodeCoverage.NumberOfFilesAnalyzed)"
+                Write-Build Cyan "      $('Covered {0}% of {1} analyzed commands in {2} files.' -f $coveragePercent,$testResults.CodeCoverage.CommandsAnalyzedCount,$testResults.CodeCoverage.FilesAnalyzedCount)"
                 Write-Build Green '      ...Pester Unit Tests Complete!'
 
             }
@@ -296,19 +301,24 @@ Add-BuildTask Test {
         }
 
     }
-}#Test
+} #Test
 
 #Synopsis: Used primarily during active development to generate xml file to graphically display code coverage in VSCode using Coverage Gutters
 Add-BuildTask DevCC {
     Write-Build White '      Generating code coverage report at root...'
-    $invokePesterParams = @{
-        Path                   = 'Tests\Unit'
-        CodeCoverage           = "$ModuleName\*\*.ps1"
-        CodeCoverageOutputFile = '..\..\..\cov.xml'
-    }
-    Invoke-Pester @invokePesterParams
+    Import-Module -Name Pester -MinimumVersion $script:PesterVersion -ErrorAction 'Stop'
+
+    $pesterConfiguration = [PesterConfiguration]::new()
+    $pesterConfiguration.run.Path = 'Tests\Unit'
+    $pesterConfiguration.CodeCoverage.Enabled = $true
+    $pesterConfiguration.CodeCoverage.Path = "$PSScriptRoot\$ModuleName\*\*.ps1"
+    $pesterConfiguration.CodeCoverage.CoveragePercentTarget = $script:coverageThreshold
+    $pesterConfiguration.CodeCoverage.OutputPath = '..\..\..\cov.xml'
+    $pesterConfiguration.CodeCoverage.OutputFormat = 'CoverageGutters'
+
+    Invoke-Pester -Configuration $pesterConfiguration
     Write-Build Green '      ...Code Coverage report generated!'
-}#DevCC
+} #DevCC
 
 # Synopsis: Build help for module
 Add-BuildTask CreateHelpStart {
@@ -317,11 +327,11 @@ Add-BuildTask CreateHelpStart {
     Write-Build Gray '           Importing platyPS v0.12.0 ...'
     Import-Module platyPS -RequiredVersion 0.12.0 -ErrorAction Stop
     Write-Build Gray '           ...platyPS imported successfully.'
-}#CreateHelpStart
+} #CreateHelpStart
 
 # Synopsis: Build markdown help files for module and fail if help information is missing
 Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
-    $ModulePage = "$($script:ArtifactsPath)\docs\$($ModuleName).md"
+    $ModulePage = "$script:ArtifactsPath\docs\$($ModuleName).md"
 
     $markdownParams = @{
         Module         = $ModuleName
@@ -339,7 +349,7 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
 
     Write-Build Gray '           Replacing markdown elements...'
     # Replace multi-line EXAMPLES
-    $OutputDir = "$($script:ArtifactsPath)\docs\"
+    $OutputDir = "$script:ArtifactsPath\docs\"
     $OutputDir | Get-ChildItem -File | ForEach-Object {
         # fix formatting in multiline examples
         $content = Get-Content $_.FullName -Raw
@@ -362,26 +372,26 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
     Write-Build Gray '           ...Markdown replacements complete.'
 
     Write-Build Gray '           Verifying GUID...'
-    $MissingGUID = Select-String -Path "$($script:ArtifactsPath)\docs\*.md" -Pattern "(00000000-0000-0000-0000-000000000000)"
+    $MissingGUID = Select-String -Path "$script:ArtifactsPath\docs\*.md" -Pattern "(00000000-0000-0000-0000-000000000000)"
     if ($MissingGUID.Count -gt 0) {
         Write-Build Yellow '             The documentation that got generated resulted in a generic GUID. Check the GUID entry of your module manifest.'
         throw 'Missing GUID. Please review and rebuild.'
     }
 
     Write-Build Gray '           Checking for missing documentation in md files...'
-    $MissingDocumentation = Select-String -Path "$($script:ArtifactsPath)\docs\*.md" -Pattern "({{.*}})"
+    $MissingDocumentation = Select-String -Path "$script:ArtifactsPath\docs\*.md" -Pattern "({{.*}})"
     if ($MissingDocumentation.Count -gt 0) {
         Write-Build Yellow '             The documentation that got generated resulted in missing sections which should be filled out.'
         Write-Build Yellow '             Please review the following sections in your comment based help, fill out missing information and rerun this build:'
         Write-Build Yellow '             (Note: This can happen if the .EXTERNALHELP CBH is defined for a function before running this build.)'
-        Write-Build Yellow "             Path of files with issues: $($script:ArtifactsPath)\docs\"
+        Write-Build Yellow "             Path of files with issues: $script:ArtifactsPath\docs\"
         $MissingDocumentation | Select-Object FileName, LineNumber, Line | Format-Table -AutoSize
         throw 'Missing documentation. Please review and rebuild.'
     }
 
     Write-Build Gray '           Checking for missing SYNOPSIS in md files...'
     $fSynopsisOutput = @()
-    $synopsisEval = Select-String -Path "$($script:ArtifactsPath)\docs\*.md" -Pattern "^## SYNOPSIS$" -Context 0, 1
+    $synopsisEval = Select-String -Path "$script:ArtifactsPath\docs\*.md" -Pattern "^## SYNOPSIS$" -Context 0, 1
     $synopsisEval | ForEach-Object {
         $chAC = $_.Context.DisplayPostContext.ToCharArray()
         if ($null -eq $chAC) {
@@ -397,18 +407,18 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
     # Write-Host '      Creating markdown documentation with PlatyPS'
     # Write-Host -ForegroundColor Green '...Complete!'
     Write-Build Gray '           ...Markdown generation complete.'
-}#CreateMarkdownHelp
+} #CreateMarkdownHelp
 
 # Synopsis: Build the external xml help file from markdown help files with PlatyPS
 Add-BuildTask CreateExternalHelp -After CreateMarkdownHelp {
     Write-Build Gray '           Creating external xml help file...'
-    $null = New-ExternalHelp "$($script:ArtifactsPath)\docs" -OutputPath "$($script:ArtifactsPath)\en-US\" -Force
+    $null = New-ExternalHelp "$script:ArtifactsPath\docs" -OutputPath "$($script:ArtifactsPath)\en-US\" -Force
     Write-Build Gray '           ...External xml help file created!'
-}#CreateExternalHelp
+} #CreateExternalHelp
 
 Add-BuildTask CreateHelpComplete -After CreateExternalHelp {
     Write-Build Green '      ...CreateHelp Complete!'
-}#CreateHelpStart
+} #CreateHelpStart
 
 # Synopsis: Replace comment based help (CBH) with external help in all public functions for this project
 Add-BuildTask UpdateCBH -After AssetCopy {
@@ -419,13 +429,13 @@ Add-BuildTask UpdateCBH -After AssetCopy {
 "@
 
     $CBHPattern = "(?ms)(\<#.*\.SYNOPSIS.*?#>)"
-    Get-ChildItem -Path "$($script:ArtifactsPath)\Public\*.ps1" -File | ForEach-Object {
+    Get-ChildItem -Path "$script:ArtifactsPath\Public\*.ps1" -File | ForEach-Object {
         $FormattedOutFile = $_.FullName
         Write-Output "      Replacing CBH in file: $($FormattedOutFile)"
         $UpdatedFile = (Get-Content  $FormattedOutFile -raw) -replace $CBHPattern, $ExternalHelp
         $UpdatedFile | Out-File -FilePath $FormattedOutFile -force -Encoding:utf8
     }
-}#UpdateCBH
+} #UpdateCBH
 
 # Synopsis: Copies module assets to Artifacts folder
 Add-BuildTask AssetCopy -Before Build {
@@ -439,7 +449,7 @@ Add-BuildTask AssetCopy -Before Build {
     Copy-Item -Path "$script:ModuleSourcePath\Resources\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psm1" -Destination "$script:ArtifactsPath\Resources\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psm1" -ErrorAction Stop
     Copy-Item -Path "$script:ModuleSourcePath\Resources\Vault\src\PSScriptAnalyzerSettings.psd1" -Destination "$script:ArtifactsPath\Resources\Vault\src\PSScriptAnalyzerSettings.psd1" -ErrorAction Stop
     Write-Build Gray '        ...Assets copy complete.'
-}#AssetCopy
+} #AssetCopy
 
 # Synopsis: Builds the Module to the Artifacts folder
 Add-BuildTask Build {
@@ -477,23 +487,22 @@ Add-BuildTask Build {
     Remove-Item "$($script:ArtifactsPath)\Public" -Recurse -Force -ErrorAction SilentlyContinue
     Remove-Item "$($script:ArtifactsPath)\Private" -Recurse -Force -ErrorAction SilentlyContinue
     Write-Build Green '        ...Build Complete!'
-}#Build
+} #Build
 
 #Synopsis: Invokes all Pester Infrastructure Tests in the Tests\Infrastructure folder (if it exists)
 Add-BuildTask InfraTest {
     if (Test-Path -Path $script:InfraTestsPath) {
 
-        $invokePesterParams = @{
-            Path       = 'Tests\Infrastructure'
-            Strict     = $true
-            PassThru   = $true
-            Verbose    = $false
-            EnableExit = $false
-        }
+        $pesterConfiguration = [PesterConfiguration]::new()
+        $pesterConfiguration.run.Path = 'Tests\Infrastructure'
+        $pesterConfiguration.Run.PassThru = $true
+        $pesterConfiguration.Run.Exit = $false
+        $pesterConfiguration.CodeCoverage.Enabled = $false
+        $pesterConfiguration.Output.Verbosity = 'Detailed'
 
         Write-Build White "      Performing Pester Infrastructure Tests in $($invokePesterParams.path)"
         # Publish Test Results as NUnitXml
-        $testResults = Invoke-Pester @invokePesterParams
+        $testResults = Invoke-Pester -Configuration $pesterConfiguration
 
         # This will output a nice json for each failed test (if running in CodeBuild)
         if ($env:CODEBUILD_BUILD_ARN) {
@@ -508,7 +517,7 @@ Add-BuildTask InfraTest {
         Assert-Build($numberFails -eq 0) ('Failed "{0}" unit tests.' -f $numberFails)
         Write-Build Green '      ...Pester Infrastructure Tests Complete!'
     }
-}#InfraTest
+} #InfraTest
 
 #Synopsis: Creates an archive of the built Module
 Add-BuildTask Archive {
@@ -530,4 +539,4 @@ Add-BuildTask Archive {
     [System.IO.Compression.ZipFile]::CreateFromDirectory($script:ArtifactsPath, $zipFile)
 
     Write-Build Green '        ...Archive Complete!'
-}#Archive
+} #Archive

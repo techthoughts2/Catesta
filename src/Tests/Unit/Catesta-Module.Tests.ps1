@@ -1,10 +1,12 @@
-#-------------------------------------------------------------------------
-Set-Location -Path $PSScriptRoot
-#-------------------------------------------------------------------------
-$ModuleName = 'Catesta'
-$PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
-$PathToModule = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psm1")
-#-------------------------------------------------------------------------
+BeforeAll {
+    #-------------------------------------------------------------------------
+    Set-Location -Path $PSScriptRoot
+    #-------------------------------------------------------------------------
+    $ModuleName = 'Catesta'
+    $PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
+    $PathToModule = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psm1")
+    #-------------------------------------------------------------------------
+}
 Describe 'Module Tests' -Tag Unit {
     Context "Module Tests" {
         $script:manifestEval = $null
@@ -13,7 +15,7 @@ Describe 'Module Tests' -Tag Unit {
             $? | Should -BeTrue
         } #manifestTest
         It 'root module Catesta.psm1 should exist' {
-            $PathToModule | Should Exist
+            $PathToModule | Should -Exist
             $? | Should -BeTrue
         } #psm1Exists
         It 'manifest should contain Catesta.psm1' {
