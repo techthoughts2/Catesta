@@ -253,7 +253,13 @@ Add-BuildTask Test {
         $pesterConfiguration.Run.Exit = $false
         $pesterConfiguration.CodeCoverage.Enabled = $true
         $pesterConfiguration.CodeCoverage.CoveragePercentTarget = $script:coverageThreshold
-        $pesterConfiguration.CodeCoverage.Path = "..\..\..\$ModuleName\*\*.ps1"
+        if ($IsMacOS) {
+            $pesterConfiguration.CodeCoverage.Path = "../../../$ModuleName/*/*.ps1"
+            Write-Build Gray '      MacOS Path {0}' -f $pesterConfiguration.CodeCoverage.Path
+        }
+        else {
+            $pesterConfiguration.CodeCoverage.Path = "..\..\..\$ModuleName\*\*.ps1"
+        }
         $pesterConfiguration.CodeCoverage.OutputPath = "$codeCovPath\CodeCoverage.xml"
         $pesterConfiguration.CodeCoverage.OutputFormat = 'JaCoCo'
         $pesterConfiguration.TestResult.Enabled = $true
