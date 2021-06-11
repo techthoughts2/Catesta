@@ -42,15 +42,35 @@ $VerbosePreference = 'SilentlyContinue'
 # List of PowerShell Modules required for the build
 # The AWS PowerShell Modules are added below, based on the $PSEdition
 $modulesToInstall = [System.Collections.ArrayList]::new()
+<%
+If ($PLASTER_PARAM_Pester-eq '4') {
+@'
+# https://github.com/pester/Pester
 $null = $modulesToInstall.Add(([PSCustomObject]@{
-            ModuleName    = 'Pester'
-            ModuleVersion = '4.10.1'
-            BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
-            KeyPrefix     = ''
-        }))
+    ModuleName    = 'Pester'
+    ModuleVersion = '4.10.1'
+    BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
+    KeyPrefix     = ''
+}))
+'@
+}
+%>
+<%
+If ($PLASTER_PARAM_Pester-eq '5') {
+@'
+# https://github.com/pester/Pester
+$null = $modulesToInstall.Add(([PSCustomObject]@{
+    ModuleName    = 'Pester'
+    ModuleVersion = '5.2.2'
+    BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
+    KeyPrefix     = ''
+}))
+'@
+}
+%>
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.6.1'
+            ModuleVersion = '5.8.0'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
             KeyPrefix     = ''
         }))

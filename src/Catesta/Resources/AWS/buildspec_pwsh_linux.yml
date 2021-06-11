@@ -1,6 +1,7 @@
 # This is a simple CodeBuild build file for pwsh.
 # - pre_build step will ensure the Module Name / Version has not previously been built for production (plans to add this at a later time)
 # - build step will perform Clean, ValidateRequirements, Analyze, Test, CreateHelp, Build, Archive
+# https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
 # https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#runtime-versions-buildspec-file
 # https://docs.aws.amazon.com/codebuild/latest/userguide/test-reporting.html
 

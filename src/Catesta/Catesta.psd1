@@ -62,7 +62,7 @@
         },
         @{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.6.1'
+            ModuleVersion = '5.8.0'
         },
         @{
             ModuleName    = 'PSScriptAnalyzer'

@@ -9,14 +9,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Catesta template module changes
   - **Added support for Pester 5** - you can now choose either Pester 4 or Pester 5 in a prompt when creating a module with Catesta.
+    - Also added explicit Pester module remove in the build file to account for some build containers that have certain version of Pester already in the session
   - Updated pester tests that were using Legacy Should syntax (without dashes)
   - Fixed ```tasks.json``` VSCode file to be valid json
   - Added prompt on ModuleOnly module type to prompt user if they want helpful .vscode files for their module project
   - Catesta now deploys the initial sample module in a style that better reflects a real-world module
     - The private sample function was renamed to Get-Day and gets the day of the week
     - The public sample function now returns hello world with the day of the week included
-    - Sample tests are now created for these fake function in the appropriate public/private folders under the Tests/Unit folder
-    - Sample tests actually test the sample functions
+    - Sample tests are now created for these sample functions in the appropriate public/private folders under the Tests/Unit folder
+    - Sample tests now actually test the sample functions
+  - AppVeyor CI/CD changes:
+    - Updated Ubuntu image from ```Ubuntu1804``` to ```Ubuntu2004```
+  - Azure DevOps CI/CD changes:
+    - The latest macOS image [now includes PowerShell](https://github.com/actions/virtual-environments/blob/main/images/macos/macos-10.15-Readme.md) by default - removed step in yaml to install PowerShell.
+  - AWS CodeBuild CI/CD changes:
+    - CB Linux Image updated in CFN from ```Image: aws/codebuild/standard:4.0``` to use latest: ```Image: aws/codebuild/standard:5.0```
+    - Updated buildspec_pwsh_windows.yml to use the new syntax for installing PowerShell 7.
+
+      ```bash
+      runtime-versions:
+        dotnet: 3.1
+      ```
+
+    - Added additional documentation links to the buildspec files
 - Catesta primary module changes
   - Updated pester tests that were using Legacy Should syntax (without dashes)
   - Updated pester tests to support v5+
