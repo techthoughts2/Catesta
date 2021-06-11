@@ -37,7 +37,7 @@ Describe 'Module Tests' -Tag Unit {
         }#guid
         It 'should not have any spaces in the tags' {
             foreach ($tag in $script:manifestEval.Tags) {
-                $tag | Should Not Match '\s'
+                $tag | Should -Not -Match '\s'
             }
         }#tagSpaces
         It 'should include the SecretManagement tag in its PrivateData section' {

@@ -18,7 +18,7 @@
 .COMPONENT
     <%=$PLASTER_PARAM_ModuleName%>
 #>
-function Get-PrivateHelloWorld {
+function Get-Day {
     [CmdletBinding()]
     param (
         # [Parameter(Mandatory = $true,
@@ -27,6 +27,12 @@ function Get-PrivateHelloWorld {
         # [ValidateNotNullOrEmpty()]
         # [string]$YourParameter
     )
-    $message = 'Private Hello World'
-    return $message
-}#Get-PrivateHelloWorld
+    try {
+        $day = (Get-Date -ErrorAction 'Stop').DayOfWeek
+    }
+    catch {
+        $day = 'Unknown'
+    }
+
+    return $day
+} #Get-Day

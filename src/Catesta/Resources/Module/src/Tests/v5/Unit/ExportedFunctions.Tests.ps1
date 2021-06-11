@@ -1,7 +1,7 @@
 #-------------------------------------------------------------------------
 Set-Location -Path $PSScriptRoot
 #-------------------------------------------------------------------------
-$ModuleName = 'SecretManagement.<%=$PLASTER_PARAM_ModuleName%>'
+$ModuleName = '<%=$PLASTER_PARAM_ModuleName%>'
 $PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
 #-------------------------------------------------------------------------
 if (Get-Module -Name $ModuleName -ErrorAction 'SilentlyContinue') {
@@ -10,10 +10,11 @@ if (Get-Module -Name $ModuleName -ErrorAction 'SilentlyContinue') {
 }
 Import-Module $PathToManifest -Force
 #-------------------------------------------------------------------------
-Describe $ModuleName {
+$manifestContent = Test-ModuleManifest -Path $PathToManifest
+$moduleExported = Get-Command -Module $ModuleName | Select-Object -ExpandProperty Name
+#-------------------------------------------------------------------------
 
-    $manifestContent = Test-ModuleManifest -Path $PathToManifest
-    $moduleExported = Get-Command -Module $ModuleName | Select-Object -ExpandProperty Name
+Describe $ModuleName {
 
     Context 'Exported Commands' -Fixture {
         $manifestExported = ($manifestContent.ExportedFunctions).Keys
@@ -33,4 +34,26 @@ Describe $ModuleName {
         }
     }
 
+    Context 'Command Help' -ForEach $moduleExported {
+        foreach ($command in $moduleExported) {
+            BeforeAll {
+                $help = Get-Help -Name $_ -Full
+            }
+            Context $command -Fixture {
+                $help = Get-Help -Name $command -Full
+
+                It -Name 'Includes a Synopsis' -Test {
+                    $help.Synopsis | Should -Not -BeNullOrEmpty
+                }
+
+                It -Name 'Includes a Description' -Test {
+                    $help.description.Text | Should -Not -BeNullOrEmpty
+                }
+
+                It -Name 'Includes an Example' -Test {
+                    $help.examples.example | Should -Not -BeNullOrEmpty
+                }
+            }
+        }
+    }
 }

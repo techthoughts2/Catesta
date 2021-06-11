@@ -2,7 +2,7 @@
 Set-Location -Path $PSScriptRoot
 #-------------------------------------------------------------------------
 $ModuleName = '<%=$PLASTER_PARAM_ModuleName%>'
-$PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
+$PathToManifest = [System.IO.Path]::Combine('..', '..', '..', $ModuleName, "$ModuleName.psd1")
 #-------------------------------------------------------------------------
 if (Get-Module -Name $ModuleName -ErrorAction 'SilentlyContinue') {
     #if the module is already in memory, remove it
@@ -18,22 +18,26 @@ InModuleScope '<%=$PLASTER_PARAM_ModuleName%>' {
     #-------------------------------------------------------------------------
     $WarningPreference = "SilentlyContinue"
     #-------------------------------------------------------------------------
-    Describe '<%=$PLASTER_PARAM_ModuleName%> Private Function Tests' -Tag Unit {
-        Context 'FunctionName' {
-            <#
-            It 'should ...' {
+    Describe 'Get-HellowWorld Public Function Tests' -Tag Unit {
+        Context 'Error' {
 
+            # It 'should ...' {
+
+            # } #it
+
+        } #context_Error
+        Context 'Success' {
+
+            BeforeEach {
+                Mock -CommandName Get-Day -MockWith {
+                    'Friday'
+                } #endMock
+            } #beforeEach
+
+            It 'should return the expected results' {
+                Get-HelloWorld | Should -BeExactly 'Hello, happy Friday World!'
             } #it
-            #>
-        } #context_FunctionName
-    } #describe_PrivateFunctions
-    Describe '<%=$PLASTER_PARAM_ModuleName%> Public Function Tests' -Tag Unit {
-        Context 'FunctionName' {
-            <#
-                It 'should ...' {
 
-                } #it
-                #>
-        } #context_FunctionName
-    } #describe_testFunctions
+        } #context_Success
+    } #describe_Get-HellowWorld
 } #inModule

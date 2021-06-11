@@ -10,21 +10,21 @@ if (Get-Module -Name $ModuleName -ErrorAction 'SilentlyContinue') {
 }
 Import-Module $PathToManifest -Force
 #-------------------------------------------------------------------------
-Describe -Name $ModuleName -Fixture {
+Describe $ModuleName {
 
     $manifestContent = Test-ModuleManifest -Path $PathToManifest
     $moduleExported = Get-Command -Module $ModuleName | Select-Object -ExpandProperty Name
 
-    Context -Name 'Exported Commands' -Fixture {
+    Context 'Exported Commands' -Fixture {
         $manifestExported = ($manifestContent.ExportedFunctions).Keys
 
-        Context -Name 'Number of commands' -Fixture {
+        Context 'Number of commands' -Fixture {
             It -Name 'Exports the same number of public funtions as what is listed in the Module Manifest' -Test {
                 $manifestExported.Count | Should -BeExactly $moduleExported.Count
             }
         }
 
-        Context -Name 'Explicitly exported commands' -Fixture {
+        Context 'Explicitly exported commands' -Fixture {
             foreach ($command in $moduleExported) {
                 It -Name "Includes the $command in the Module Manifest ExportedFunctions" -Test {
                     $manifestExported -contains $command | Should -BeTrue
@@ -33,9 +33,9 @@ Describe -Name $ModuleName -Fixture {
         }
     }
 
-    Context -Name 'Command Help' -Fixture {
+    Context 'Command Help' -Fixture {
         foreach ($command in $moduleExported) {
-            Context -Name $command -Fixture {
+            Context $command -Fixture {
                 $help = Get-Help -Name $command -Full
 
                 It -Name 'Includes a Synopsis' -Test {

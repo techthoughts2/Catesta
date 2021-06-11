@@ -45,7 +45,7 @@ Describe 'File Checks' {
             $srcFiles.Name.Contains('Get-HelloWorld.ps1') | Should -BeExactly $true
         } #it
         It 'should have a private function example' {
-            $srcFiles.Name.Contains('Get-PrivateHelloWorld.ps1') | Should -BeExactly $true
+            $srcFiles.Name.Contains('Get-Day.ps1') | Should -BeExactly $true
         } #it
     } #context_module
     Context 'Vault Source Files' {
@@ -159,7 +159,7 @@ Describe 'File Checks' {
             $manifestCount = $manifestsEvalz | Measure-Object | Select-Object -ExpandProperty Count
             $manifestCount | Should -BeExactly 10
         } #it
-        Context -Name 'Manifest Version' -Foreach $manifests {
+        Context 'Manifest Version' -Foreach $manifests {
             It "<_>.FullName version should match the module version" {
 
                 [version]$scriptVersion = $script:manifestEval.Version

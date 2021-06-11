@@ -213,9 +213,9 @@ Add-BuildTask FormattingCheck {
         Setting     = 'CodeFormattingStroustrup'
         ExcludeRule = @(
             'PSUseConsistentIndentation',
-            'PSUseConsistentWhitespace'
+            'PSUseConsistentWhitespace',
+            'PSUseCorrectCasing'
         )
-        # ExcludeRule = 'PSUseConsistentWhitespace'
         Recurse     = $true
         Verbose     = $false
     }
