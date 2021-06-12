@@ -4,7 +4,7 @@
   <metadata>
     <name>AzureVaultExtension</name>
     <id>a2ccc3ba-a95f-4e17-9c95-8fa2f455e5bc</id>
-    <version>0.11.10</version>
+    <version>0.11.12</version>
     <title>Catesta - SecretManagement extension vault module template for Azure Pipelines</title>
     <description>Scaffolds a new PowerShell SecretManagement extension vault module projectfor CI/CD workflow using Azure Pipelines</description>
     <author>Jake Morrison</author>

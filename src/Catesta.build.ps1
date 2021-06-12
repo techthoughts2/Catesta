@@ -236,7 +236,7 @@ Add-BuildTask FormattingCheck {
 Add-BuildTask Test {
 
     Write-Build White "      Importing desired Pester version: $script:PesterVersion..."
-    Remove-Module -Name Pester -Force # there are instances where some containers have Pester already in the session
+    Remove-Module -Name Pester -Force -ErrorAction 'SilentlyContinue'# there are instances where some containers have Pester already in the session
     Import-Module -Name Pester -MinimumVersion $script:PesterVersion -ErrorAction 'Stop'
 
     $codeCovPath = "$script:ArtifactsPath\ccReport\"
@@ -314,7 +314,7 @@ Add-BuildTask Test {
 #Synopsis: Used primarily during active development to generate xml file to graphically display code coverage in VSCode using Coverage Gutters
 Add-BuildTask DevCC {
     Write-Build White '      Generating code coverage report at root...'
-    Remove-Module -Name Pester -Force # there are instances where some containers have Pester already in the session
+    Remove-Module -Name Pester -Force -ErrorAction 'SilentlyContinue'# there are instances where some containers have Pester already in the session
     Import-Module -Name Pester -MinimumVersion $script:PesterVersion -ErrorAction 'Stop'
 
     $pesterConfiguration = [PesterConfiguration]::new()
@@ -502,7 +502,7 @@ Add-BuildTask Build {
 Add-BuildTask InfraTest {
     if (Test-Path -Path $script:InfraTestsPath) {
 
-        Remove-Module -Name Pester -Force # there are instances where some containers have Pester already in the session
+        Remove-Module -Name Pester -Force -ErrorAction 'SilentlyContinue'# there are instances where some containers have Pester already in the session
         Import-Module -Name Pester -MinimumVersion $script:MinPesterVersion -MaximumVersion $script:MaxPesterVersion -ErrorAction 'Stop'
 
         $pesterConfiguration = [PesterConfiguration]::new()

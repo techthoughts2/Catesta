@@ -4,7 +4,7 @@
   <metadata>
     <name>GHAManifestPS</name>
     <id>c336d3e8-c2b9-451d-a041-be4b84259ec9</id>
-    <version>0.11.10</version>
+    <version>0.11.12</version>
     <title>Catesta - PowerShell Module Template for GitHub Actions</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using GitHub Actions</description>
     <author>Jake Morrison</author>
@@ -75,7 +75,7 @@
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}'/>
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Public'/>
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Private'/>
-    <templateFile source='..\editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
+    <file source='..\editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
     <file source='..\editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
     <templateFile source='..\editor\VSCode\settings.json' destination='.vscode\settings.json' />
 
