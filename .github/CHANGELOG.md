@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.11.12]
+## [0.11.20]
 
 - Catesta template module changes
   - **Added support for Pester 5** - you can now choose either Pester 4 or Pester 5 in a prompt when creating a module with Catesta.
@@ -18,7 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - The public sample function now returns hello world with the day of the week included
     - Sample tests are now created for these sample functions in the appropriate public/private folders under the Tests/Unit folder
     - Sample tests now actually test the sample functions
-  - VSCode tasks file now references the dynamic ```${workspaceFolderBasename}``` instead of the direct module name
   - AppVeyor CI/CD changes:
     - Updated Ubuntu image from ```Ubuntu1804``` to ```Ubuntu2004```
   - Azure DevOps CI/CD changes:

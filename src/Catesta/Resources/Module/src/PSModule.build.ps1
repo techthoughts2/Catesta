@@ -687,17 +687,6 @@ If ($PLASTER_PARAM_Pester-eq '5') {
 '@
 }
 %>
-        $invokePesterParams = @{
-            Path       = 'Tests\Infrastructure'
-            Strict     = $true
-            PassThru   = $true
-            Verbose    = $false
-            EnableExit = $false
-        }
-
-        # Publish Test Results as NUnitXml
-        $testResults = Invoke-Pester @invokePesterParams
-
         # This will output a nice json for each failed test (if running in CodeBuild)
         if ($env:CODEBUILD_BUILD_ARN) {
             $testResults.TestResult | ForEach-Object {

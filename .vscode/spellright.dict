@@ -11,3 +11,4 @@ appveyor
 buildheader
 ps1xml
 yaml
+buildspec

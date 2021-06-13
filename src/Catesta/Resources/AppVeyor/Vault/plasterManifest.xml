@@ -4,7 +4,7 @@
   <metadata>
     <name>AppVeyorVaultExtension</name>
     <id>0cb76f26-5b3b-4c6b-9396-91e2c6427b0f</id>
-    <version>0.11.12</version>
+    <version>0.11.20</version>
     <title>Catesta - SecretManagement extension vault module template for AppVeyor</title>
     <description>Scaffolds a new PowerShell SecretManagement extension vault module projectfor CI/CD workflow using AppVeyor</description>
     <author>Jake Morrison</author>
@@ -51,6 +51,10 @@
       <choice label='&amp;Linux' help="Adds a Linux AppVeyor task." value="linux"/>
       <choice label='&amp;MacOS' help="Adds a MacOS AppVeyor task." value="macos"/>
     </parameter>
+    <parameter name='Pester' type='choice' default='0' store='text' prompt='Which version of Pester would you like to use?'>
+      <choice label='&amp;5' help="Pester version 5" value="5"/>
+      <choice label='&amp;4' help="Pester version 4" value="4"/>
+    </parameter>
   </parameters>
   <content>
     <message>&#10;&#10;Scaffolding your SecretManagement extension vault module for AppVeyor...&#10;&#10;&#10;</message>
@@ -67,9 +71,13 @@
     <file source='..\..\editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
     <templateFile source='..\..\editor\VSCode\settings.json' destination='.vscode\settings.json' />
 
-    <templateFile source='..\..\Vault\src\Tests\Unit\PSVault-Module.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
-    <templateFile source='..\..\Vault\src\Tests\Unit\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />
-    <templateFile source='..\..\Vault\src\Tests\Unit\Module-Function.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Function.Tests.ps1' />
+    <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\..\Vault\src\Tests\v4\Unit\PSVault-Module.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
+    <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\..\Vault\src\Tests\v4\Unit\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />
+    <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\..\Vault\src\Tests\v4\Unit\Module-Function.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Function.Tests.ps1' />
+
+    <templateFile condition="$PLASTER_PARAM_Pester -eq '5'" source='..\..\Vault\src\Tests\v5\Unit\PSVault-Module.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
+    <templateFile condition="$PLASTER_PARAM_Pester -eq '5'" source='..\..\Vault\src\Tests\v5\Unit\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />
+    <templateFile condition="$PLASTER_PARAM_Pester -eq '5'" source='..\..\Vault\src\Tests\v5\Unit\Module-Function.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Function.Tests.ps1' />
 
     <templateFile source='..\..\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psd1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.Extension\${PLASTER_PARAM_ModuleName}.Extension.psd1' />
     <file source='..\..\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psm1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.Extension\${PLASTER_PARAM_ModuleName}.Extension.psm1' />
@@ -97,7 +105,8 @@
 
     <newModuleManifest destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_Version' encoding='UTF8-NoBOM' openInEditor="true" author='$PLASTER_PARAM_FN' description='$PLASTER_PARAM_description' nestedModules='./${PLASTER_PARAM_ModuleName}.Extension' />
 
-    <requireModule name="Pester" minimumVersion="4.7.2" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 4.5.0, VS Code will not display Pester warnings and errors in the Problems panel."/>
+    <requireModule condition="$PLASTER_PARAM_Pester -eq '4'" name="Pester" minimumVersion="4.7.2" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 4.5.0, VS Code will not display Pester warnings and errors in the Problems panel."/>
+    <requireModule condition="$PLASTER_PARAM_Pester -eq '5'" name="Pester" minimumVersion="5.0.0" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file."/>
     <requireModule name="InvokeBuild" minimumVersion="5.8.0" message="Without InvokeBuild, you will not be able to run local builds."/>
     <requireModule name="platyPS" requiredVersion ="0.12.0" message="This template requires platyPS v0.12.0 module to properly generate help."/>
     <requireModule name="Microsoft.PowerShell.SecretManagement" minimumVersion ="1.0.0" message="Without the PowerShell SecretManagement you will not be able to properly test your extension."/>
