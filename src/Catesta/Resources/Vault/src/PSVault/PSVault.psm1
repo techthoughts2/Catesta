@@ -1,6 +1,6 @@
 <#
 This is an entirely optional psm1 which you can leverage to surface up
-custom functions to SecretManagement.<%=$PLASTER_PARAM_ModuleName%>.psd1
+custom functions to <%=$PLASTER_PARAM_ModuleName%>.psd1
 You could create a specialized wrapper function for Registering/Unregistering your vault.
 You could create specialized configuration functions.
 You could also register autocompleters here.

@@ -12,7 +12,7 @@
     RootModule        = 'Catesta.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.11.0'
+    ModuleVersion     = '0.12.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -62,7 +62,7 @@
         },
         @{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.6.1'
+            ModuleVersion = '5.8.0'
         },
         @{
             ModuleName    = 'PSScriptAnalyzer'

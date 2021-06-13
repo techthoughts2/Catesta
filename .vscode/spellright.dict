@@ -1,2 +1,14 @@
 Catesta
 gitignore
+json
+vscode
+buildspec_pwsh_windows
+yml
+dotnet
+pwsh
+outputfile
+appveyor
+buildheader
+ps1xml
+yaml
+buildspec

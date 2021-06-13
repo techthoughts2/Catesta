@@ -17,8 +17,6 @@ If ($PLASTER_PARAM_Options -eq 'windows') {
         Install-PackageProvider -Name "NuGet" -Confirm:$false -Force -Verbose
         Install-Module -Name PowerShellGet -Repository PSGallery -Force
         .\actions_bootstrap.ps1
-        Remove-Module Pester -ErrorAction SilentlyContinue
-        Import-Module Pester -RequiredVersion 4.10.1
         Invoke-Build -File $(Build.SourcesDirectory)\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1
       displayName: 'Build and Test - Windows PowerShell'
     - task: PublishTestResults@2
@@ -120,11 +118,6 @@ If ($PLASTER_PARAM_Options -eq 'macos') {
     pool:
       vmImage: macOS-latest
     steps:
-    - script: |
-        brew update
-        brew tap caskroom/cask
-        brew cask install powershell
-      displayName: 'Install PowerShell Core'
     - script: |
         pwsh -c '$PSVersionTable;.\actions_bootstrap.ps1;Invoke-Build -File $(Build.SourcesDirectory)/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'
       displayName: 'Build and Test - macOS'

@@ -88,7 +88,7 @@ function New-PowerShellProject {
 
         Write-Verbose -Message ('[{0}] Confirm={1} ConfirmPreference={2} WhatIf={3} WhatIfPreference={4}' -f $MyInvocation.MyCommand, $Confirm, $ConfirmPreference, $WhatIf, $WhatIfPreference)
 
-    }#begin
+    } #begin
     Process {
         # -Confirm --> $ConfirmPreference = 'Low'
         # ShouldProcess intercepts WhatIf* --> no need to pass it on
@@ -110,24 +110,24 @@ function New-PowerShellProject {
                 'AWS' {
                     Write-Verbose -Message 'AWS Template Selected.'
                     $path = '\AWS'
-                }#aws
+                } #aws
                 'GitHubActions' {
                     Write-Verbose -Message 'GitHub Actions Template Selected.'
                     $path = '\GitHubActions'
-                }#githubactions
+                } #githubactions
                 'Azure' {
                     Write-Verbose -Message 'Azure Pipelines Template Selected.'
                     $path = '\Azure'
-                }#githubactions
+                } #githubactions
                 'AppVeyor' {
                     Write-Verbose -Message 'AppVeyor Template Selected.'
                     $path = '\AppVeyor'
-                }#appveyor
+                } #appveyor
                 'ModuleOnly' {
                     Write-Verbose -Message 'Module Only Template Selected.'
                     $path = '\Vanilla'
-                }#moduleonly
-            }#switch
+                } #moduleonly
+            } #switch
 
             Write-Verbose -Message 'Deploying template...'
             try {
@@ -150,9 +150,9 @@ function New-PowerShellProject {
                 }
             }
 
-        }#if_Should
-    }#process
+        } #if_Should
+    } #process
     End {
         return $results
-    }#end
-}#New-PowerShellProject
+    } #end
+} #New-PowerShellProject

@@ -1,6 +1,7 @@
 # This is a simple CodeBuild build file for PowerShell.
 # - pre_build step will ensure the Module Name / Version has not previously been built for production (plans to add this at a later time)
 # - build step will perform Clean, ValidateRequirements, Analyze, Test, CreateHelp, Build, Archive
+# https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
 # https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#runtime-versions-buildspec-file
 # https://docs.aws.amazon.com/codebuild/latest/userguide/test-reporting.html
 
@@ -8,8 +9,9 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      dotnet: 3.1
     commands:
-      - dotnet tool install --global PowerShell --version 7.0.3
       - pwsh -command '.\configure_aws_credential.ps1'
       - pwsh -command '.\install_modules.ps1'
   pre_build:

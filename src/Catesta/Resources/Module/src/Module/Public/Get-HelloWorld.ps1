@@ -27,6 +27,7 @@ function Get-HelloWorld {
         # [ValidateNotNullOrEmpty()]
         # [string]$YourParameter
     )
-    $message = 'Hello World'
+    $dayOfWeek = Get-Day # Get-Day is a private function
+    $message = "Hello, happy $dayOfWeek World!"
     return $message
-}#Get-HelloWorld
+} #Get-HelloWorld

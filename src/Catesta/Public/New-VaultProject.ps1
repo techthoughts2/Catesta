@@ -87,7 +87,7 @@ function New-VaultProject {
         }
 
         Write-Verbose -Message ('[{0}] Confirm={1} ConfirmPreference={2} WhatIf={3} WhatIfPreference={4}' -f $MyInvocation.MyCommand, $Confirm, $ConfirmPreference, $WhatIf, $WhatIfPreference)
-    }#begin
+    } #begin
     Process {
         # -Confirm --> $ConfirmPreference = 'Low'
         # ShouldProcess intercepts WhatIf* --> no need to pass it on
@@ -109,24 +109,24 @@ function New-VaultProject {
                 'AWS' {
                     Write-Verbose -Message 'AWS Template Selected.'
                     $path = '\AWS\Vault'
-                }#aws
+                } #aws
                 'GitHubActions' {
                     Write-Verbose -Message 'GitHub Actions Template Selected.'
                     $path = '\GitHubActions\Vault'
-                }#githubactions
+                } #githubactions
                 'Azure' {
                     Write-Verbose -Message 'Azure Pipelines Template Selected.'
                     $path = '\Azure\Vault'
-                }#githubactions
+                } #githubactions
                 'AppVeyor' {
                     Write-Verbose -Message 'AppVeyor Template Selected.'
                     $path = '\AppVeyor\Vault'
-                }#appveyor
+                } #appveyor
                 'ModuleOnly' {
                     Write-Verbose -Message 'Module Only Template Selected.'
                     $path = '\Vanilla\Vault'
-                }#moduleonly
-            }#switch
+                } #moduleonly
+            } #switch
 
             Write-Verbose -Message 'Deploying template...'
             try {
@@ -148,9 +148,9 @@ function New-VaultProject {
                 }
             }
 
-        }#if_Should
-    }#process
+        } #if_Should
+    } #process
     End {
         return $results
-    }#end
-}#New-VaultProject
+    } #end
+} #New-VaultProject

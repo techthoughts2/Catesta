@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.0]
+
+- Catesta template module changes
+  - **Added support for Pester 5** - you can now choose either Pester 4 or Pester 5 in a prompt when creating a module or vault with Catesta.
+    - Some CICD containers have the Pester module loaded into memory. Added explicit remove in the build file to account for this.
+    - Moved Pester import handling from the buildspec/yaml to InvokeBuild
+  - Updated pester tests that were using legacy Should syntax (without dashes)
+  - Fixed ```tasks.json``` VSCode file to be valid json (was missing comma)
+  - Added prompt on ModuleOnly module type to prompt user if they want helpful .vscode files for their module project
+  - Catesta now deploys the initial sample module in a style that better reflects a real-world module
+    - The private sample function was renamed to Get-Day and gets the day of the week
+    - The public sample function now returns hello world with the day of the week included
+    - Sample tests are now created for these sample functions in the appropriate public/private folders under the Tests/Unit folder
+    - Sample tests now actually test the sample functions
+  - AppVeyor CI/CD changes:
+    - Updated Ubuntu image from ```Ubuntu1804``` to ```Ubuntu2004```
+  - Azure DevOps CI/CD changes:
+    - The latest macOS image [now includes PowerShell](https://github.com/actions/virtual-environments/blob/main/images/macos/macos-10.15-Readme.md) by default - removed step in yaml to install PowerShell.
+  - AWS CodeBuild CI/CD changes:
+    - CB Linux Image updated in CFN from ```Image: aws/codebuild/standard:4.0``` to use latest: ```Image: aws/codebuild/standard:5.0```
+    - Updated buildspec_pwsh_windows.yml to use the new syntax for installing PowerShell 7.
+
+      ```bash
+      runtime-versions:
+        dotnet: 3.1
+      ```
+
+    - Added additional documentation links to the buildspec files
+  - InvokeBuild bumped from ```5.6.1``` to ```5.8.0```
+- Catesta primary module changes
+  - Updated pester tests that were using Legacy Should syntax (without dashes)
+  - Updated pester tests to support v5+
+  - InvokeBuild bumped from ```5.6.1``` to ```5.8.0```
+
 ## [0.11.0]
 
 - Adjusted vault templates to include the new capabilities in SecretManagement RC2
@@ -97,7 +131,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Added support for publishing test results
     - Added support for Code Coverage report
     - Updated actions_bootstrap.ps1 to install latest module versions
-    - For windows powershell based build added line to remove Pester 5 and Import Pester 4.10.1 specifically.
+    - For windows PowerShell based build added line to remove Pester 5 and Import Pester 4.10.1 specifically.
     - Added support for attaching build artifact of Archived module build
   - GitHub Actions
     - Updated actions_bootstrap.ps1 to install latest module versions
@@ -105,10 +139,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Changed checkout on all workflows from v1 to v2
     - Added pester test results artifact upload to all workflows
     - Renamed windows workflow that was using pwsh to ActionsTest-Windows-pwsh-Build
-    - For windows powershell based build added line to remove Pester 5 and Import Pester 4.10.1 specifically.
+    - For windows PowerShell based build added line to remove Pester 5 and Import Pester 4.10.1 specifically.
   - Appveyor Updates
     - Updated actions_bootstrap.ps1 to install latest module versions
-    - For windows powershell based build added line to remove Pester 5 and Import Pester 4.10.1 specifically.
+    - For windows PowerShell based build added line to remove Pester 5 and Import Pester 4.10.1 specifically.
     - Added support for all appveyor builds to include PesterTest, CodeCoverage, and build artifacts
 - Editor updates
   - Added InvokeBuild tasks to tasks.json
@@ -120,7 +154,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - buildspec_pwsh_windows.yml now uses PowerShell 7 instead of PowerShell 6.3
 - Minor build updates:
   - Updated tasks.json for better integration with InvokeBuild
-1
+
 ## [0.8.10]
 
 - Added link to the online function documentation for New-PowerShellProject as its first link so it will open directly when `Get-Help -Name New-PowerShellProject -Online` is called.
@@ -134,7 +168,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.8.5]
 
-- Corrected bug where AWS CI/CD choice was not correctly populating S3 bucketname for install_modules.ps1
+- Corrected bug where AWS CI/CD choice was not correctly populating S3 bucket name for install_modules.ps1
 - Bumped module references to latest versions
 
 ## [0.8.4]
@@ -147,7 +181,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Moved Infrastructure tests from pre-build to post build
   - Included sample Infrastructure test that references artifacts location for import for post-build import.
-- Corrected spelling error in Tests folder: Infrastrcuture to Infrastructure
+- Corrected spelling error in Tests folder: Infrastructure to Infrastructure
 
 ## [0.8.0]
 
