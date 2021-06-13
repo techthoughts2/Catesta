@@ -30,6 +30,11 @@ Catesta enables you to quickly scaffold a [PowerShell module](https://docs.micro
 * It will create resources you need to trigger CI/CD builds for your module.
 * When you commit your code to your chosen repository, the build(s) will run, and you can view the results.
 
+[Catesta](docs/Catesta.md) provides the following functions:
+
+* [New-PowerShellProject](docs/New-PowerShellProject.md)
+* [New-VaultProject](docs/New-VaultProject.md)
+
 ## Why
 
 Simplify the process of structuring your module so that you can focus on building a great PowerShell module instead of the layout and build requirements.
@@ -72,6 +77,7 @@ Simplify the process of structuring your module so that you can focus on buildin
       * Issue Bug Report
       * Issue Feature Request
       * Pull Request
+* [Pester](https://github.com/pester/Pester) version selection. Choose between Pester version 5 or Pester version 4 for testing your project.
 
 ## Installation
 
@@ -146,6 +152,7 @@ Additional Catesta documentation that covers the process of CI/CD integration in
 * [Catesta - GitHub Actions Doc](docs/Catesta-GHActions.md)
 * [Catesta - Azure Pipelines Doc](docs/Catesta-Azure.md)
 * [Catesta - GitHub AppVeyor Doc](docs/Catesta-AppVeyor.md)
+* [Catesta - Vault Extension](docs/Catesta-Vault-Extension.md)
 
 ## FAQ
 
@@ -153,7 +160,7 @@ Additional Catesta documentation that covers the process of CI/CD integration in
 
 ## Author
 
-[Jake Morrison](https://twitter.com/JakeMorrison) - [https://techthoughts.info/](https://techthoughts.info/)
+[Jake Morrison](https://twitter.com/JakeMorrison) - [https://www.techthoughts.info/](https://www.techthoughts.info/)
 
 ## Contributors
 
@@ -164,7 +171,7 @@ Additional Catesta documentation that covers the process of CI/CD integration in
 
 Additional Catesta documentation that covers PowerShell Vault Extension module projects more in depth:
 
-* [Catesta-Vault-Extension](docs/Catesta-Vault-Extension.md)
+* [Catesta - Vault Extension](docs/Catesta-Vault-Extension.md)
 
 ## Changelog
 
