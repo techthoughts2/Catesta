@@ -77,7 +77,7 @@
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}'/>
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Public'/>
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Private'/>
-    <file source='..\editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
+    <templateFile source='..\editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
     <file source='..\editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
     <templateFile source='..\editor\VSCode\settings.json' destination='.vscode\settings.json' />
 
