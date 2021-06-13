@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Catesta template module changes
   - **Added support for Pester 5** - you can now choose either Pester 4 or Pester 5 in a prompt when creating a module or vault with Catesta.
     - Some CICD containers have the Pester module loaded into memory. Added explicit remove in the build file to account for this.
+    - Moved Pester import handling from the buildspec/yaml to InvokeBuild
   - Updated pester tests that were using legacy Should syntax (without dashes)
   - Fixed ```tasks.json``` VSCode file to be valid json (was missing comma)
   - Added prompt on ModuleOnly module type to prompt user if they want helpful .vscode files for their module project
@@ -32,9 +33,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
       ```
 
     - Added additional documentation links to the buildspec files
+  - InvokeBuild bumped from ```5.6.1``` to ```5.8.0```
 - Catesta primary module changes
   - Updated pester tests that were using Legacy Should syntax (without dashes)
   - Updated pester tests to support v5+
+  - InvokeBuild bumped from ```5.6.1``` to ```5.8.0```
 
 ## [0.11.0]
 
