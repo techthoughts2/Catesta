@@ -29,7 +29,7 @@ Describe '<%=$PLASTER_PARAM_ModuleName%> Vault Extension Tests' -Tag Unit {
         <#
             It 'should ...' {
 
-            }#it
+            } #it
         #>
     } #context_FunctionName
 } #describe_vaultExtension
