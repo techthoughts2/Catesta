@@ -5,13 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.11.20]
+## [0.12.0]
 
 - Catesta template module changes
-  - **Added support for Pester 5** - you can now choose either Pester 4 or Pester 5 in a prompt when creating a module with Catesta.
-    - Also added explicit Pester module remove in the build file to account for some build containers that have certain version of Pester already in the session
-  - Updated pester tests that were using Legacy Should syntax (without dashes)
-  - Fixed ```tasks.json``` VSCode file to be valid json
+  - **Added support for Pester 5** - you can now choose either Pester 4 or Pester 5 in a prompt when creating a module or vault with Catesta.
+    - Some CICD containers have the Pester module loaded into memory. Added explicit remove in the build file to account for this.
+  - Updated pester tests that were using legacy Should syntax (without dashes)
+  - Fixed ```tasks.json``` VSCode file to be valid json (was missing comma)
   - Added prompt on ModuleOnly module type to prompt user if they want helpful .vscode files for their module project
   - Catesta now deploys the initial sample module in a style that better reflects a real-world module
     - The private sample function was renamed to Get-Day and gets the day of the week

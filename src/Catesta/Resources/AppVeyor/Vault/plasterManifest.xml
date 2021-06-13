@@ -4,7 +4,7 @@
   <metadata>
     <name>AppVeyorVaultExtension</name>
     <id>0cb76f26-5b3b-4c6b-9396-91e2c6427b0f</id>
-    <version>0.11.20</version>
+    <version>0.12.0</version>
     <title>Catesta - SecretManagement extension vault module template for AppVeyor</title>
     <description>Scaffolds a new PowerShell SecretManagement extension vault module projectfor CI/CD workflow using AppVeyor</description>
     <author>Jake Morrison</author>
