@@ -99,7 +99,7 @@ If ($PLASTER_PARAM_Pester-eq '4') {
 <%
 If ($PLASTER_PARAM_Pester-eq '5') {
         @'
-    [version]$script:MinPesterVersion = '5.0.0'
+    [version]$script:MinPesterVersion = '5.2.2'
     [version]$script:MaxPesterVersion = '5.99.99'
 '@
 }

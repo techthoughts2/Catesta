@@ -90,7 +90,7 @@ Enter-Build {
     # Ensure our builds fail until if below a minimum defined code test coverage threshold
     $script:coverageThreshold = 95
 
-    [version]$script:PesterVersion = '5.0.0'
+    [version]$script:PesterVersion = '5.2.2'
 } #Enter-Build
 
 # Define headers as separator, task path, synopsis, and location, e.g. for Ctrl+Click in VSCode.
