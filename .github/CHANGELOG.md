@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.12.1]
 
 - Changed the Pester 5 minimum version requirement from ```v5.0.0``` to ```v5.2.2```
+- Updated CloudFormation GitHub template to use CodeBuild image version 5.0.
 
 ## [0.12.0]
 
