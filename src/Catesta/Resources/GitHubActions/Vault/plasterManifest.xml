@@ -4,7 +4,7 @@
   <metadata>
     <name>GHAVaultExtension</name>
     <id>02c6673d-bf8b-4997-b229-0d1856af4506</id>
-    <version>0.12.0</version>
+    <version>0.12.1</version>
     <title>Catesta - SecretManagement extension vault module template for GitHub Actions</title>
     <description>Scaffolds a new PowerShell SecretManagement extension vault module project for CI/CD workflow using GitHub Actions</description>
     <author>Jake Morrison</author>
@@ -109,7 +109,7 @@
     <newModuleManifest destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_Version' encoding='UTF8-NoBOM' openInEditor="true" author='$PLASTER_PARAM_FN' description='$PLASTER_PARAM_description' nestedModules='./${PLASTER_PARAM_ModuleName}.Extension' />
 
     <requireModule condition="$PLASTER_PARAM_Pester -eq '4'" name="Pester" minimumVersion="4.7.2" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 4.5.0, VS Code will not display Pester warnings and errors in the Problems panel."/>
-    <requireModule condition="$PLASTER_PARAM_Pester -eq '5'" name="Pester" minimumVersion="5.0.0" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file."/>
+    <requireModule condition="$PLASTER_PARAM_Pester -eq '5'" name="Pester" minimumVersion="5.2.2" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file."/>
     <requireModule name="InvokeBuild" minimumVersion="5.8.0" message="Without InvokeBuild, you will not be able to run local builds."/>
     <requireModule name="platyPS" requiredVersion ="0.12.0" message="This template requires platyPS v0.12.0 module to properly generate help."/>
     <requireModule name="Microsoft.PowerShell.SecretManagement" minimumVersion ="1.0.0" message="Without the PowerShell SecretManagement you will not be able to properly test your extension."/>

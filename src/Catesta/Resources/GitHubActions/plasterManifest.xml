@@ -4,7 +4,7 @@
   <metadata>
     <name>GHAManifestPS</name>
     <id>c336d3e8-c2b9-451d-a041-be4b84259ec9</id>
-    <version>0.12.0</version>
+    <version>0.12.1</version>
     <title>Catesta - PowerShell Module Template for GitHub Actions</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using GitHub Actions</description>
     <author>Jake Morrison</author>
@@ -122,7 +122,7 @@
     <file source='..\Module\src\Module\Module.psm1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psm1' openInEditor="true"/>
 
     <requireModule condition="$PLASTER_PARAM_Pester -eq '4'" name="Pester" minimumVersion="4.7.2" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 4.5.0, VS Code will not display Pester warnings and errors in the Problems panel."/>
-    <requireModule condition="$PLASTER_PARAM_Pester -eq '5'" name="Pester" minimumVersion="5.0.0" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file."/>
+    <requireModule condition="$PLASTER_PARAM_Pester -eq '5'" name="Pester" minimumVersion="5.2.2" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file."/>
     <requireModule name="InvokeBuild" minimumVersion="5.8.0" message="Without InvokeBuild, you will not be able to run local builds."/>
     <requireModule name="platyPS" requiredVersion ="0.12.0" message="This template requires platyPS v0.12.0 module to properly generate help."/>
 
