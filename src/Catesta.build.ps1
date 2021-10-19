@@ -51,6 +51,8 @@ $str = 'Clean', 'ValidateRequirements', 'ImportModuleManifest'
 $str += 'FormattingCheck'
 $str += 'Analyze', 'Test'
 $str += 'CreateHelpStart'
+$str2 = $str
+$str2 += 'Build', 'Archive'
 $str += 'Build', 'InfraTest', 'Archive'
 Add-BuildTask -Name . -Jobs $str
 
@@ -59,6 +61,9 @@ Add-BuildTask TestLocal Clean, ImportModuleManifest, Analyze, Test
 
 #Local help file creation process
 Add-BuildTask HelpLocal Clean, ImportModuleManifest, CreateHelpStart
+
+#Full build sans infra tests
+Add-BuildTask BuildNoInfra -Jobs $str2
 
 # Pre-build variables to be used by other portions of the script
 Enter-Build {
@@ -117,9 +122,9 @@ Set-BuildFooter {
 
 #Synopsis: Validate system requirements are met
 Add-BuildTask ValidateRequirements {
-    # this setting comes from the *.Settings.ps1
+    # !this setting comes from the *.Settings.ps1
     Write-Build White "      Verifying at least PowerShell $script:requiredPSVersion..."
-    Assert-Build ($PSVersionTable.PSVersion.Major.ToString() -ge $script:requiredPSVersion) "At least Powershell $script:requiredPSVersion is required for this build to function properly"
+    Assert-Build ($PSVersionTable.PSVersion -ge $script:requiredPSVersion) "At least Powershell $script:requiredPSVersion is required for this build to function properly"
     Write-Build Green '      ...Verification Complete!'
 } #ValidateRequirements
 
@@ -249,7 +254,7 @@ Add-BuildTask Test {
     }
     if (Test-Path -Path $script:UnitTestsPath) {
         $pesterConfiguration = [PesterConfiguration]::new()
-        $pesterConfiguration.run.Path = $script:TestsPath
+        $pesterConfiguration.run.Path = $script:UnitTestsPath
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
         $pesterConfiguration.CodeCoverage.Enabled = $true
@@ -318,7 +323,7 @@ Add-BuildTask DevCC {
     Import-Module -Name Pester -MinimumVersion $script:PesterVersion -ErrorAction 'Stop'
 
     $pesterConfiguration = [PesterConfiguration]::new()
-    $pesterConfiguration.run.Path = 'Tests\Unit'
+    $pesterConfiguration.run.Path = $script:UnitTestsPath
     $pesterConfiguration.CodeCoverage.Enabled = $true
     $pesterConfiguration.CodeCoverage.Path = "$PSScriptRoot\$ModuleName\*\*.ps1"
     $pesterConfiguration.CodeCoverage.CoveragePercentTarget = $script:coverageThreshold
@@ -506,7 +511,7 @@ Add-BuildTask InfraTest {
         Import-Module -Name Pester -MinimumVersion $script:MinPesterVersion -MaximumVersion $script:MaxPesterVersion -ErrorAction 'Stop'
 
         $pesterConfiguration = [PesterConfiguration]::new()
-        $pesterConfiguration.run.Path = 'Tests\Infrastructure'
+        $pesterConfiguration.run.Path = $script:InfraTestsPath
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
         $pesterConfiguration.CodeCoverage.Enabled = $false

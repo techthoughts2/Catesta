@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.4]
+
+- ```*.build.ps1```
+  - Test task now correctly references ```$script:UnitTestsPath``` instead of overall ```$script:TestsPath```
+  - DevCC task now correctly references ```$script:UnitTestsPath``` instead of ```'Tests\Unit'```
+  - Infra task now correctly references ```$script:InfraTestsPath``` instead of ```'Tests\Infrastructure'```
+  - Adjusted ValidateRequirements task to work with ```[version]``` type when verifying minimum version of PowerShell to validate
+  - Added new BuildNoInfra task for building module without running Infra tests
+- ```tasks.json```
+  - Added new VSCode tasks
+    - BuildNoInfra - runs BuildNoInfra tasks
+    - Pester-Single-Coverage - enables user to run pester test for single function and get code coverage report
+    - Pester-Single-Detailed - enables user to run pester test for single function and get detailed results
+    - DevCC-Single - enables user to generate cov.xml coverage file for single function
+
 ## [0.12.1]
 
 - Changed the Pester 5 minimum version requirement from ```v5.0.0``` to ```v5.2.2```

@@ -63,6 +63,8 @@ $str += 'CreateHelpStart'
 '@
 }
 %>
+$str2 = $str
+$str2 += 'Build', 'Archive'
 $str += 'Build', 'InfraTest', 'Archive'
 Add-BuildTask -Name . -Jobs $str
 
@@ -71,6 +73,9 @@ Add-BuildTask TestLocal Clean, ImportModuleManifest, Analyze, Test
 
 #Local help file creation process
 Add-BuildTask HelpLocal Clean, ImportModuleManifest, CreateHelpStart
+
+#Full build sans infra tests
+Add-BuildTask BuildNoInfra -Jobs $str2
 
 # Pre-build variables to be used by other portions of the script
 Enter-Build {
@@ -143,7 +148,7 @@ Set-BuildFooter {
 Add-BuildTask ValidateRequirements {
     # this setting comes from the *.Settings.ps1
     Write-Build White "      Verifying at least PowerShell $script:requiredPSVersion..."
-    Assert-Build ($PSVersionTable.PSVersion.Major.ToString() -ge $script:requiredPSVersion) "At least Powershell $script:requiredPSVersion is required for this build to function properly"
+    Assert-Build ($PSVersionTable.PSVersion -ge $script:requiredPSVersion) "At least Powershell $script:requiredPSVersion is required for this build to function properly"
     Write-Build Green '      ...Verification Complete!'
 } #ValidateRequirements
 
@@ -316,7 +321,7 @@ Add-BuildTask Test {
 If ($PLASTER_PARAM_Pester-eq '4') {
             @'
         $invokePesterParams = @{
-            Path                         = 'Tests\Unit'
+            Path                         = $script:UnitTestsPath
             Strict                       = $true
             PassThru                     = $true
             Verbose                      = $false
@@ -338,7 +343,7 @@ If ($PLASTER_PARAM_Pester-eq '4') {
 If ($PLASTER_PARAM_Pester-eq '5') {
             @'
         $pesterConfiguration = [PesterConfiguration]::new()
-        $pesterConfiguration.run.Path = $script:TestsPath
+        $pesterConfiguration.run.Path = $script:UnitTestsPath
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
         $pesterConfiguration.CodeCoverage.Enabled = $true
@@ -444,7 +449,7 @@ Add-BuildTask DevCC {
 If ($PLASTER_PARAM_Pester-eq '4') {
         @'
     $invokePesterParams = @{
-        Path                   = 'Tests\Unit'
+        Path                   = $script:UnitTestsPath
         CodeCoverage           = "$ModuleName\*\*.ps1"
         CodeCoverageOutputFile = '..\..\..\cov.xml'
     }
@@ -456,7 +461,7 @@ If ($PLASTER_PARAM_Pester-eq '4') {
 If ($PLASTER_PARAM_Pester-eq '5') {
         @'
     $pesterConfiguration = [PesterConfiguration]::new()
-    $pesterConfiguration.run.Path = 'Tests\Unit'
+    $pesterConfiguration.run.Path = $script:UnitTestsPath
     $pesterConfiguration.CodeCoverage.Enabled = $true
     $pesterConfiguration.CodeCoverage.Path = "$PSScriptRoot\$ModuleName\*\*.ps1"
     $pesterConfiguration.CodeCoverage.CoveragePercentTarget = $script:coverageThreshold
@@ -659,7 +664,7 @@ Add-BuildTask InfraTest {
 If ($PLASTER_PARAM_Pester-eq '4') {
             @'
         $invokePesterParams = @{
-            Path       = 'Tests\Infrastructure'
+            Path       = $script:InfraTestsPath
             Strict     = $true
             PassThru   = $true
             Verbose    = $false
@@ -676,7 +681,7 @@ If ($PLASTER_PARAM_Pester-eq '4') {
 If ($PLASTER_PARAM_Pester-eq '5') {
             @'
         $pesterConfiguration = [PesterConfiguration]::new()
-        $pesterConfiguration.run.Path = 'Tests\Infrastructure'
+        $pesterConfiguration.run.Path = $script:InfraTestsPath
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
         $pesterConfiguration.CodeCoverage.Enabled = $false

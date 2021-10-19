@@ -125,10 +125,41 @@
             "command": "Invoke-Build -Task Build -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'"
         },
         {
+            "label": "BuildNoInfra",
+            "type": "shell",
+            "problemMatcher": "$msCompile",
+            "command": "Invoke-Build -Task BuildNoInfra -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'"
+        },
+        {
             "label": "InfraTest",
             "type": "shell",
             "problemMatcher": "$msCompile",
             "command": "Invoke-Build -Task InfraTest -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'"
+        },
+        {
+            "label": "Pester-Single-Coverage",
+            "type": "shell",
+            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/${input:functionName}.Tests.ps1' -CodeCoverage '${workspaceFolder}/src/${workspaceFolderBasename}/*/${input:functionName}.ps1'",
+            "problemMatcher": []
+        },
+        {
+            "label": "Pester-Single-Detailed",
+            "type": "shell",
+            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/${input:functionName}.Tests.ps1' -Output Detailed",
+            "problemMatcher": []
+        },
+        {
+            "label": "DevCC-Single",
+            "type": "shell",
+            "problemMatcher": "$msCompile",
+            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/${input:functionName}.Tests.ps1' -CodeCoverage '${workspaceFolder}/src/${workspaceFolderBasename}/*/${input:functionName}.ps1' -CodeCoverageOutputFile '${workspaceFolder}/cov.xml'"
         }
-	]
+    ],
+    "inputs": [
+        {
+            "type": "promptString",
+            "id": "functionName",
+            "description": "Name of PowerShell function you want to test"
+        }
+    ]
 }
