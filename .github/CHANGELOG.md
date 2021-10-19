@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Test task now correctly references ```$script:UnitTestsPath``` instead of overall ```$script:TestsPath```
   - DevCC task now correctly references ```$script:UnitTestsPath``` instead of ```'Tests\Unit'```
   - Infra task now correctly references ```$script:InfraTestsPath``` instead of ```'Tests\Infrastructure'```
+  - Adjusted ValidateRequirements task to work with ```[version]``` type when verifying minimum version of PowerShell to validate
 
 ## [0.12.1]
 
