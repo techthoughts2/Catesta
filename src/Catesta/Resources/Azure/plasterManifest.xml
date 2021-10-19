@@ -4,7 +4,7 @@
   <metadata>
     <name>AzurePManifestPS</name>
     <id>74cef6b1-55b4-4247-9cc8-654d26cc1402</id>
-    <version>0.12.1</version>
+    <version>0.12.4</version>
     <title>Catesta - PowerShell Module Template for Azure Pipelines</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using Azure Pipelines</description>
     <author>Jake Morrison</author>

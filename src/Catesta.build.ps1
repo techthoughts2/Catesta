@@ -249,7 +249,7 @@ Add-BuildTask Test {
     }
     if (Test-Path -Path $script:UnitTestsPath) {
         $pesterConfiguration = [PesterConfiguration]::new()
-        $pesterConfiguration.run.Path = $script:TestsPath
+        $pesterConfiguration.run.Path = $script:UnitTestsPath
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
         $pesterConfiguration.CodeCoverage.Enabled = $true
@@ -318,7 +318,7 @@ Add-BuildTask DevCC {
     Import-Module -Name Pester -MinimumVersion $script:PesterVersion -ErrorAction 'Stop'
 
     $pesterConfiguration = [PesterConfiguration]::new()
-    $pesterConfiguration.run.Path = 'Tests\Unit'
+    $pesterConfiguration.run.Path = $script:UnitTestsPath
     $pesterConfiguration.CodeCoverage.Enabled = $true
     $pesterConfiguration.CodeCoverage.Path = "$PSScriptRoot\$ModuleName\*\*.ps1"
     $pesterConfiguration.CodeCoverage.CoveragePercentTarget = $script:coverageThreshold
@@ -506,7 +506,7 @@ Add-BuildTask InfraTest {
         Import-Module -Name Pester -MinimumVersion $script:MinPesterVersion -MaximumVersion $script:MaxPesterVersion -ErrorAction 'Stop'
 
         $pesterConfiguration = [PesterConfiguration]::new()
-        $pesterConfiguration.run.Path = 'Tests\Infrastructure'
+        $pesterConfiguration.run.Path = $script:InfraTestsPath
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
         $pesterConfiguration.CodeCoverage.Enabled = $false
