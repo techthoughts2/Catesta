@@ -12,6 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - DevCC task now correctly references ```$script:UnitTestsPath``` instead of ```'Tests\Unit'```
   - Infra task now correctly references ```$script:InfraTestsPath``` instead of ```'Tests\Infrastructure'```
   - Adjusted ValidateRequirements task to work with ```[version]``` type when verifying minimum version of PowerShell to validate
+  - Added new BuildNoInfra task for building module without running Infra tests
+- ```tasks.json```
+  - Added new VSCode tasks
+    - BuildNoInfra - runs BuildNoInfra tasks
+    - Pester-Single-Coverage - enables user to run pester test for single function and get code coverage report
+    - Pester-Single-Detailed - enables user to run pester test for single function and get detailed results
+    - DevCC-Single - enables user to generate cov.xml coverage file for single function
 
 ## [0.12.1]
 

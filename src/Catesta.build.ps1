@@ -51,6 +51,8 @@ $str = 'Clean', 'ValidateRequirements', 'ImportModuleManifest'
 $str += 'FormattingCheck'
 $str += 'Analyze', 'Test'
 $str += 'CreateHelpStart'
+$str2 = $str
+$str2 += 'Build', 'Archive'
 $str += 'Build', 'InfraTest', 'Archive'
 Add-BuildTask -Name . -Jobs $str
 
@@ -59,6 +61,9 @@ Add-BuildTask TestLocal Clean, ImportModuleManifest, Analyze, Test
 
 #Local help file creation process
 Add-BuildTask HelpLocal Clean, ImportModuleManifest, CreateHelpStart
+
+#Full build sans infra tests
+Add-BuildTask BuildNoInfra -Jobs $str2
 
 # Pre-build variables to be used by other portions of the script
 Enter-Build {
