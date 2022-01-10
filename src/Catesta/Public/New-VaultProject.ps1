@@ -43,7 +43,7 @@
 .NOTES
     General notes
 .LINK
-    https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-Vault-Extension.md
+    https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Extension.md
 .LINK
     https://github.com/PowerShell/SecretManagement
 .LINK

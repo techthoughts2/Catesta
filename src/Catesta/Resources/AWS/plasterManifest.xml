@@ -148,7 +148,7 @@ Other build related tasks are also available. Press Ctrl+P, then type 'task' and
 
 CloudFormation files have been generated for this project. You can find these in the CloudFormation folder.
 You can login to your AWS account and utilize these file to quickly create a stack for your project build.
-More information: https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-AWS.md
+More information: https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-AWS.md
     </message>
 
   </content>

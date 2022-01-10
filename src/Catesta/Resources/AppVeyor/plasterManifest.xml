@@ -139,7 +139,7 @@ Other build related tasks are also available. Press Ctrl+P, then type 'task' and
 
 An AppVeyor file has been generated for this project. You can find it in the root folder.
 This will run automatically after your configure your repository with AppVeyor integration.
-More information: https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-AppVeyor.md
+More information: https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-AppVeyor.md
     </message>
 
   </content>

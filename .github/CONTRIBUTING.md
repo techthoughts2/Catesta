@@ -48,4 +48,4 @@ This project has a [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Licensing
 
-See the [LICENSE](https://github.com/techthoughts2/Catesta/blob/master/LICENSE) file for our project's licensing.
+See the [LICENSE](https://github.com/techthoughts2/Catesta/blob/main/LICENSE) file for our project's licensing.

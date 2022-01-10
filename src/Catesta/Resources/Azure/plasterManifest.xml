@@ -139,7 +139,7 @@ Other build related tasks are also available. Press Ctrl+P, then type 'task' and
 
 Azure Pipelines files have been generated for this project. You can find these in the root folder.
 These will run automatically when you commit your project to your GitHub repository after your have associated your repository with an Azure DevOps org.
-More information: https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-Azure.md
+More information: https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Azure.md
     </message>
 
   </content>

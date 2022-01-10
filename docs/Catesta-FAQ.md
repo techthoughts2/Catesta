@@ -6,13 +6,13 @@
 
 Badge examples:
 
-* ![AWS CodeBuild Status](https://codebuild.us-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiTXdycWF3WnM4ME5Td21NVTI4bnRkS0hYMTF5aUxWUmNLNmNMc3Uyck5QZ29XNDRHZUFlaTc5Vk5vbHBVd3JOaTU1ZCtkRU5BSnYrdmlIWGhGbEEyVmhJPSIsIml2UGFyYW1ldGVyU3BlYyI6IlN5Qmx4WWovSUhtbyt3aUYiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+* ![AWS CodeBuild Status](https://codebuild.us-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiTXdycWF3WnM4ME5Td21NVTI4bnRkS0hYMTF5aUxWUmNLNmNMc3Uyck5QZ29XNDRHZUFlaTc5Vk5vbHBVd3JOaTU1ZCtkRU5BSnYrdmlIWGhGbEEyVmhJPSIsIml2UGFyYW1ldGVyU3BlYyI6IlN5Qmx4WWovSUhtbyt3aUYiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=main)
   * *There is a Copy badge URL on your Build project page*
-* [![GitHub Actions Build Status Windows pwsh Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=master)](https://github.com/techthoughts2/Catesta/actions)
+* [![GitHub Actions Build Status Windows pwsh Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=main)](https://github.com/techthoughts2/Catesta/actions)
   * *Just replace the link with your repo*
-* [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/kech4dkqsrb9xuet/branch/master?svg=true)](https://ci.appveyor.com/project/techthoughts2/appveyortest/branch/master)
+* [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/kech4dkqsrb9xuet/branch/main?svg=true)](https://ci.appveyor.com/project/techthoughts2/appveyortest/branch/main)
   * *Under ProjectName - Settings - Badges*
-* [![Build Status](https://dev.azure.com/TechThoughts2/AzureTest/_apis/build/status/techthoughts2.AzureTest?branchName=master)](https://dev.azure.com/TechThoughts2/AzureTest/_build/latest?definitionId=1&branchName=master)
+* [![Build Status](https://dev.azure.com/TechThoughts2/AzureTest/_apis/build/status/techthoughts2.AzureTest?branchName=main)](https://dev.azure.com/TechThoughts2/AzureTest/_build/latest?definitionId=1&branchName=main)
   * *Found under DevOps Project - Pipelines - Builds - ... - Status Badge*
   * Unfortunately by default badge access is restricted to only authenticated access. This can be disabled at the organization and project level if you wish to display on a GitHub repo:
     * *Organization Settings - Settings - Disable anonymous access to badge*
