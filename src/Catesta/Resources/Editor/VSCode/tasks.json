@@ -1,27 +1,37 @@
+// Portions of this file were generated using New-VSCodeTask.ps1
+// Modify the build script or tasks-merge.json and recreate.
+// https://code.visualstudio.com/docs/editor/tasks
 // Available variables which can be used inside of strings.
-// ${workspaceRoot}: the root folder of the team
-// ${file}: the current opened file
-// ${relativeFile}: the current opened file relative to workspaceRoot
-// ${fileBasename}: the current opened file's basename
-// ${fileDirname}: the current opened file's dirname
-// ${fileExtname}: the current opened file's extension
+// https://code.visualstudio.com/docs/editor/variables-reference#_predefined-variables
+// ${workspaceFolder}: path of the folder opened in VS Code
+// <%=$PLASTER_PARAM_ModuleName%> - name of the folder opened in VS Code without any slashes (/)
+// ${file}: current opened file
+// ${fileWorkspaceFolder} - current opened file's workspace folder
+// ${relativeFile}: the current opened file relative to workspaceFolder
+// ${relativeFileDirname}: current opened file's dirname relative to workspaceFolder
+// ${fileBasename}: current opened file's basename
+// ${fileBasenameNoExtension} - current opened file's basename with no file extension
+// ${fileDirname}: current opened file's dirname
+// ${fileExtname}: current opened file's extension
 // ${cwd}: the current working directory of the spawned process
-// If you are using InvokeBuild you can enhance this tasks.json using the New-VSCodeTask command:
-// Install-Script New-VSCodeTask
-// New-VSCodeTask.ps1 -BuildFile .\src\YourModuleName.build.ps1
+// ${lineNumber} - current selected line number in the active file
+// ${selectedText} - current selected text in the active file
+// ${execPath} - path to the running VS Code executable
+// ${defaultBuildTask} - name of the default build task
+// ${pathSeparator} - character used by the operating system to separate components in file paths
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
     "version": "2.0.0",
-
-    // Start PowerShell
     "windows": {
         "options": {
             "shell": {
-                //"executable": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-                // "executable": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
-                "executable": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
-                "args": [ "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command" ]
+                // "executable": "powershell.exe",
+                "executable": "pwsh.exe",
+                "args": [
+                    "-NoProfile",
+                    "-ExecutionPolicy",
+                    "Bypass",
+                    "-Command"
+                ]
             }
         }
     },
@@ -29,7 +39,10 @@
         "options": {
             "shell": {
                 "executable": "/usr/bin/pwsh",
-                "args": [ "-NoProfile", "-Command" ]
+                "args": [
+                    "-NoProfile",
+                    "-Command"
+                ]
             }
         }
     },
@@ -37,28 +50,23 @@
         "options": {
             "shell": {
                 "executable": "/usr/local/bin/pwsh",
-                "args": [ "-NoProfile", "-Command" ]
+                "args": [
+                    "-NoProfile",
+                    "-Command"
+                ]
             }
         }
     },
-
-    // Associate with test task runner
     "tasks": [
-        {
-            "label": "PesterTest",
-            "type": "shell",
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            },
-            "problemMatcher": [ "$pester" ],
-            "command": "Invoke-Pester '${workspaceFolder}/src/Tests/Unit' -PesterOption @{IncludeVSCodeMarker=$true}",
-        },
         {
             "label": ".",
             "type": "shell",
-            "problemMatcher": "$msCompile",
             "command": "$PSVersionTable;Invoke-Build -Task . -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -67,92 +75,174 @@
         {
             "label": "TestLocal",
             "type": "shell",
+            "command": "Invoke-Build -Task TestLocal -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task TestLocal -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'"
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "test"
         },
         {
             "label": "HelpLocal",
             "type": "shell",
+            "command": "Invoke-Build -Task HelpLocal -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task HelpLocal -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'"
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "none"
         },
         {
             "label": "Clean",
             "type": "shell",
+            "command": "Invoke-Build -Task Clean -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task Clean -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'"
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "none"
         },
         {
             "label": "ValidateRequirements",
             "type": "shell",
+            "command": "Invoke-Build -Task ValidateRequirements -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task ValidateRequirements -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'"
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "none"
         },
         {
             "label": "Analyze",
             "type": "shell",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task Analyze -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'"
+            "command": "Invoke-Build -Task Analyze -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "none"
         },
         {
             "label": "AnalyzeTests",
             "type": "shell",
+            "command": "Invoke-Build -Task AnalyzeTests -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task AnalyzeTests -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'"
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "none"
         },
         {
             "label": "FormattingCheck",
             "type": "shell",
+            "command": "Invoke-Build -Task FormattingCheck -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task FormattingCheck -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'"
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "none"
         },
         {
             "label": "Test",
             "type": "shell",
+            "command": "Invoke-Build -Task Test -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task Test -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'"
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "test"
         },
         {
             "label": "DevCC",
             "type": "shell",
+            "command": "Invoke-Build -Task DevCC -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task DevCC -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'"
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "test"
         },
         {
             "label": "Build",
             "type": "shell",
+            "command": "Invoke-Build -Task Build -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task Build -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'"
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "none"
         },
         {
             "label": "BuildNoInfra",
             "type": "shell",
+            "command": "Invoke-Build -Task BuildNoInfra -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task BuildNoInfra -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'"
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "build"
         },
         {
             "label": "InfraTest",
             "type": "shell",
+            "command": "Invoke-Build -Task InfraTest -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task InfraTest -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'"
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "test"
+        },
+        {
+            "label": "PesterTest",
+            "type": "shell",
+            "command": "Invoke-Pester '${workspaceFolder}/src/Tests/Unit' -PesterOption @{IncludeVSCodeMarker=$true}",
+            "problemMatcher": "$pester",
+            "group": "test"
         },
         {
             "label": "Pester-Single-Coverage",
             "type": "shell",
-            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/${input:functionName}.Tests.ps1' -CodeCoverage '${workspaceFolder}/src/${workspaceFolderBasename}/*/${input:functionName}.ps1'",
-            "problemMatcher": []
+            "command": "Import-Module -Name '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>/<%=$PLASTER_PARAM_ModuleName%>.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/${input:functionName}.Tests.ps1' -CodeCoverage '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>/*/${input:functionName}.ps1'",
+            "problemMatcher": "$pester",
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "test"
         },
         {
             "label": "Pester-Single-Detailed",
             "type": "shell",
-            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/${input:functionName}.Tests.ps1' -Output Detailed",
-            "problemMatcher": []
+            "command": "Import-Module -Name '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>/<%=$PLASTER_PARAM_ModuleName%>.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/${input:functionName}.Tests.ps1' -Output Detailed",
+            "problemMatcher": "$pester",
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "test"
         },
         {
             "label": "DevCC-Single",
             "type": "shell",
-            "problemMatcher": "$msCompile",
-            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/${input:functionName}.Tests.ps1' -CodeCoverage '${workspaceFolder}/src/${workspaceFolderBasename}/*/${input:functionName}.ps1' -CodeCoverageOutputFile '${workspaceFolder}/cov.xml'"
+            "command": "Import-Module -Name '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>/<%=$PLASTER_PARAM_ModuleName%>.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/${input:functionName}.Tests.ps1' -CodeCoverage '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>/*/${input:functionName}.ps1' -CodeCoverageOutputFile '${workspaceFolder}/cov.xml'",
+            "problemMatcher": "$pester",
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "test"
         }
     ],
     "inputs": [
