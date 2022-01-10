@@ -95,7 +95,8 @@ Enter-Build {
     # Ensure our builds fail until if below a minimum defined code test coverage threshold
     $script:coverageThreshold = 95
 
-    [version]$script:PesterVersion = '5.2.2'
+    [version]$script:MinPesterVersion = '5.2.2'
+    [version]$script:MaxPesterVersion = '5.99.99'
 } #Enter-Build
 
 # Define headers as separator, task path, synopsis, and location, e.g. for Ctrl+Click in VSCode.
@@ -240,9 +241,9 @@ Add-BuildTask FormattingCheck {
 #Synopsis: Invokes all Pester Unit Tests in the Tests\Unit folder (if it exists)
 Add-BuildTask Test {
 
-    Write-Build White "      Importing desired Pester version: $script:PesterVersion..."
+    Write-Build White "      Importing desired Pester version. Min: $script:MinPesterVersion Max: $script:MaxPesterVersion"
     Remove-Module -Name Pester -Force -ErrorAction 'SilentlyContinue'# there are instances where some containers have Pester already in the session
-    Import-Module -Name Pester -MinimumVersion $script:PesterVersion -ErrorAction 'Stop'
+    Import-Module -Name Pester -MinimumVersion $script:MinPesterVersion -MaximumVersion $script:MaxPesterVersion -ErrorAction 'Stop'
 
     $codeCovPath = "$script:ArtifactsPath\ccReport\"
     $testOutPutPath = "$script:ArtifactsPath\testOutput\"

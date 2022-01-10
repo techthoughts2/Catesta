@@ -17,10 +17,10 @@ Parameters:
     Description: "HTTPS Clone URL of the repository in GitHub. Example: 'https://github.com/owner/repo.git'"
     Type: String
 
-  #BranchName:
-  #  Default: master
-  #  Description: the GitHub branch that will be monitored for builds (CASE SENSITIVE).
-  #  Type: String
+  BranchName:
+    Default: main
+    Description: the GitHub branch that will be monitored for builds (CASE SENSITIVE).
+    Type: String
 
   CodeBuildBadgeEnabled:
     Type: String
@@ -97,10 +97,10 @@ Metadata:
           - ProjectName
           - ProjectDescription
       - Label:
-          default: Specify GitHub Repository and Branch
+          default: Specify GitHub Repository information
         Parameters:
           - RepositoryUrl
-          #- BranchName
+          - BranchName
       - Label:
           default: CodeBuild
         Parameters:
@@ -121,8 +121,8 @@ Metadata:
         default: Module Description
       RepositoryUrl:
         default: GitHub Repository URL
-      #BranchName:
-      #  default: Branch Name
+      BranchName:
+        default: Branch Name
       CodeBuildBadgeEnabled:
         default: Badge Enabled
       CodeBuildTimeoutInMinutes:
@@ -214,7 +214,9 @@ Resources:
 @'
   # The CodeBuild Project configuration
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
-  # https://docs.amazonaws.cn/en_us/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html
+  # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
   CodeBuildpsProject:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -235,6 +237,7 @@ Resources:
           - powershell_windows
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
+        # SourceAuth is for use by the CodeBuild console only. Do not get or set it directly.
         Type: GITHUB
         Auth:
           Type: OAUTH
@@ -250,7 +253,7 @@ Resources:
           - - Type: EVENT
               Pattern: PUSH
           - - Type: BASE_REF
-              Pattern: ^refs/heads/master$
+              Pattern: !Sub ^refs/heads/${BranchName}$
             - Type: EVENT
               Pattern: PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED
 '@
@@ -261,7 +264,9 @@ Resources:
 @'
   # The CodeBuild Project configuration
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
-  # https://docs.amazonaws.cn/en_us/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html
+  # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
   CodeBuildpwshcoreProject:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -282,6 +287,7 @@ Resources:
           - pwsh_windows
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
+        # SourceAuth is for use by the CodeBuild console only. Do not get or set it directly.
         Type: GITHUB
         Auth:
           Type: OAUTH
@@ -297,7 +303,7 @@ Resources:
           - - Type: EVENT
               Pattern: PUSH
           - - Type: BASE_REF
-              Pattern: ^refs/heads/master$
+              Pattern: !Sub ^refs/heads/${BranchName}$
             - Type: EVENT
               Pattern: PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED
 '@
@@ -308,7 +314,9 @@ Resources:
 @'
   # The CodeBuild Project configuration
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
-  # https://docs.amazonaws.cn/en_us/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html
+  # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
   CodeBuildpwshProject:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -328,6 +336,7 @@ Resources:
           - pwsh_linux
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
+        # SourceAuth is for use by the CodeBuild console only. Do not get or set it directly.
         Type: GITHUB
         Auth:
           Type: OAUTH
@@ -343,7 +352,7 @@ Resources:
           - - Type: EVENT
               Pattern: PUSH
           - - Type: BASE_REF
-              Pattern: ^refs/heads/master$
+              Pattern: !Sub ^refs/heads/${BranchName}$
             - Type: EVENT
               Pattern: PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED
 '@

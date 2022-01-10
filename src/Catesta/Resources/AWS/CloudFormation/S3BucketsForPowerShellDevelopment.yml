@@ -1,8 +1,6 @@
 ---
 AWSTemplateFormatVersion: "2010-09-09"
-
-Description:
-  S3 Buckets for PowerShell Module Development.
+Description: S3 Buckets for PowerShell Module Development.
 
 Parameters:
 

@@ -6,7 +6,7 @@
 .NOTES
     This script enables AWSPowerShell cmdlets in your CodeBuild to interact with and access other AWS resources in your account.
 #>
-'Configurating AWS credentials'
+'Configuring AWS credentials'
 
 '  - Retrieving temporary credentials from metadata'
 $uri = 'http://169.254.170.2{0}' -f $env:AWS_CONTAINER_CREDENTIALS_RELATIVE_URI

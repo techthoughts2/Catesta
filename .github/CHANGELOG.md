@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0]
+
+- Catesta template module changes
+  - AWS CodeBuild CI/CD changes:
+    - ```PowerShellCodeBuildGit.yml```
+      - Now enables user to specify Branch name on Webhook filter. Default is set to main.
+      - Updated reference links
+    - ```install_modules.ps1```
+      - Minor spelling correction
+      - Pester bumped from ```5.2.2``` to ```5.3.1```
+      - InvokeBuild bumped from ```5.8.0``` to ```5.8.8```
+      - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
+      - AWS.Tools.Common bumped from ```4.1.0.0``` to ```4.1.17.0```
+      - Microsoft.PowerShell.SecretManagement bumped from ```1.0.0``` to ```1.1.1```
+- Catesta primary module changes
+  - **Updated primary branch name from master to main**
+    - Updated references from master to main throughout repository
+  - Pester bumped from ```5.2.2``` to ```5.3.1```
+  - InvokeBuild bumped from ```5.8.0``` to ```5.8.8```
+  - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
+  - ```tasks.json```
+    - Adjusted formatting
+    - Updated documentation
+    - Updated references to align with new tasks requirements
+  - ```Catesta.build.ps1```
+    - Updated pester module import to use a min/max value
+  - Documentation updates
+    - Minor README corrections/updates
+    - AWS
+      - Updated ```Catesta-AWS.md```
+      - Re-did several AWS diagrams and included raw drawio diagrams
+
 ## [0.12.4]
 
 - ```*.build.ps1```

@@ -4,7 +4,6 @@
 
 [psgallery-img]:   https://img.shields.io/powershellgallery/dt/Catesta?label=Powershell%20Gallery&logo=powershell
 [psgallery-site]:  https://www.powershellgallery.com/packages/Catesta
-[psgallery-v1]:    https://www.powershellgallery.com/packages/Catesta/0.8.1
 [license-badge]:   https://img.shields.io/github/license/techthoughts2/Catesta
 
 <p align="center">
@@ -13,7 +12,7 @@
 
 Branch | Windows - PowerShell | Windows - pwsh | Linux | MacOS
 --- | --- | --- | --- | --- |
-master | ![Build Status Windows PowerShell Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-PowerShell/badge.svg?branch=master) | ![Build Status Windows pwsh Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=master) | ![Build Status Linux Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Linux/badge.svg?branch=master) | ![Build Status MacOS Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-MacOS/badge.svg?branch=master)
+main | ![Build Status Windows PowerShell Main](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-PowerShell/badge.svg?branch=main) | ![Build Status Windows pwsh Main](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=main) | ![Build Status Linux Main](https://github.com/techthoughts2/Catesta/workflows/Catesta-Linux/badge.svg?branch=main) | ![Build Status MacOS Main](https://github.com/techthoughts2/Catesta/workflows/Catesta-MacOS/badge.svg?branch=main)
 Enhancements | ![Build Status Windows PowerShell Enhancements](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-PowerShell/badge.svg?branch=Enhancements) | ![Build Status Windows pwsh Enhancements](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=Enhancements) | ![Build Status Linux Enhancements](https://github.com/techthoughts2/Catesta/workflows/Catesta-Linux/badge.svg?branch=Enhancements) | ![Build Status MacOS Enhancements](https://github.com/techthoughts2/Catesta/workflows/Catesta-MacOS/badge.svg?branch=Enhancements)
 
 ## Synopsis
@@ -92,40 +91,39 @@ Install-Module -Name Catesta -Repository PSGallery -Scope CurrentUser
 
 ```powershell
 # Scaffolds a PowerShell module project for integration with AWS CodeBuild.
-New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path\AWSProject
+New-PowerShellProject -CICDChoice 'AWS' -DestinationPath C:\path\AWSProject
 
 # Scaffolds a PowerShell module project for integration with GitHub Actions Workflows.
-New-PowerShellProject -CICDChoice 'GitHubActions' -DestinationPath c:\path\GitHubActions
+New-PowerShellProject -CICDChoice 'GitHubActions' -DestinationPath C:\path\GitHubActions
 
 # Scaffolds a PowerShell module project for integration with Azure DevOps Pipelines.
-New-PowerShellProject -CICDChoice 'Azure' -DestinationPath c:\path\AzurePipeline
+New-PowerShellProject -CICDChoice 'Azure' -DestinationPath C:\path\AzurePipeline
 
 # Scaffolds a PowerShell module project for integration with AppVeyor Projects.
-New-PowerShellProject -CICDChoice 'AppVeyor' -DestinationPath c:\path\AppVeyor
+New-PowerShellProject -CICDChoice 'AppVeyor' -DestinationPath C:\path\AppVeyor
 
 # Scaffolds a basic PowerShell module project with no additional extras. You just get a basic PowerShell module construct.
-New-PowerShellProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOnly
+New-PowerShellProject -CICDChoice 'ModuleOnly' -DestinationPath C:\path\ModuleOnly
 ```
 
 ### SecretManagement Vault Extension Module
 
 ```powershell
 # Scaffolds a PowerShell SecretManagement vault module project for integration with AWS CodeBuild.
-New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path\AWSProject
+New-VaultProject -CICDChoice 'AWS' -DestinationPath C:\path\AWSProject
 
 # Scaffolds a PowerShell SecretManagement vault module project for integration with GitHub Actions Workflows.
-New-VaultProject -CICDChoice 'GitHubActions' -DestinationPath c:\path\GitHubActions
+New-VaultProject -CICDChoice 'GitHubActions' -DestinationPath C:\path\GitHubActions
 
 # Scaffolds a PowerShell SecretManagement vault module project for integration with Azure DevOps Pipelines.
-New-VaultProject -CICDChoice 'Azure' -DestinationPath c:\path\AzurePipeline
+New-VaultProject -CICDChoice 'Azure' -DestinationPath C:\path\AzurePipeline
 
 # Scaffolds a PowerShell SecretManagement vault module project for integration with AppVeyor Projects.
-New-VaultProject -CICDChoice 'AppVeyor' -DestinationPath c:\path\AppVeyor
+New-VaultProject -CICDChoice 'AppVeyor' -DestinationPath C:\path\AppVeyor
 
 # Scaffolds a basic PowerShell SecretManagement vault module project with no additional extras. You just get a basic module construct.
-New-VaultProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOnly
+New-VaultProject -CICDChoice 'ModuleOnly' -DestinationPath C:\path\ModuleOnly
 ```
-
 
 ## Getting Started
 
@@ -144,14 +142,14 @@ New-VaultProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOnly
     * Azure: actions_bootstrap.ps1
     * AppVeyor: actions_bootstrap.ps1
 1. Commit your project to desired repository that is integrated with your CI/CD platform. This will trigger the build actions.
-1. Evaluate results of your builds and [display your README badges](https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-FAQ.md#how-do-i-display-the-badges-for-my-project) proudly!
+1. Evaluate results of your builds and [display your README badges](https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-FAQ.md#how-do-i-display-the-badges-for-my-project) proudly!
 
 Additional Catesta documentation that covers the process of CI/CD integration in depth:
 
 * [Catesta - AWS Doc](docs/Catesta-AWS.md)
 * [Catesta - GitHub Actions Doc](docs/Catesta-GHActions.md)
 * [Catesta - Azure Pipelines Doc](docs/Catesta-Azure.md)
-* [Catesta - GitHub AppVeyor Doc](docs/Catesta-AppVeyor.md)
+* [Catesta - AppVeyor Doc](docs/Catesta-AppVeyor.md)
 * [Catesta - Vault Extension](docs/Catesta-Vault-Extension.md)
 
 ## FAQ

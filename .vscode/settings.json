@@ -5,5 +5,28 @@
         "editor.formatOnSave": false
     },
     "files.trimTrailingWhitespace": true,
-    "powershell.codeFormatting.preset":"Stroustrup"
+    "powershell.codeFormatting.preset": "Stroustrup",
+    "cSpell.enabled": true,
+    "cSpell.words": [
+        "Allman",
+        "appveyor",
+        "buildheader",
+        "buildspec",
+        "buildspec_pwsh_windows",
+        "Catesta",
+        "CICD",
+        "cmdlets",
+        "dotnet",
+        "drawio",
+        "gitignore",
+        "json",
+        "OTBS",
+        "outputfile",
+        "ps1xml",
+        "pwsh",
+        "Stroustrup",
+        "vscode",
+        "yaml",
+        "yml"
+    ]
 }
