@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 
 - Catesta template module changes
+  - All build files - added commented line for easily retrieving modules/variables/env variables are available in the build image
   - AWS CodeBuild CI/CD changes:
     - ```PowerShellCodeBuildGit.yml```
       - Now enables user to specify Branch name on Webhook filter. Default is set to main.
@@ -21,6 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
       - Microsoft.PowerShell.SecretManagement bumped from ```1.0.0``` to ```1.1.1```
     - ```New-PowerShellProject.ps1``` & ```New-VaultProject.ps1```
       - Minor formatting updates
+  - Appveyor CI/CD changes:
+    - ```appveyor.yml```
+    - ```actions_bootstrap.ps1```
+      - Pester bumped from ```5.2.2``` to ```5.3.1```
+      - InvokeBuild bumped from ```5.8.0``` to ```5.8.8```
+      - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
+      - Microsoft.PowerShell.SecretManagement bumped from ```1.0.0``` to ```1.1.1```
   - ```tasks.json```
     - Adjusted formatting
     - Updated documentation
@@ -42,6 +50,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - AWS
       - Updated ```Catesta-AWS.md```
       - Re-did several AWS diagrams and included raw drawio diagrams
+      - Updated screenshots
+    - AppVeyor
+      - Updated ```Catesta-AppVeyor.md```
+      - Added diagram
+      - Updated screenshots
 
 ## [0.12.4]
 

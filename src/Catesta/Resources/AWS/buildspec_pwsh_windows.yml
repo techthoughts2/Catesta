@@ -17,6 +17,8 @@ phases:
   pre_build:
     commands:
       - pwsh -command '$PSVersionTable'
+      # uncomment the line below to explore what modules/variables/env variables are available in the build image
+      # - pwsh -command 'Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String'
   build:
     commands:
       - pwsh -command 'Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1'
