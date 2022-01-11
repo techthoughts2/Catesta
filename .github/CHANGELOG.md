@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
       - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
       - AWS.Tools.Common bumped from ```4.1.0.0``` to ```4.1.17.0```
       - Microsoft.PowerShell.SecretManagement bumped from ```1.0.0``` to ```1.1.1```
+    - ```New-PowerShellProject.ps1``` & ```New-VaultProject.ps1```
+      - Minor formatting updates
   - ```tasks.json```
     - Adjusted formatting
     - Updated documentation

@@ -41,7 +41,7 @@
 .OUTPUTS
     System.Management.Automation.PSCustomObject
 .NOTES
-    General notes
+    Author: Jake Morrison - @jakemorrison - https://www.techthoughts.info/
 .LINK
     https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Extension.md
 .LINK
@@ -66,10 +66,12 @@ function New-VaultProject {
         [ValidateSet('AWS', 'GitHubActions', 'Azure', 'AppVeyor', 'ModuleOnly')]
         [string]
         $CICDChoice,
+
         [Parameter(Mandatory = $true,
             HelpMessage = 'File path where PowerShell SecretManagement vault module project will be created')]
         [string]
         $DestinationPath,
+
         [Parameter(Mandatory = $false,
             HelpMessage = 'Skip confirmation')]
         [switch]$Force
@@ -117,7 +119,7 @@ function New-VaultProject {
                 'Azure' {
                     Write-Verbose -Message 'Azure Pipelines Template Selected.'
                     $path = '\Azure\Vault'
-                } #githubactions
+                } #azure
                 'AppVeyor' {
                     Write-Verbose -Message 'AppVeyor Template Selected.'
                     $path = '\AppVeyor\Vault'
@@ -147,7 +149,6 @@ function New-VaultProject {
                     Success = $false
                 }
             }
-
         } #if_Should
     } #process
     End {
