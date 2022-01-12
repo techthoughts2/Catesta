@@ -58,6 +58,8 @@ Additional Reading:
 * [Software installed on GitHub-hosted runners](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/software-installed-on-github-hosted-runners)
 * [Using a specific shell](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#using-a-specific-shell)
 * [Workflow syntax for GitHub Actions](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions)
+* [Where does the upload go?](https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-powershell)
+* [Building and testing PowerShell](https://github.com/actions/upload-artifact#where-does-the-upload-go)
 
 ## Diagrams
 
