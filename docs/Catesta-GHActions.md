@@ -2,7 +2,7 @@
 
 ## Synopsis
 
-Scaffolds a new PowerShell module project intended for CI/CD workflow using  [GitHub Actions](https://help.github.com/actions).
+Scaffolds a new PowerShell module project intended for CI/CD workflow using [GitHub Actions](https://help.github.com/actions).
 
 ## Getting Started
 
@@ -16,7 +16,7 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using  [Gi
 1. Create your project using Catesta
 
     ```powershell
-    New-PowerShellProject -CICDChoice 'GitHubActions' -DestinationPath c:\path\GitHubActions
+    New-PowerShellProject -CICDChoice 'GitHubActions' -DestinationPath C:\path\GitHubActions
     ```
 
     1. The Plaster logo will be displayed and you will see your first prompt
@@ -47,7 +47,7 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using  [Gi
 1. Upload to your desired repository which now has a triggered/monitored build action.
 1. Evaluate results of your build and display your GitHub Actions badge proudly!
 
-![GitHub Actions project created by Catesta](../media/GHActions/github_actions.PNG "GitHub Actions project created by Catesta")
+![GitHub Actions project created by Catesta](../media/GHActions/github_actions.PNG)
 
 ## Notes
 
@@ -61,8 +61,12 @@ Additional Reading:
 
 ## Diagrams
 
-TBD
+### GitHub Actions
+
+![Catesta PowerShell GitHub Actions Diagram](../media/GHActions/catesta_github_actions_diagram.png)
 
 ## Example Projects
 
-TBD
+* [Catesta](https://github.com/techthoughts2/Catesta)
+* [pwshPlaces](https://github.com/techthoughts2/pwshPlaces)
+* [ApertaCookie](https://github.com/techthoughts2/ApertaCookie)

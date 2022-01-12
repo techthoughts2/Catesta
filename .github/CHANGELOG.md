@@ -8,27 +8,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 
 - Catesta template module changes
-  - All build files - added commented line for easily retrieving modules/variables/env variables are available in the build image
+  - All build yaml files - added commented line for easily retrieving modules/variables/env variables are available in the build image
+  - All bootstrap files:
+    - Pester bumped from ```5.2.2``` to ```5.3.1```
+    - InvokeBuild bumped from ```5.8.0``` to ```5.8.8```
+    - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
+    - Microsoft.PowerShell.SecretManagement bumped from ```1.0.0``` to ```1.1.1```
   - AWS CodeBuild CI/CD changes:
     - ```PowerShellCodeBuildGit.yml```
       - Now enables user to specify Branch name on Webhook filter. Default is set to main.
       - Updated reference links
     - ```install_modules.ps1```
       - Minor spelling correction
-      - Pester bumped from ```5.2.2``` to ```5.3.1```
-      - InvokeBuild bumped from ```5.8.0``` to ```5.8.8```
-      - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
       - AWS.Tools.Common bumped from ```4.1.0.0``` to ```4.1.17.0```
-      - Microsoft.PowerShell.SecretManagement bumped from ```1.0.0``` to ```1.1.1```
     - ```New-PowerShellProject.ps1``` & ```New-VaultProject.ps1```
       - Minor formatting updates
   - Appveyor CI/CD changes:
     - ```appveyor.yml```
-    - ```actions_bootstrap.ps1```
-      - Pester bumped from ```5.2.2``` to ```5.3.1```
-      - InvokeBuild bumped from ```5.8.0``` to ```5.8.8```
-      - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
-      - Microsoft.PowerShell.SecretManagement bumped from ```1.0.0``` to ```1.1.1```
+      - Updated windows images to more recent versions
+        - Windows Powershell from 2017 to 2019
+        - PowerShell from 2019 to 2022
   - ```tasks.json```
     - Adjusted formatting
     - Updated documentation
@@ -55,6 +54,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
       - Updated ```Catesta-AppVeyor.md```
       - Added diagram
       - Updated screenshots
+    - GitHub Actions
+      - Updated ```Catesta-GHActions.md```
+      - Added diagram
 
 ## [0.12.4]
 

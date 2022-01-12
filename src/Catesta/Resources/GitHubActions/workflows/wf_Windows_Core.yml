@@ -3,6 +3,8 @@
 # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/software-installed-on-github-hosted-runners
 # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#using-a-specific-shell
 # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions
+# https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-powershell
+# https://github.com/actions/upload-artifact#where-does-the-upload-go
 name: ActionsTest-Windows-pwsh-Build
 on: [push, pull_request]
 jobs:
@@ -20,6 +22,10 @@ jobs:
     - name: Version Display
       shell: pwsh
       run: $PSVersionTable
+    # uncomment below to explore what modules/variables/env variables are available in the build image
+    # - name: Modules and Variables Display
+    #   shell: pwsh
+    #   run: Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String
     - name: Bootstrap
       shell: pwsh
       run: ./actions_bootstrap.ps1
