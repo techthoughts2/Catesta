@@ -68,6 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
       - Updated ```Catesta-Azure.md```
       - Added diagram
     - Updated ```Catesta-FAQ.md```
+    - Updated ```Catesta-Vault-Extension.md```
 
 ## [0.12.4]
 
