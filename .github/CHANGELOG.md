@@ -67,6 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Azure DevOps
       - Updated ```Catesta-Azure.md```
       - Added diagram
+    - Updated ```Catesta-FAQ.md```
 
 ## [0.12.4]
 
