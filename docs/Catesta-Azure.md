@@ -20,7 +20,7 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [Azu
 1. Create your project using Catesta
 
     ```powershell
-    New-PowerShellProject -CICDChoice 'Azure' -DestinationPath c:\path\AzurePipeline
+    New-PowerShellProject -CICDChoice 'Azure' -DestinationPath C:\path\AzurePipeline
     ```
 
     1. The Plaster logo will be displayed and you will see your first prompt
@@ -63,8 +63,10 @@ Additional Reading:
 
 ## Diagrams
 
-TBD
+### Azure DevOps Integration with GitHub
+
+![Catesta PowerShell Azure DevOps Diagram](../media/Azure/catesta_azure_devops_diagram.png)
 
 ## Example Projects
 
-TBD
+* [PoshNotify](https://github.com/techthoughts2/PoshNotify)

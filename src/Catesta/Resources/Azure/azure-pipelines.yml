@@ -2,6 +2,7 @@
 jobs:
   # https://docs.microsoft.com/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema
   # https://docs.microsoft.com/azure/devops/pipelines/agents/hosted?view=azure-devops#use-a-microsoft-hosted-agent
+  # https://docs.microsoft.com/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#software
   # https://docs.microsoft.com/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
   # https://docs.microsoft.com/azure/devops/pipelines/tasks/test/publish-code-coverage-results?view=azure-devops
   # https://docs.microsoft.com/azure/devops/pipelines/artifacts/build-artifacts?view=azure-devops&tabs=yaml
@@ -14,6 +15,8 @@ If ($PLASTER_PARAM_Options -eq 'windows') {
     steps:
     - powershell: |
         $PSVersionTable
+        # uncomment the line below to explore what modules/variables/env variables are available in the build image
+        # Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String
         Install-PackageProvider -Name "NuGet" -Confirm:$false -Force -Verbose
         Install-Module -Name PowerShellGet -Repository PSGallery -Force
         .\actions_bootstrap.ps1
@@ -50,6 +53,8 @@ If ($PLASTER_PARAM_Options -eq 'pwshcore') {
     steps:
     - pwsh: |
         $PSVersionTable
+        # uncomment the line below to explore what modules/variables/env variables are available in the build image
+        # Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String
         .\actions_bootstrap.ps1
         Invoke-Build -File $(Build.SourcesDirectory)\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1
       displayName: 'Build and Test - Windows pwsh'
@@ -82,12 +87,12 @@ If ($PLASTER_PARAM_Options -eq 'linux') {
     pool:
       vmImage: ubuntu-latest
     steps:
-    - script: |
-        sudo dpkg -i powershell_6.2.0-1.ubuntu.16.04_amd64.deb
-        sudo apt-get install -f
-      displayName: 'Install PowerShell Core'
-    - script: |
-        pwsh -c '$PSVersionTable;.\actions_bootstrap.ps1;Invoke-Build -File $(Build.SourcesDirectory)/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'
+    - pwsh: |
+        $PSVersionTable
+        # uncomment the line below to explore what modules/variables/env variables are available in the build image
+        # Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String
+        .\actions_bootstrap.ps1
+        Invoke-Build -File $(Build.SourcesDirectory)\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1
       displayName: 'Build and Test - Linux'
     - task: PublishTestResults@2
       inputs:
@@ -118,8 +123,12 @@ If ($PLASTER_PARAM_Options -eq 'macos') {
     pool:
       vmImage: macOS-latest
     steps:
-    - script: |
-        pwsh -c '$PSVersionTable;.\actions_bootstrap.ps1;Invoke-Build -File $(Build.SourcesDirectory)/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'
+    - pwsh: |
+        $PSVersionTable
+        # uncomment the line below to explore what modules/variables/env variables are available in the build image
+        # Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String
+        .\actions_bootstrap.ps1
+        Invoke-Build -File $(Build.SourcesDirectory)\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1
       displayName: 'Build and Test - macOS'
     - task: PublishTestResults@2
       inputs:

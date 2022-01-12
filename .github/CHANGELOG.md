@@ -28,6 +28,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
       - Updated windows images to more recent versions
         - Windows Powershell from 2017 to 2019
         - PowerShell from 2019 to 2022
+  - Azure DevOps CI/CD changes:
+    - ```azure-pipelines.yml```
+      - ubuntu-latest
+        - No longer installs PowerShell core (PowerShell 7 is now native to image)
+        - switched from script using ```pwsh -c ''``` style to native ```-pwsh: |``` call
+      - macOS-latest
+        - switched from script using ```pwsh -c ''``` style to native ```-pwsh: |``` call
   - ```tasks.json```
     - Adjusted formatting
     - Updated documentation
@@ -56,6 +63,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
       - Updated screenshots
     - GitHub Actions
       - Updated ```Catesta-GHActions.md```
+      - Added diagram
+    - Azure DevOps
+      - Updated ```Catesta-Azure.md```
       - Added diagram
 
 ## [0.12.4]
