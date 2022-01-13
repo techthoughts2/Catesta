@@ -38,46 +38,6 @@ Catesta enables you to quickly scaffold a [PowerShell module](https://docs.micro
 
 Simplify the process of structuring your module so that you can focus on building a great PowerShell module instead of the layout and build requirements.
 
-### Features
-
-* Catesta can build two types of module projects:
-  1. [PowerShell module](https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module?view=powershell-7) layout following PowerShell community practices
-  1. [SecretManagement Vault extension module](https://github.com/PowerShell/SecretManagement) layout following PowerShell community practices
-* *[Selection]* Required CI/CD integration files generated:
-  * [AWS](https://aws.amazon.com/codebuild/)
-  * [GitHub Actions](https://help.github.com/actions)
-  * [Azure Pipelines](https://azure.microsoft.com/services/devops/)
-  * [AppVeyor](https://www.appveyor.com/)
-* *[Selection]* Build types for easy cross-platform testing
-  * Windows PowerShell
-  * Windows pwsh
-  * Linux
-  * MacOS
-* [InvokeBuild](https://github.com/nightroman/Invoke-Build) tasks for validation / analysis / test / build automation
-  * [PSScriptAnalyzer](https://github.com/PowerShell/PSScriptAnalyzer) code checks
-    * *[Optional]* Code Style Enforcement (Stroustrup, OTBS, Allman)
-  * [Pester](https://github.com/pester/Pester) Tests
-    * Will run Unit / Infrastructure Tests if available
-    * Generates Code Coverage Report
-    * [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters) support
-  * *[Optional]* Create Help using [platyPS](https://github.com/PowerShell/platyPS)
-    * Markdown-based help
-    * External XML help file generation
-  * Build and artifact creation
-* *[Optional]* VSCode editor files
-* *[Optional]* Helpful repository files
-  * .gitignore
-  * Project LICENSE (MIT / APACHE / GNU / ISC)
-  * [Changelog](https://keepachangelog.com/en/1.0.0/)
-  * GitHub community files:
-    * Code of Conduct
-    * Contributing guidelines
-    * Templates
-      * Issue Bug Report
-      * Issue Feature Request
-      * Pull Request
-* [Pester](https://github.com/pester/Pester) version selection. Choose between Pester version 5 or Pester version 4 for testing your project.
-
 ## Installation
 
 ```powershell
@@ -151,6 +111,46 @@ Additional Catesta documentation that covers the process of CI/CD integration in
 * [Catesta - Azure Pipelines Doc](docs/Catesta-Azure.md)
 * [Catesta - AppVeyor Doc](docs/Catesta-AppVeyor.md)
 * [Catesta - Vault Extension](docs/Catesta-Vault-Extension.md)
+
+### Features
+
+* Catesta can build two types of module projects:
+  1. [PowerShell module](https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module?view=powershell-7) layout following PowerShell community practices
+  1. [SecretManagement Vault extension module](https://github.com/PowerShell/SecretManagement) layout following PowerShell community practices
+* *[Selection]* Required CI/CD integration files generated:
+  * [AWS](https://aws.amazon.com/codebuild/)
+  * [GitHub Actions](https://help.github.com/actions)
+  * [Azure Pipelines](https://azure.microsoft.com/services/devops/)
+  * [AppVeyor](https://www.appveyor.com/)
+* *[Selection]* Build types for easy cross-platform testing
+  * Windows PowerShell
+  * Windows pwsh
+  * Linux
+  * MacOS
+* [InvokeBuild](https://github.com/nightroman/Invoke-Build) tasks for validation / analysis / test / build automation
+  * [PSScriptAnalyzer](https://github.com/PowerShell/PSScriptAnalyzer) code checks
+    * *[Optional]* Code Style Enforcement (Stroustrup, OTBS, Allman)
+  * [Pester](https://github.com/pester/Pester) Tests
+    * Will run Unit / Infrastructure Tests if available
+    * Generates Code Coverage Report
+    * [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters) support
+  * *[Optional]* Create Help using [platyPS](https://github.com/PowerShell/platyPS)
+    * Markdown-based help
+    * External XML help file generation
+  * Build and artifact creation
+* *[Optional]* VSCode editor files
+* *[Optional]* Helpful repository files
+  * .gitignore
+  * Project LICENSE (MIT / APACHE / GNU / ISC)
+  * [Changelog](https://keepachangelog.com/en/1.0.0/)
+  * GitHub community files:
+    * Code of Conduct
+    * Contributing guidelines
+    * Templates
+      * Issue Bug Report
+      * Issue Feature Request
+      * Pull Request
+* [Pester](https://github.com/pester/Pester) version selection. Choose between Pester version 5 or Pester version 4 for testing your project.
 
 ## FAQ
 
