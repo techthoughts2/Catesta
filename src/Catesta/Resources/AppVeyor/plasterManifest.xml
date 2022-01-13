@@ -4,7 +4,7 @@
   <metadata>
     <name>AppVeyorManifestPS</name>
     <id>e7c065d2-f8c5-4bf2-b33e-db50a62abbb4</id>
-    <version>0.12.4</version>
+    <version>1.0.0</version>
     <title>Catesta - PSModule template for AppVeyor</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using AppVeyor</description>
     <author>Jake Morrison</author>
@@ -139,7 +139,7 @@ Other build related tasks are also available. Press Ctrl+P, then type 'task' and
 
 An AppVeyor file has been generated for this project. You can find it in the root folder.
 This will run automatically after your configure your repository with AppVeyor integration.
-More information: https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-AppVeyor.md
+More information: https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-AppVeyor.md
     </message>
 
   </content>

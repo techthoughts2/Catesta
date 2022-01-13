@@ -4,7 +4,7 @@
   <metadata>
     <name>AzurePManifestPS</name>
     <id>74cef6b1-55b4-4247-9cc8-654d26cc1402</id>
-    <version>0.12.4</version>
+    <version>1.0.0</version>
     <title>Catesta - PowerShell Module Template for Azure Pipelines</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using Azure Pipelines</description>
     <author>Jake Morrison</author>
@@ -139,7 +139,7 @@ Other build related tasks are also available. Press Ctrl+P, then type 'task' and
 
 Azure Pipelines files have been generated for this project. You can find these in the root folder.
 These will run automatically when you commit your project to your GitHub repository after your have associated your repository with an Azure DevOps org.
-More information: https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-Azure.md
+More information: https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Azure.md
     </message>
 
   </content>

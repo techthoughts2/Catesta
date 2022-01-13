@@ -5,6 +5,71 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0]
+
+- Catesta template module changes
+  - All build yaml files - added commented line for easily retrieving modules/variables/env variables are available in the build image
+  - All bootstrap files:
+    - Pester bumped from ```5.2.2``` to ```5.3.1```
+    - InvokeBuild bumped from ```5.8.0``` to ```5.8.8```
+    - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
+    - Microsoft.PowerShell.SecretManagement bumped from ```1.0.0``` to ```1.1.1```
+  - AWS CodeBuild CI/CD changes:
+    - ```PowerShellCodeBuildGit.yml```
+      - Now enables user to specify Branch name on Webhook filter. Default is set to main.
+      - Updated reference links
+    - ```install_modules.ps1```
+      - Minor spelling correction
+      - AWS.Tools.Common bumped from ```4.1.0.0``` to ```4.1.17.0```
+    - ```New-PowerShellProject.ps1``` & ```New-VaultProject.ps1```
+      - Minor formatting updates
+  - Appveyor CI/CD changes:
+    - ```appveyor.yml```
+      - Updated windows images to more recent versions
+        - Windows Powershell from 2017 to 2019
+        - PowerShell from 2019 to 2022
+  - Azure DevOps CI/CD changes:
+    - ```azure-pipelines.yml```
+      - ubuntu-latest
+        - No longer installs PowerShell core (PowerShell 7 is now native to image)
+        - switched from script using ```pwsh -c ''``` style to native ```-pwsh: |``` call
+      - macOS-latest
+        - switched from script using ```pwsh -c ''``` style to native ```-pwsh: |``` call
+  - ```tasks.json```
+    - Adjusted formatting
+    - Updated documentation
+    - Updated references to align with new tasks requirements
+- Catesta primary module changes
+  - **Updated primary branch name from master to main**
+    - Updated references from master to main throughout repository
+  - Pester bumped from ```5.2.2``` to ```5.3.1```
+  - InvokeBuild bumped from ```5.8.0``` to ```5.8.8```
+  - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
+  - ```tasks.json```
+    - Adjusted formatting
+    - Updated documentation
+    - Updated references to align with new tasks requirements
+  - ```Catesta.build.ps1```
+    - Updated pester module import to use a min/max value
+  - Documentation updates
+    - Minor README corrections/updates
+    - AWS
+      - Updated ```Catesta-AWS.md```
+      - Re-did several AWS diagrams and included raw drawio diagrams
+      - Updated screenshots
+    - AppVeyor
+      - Updated ```Catesta-AppVeyor.md```
+      - Added diagram
+      - Updated screenshots
+    - GitHub Actions
+      - Updated ```Catesta-GHActions.md```
+      - Added diagram
+    - Azure DevOps
+      - Updated ```Catesta-Azure.md```
+      - Added diagram
+    - Updated ```Catesta-FAQ.md```
+    - Updated ```Catesta-Vault-Extension.md```
+
 ## [0.12.4]
 
 - ```*.build.ps1```

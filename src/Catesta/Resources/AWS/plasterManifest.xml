@@ -4,7 +4,7 @@
   <metadata>
     <name>AWSCBManifestPS</name>
     <id>83670531-579c-4a4c-a70a-ddc60eaefa40</id>
-    <version>0.12.4</version>
+    <version>1.0.0</version>
     <title>Catesta - PowerShell Module Template for AWS CodeBuild</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using AWS CodeBuild</description>
     <author>Jake Morrison</author>
@@ -148,7 +148,7 @@ Other build related tasks are also available. Press Ctrl+P, then type 'task' and
 
 CloudFormation files have been generated for this project. You can find these in the CloudFormation folder.
 You can login to your AWS account and utilize these file to quickly create a stack for your project build.
-More information: https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-AWS.md
+More information: https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-AWS.md
     </message>
 
   </content>

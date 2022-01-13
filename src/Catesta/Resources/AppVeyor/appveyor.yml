@@ -9,7 +9,7 @@ image:
 <%
 If ($PLASTER_PARAM_Options -eq 'windows') {
 @'
-  - Visual Studio 2017
+  - Visual Studio 2019
 '@
 }
 %>
@@ -17,7 +17,7 @@ If ($PLASTER_PARAM_Options -eq 'windows') {
 <%
 If ($PLASTER_PARAM_Options -eq 'pwshcore') {
 @'
-  - Visual Studio 2019
+  - Visual Studio 2022
 '@
 }
 %>
@@ -51,9 +51,11 @@ for:
 -
   matrix:
     only:
-      - image: Visual Studio 2017
+      - image: Visual Studio 2019
   init:
     - ps: $PSVersionTable
+    # uncomment the line below to explore what modules/variables/env variables are available in the build image
+    # - ps: Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String
     - ps: Install-PackageProvider -Name "NuGet" -Confirm:$false -Force -Verbose
     - ps: Install-Module -Name PowerShellGet -Repository PSGallery -Force
   install:
@@ -69,6 +71,8 @@ If ($PLASTER_PARAM_Options -eq 'macos' -or $PLASTER_PARAM_Options -eq 'linux' -o
 @'
 init:
   - pwsh: $PSVersionTable
+  # uncomment the line below to explore what modules/variables/env variables are available in the build image
+  # - pwsh: Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String
 install:
   - pwsh: . .\actions_bootstrap.ps1
 build_script:

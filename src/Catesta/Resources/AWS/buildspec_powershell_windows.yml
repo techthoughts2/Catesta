@@ -20,6 +20,8 @@ phases:
       # - powershell -command 'New-Item -Path C:\Test -ItemType Directory | Out-Null'
       # - powershell -command 'Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.Settings.ps1 -Task ValidateUniqueModuleVersion'
       - powershell -command '$PSVersionTable'
+      # uncomment the line below to explore what modules/variables/env variables are available in the build image
+      # - powershell -command 'Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String'
   build:
     commands:
       - powershell -command 'Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1'

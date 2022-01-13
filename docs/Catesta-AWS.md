@@ -15,7 +15,7 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [AWS
 1. Create your project using Catesta
 
     ```powershell
-    New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path\AWSProject
+    New-PowerShellProject -CICDChoice 'AWS' -DestinationPath C:\path\AWSProject
     ```
 
     1. The Plaster logo will be displayed and you will see your first prompt
@@ -32,19 +32,18 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [AWS
     1. **Would you like to specify a coding style for the project? [S] Stroustrup  [O] OTBS  [A] Allman  [N] None  [?] Help (default is "S"):** *The preferred coding style for the project*
     1. **Would you like to use platyPS to generate help documentation files for your project?** *Creates Markdown & external help for your module*
     1. **Enter S3 bucket name to download needed PS modules from S3 location. Leave blank to DL modules from PSGallery.** Your CodeBuild instance will need various modules to successfully build your PowerShell module project. By default, it does not contain them. Leaving this blank will default to having the CodeBuild instance download and install the needed modules from the PSGallery during each build. You can improve build times and performance by instead loading the required modules into an S3 bucket. If you choose to do so, you can specify the S3 bucket here. Don't forget to give your CodeBuild project permission to that S3 bucket.
-    1. **Select desired buildpsec file(s) options?** This is the most important selection and determines which buildspec files are generated for the CodeBuild. You need to consider what platforms you intend for your module to support. One, or all of these can be specified. The following scenarios are possible:
+    1. **Select desired buildspec file(s) options?** This is the most important selection and determines which buildspec files are generated for the CodeBuild. You need to consider what platforms you intend for your module to support. One, or all of these can be specified. The following scenarios are possible:
 
         | Buildspec | Environment | PowerShell |
         | ------------- | ------------- | ------------- |
         | buildspec_powershell_windows.yml  | WINDOWS_CONTAINER  | powershell  |
-        | buildspec_pwsh_windows.yml  | WINDOWS_CONTAINER  | pwsh (1) |
+        | buildspec_pwsh_windows.yml  | WINDOWS_CONTAINER  | pwsh |
         | buildspec_pwsh_linux.yml  | LINUX_CONTAINER  | pwsh  |
 
-        * (1)PowerShell 7 will be downloaded, installed, and all build tasks will run under the context of pwsh*
 1. Create your CodeBuild project in your AWS account. You can do this manually, or use the generated CloudFormation template (recommended).
     * **GitHub**
-      * The generated CFN template will guide you through the process. You will need a SEPERATE CodeBuild for each build type. So, if you wanted to build against all three platforms, you would deploy the template three times, specifying the desired buildspec for each stack deployment.
-      * The following shows the GitHub CFN example: ![PowerShell CodeBuild CFN Example](../media/AWS/PowerShell_CodeBuild_CFN_Example.PNG "PowerShell CodeBuild CFN Example")
+      * The generated CFN template will guide you through the process. This CFN will be dynamically altered based on your buildspec choice specified during the plaster process. If you choose all three, the CFN will deploy all required resources to support all three build types.
+      * CodeBuild projects currently use OATH to authenticate with GitHub. See the notes section below for configuring this.
       * The GitHub process is not currently configured to generate artifacts. You are welcome to make adjustments to include them.
       * *Don't forget to copy your badge URL to display on your project*
     * **CodeCommit**
@@ -62,7 +61,15 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [AWS
 1. Upload to your desired repository which now has a triggered/monitored build action.
 1. Evaluate results of your build and display your AWS CodeBuild badge proudly!
 
-![AWS CodeBuild project created by Catesta](../media/AWS/AWSCodeBuildProjects.PNG "AWS CodeBuild project created by Catesta")
+### Manual CFN upload example
+
+The following shows the GitHub CFN example:
+
+![Catesta PowerShell AWS CodeBuild CFN Example](../media/AWS/PowerShell_CodeBuild_CFN_Example.PNG)
+
+### Final CFN Deployment Results example
+
+![AWS CodeBuild projects created by Catesta](../media/AWS/AWSCodeBuildProjects.PNG)
 
 ## Notes
 
@@ -79,13 +86,17 @@ If you elect to host your code in GitHub you will need to manually associate you
 
 You may wish to use different CodeBuild projects to monitor different branches of your repository. If you are using GitHub this can be done with a WebhookFilter:
 
-[AWS CodeBuild Project WebhookFilter](https://docs.amazonaws.cn/en_us/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html)
+[AWS CodeBuild Project WebhookFilter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html)
 
 ## Diagrams
 
-![PowerShell CodeBuild GitHub Diagram](../media/AWS/AWSCodeBuildGitHub.png "PowerShell CodeBuild GitHub Diagram")
+### AWS CodeBuild Integration with GitHub
 
-![PowerShell CodeBuild CodeCommit Diagram](../media/AWS/AWSCodeBuildCodeCommit.png "PowerShell CodeBuild CodeCommit Diagram")
+![Catesta PowerShell AWS CodeBuild GitHub Diagram](../media/AWS/AWSCodeBuildGitHub.png)
+
+### AWS CodeBuild Integration with CodeCommit
+
+![Catesta PowerShell AWS CodeBuild CodeCommit Diagram](../media/AWS/AWSCodeBuildCodeCommit.png)
 
 ## Example Projects
 

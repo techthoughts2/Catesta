@@ -1,6 +1,5 @@
 ---
 AWSTemplateFormatVersion: "2010-09-09"
-
 Description: "PS CodeBuild Stack: <%=$PLASTER_PARAM_ModuleName%>"
 
 Parameters:
@@ -328,7 +327,6 @@ Resources:
         ComputeType: BUILD_GENERAL1_MEDIUM
         Image: aws/codebuild/windows-base:2019-1.0
         Type: WINDOWS_SERVER_2019_CONTAINER
-        # Type: WINDOWS_CONTAINER
         EnvironmentVariables:
           - Name: master_bucket
             Value: placeholder
@@ -370,7 +368,6 @@ Resources:
         ComputeType: BUILD_GENERAL1_MEDIUM
         Image: aws/codebuild/windows-base:2019-1.0
         Type: WINDOWS_SERVER_2019_CONTAINER
-        # Type: WINDOWS_CONTAINER
         EnvironmentVariables:
           - Name: master_bucket
             Value: placeholder

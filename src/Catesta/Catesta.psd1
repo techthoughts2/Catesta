@@ -12,7 +12,7 @@
     RootModule        = 'Catesta.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.12.4'
+    ModuleVersion     = '1.0.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -152,16 +152,16 @@
             )
 
             # A URL to the license for this module.
-            # LicenseUri = 'https://github.com/techthoughts2/Catesta/blob/master/LICENSE'
+            # LicenseUri = 'https://github.com/techthoughts2/Catesta/blob/main/LICENSE'
 
             # A URL to the main website for this project.
             ProjectUri               = 'https://github.com/techthoughts2/Catesta'
 
             # A URL to an icon representing this module.
-            IconUri                  = 'https://github.com/techthoughts2/Catesta/raw/master/media/CatestaIcon.png'
+            IconUri                  = 'https://github.com/techthoughts2/Catesta/raw/main/media/CatestaIcon.png'
 
             # ReleaseNotes of this module
-            ReleaseNotes             = 'https://github.com/techthoughts2/Catesta/blob/master/.github/CHANGELOG.md'
+            ReleaseNotes             = 'https://github.com/techthoughts2/Catesta/blob/main/.github/CHANGELOG.md'
 
             # Prerelease string of this module
             # Prerelease = ''
@@ -172,7 +172,7 @@
             # External dependent modules of this module
             # ExternalModuleDependencies = @()
 
-            #https://github.com/PowerShell/Plaster/tree/master/examples/TemplateModule
+            #https://github.com/PowerShell/Plaster/tree/main/examples/TemplateModule
             Extensions               = @(
                 @{
                     Module         = 'Plaster'

@@ -41,9 +41,9 @@
 .OUTPUTS
     System.Management.Automation.PSCustomObject
 .NOTES
-    General notes
+    Author: Jake Morrison - @jakemorrison - https://www.techthoughts.info/
 .LINK
-    https://github.com/techthoughts2/Catesta/blob/master/docs/New-PowerShellProject.md
+    https://github.com/techthoughts2/Catesta/blob/main/docs/New-PowerShellProject.md
 .LINK
     https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module
 .LINK
@@ -66,10 +66,12 @@ function New-PowerShellProject {
         [ValidateSet('AWS', 'GitHubActions', 'Azure', 'AppVeyor', 'ModuleOnly')]
         [string]
         $CICDChoice,
+
         [Parameter(Mandatory = $true,
             HelpMessage = 'File path where PowerShell Module project will be created')]
         [string]
         $DestinationPath,
+
         [Parameter(Mandatory = $false,
             HelpMessage = 'Skip confirmation')]
         [switch]$Force
@@ -118,7 +120,7 @@ function New-PowerShellProject {
                 'Azure' {
                     Write-Verbose -Message 'Azure Pipelines Template Selected.'
                     $path = '\Azure'
-                } #githubactions
+                } #azure
                 'AppVeyor' {
                     Write-Verbose -Message 'AppVeyor Template Selected.'
                     $path = '\AppVeyor'
@@ -149,7 +151,6 @@ function New-PowerShellProject {
                     Success = $false
                 }
             }
-
         } #if_Should
     } #process
     End {

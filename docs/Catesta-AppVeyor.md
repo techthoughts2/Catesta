@@ -2,7 +2,7 @@
 
 ## Synopsis
 
-Scaffolds a new PowerShell module project intended for CI/CD workflow using * [AppVeyor](https://www.appveyor.com/).
+Scaffolds a new PowerShell module project intended for CI/CD workflow using [AppVeyor](https://www.appveyor.com/).
 
 ## Getting Started
 
@@ -13,14 +13,14 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using * [A
 
 1. You will [need an AppVeyor account](https://ci.appveyor.com/login).
 1. Create a new Project:
-    * ![AppVeyor New Project](../media/AppVeyor/appveyor_new_project.PNG "AppVeyor New Project")
+    * ![AppVeyor New Project](../media/AppVeyor/appveyor_new_project.PNG)
 1. Select where your code will come from:
-    * ![AppVeyor Repository Selection](../media/AppVeyor/appveyor_select_code_source.PNG "AppVeyor Repository Selection")
+    * ![AppVeyor Repository Selection](../media/AppVeyor/appveyor_select_code_source.PNG)
     * Authenticate to your repository source as needed
 1. Create your project using Catesta
 
     ```powershell
-    New-PowerShellProject -CICDChoice 'AppVeyor' -DestinationPath c:\path\AppVeyor
+    New-PowerShellProject -CICDChoice 'AppVeyor' -DestinationPath C:\path\AppVeyor
     ```
 
     1. The Plaster logo will be displayed and you will see your first prompt
@@ -51,20 +51,23 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using * [A
 1. Upload to your desired repository which now has a triggered/monitored build action.
 1. Evaluate results of your build and display your AppVeyor badge proudly!
 
-![AppVeyor project created by Catesta](../media/AppVeyor/appveyor_build_results.PNG "AppVeyor project created by Catesta")
+![AppVeyor project created by Catesta](../media/AppVeyor/appveyor_build_results.PNG)
 
 ## Notes
 
 Additional Reading:
 
 * [Build configuration](https://www.appveyor.com/docs/build-configuration/)
+* [Build environment](https://www.appveyor.com/docs/build-environment/)
 * [Specializing matrix job configuration](https://www.appveyor.com/docs/build-configuration/#specializing-matrix-job-configuration)
 * [appveyor.yml reference](https://www.appveyor.com/docs/appveyor-yml/)
 
 ## Diagrams
 
-TBD
+### AppVeyor Integration with GitHub
+
+![Catesta PowerShell AppVeyor Diagram](../media/AppVeyor/catesta_appveyor_diagram.png)
 
 ## Example Projects
 
-TBD
+* [PoshGram](https://github.com/techthoughts2/PoshGram)

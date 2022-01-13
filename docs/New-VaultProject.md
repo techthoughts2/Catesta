@@ -1,7 +1,7 @@
 ---
 external help file: Catesta-help.xml
 Module Name: Catesta
-online version: https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-Vault-Extension.md
+online version: https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Extension.md
 schema: 2.0.0
 ---
 
@@ -155,11 +155,11 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ### System.Management.Automation.PSCustomObject
 ## NOTES
-General notes
+Author: Jake Morrison - @jakemorrison - https://www.techthoughts.info/
 
 ## RELATED LINKS
 
-[https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-Vault-Extension.md](https://github.com/techthoughts2/Catesta/blob/master/docs/Catesta-Vault-Extension.md)
+[https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Extension.md](https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Extension.md)
 
 [https://github.com/PowerShell/SecretManagement](https://github.com/PowerShell/SecretManagement)
 
