@@ -16,6 +16,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Pester bumped from ```5.3.1``` to ```5.3.3```
     - InvokeBuild bumped from ```5.8.8``` to ```5.9.10```
     - Microsoft.PowerShell.SecretManagement bumped from ```1.1.1``` to ```1.1.2```
+  - AWS CodeBuild CI/CD changes:
+    - ```PowerShellCodeBuildGit.yml```
+      - ```aws/codebuild/windows-base:2019-1.0``` to  ```aws/codebuild/windows-base:2019-2.0```
+      - ```aws/codebuild/standard:5.0``` to ```aws/codebuild/standard:6.0```
+      - All Lambdas updated from ```Runtime: python3.6``` to ```Runtime: python3.9```
+    - ```PowerShellCodeBuildGit.yml```
+      - ```aws/codebuild/windows-base:2019-1.0``` to  ```aws/codebuild/windows-base:2019-2.0```
+      - ```aws/codebuild/standard:5.0``` to ```aws/codebuild/standard:6.0```
+    - buildspec updates
+      - Updated runtime version from ```dotnet: 3.1``` to ```dotnet: 6.0```
+        - ```buildspec_pwsh_linux.yml```
+        - ```buildspec_pwsh_windows.yml```
+    - ```install_modules.ps1```
+      - AWS.Tools.Common bumped from ```4.1.17.0``` to ```4.1.133```
 - Catesta primary module changes
   - ```tasks.json```
     - ```PesterTest```, ```Pester-Single-Coverage```, ```Pester-Single-Detailed```, ```DevCC-Single``` tasks no longer use legacy parameters for Pester 5

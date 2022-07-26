@@ -51,12 +51,11 @@ Parameters:
   # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
   #CodeBuildImage:
   #  Type: String
-  #  Default : aws/codebuild/windows-base:1.0
+  #  Default : ws/codebuild/windows-base:2019-2.0
   #  Description: The size of the CodeBuild instance. (Windows Containers do NOT support small)
   #  AllowedValues:
+  #    - aws/codebuild/windows-base:2019-2.0
   #    - aws/codebuild/windows-base:2019-1.0
-  #    - aws/codebuild/windows-base:2.0
-  #    - aws/codebuild/standard:4.0
 
   # BuildSpecFile:
   #   Type: String
@@ -325,7 +324,7 @@ Resources:
       Description: !Ref CodeCommitRepositoryDescription
       Environment:
         ComputeType: BUILD_GENERAL1_MEDIUM
-        Image: aws/codebuild/windows-base:2019-1.0
+        Image: aws/codebuild/windows-base:2019-2.0
         Type: WINDOWS_SERVER_2019_CONTAINER
         EnvironmentVariables:
           - Name: master_bucket
@@ -366,7 +365,7 @@ Resources:
       Description: !Ref CodeCommitRepositoryDescription
       Environment:
         ComputeType: BUILD_GENERAL1_MEDIUM
-        Image: aws/codebuild/windows-base:2019-1.0
+        Image: aws/codebuild/windows-base:2019-2.0
         Type: WINDOWS_SERVER_2019_CONTAINER
         EnvironmentVariables:
           - Name: master_bucket
@@ -408,7 +407,7 @@ Resources:
       Description: !Ref CodeCommitRepositoryDescription
       Environment:
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/standard:5.0
+        Image: aws/codebuild/standard:6.0
         Type: LINUX_CONTAINER
         EnvironmentVariables:
           - Name: master_bucket
@@ -496,7 +495,7 @@ Resources:
       FunctionName: !Sub "${CodeCommitRepositoryName}-TriggerWPS"
       Description: Trigger CodeBuild from CodeCommit commit triggers.
       Handler: index.lambda_handler
-      Runtime: python3.6
+      Runtime: python3.9
       MemorySize: 128
       Timeout: 15
       Environment:
@@ -579,7 +578,7 @@ Resources:
       FunctionName: !Sub "${CodeCommitRepositoryName}-TriggerWPwsh"
       Description: Trigger CodeBuild from CodeCommit commit triggers.
       Handler: index.lambda_handler
-      Runtime: python3.6
+      Runtime: python3.9
       MemorySize: 128
       Timeout: 15
       Environment:
@@ -662,7 +661,7 @@ Resources:
       FunctionName: !Sub "${CodeCommitRepositoryName}-TriggerL"
       Description: Trigger CodeBuild from CodeCommit commit triggers.
       Handler: index.lambda_handler
-      Runtime: python3.6
+      Runtime: python3.9
       MemorySize: 128
       Timeout: 15
       Environment:
