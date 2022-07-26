@@ -8,6 +8,7 @@
         "kddejong.vscode-cfn-lint",
         "ms-vscode.PowerShell",
         "ryanluker.vscode-coverage-gutters",
-        "DavidAnson.vscode-markdownlint"
+        "DavidAnson.vscode-markdownlint",
+        "streetsidesoftware.code-spell-checker"
     ]
 }
