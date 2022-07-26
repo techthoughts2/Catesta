@@ -9,7 +9,7 @@
     #________________________________________
     #CustomRulePath
     #Specify CustomRulePath when you have a large set of custom rules you'd like to reference
-    #CustomRulePath = "Module\InjectionHunter\1.0.0\InjectionHunter.psd1"
+    #CustomRulePath = "Module\InjectionHunter\1.1.0\InjectionHunter.psd1"
     #________________________________________
     #IncludeRules
     #Specify IncludeRules when you only want to run specific subset of rules instead of the default rule set.

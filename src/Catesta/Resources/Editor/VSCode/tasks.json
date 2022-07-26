@@ -4,7 +4,7 @@
 // Available variables which can be used inside of strings.
 // https://code.visualstudio.com/docs/editor/variables-reference#_predefined-variables
 // ${workspaceFolder}: path of the folder opened in VS Code
-// <%=$PLASTER_PARAM_ModuleName%> - name of the folder opened in VS Code without any slashes (/)
+// ${workspaceFolderBasename} - name of the folder opened in VS Code without any slashes (/)
 // ${file}: current opened file
 // ${fileWorkspaceFolder} - current opened file's workspace folder
 // ${relativeFile}: the current opened file relative to workspaceFolder
@@ -61,7 +61,7 @@
         {
             "label": ".",
             "type": "shell",
-            "command": "$PSVersionTable;Invoke-Build -Task . -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "command": "$PSVersionTable;Invoke-Build -Task . -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -75,7 +75,7 @@
         {
             "label": "TestLocal",
             "type": "shell",
-            "command": "Invoke-Build -Task TestLocal -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "command": "Invoke-Build -Task TestLocal -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -86,7 +86,7 @@
         {
             "label": "HelpLocal",
             "type": "shell",
-            "command": "Invoke-Build -Task HelpLocal -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "command": "Invoke-Build -Task HelpLocal -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -97,7 +97,7 @@
         {
             "label": "Clean",
             "type": "shell",
-            "command": "Invoke-Build -Task Clean -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "command": "Invoke-Build -Task Clean -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -108,7 +108,7 @@
         {
             "label": "ValidateRequirements",
             "type": "shell",
-            "command": "Invoke-Build -Task ValidateRequirements -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "command": "Invoke-Build -Task ValidateRequirements -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -120,7 +120,7 @@
             "label": "Analyze",
             "type": "shell",
             "problemMatcher": "$msCompile",
-            "command": "Invoke-Build -Task Analyze -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "command": "Invoke-Build -Task Analyze -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "presentation": {
                 "echo": false,
                 "showReuseMessage": false
@@ -130,7 +130,7 @@
         {
             "label": "AnalyzeTests",
             "type": "shell",
-            "command": "Invoke-Build -Task AnalyzeTests -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "command": "Invoke-Build -Task AnalyzeTests -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -141,7 +141,7 @@
         {
             "label": "FormattingCheck",
             "type": "shell",
-            "command": "Invoke-Build -Task FormattingCheck -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "command": "Invoke-Build -Task FormattingCheck -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -152,7 +152,7 @@
         {
             "label": "Test",
             "type": "shell",
-            "command": "Invoke-Build -Task Test -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "command": "Invoke-Build -Task Test -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -163,7 +163,7 @@
         {
             "label": "DevCC",
             "type": "shell",
-            "command": "Invoke-Build -Task DevCC -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "command": "Invoke-Build -Task DevCC -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -174,7 +174,7 @@
         {
             "label": "Build",
             "type": "shell",
-            "command": "Invoke-Build -Task Build -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "command": "Invoke-Build -Task Build -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -185,7 +185,7 @@
         {
             "label": "BuildNoInfra",
             "type": "shell",
-            "command": "Invoke-Build -Task BuildNoInfra -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "command": "Invoke-Build -Task BuildNoInfra -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -196,7 +196,7 @@
         {
             "label": "InfraTest",
             "type": "shell",
-            "command": "Invoke-Build -Task InfraTest -File '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'",
+            "command": "Invoke-Build -Task InfraTest -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -207,14 +207,33 @@
         {
             "label": "PesterTest",
             "type": "shell",
-            "command": "Invoke-Pester '${workspaceFolder}/src/Tests/Unit' -PesterOption @{IncludeVSCodeMarker=$true}",
+<%
+if ($PLASTER_PARAM_Pester-eq '4') {
+        @'
+            "command": "Import-Module -Name Pester -MaximumVersion 4.99.99;Invoke-Pester '${workspaceFolder}/src/Tests/Unit' -PesterOption @{IncludeVSCodeMarker=$true}",
+'@
+}
+elseif ($PLASTER_PARAM_Pester-eq '5') {
+        @'
+            "command": "Invoke-Pester '${workspaceFolder}/src/Tests/Unit' -Output Detailed",
+'@ }
+%>
             "problemMatcher": "$pester",
             "group": "test"
         },
         {
             "label": "Pester-Single-Coverage",
             "type": "shell",
-            "command": "Import-Module -Name '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>/<%=$PLASTER_PARAM_ModuleName%>.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/${input:functionName}.Tests.ps1' -CodeCoverage '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>/*/${input:functionName}.ps1'",
+<%
+if ($PLASTER_PARAM_Pester-eq '4') {
+        @'
+            "command": "Import-Module -Name Pester -MaximumVersion 4.99.99;Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/*/${input:functionName}.Tests.ps1' -CodeCoverage '${workspaceFolder}/src/${workspaceFolderBasename}/*/${input:functionName}.ps1'",
+'@
+}
+elseif ($PLASTER_PARAM_Pester-eq '5') { @'
+            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';$pesterConfig = New-PesterConfiguration;$pesterConfig.run.Path = '${workspaceFolder}/src/Tests/Unit/*/${input:functionName}.Tests.ps1';$pesterConfig.CodeCoverage.Enabled = $true;$pesterConfig.CodeCoverage.Path = '${workspaceFolder}/src/${workspaceFolderBasename}/*/${input:functionName}.ps1';Invoke-Pester -Configuration $pesterConfig",
+'@ }
+%>
             "problemMatcher": "$pester",
             "presentation": {
                 "echo": false,
@@ -225,7 +244,16 @@
         {
             "label": "Pester-Single-Detailed",
             "type": "shell",
-            "command": "Import-Module -Name '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>/<%=$PLASTER_PARAM_ModuleName%>.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/${input:functionName}.Tests.ps1' -Output Detailed",
+<%
+if ($PLASTER_PARAM_Pester-eq '4') {
+        @'
+            "command": "Import-Module -Name Pester -MaximumVersion 4.99.99;Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/*/${input:functionName}.Tests.ps1'",
+'@
+}
+elseif ($PLASTER_PARAM_Pester-eq '5') { @'
+            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/*/${input:functionName}.Tests.ps1' -Output Detailed",
+'@ }
+%>
             "problemMatcher": "$pester",
             "presentation": {
                 "echo": false,
@@ -236,7 +264,17 @@
         {
             "label": "DevCC-Single",
             "type": "shell",
-            "command": "Import-Module -Name '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>/<%=$PLASTER_PARAM_ModuleName%>.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/${input:functionName}.Tests.ps1' -CodeCoverage '${workspaceFolder}/src/<%=$PLASTER_PARAM_ModuleName%>/*/${input:functionName}.ps1' -CodeCoverageOutputFile '${workspaceFolder}/cov.xml'",
+<%
+if ($PLASTER_PARAM_Pester-eq '4') {
+        @'
+            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Import-Module -Name Pester -MaximumVersion 4.99.99;Invoke-Pester '${workspaceFolder}/src/Tests/Unit/*/${input:functionName}.Tests.ps1' -CodeCoverage '${workspaceFolder}/src/${workspaceFolderBasename}/*/${input:functionName}.ps1' -CodeCoverageOutputFile '${workspaceFolder}/cov.xml'",
+'@
+}
+elseif ($PLASTER_PARAM_Pester-eq '5') {
+        @'
+            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';$pesterConfig = New-PesterConfiguration;$pesterConfig.run.Path = '${workspaceFolder}/src/Tests/Unit/*/${input:functionName}.Tests.ps1';$pesterConfig.CodeCoverage.Enabled = $true;$pesterConfig.CodeCoverage.Path = '${workspaceFolder}/src/${workspaceFolderBasename}/*/${input:functionName}.ps1';$pesterConfig.CodeCoverage.OutputPath = '${workspaceFolder}/cov.xml';$pesterConfig.CodeCoverage.OutputFormat = 'CoverageGutters';Invoke-Pester -Configuration $pesterConfig",
+'@ }
+%>
             "problemMatcher": "$pester",
             "presentation": {
                 "echo": false,

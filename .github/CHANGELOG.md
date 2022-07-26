@@ -2,8 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.1.0]
+
+- Catesta template module changes
+  - Improved plaster references throughout Catesta to better handle situations when a user choose Pester 4 vs Pester 5. While this affects a few minor files it primarily focuses on updating the way VSCode tasks are engaged.
+    - ```tasks.json```
+      - ```PesterTest```, ```Pester-Single-Coverage```, ```Pester-Single-Detailed```, ```DevCC-Single``` tasks no longer use legacy parameters for Pester 5
+      - Updated to no longer reference the Module name directly. Instead ```${workspaceFolderBasename}``` is used throughout the tasks file now.
 
 ## [1.0.0]
 
@@ -13,14 +21,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Pester bumped from ```5.2.2``` to ```5.3.1```
     - InvokeBuild bumped from ```5.8.0``` to ```5.8.8```
     - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
-    - Microsoft.PowerShell.SecretManagement bumped from ```1.0.0``` to ```1.1.1```
+    - Microsoft.PowerShell.SecretManagement bumped from ```1.1.0``` to ```1.1.1```
   - AWS CodeBuild CI/CD changes:
     - ```PowerShellCodeBuildGit.yml```
       - Now enables user to specify Branch name on Webhook filter. Default is set to main.
       - Updated reference links
     - ```install_modules.ps1```
       - Minor spelling correction
-      - AWS.Tools.Common bumped from ```4.1.0.0``` to ```4.1.17.0```
+      - AWS.Tools.Common bumped from ```4.1.1.0``` to ```4.1.17.0```
     - ```New-PowerShellProject.ps1``` & ```New-VaultProject.ps1```
       - Minor formatting updates
   - Appveyor CI/CD changes:

@@ -4,7 +4,7 @@
   <metadata>
     <name>GHAManifestPS</name>
     <id>c336d3e8-c2b9-451d-a041-be4b84259ec9</id>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <title>Catesta - PowerShell Module Template for GitHub Actions</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using GitHub Actions</description>
     <author>Jake Morrison</author>

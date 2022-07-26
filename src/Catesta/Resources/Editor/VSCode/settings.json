@@ -5,7 +5,7 @@
     "powershell.scriptAnalysis.settingsPath": "PSScriptAnalyzerSettings.psd1",
     // specifies the PowerShell coding style used in this project (https://github.com/PoshCode/PowerShellPracticeAndStyle/issues/81)
 <%
-    If ($PLASTER_PARAM_CodingStyle -eq 'Stroustrup') {
+    if ($PLASTER_PARAM_CodingStyle -eq 'Stroustrup') {
         @'
     "powershell.codeFormatting.preset":"Stroustrup"
 '@
