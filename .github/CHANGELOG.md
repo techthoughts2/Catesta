@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.2.0/),
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.2.0]
@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - ```buildspec_pwsh_windows.yml```
     - ```install_modules.ps1```
       - AWS.Tools.Common bumped from ```4.1.17.0``` to ```4.1.133```
+  - Minimum version of ```Microsoft.PowerShell.SecretManagement``` for vault builds is now ```1.2.0```
 - Catesta primary module changes
   - ```tasks.json```
     - ```PesterTest```, ```Pester-Single-Coverage```, ```Pester-Single-Detailed```, ```DevCC-Single``` tasks no longer use legacy parameters for Pester 5
@@ -44,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Pester bumped from ```5.2.2``` to ```5.3.1```
     - InvokeBuild bumped from ```5.8.0``` to ```5.8.8```
     - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
-    - Microsoft.PowerShell.SecretManagement bumped from ```1.2.0``` to ```1.1.1```
+    - Microsoft.PowerShell.SecretManagement bumped from ```1.0.0``` to ```1.1.1```
   - AWS CodeBuild CI/CD changes:
     - ```PowerShellCodeBuildGit.yml```
       - Now enables user to specify Branch name on Webhook filter. Default is set to main.

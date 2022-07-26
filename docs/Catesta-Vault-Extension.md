@@ -66,7 +66,7 @@ The structure and layout of a SecretManagement Vault extension module differs qu
 
 * [Announcing SecretManagement 1.1 GA](https://devblogs.microsoft.com/powershell/announcing-secretmanagement-1-1-ga/)
 * [SecretManagement and SecretStore are Generally Available](https://devblogs.microsoft.com/powershell/secretmanagement-and-secretstore-are-generally-available/)
-* [SecretManagement Module v1.2.0 preview update](https://devblogs.microsoft.com/powershell/secretmanagement-module-v1-1-0-preview-update/)
+* [SecretManagement Module v1.1.0 preview update](https://devblogs.microsoft.com/powershell/secretmanagement-module-v1-1-0-preview-update/)
 * [PowerShell SecretManagement Module Design](https://github.com/PowerShell/SecretManagement/blob/main/Docs/DesignDoc.md)
 * [PowerShell Secrets Management – Part 1: Introduction](https://www.powershell.co.at/powershell-secrets-management-part-1-introduction/)
 * [PowerShell Secrets Management – Part 2: Installation and first steps](https://www.powershell.co.at/powershell-secrets-management-part-2-installation-and-first-steps/)
