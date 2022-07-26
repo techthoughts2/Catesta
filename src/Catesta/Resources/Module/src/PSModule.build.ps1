@@ -49,7 +49,7 @@ function Test-ManifestBool ($Path) {
 $str = @()
 $str = 'Clean', 'ValidateRequirements', 'ImportModuleManifest'
 <%
-If ($PLASTER_PARAM_CodingStyle -eq 'Stroustrup' -or $PLASTER_PARAM_CodingStyle -eq 'OTBS' -or $PLASTER_PARAM_CodingStyle -eq 'Allman') {
+if ($PLASTER_PARAM_CodingStyle -eq 'Stroustrup' -or $PLASTER_PARAM_CodingStyle -eq 'OTBS' -or $PLASTER_PARAM_CodingStyle -eq 'Allman') {
     @'
 $str += 'FormattingCheck'
 '@
@@ -57,7 +57,7 @@ $str += 'FormattingCheck'
 %>
 $str += 'Analyze', 'Test'
 <%
-If ($PLASTER_PARAM_Help -eq 'Yes') {
+if ($PLASTER_PARAM_Help -eq 'Yes') {
     @'
 $str += 'CreateHelpStart'
 '@
@@ -105,15 +105,13 @@ Enter-Build {
     $script:coverageThreshold = 30
 
 <%
-If ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester-eq '4') {
         @'
     [version]$script:MinPesterVersion = '4.0.0'
     [version]$script:MaxPesterVersion = '4.99.99'
 '@
 }
-%>
-<%
-If ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester-eq '5') {
         @'
     [version]$script:MinPesterVersion = '5.2.2'
     [version]$script:MaxPesterVersion = '5.99.99'
@@ -211,7 +209,7 @@ Add-BuildTask AnalyzeTests -After Analyze {
     if (Test-Path -Path $script:TestsPath) {
 
 <%
-If ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester-eq '4') {
             @'
         $scriptAnalyzerParams = @{
             Path    = $script:TestsPath
@@ -221,9 +219,7 @@ If ($PLASTER_PARAM_Pester-eq '4') {
         }
 '@
 }
-%>
-<%
-If ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester-eq '5') {
             @'
         $scriptAnalyzerParams = @{
             Path        = $script:TestsPath
@@ -318,7 +314,7 @@ Add-BuildTask Test {
     }
     if (Test-Path -Path $script:UnitTestsPath) {
 <%
-If ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester-eq '4') {
             @'
         $invokePesterParams = @{
             Path                         = $script:UnitTestsPath
@@ -338,9 +334,7 @@ If ($PLASTER_PARAM_Pester-eq '4') {
         $testResults = Invoke-Pester @invokePesterParams
 '@
 }
-%>
-<%
-If ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester-eq '5') {
             @'
         $pesterConfiguration = [PesterConfiguration]::new()
         $pesterConfiguration.run.Path = $script:UnitTestsPath
@@ -376,7 +370,7 @@ If ($PLASTER_PARAM_Pester-eq '5') {
         Assert-Build($numberFails -eq 0) ('Failed "{0}" unit tests.' -f $numberFails)
 
 <%
-If ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester-eq '4') {
             @'
         Write-Build Gray ('      ...CODE COVERAGE - NumberOfCommandsExecuted: {0}' -f $testResults.CodeCoverage.NumberOfCommandsExecuted)
         Write-Build Gray ('      ...CODE COVERAGE - NumberOfCommandsAnalyzed: {0}' -f $testResults.CodeCoverage.NumberOfCommandsAnalyzed)
@@ -404,9 +398,7 @@ If ($PLASTER_PARAM_Pester-eq '4') {
         }
 '@
 }
-%>
-<%
-If ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester-eq '5') {
             @'
         Write-Build Gray ('      ...CODE COVERAGE - CommandsExecutedCount: {0}' -f $testResults.CodeCoverage.CommandsExecutedCount)
         Write-Build Gray ('      ...CODE COVERAGE - CommandsAnalyzedCount: {0}' -f $testResults.CodeCoverage.CommandsAnalyzedCount)
@@ -446,7 +438,7 @@ Add-BuildTask DevCC {
     Remove-Module -Name Pester -Force -ErrorAction SilentlyContinue # there are instances where some containers have Pester already in the session
     Import-Module -Name Pester -MinimumVersion $script:MinPesterVersion -MaximumVersion $script:MaxPesterVersion -ErrorAction 'Stop'
 <%
-If ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester-eq '4') {
         @'
     $invokePesterParams = @{
         Path                   = $script:UnitTestsPath
@@ -456,9 +448,7 @@ If ($PLASTER_PARAM_Pester-eq '4') {
     Invoke-Pester @invokePesterParams
 '@
 }
-%>
-<%
-If ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester-eq '5') {
         @'
     $pesterConfiguration = [PesterConfiguration]::new()
     $pesterConfiguration.run.Path = $script:UnitTestsPath
@@ -574,7 +564,7 @@ Add-BuildTask CreateHelpComplete -After CreateExternalHelp {
 } #CreateHelpStart
 
 <%
-If ($PLASTER_PARAM_Help -eq 'Yes') {
+if ($PLASTER_PARAM_Help -eq 'Yes') {
     @'
 # Synopsis: Replace comment based help (CBH) with external help in all public functions for this project
 Add-BuildTask UpdateCBH -After AssetCopy {
@@ -661,7 +651,7 @@ Add-BuildTask InfraTest {
         Write-Build White "      Performing Pester Infrastructure Tests in $($invokePesterParams.path)"
 
 <%
-If ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester-eq '4') {
             @'
         $invokePesterParams = @{
             Path       = $script:InfraTestsPath
@@ -676,9 +666,7 @@ If ($PLASTER_PARAM_Pester-eq '4') {
         $testResults = Invoke-Pester @invokePesterParams
 '@
 }
-%>
-<%
-If ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester-eq '5') {
             @'
         $pesterConfiguration = [PesterConfiguration]::new()
         $pesterConfiguration.run.Path = $script:InfraTestsPath

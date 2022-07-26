@@ -14,17 +14,17 @@
 
 Badge examples:
 
-* ![AWS CodeBuild Status](https://codebuild.us-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiL2FvTzZsNGFoL1VTTk1UOGE3WXlwSVFRT3BTWngzc1czdVZLTEpNYWJld2xSbS9Ea3R0b3ZETm96Zk5md2ZXMVUwNXZnSnlaRlpuWUJldzdGMENpemRjPSIsIml2UGFyYW1ldGVyU3BlYyI6Ikl3T3VwdU43UUxya0J1SVciLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
-  * *There is a Copy badge URL on your Build project page*
-* [![GitHub Actions Build Status Windows pwsh Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=master)](https://github.com/techthoughts2/Catesta/actions)
-  * *Just replace the link with your repo*
-* [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/kech4dkqsrb9xuet/branch/master?svg=true)](https://ci.appveyor.com/project/techthoughts2/appveyortest/branch/master)
-  * *Under ProjectName - Settings - Badges*
-* [![Build Status](https://dev.azure.com/TechThoughts2/AzureTest/_apis/build/status/techthoughts2.AzureTest?branchName=master)](https://dev.azure.com/TechThoughts2/AzureTest/_build/latest?definitionId=1&branchName=master)
-  * *Found under DevOps Project - Pipelines - Builds - ... - Status Badge*
-  * Unfortunately by default badge access is restricted to only authenticated access. This can be disabled at the organization and project level if you wish to display on a GitHub repo:
-    * *Organization Settings - Settings - Disable anonymous access to badge*
-    * *Project Settings - Settings - Disable anonymous access to badge*
+- ![AWS CodeBuild Status](https://codebuild.us-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiL2FvTzZsNGFoL1VTTk1UOGE3WXlwSVFRT3BTWngzc1czdVZLTEpNYWJld2xSbS9Ea3R0b3ZETm96Zk5md2ZXMVUwNXZnSnlaRlpuWUJldzdGMENpemRjPSIsIml2UGFyYW1ldGVyU3BlYyI6Ikl3T3VwdU43UUxya0J1SVciLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+  - *There is a Copy badge URL on your Build project page*
+- [![GitHub Actions Build Status Windows pwsh Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=master)](https://github.com/techthoughts2/Catesta/actions)
+  - *Just replace the link with your repo*
+- [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/kech4dkqsrb9xuet/branch/master?svg=true)](https://ci.appveyor.com/project/techthoughts2/appveyortest/branch/master)
+  - *Under ProjectName - Settings - Badges*
+- [![Build Status](https://dev.azure.com/TechThoughts2/AzureTest/_apis/build/status/techthoughts2.AzureTest?branchName=master)](https://dev.azure.com/TechThoughts2/AzureTest/_build/latest?definitionId=1&branchName=master)
+  - *Found under DevOps Project - Pipelines - Builds - ... - Status Badge*
+  - Unfortunately by default badge access is restricted to only authenticated access. This can be disabled at the organization and project level if you wish to display on a GitHub repo:
+    - *Organization Settings - Settings - Disable anonymous access to badge*
+    - *Project Settings - Settings - Disable anonymous access to badge*
 
 ### I created a fresh module project and my build process is already showing some  failures
 
@@ -37,7 +37,7 @@ By default a freshly created PowerShell module already violates one best practic
    - *PSUseToExportFieldsInManifest - Do not use wildcard or $null in this field.*
    - Typical error seen in build process:
 
-        ```
+        ```plain
         ===============================================================================
         Task /./Analyze : Invokes PSScriptAnalyzer against the Module source path
         At D:\a\ActionsTest\ActionsTest\src\ActionsTest.build.ps1:122
@@ -54,7 +54,7 @@ By default a freshly created PowerShell module already violates one best practic
 
 1. This will also fail a Pester test for exported functions:
 
-    ```
+    ```plain
     [-] jaketest.Exported Commands.Number of commands.Exports the same number of public functions as what is listed in the Module Manifest 67ms (52ms|14ms)
     at $manifestExported.Count | Should -BeExactly $moduleExported.Count
     ```
@@ -85,7 +85,7 @@ Because of the nested nature of the vault extension, and how user facing functio
 
 By default a freshly created vault extension module already violates several PSScriptAnalyzer rules:
 
-* *PSUseToExportFieldsInManifest*
-* *PSReviewUnusedParameter*
+- *PSUseToExportFieldsInManifest*
+- *PSReviewUnusedParameter*
 
 This is normal, and the build / test validation process is doing it's job. You'll need to correct your manifest to not use wildcards. You will also need to add content to your extension psm1 to actually engage the variables.

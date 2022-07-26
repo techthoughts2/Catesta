@@ -32,6 +32,7 @@ Scaffolds a [PowerShell SecretManagement vault module project](https://github.co
     9. **Would you like to generate a Code of Conduct file?**
     10. **Would you like to generate a Contributing guidelines file?**
     11. **Would you like to specify a coding style for the project? [S] Stroustrup  [O] OTBS  [A] Allman  [N] None  [?] Help (default is "S"):** *The preferred coding style for the project*
+
 2. Write a kick-ass vault extension module (the hardest part)
     * All build testing can be done locally by navigating to src and running ```Invoke-Build```
     * If using VSCode as your primary editor you can use tasks to perform various local actions

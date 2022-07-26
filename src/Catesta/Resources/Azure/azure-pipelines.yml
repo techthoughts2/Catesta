@@ -7,7 +7,7 @@ jobs:
   # https://docs.microsoft.com/azure/devops/pipelines/tasks/test/publish-code-coverage-results?view=azure-devops
   # https://docs.microsoft.com/azure/devops/pipelines/artifacts/build-artifacts?view=azure-devops&tabs=yaml
 <%
-If ($PLASTER_PARAM_Options -eq 'windows') {
+if ($PLASTER_PARAM_Options -eq 'windows') {
 @'
   - job: build_ps_WinLatest
     pool:
@@ -45,7 +45,7 @@ If ($PLASTER_PARAM_Options -eq 'windows') {
 %>
 
 <%
-If ($PLASTER_PARAM_Options -eq 'pwshcore') {
+if ($PLASTER_PARAM_Options -eq 'pwshcore') {
 @'
   - job: build_pwsh_WinLatest
     pool:
@@ -81,7 +81,7 @@ If ($PLASTER_PARAM_Options -eq 'pwshcore') {
 %>
 
 <%
-If ($PLASTER_PARAM_Options -eq 'linux') {
+if ($PLASTER_PARAM_Options -eq 'linux') {
 @'
   - job: build_pwsh_ubuntuLatest
     pool:
@@ -117,7 +117,7 @@ If ($PLASTER_PARAM_Options -eq 'linux') {
 %>
 
 <%
-If ($PLASTER_PARAM_Options -eq 'macos') {
+if ($PLASTER_PARAM_Options -eq 'macos') {
 @'
   - job: build_pwsh_macOSLatest
     pool:

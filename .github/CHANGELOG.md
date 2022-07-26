@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0]
+
+- Catesta template module changes
+  - Improved plaster references throughout Catesta to better handle situations when a user choose Pester 4 vs Pester 5. While this affects a few minor files it primarily focuses on updating the way VSCode tasks are engaged.
+    - ```tasks.json```
+      - ```PesterTest```, ```Pester-Single-Coverage```, ```Pester-Single-Detailed```, ```DevCC-Single``` tasks no longer use legacy parameters for Pester 5
+      - Updated to no longer reference the Module name directly. Instead ```${workspaceFolderBasename}``` is used throughout the tasks file now.
+  - All bootstrap files:
+    - Pester bumped from ```5.3.1``` to ```5.3.3```
+    - InvokeBuild bumped from ```5.8.8``` to ```5.9.10```
+    - Microsoft.PowerShell.SecretManagement bumped from ```1.1.1``` to ```1.1.2```
+  - AWS CodeBuild CI/CD changes:
+    - ```PowerShellCodeBuildGit.yml```
+      - ```aws/codebuild/windows-base:2019-1.0``` to  ```aws/codebuild/windows-base:2019-2.0```
+      - ```aws/codebuild/standard:5.0``` to ```aws/codebuild/standard:6.0```
+      - All Lambdas updated from ```Runtime: python3.6``` to ```Runtime: python3.9```
+    - ```PowerShellCodeBuildGit.yml```
+      - ```aws/codebuild/windows-base:2019-1.0``` to  ```aws/codebuild/windows-base:2019-2.0```
+      - ```aws/codebuild/standard:5.0``` to ```aws/codebuild/standard:6.0```
+    - buildspec updates
+      - Updated runtime version from ```dotnet: 3.1``` to ```dotnet: 6.0```
+        - ```buildspec_pwsh_linux.yml```
+        - ```buildspec_pwsh_windows.yml```
+    - ```install_modules.ps1```
+      - AWS.Tools.Common bumped from ```4.1.17.0``` to ```4.1.133```
+  - Minimum version of ```Microsoft.PowerShell.SecretManagement``` for vault builds is now ```1.2.0```
+- Catesta primary module changes
+  - ```tasks.json```
+    - ```PesterTest```, ```Pester-Single-Coverage```, ```Pester-Single-Detailed```, ```DevCC-Single``` tasks no longer use legacy parameters for Pester 5
+  - Pester bumped from ```5.3.1``` to ```5.3.3```
+  - InvokeBuild bumped from ```5.8.8``` to ```5.9.10```
+
 ## [1.0.0]
 
 - Catesta template module changes
@@ -20,7 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
       - Updated reference links
     - ```install_modules.ps1```
       - Minor spelling correction
-      - AWS.Tools.Common bumped from ```4.1.0.0``` to ```4.1.17.0```
+      - AWS.Tools.Common bumped from ```4.1.2.0``` to ```4.1.17.0```
     - ```New-PowerShellProject.ps1``` & ```New-VaultProject.ps1```
       - Minor formatting updates
   - Appveyor CI/CD changes:
@@ -42,8 +74,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Catesta primary module changes
   - **Updated primary branch name from master to main**
     - Updated references from master to main throughout repository
-  - Pester bumped from ```5.2.2``` to ```5.3.1```
-  - InvokeBuild bumped from ```5.8.0``` to ```5.8.8```
+  - Pester bumped from ```5.2.2``` to ```5.3.3```
+  - InvokeBuild bumped from ```5.8.0``` to ```5.9.10```
   - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
   - ```tasks.json```
     - Adjusted formatting

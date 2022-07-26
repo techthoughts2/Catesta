@@ -7,7 +7,7 @@ version: 1.0.{build}
 
 image:
 <%
-If ($PLASTER_PARAM_Options -eq 'windows') {
+if ($PLASTER_PARAM_Options -eq 'windows') {
 @'
   - Visual Studio 2019
 '@
@@ -15,7 +15,7 @@ If ($PLASTER_PARAM_Options -eq 'windows') {
 %>
 
 <%
-If ($PLASTER_PARAM_Options -eq 'pwshcore') {
+if ($PLASTER_PARAM_Options -eq 'pwshcore') {
 @'
   - Visual Studio 2022
 '@
@@ -23,7 +23,7 @@ If ($PLASTER_PARAM_Options -eq 'pwshcore') {
 %>
 
 <%
-If ($PLASTER_PARAM_Options -eq 'linux') {
+if ($PLASTER_PARAM_Options -eq 'linux') {
 @'
   - Ubuntu2004
 '@
@@ -31,7 +31,7 @@ If ($PLASTER_PARAM_Options -eq 'linux') {
 %>
 
 <%
-If ($PLASTER_PARAM_Options -eq 'macos') {
+if ($PLASTER_PARAM_Options -eq 'macos') {
 @'
   - macOS
 '@
@@ -45,7 +45,7 @@ skip_commits:
 build: off
 
 <%
-If ($PLASTER_PARAM_Options -eq 'windows') {
+if ($PLASTER_PARAM_Options -eq 'windows') {
 @'
 for:
 -
@@ -67,7 +67,7 @@ for:
 %>
 
 <%
-If ($PLASTER_PARAM_Options -eq 'macos' -or $PLASTER_PARAM_Options -eq 'linux' -or $PLASTER_PARAM_Options -eq 'pwshcore') {
+if ($PLASTER_PARAM_Options -eq 'macos' -or $PLASTER_PARAM_Options -eq 'linux' -or $PLASTER_PARAM_Options -eq 'pwshcore') {
 @'
 init:
   - pwsh: $PSVersionTable
