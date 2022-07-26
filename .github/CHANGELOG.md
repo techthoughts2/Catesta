@@ -12,6 +12,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - ```tasks.json```
       - ```PesterTest```, ```Pester-Single-Coverage```, ```Pester-Single-Detailed```, ```DevCC-Single``` tasks no longer use legacy parameters for Pester 5
       - Updated to no longer reference the Module name directly. Instead ```${workspaceFolderBasename}``` is used throughout the tasks file now.
+  - All bootstrap files:
+    - Pester bumped from ```5.3.1``` to ```5.3.3```
+    - InvokeBuild bumped from ```5.8.8``` to ```5.9.10```
+    - Microsoft.PowerShell.SecretManagement bumped from ```1.1.1``` to ```1.1.2```
+- Catesta primary module changes
+  - ```tasks.json```
+    - ```PesterTest```, ```Pester-Single-Coverage```, ```Pester-Single-Detailed```, ```DevCC-Single``` tasks no longer use legacy parameters for Pester 5
+  - Pester bumped from ```5.3.1``` to ```5.3.3```
+  - InvokeBuild bumped from ```5.8.8``` to ```5.9.10```
 
 ## [1.0.0]
 
@@ -50,8 +59,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Catesta primary module changes
   - **Updated primary branch name from master to main**
     - Updated references from master to main throughout repository
-  - Pester bumped from ```5.2.2``` to ```5.3.1```
-  - InvokeBuild bumped from ```5.8.0``` to ```5.8.8```
+  - Pester bumped from ```5.2.2``` to ```5.3.3```
+  - InvokeBuild bumped from ```5.8.0``` to ```5.9.10```
   - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
   - ```tasks.json```
     - Adjusted formatting

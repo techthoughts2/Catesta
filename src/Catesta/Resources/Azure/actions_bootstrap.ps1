@@ -23,7 +23,7 @@ elseif ($PLASTER_PARAM_Pester-eq '5') {
 # https://github.com/pester/Pester
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'Pester'
-            ModuleVersion = '5.3.1'
+            ModuleVersion = '5.3.3'
         }))
 '@
 }
@@ -31,7 +31,7 @@ $null = $modulesToInstall.Add(([PSCustomObject]@{
 # https://github.com/nightroman/Invoke-Build
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.8.8'
+            ModuleVersion = '5.9.10'
         }))
 # https://github.com/PowerShell/PSScriptAnalyzer
 $null = $modulesToInstall.Add(([PSCustomObject]@{
@@ -50,7 +50,7 @@ if ($PLASTER_PARAM_VAULT -eq 'VAULT') {
     @'
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'Microsoft.PowerShell.SecretManagement'
-            ModuleVersion = '1.1.1'
+            ModuleVersion = '1.1.2'
         }))
 '@
 }
