@@ -4,7 +4,7 @@
     IncludeDefaultRules = $true
     #________________________________________
     #Severity
-    #Specify Severity when you want to limit generated diagnostic records to a sepecific subset: [ Error | Warning | Information ]
+    #Specify Severity when you want to limit generated diagnostic records to a specific subset: [ Error | Warning | Information ]
     Severity = @('Error','Warning')
     #________________________________________
     #CustomRulePath

@@ -62,7 +62,7 @@ InModuleScope $ModuleName {
             Mock -CommandName Import-Module { }
             Mock -CommandName Invoke-Plaster -MockWith {
                 [PSCustomObject]@{
-                    TemplatePath    = 'C:\Users\jakew\Desktop\Project\0_CodeProject\Catesta\src\Catesta\Resources\AWS'
+                    TemplatePath    = 'C:\Users\jake\Desktop\Project\0_CodeProject\Catesta\src\Catesta\Resources\AWS'
                     DestinationPath = 'C:\rs-pkgs\test\plastertest3'
                     Success         = $true
                     TemplateType    = 'Project'

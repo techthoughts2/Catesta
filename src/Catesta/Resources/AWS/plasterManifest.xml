@@ -50,7 +50,7 @@
       <choice label='&amp;No' help="No help files will be generated." value="No"/>
     </parameter>
     <parameter name='S3Bucket' type='text' prompt='Enter S3 bucket name to download needed PS modules from S3 location. Leave blank to DL modules from PSGallery.' default='PSGallery'/>
-    <parameter name='Options' type='multichoice' default='0' store='text' prompt='Select desired buildpsec file options?'>
+    <parameter name='Options' type='multichoice' default='0' store='text' prompt='Select desired buildspec file options?'>
       <choice label='&amp;Windows - PowerShell' help="Adds a powershell focused buildspec.yml for Windows CodeBuild." value="ps"/>
       <choice label='&amp;Core (Windows)- pwsh' help="Adds a pwsh focused buildspec.yml for Windows CodeBuild." value="pwshcore"/>
       <choice label='&amp;Linux - pwsh' help="Adds a pwsh focused buildspec.yml for Linux CodeBuild." value="pwsh"/>
