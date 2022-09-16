@@ -18,42 +18,45 @@ InModuleScope $ModuleName {
         } #beforeAll
         Mock -CommandName Write-Error { }
         Mock -CommandName Write-Warning { }
-        # Context 'ShouldProcess' {
-        #     Mock -CommandName Invoke-Plaster { }
-        #     Mock -CommandName Import-Module { }
-        #     Mock -CommandName New-PowerShellProject -MockWith { } #endMock
-        #     It 'Should process by default' {
-        #         New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path
-        #         Assert-MockCalled New-PowerShellProject -Scope It -Exactly -Times 1
-        #     } #it
-        #     It 'Should not process on explicit request for confirmation (-Confirm)' {
-        #         { New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path -Confirm }
-        #         Assert-MockCalled New-PowerShellProject -Scope It -Exactly -Times 0
-        #     } #it
-        #     It 'Should not process on implicit request for confirmation (ConfirmPreference)' {
-        #         {
-        #             $ConfirmPreference = 'Low'
-        #             New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path
-        #         }
-        #         Assert-MockCalled New-PowerShellProject -Scope It -Exactly -Times 0
-        #     } #it
-        #     It 'Should not process on explicit request for validation (-WhatIf)' {
-        #         { New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path -WhatIf }
-        #         Assert-MockCalled New-PowerShellProject -Scope It -Exactly -Times 0
-        #     } #it
-        #     It 'Should not process on implicit request for validation (WhatIfPreference)' {
-        #         {
-        #             $WhatIfPreference = $true
-        #             New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path
-        #         }
-        #         Assert-MockCalled New-PowerShellProject -Scope It -Exactly -Times 0
-        #     } #it
-        #     It 'Should process on force' {
-        #         $ConfirmPreference = 'Medium'
-        #         New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path -Force
-        #         Assert-MockCalled New-PowerShellProject -Scope It -Exactly -Times 1
-        #     } #it
-        # }
+        Context 'ShouldProcess' {
+            BeforeEach {
+                Mock -CommandName Invoke-Plaster { }
+                Mock -CommandName Import-Module { }
+                Mock -CommandName New-PowerShellProject -MockWith { } #endMock
+            } #end_beforeEach
+            It 'Should process by default' {
+                New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path
+                # Should -Invoke New-PowerShellProject -Scope It -Exactly -Times 1
+                Should -Invoke New-PowerShellProject -Scope It -Exactly -Times 1
+            } #it
+            It 'Should not process on explicit request for confirmation (-Confirm)' {
+                { New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path -Confirm }
+                Should -Invoke New-PowerShellProject -Scope It -Exactly -Times 0
+            } #it
+            It 'Should not process on implicit request for confirmation (ConfirmPreference)' {
+                {
+                    $ConfirmPreference = 'Low'
+                    New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path
+                }
+                Should -Invoke New-PowerShellProject -Scope It -Exactly -Times 0
+            } #it
+            It 'Should not process on explicit request for validation (-WhatIf)' {
+                { New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path -WhatIf }
+                Should -Invoke New-PowerShellProject -Scope It -Exactly -Times 0
+            } #it
+            It 'Should not process on implicit request for validation (WhatIfPreference)' {
+                {
+                    $WhatIfPreference = $true
+                    New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path
+                }
+                Should -Invoke New-PowerShellProject -Scope It -Exactly -Times 0
+            } #it
+            It 'Should process on force' {
+                $ConfirmPreference = 'Medium'
+                New-PowerShellProject -CICDChoice 'AWS' -DestinationPath c:\path -Force
+                Should -Invoke New-PowerShellProject -Scope It -Exactly -Times 1
+            } #it
+        }
         BeforeEach {
             Mock -CommandName Import-Module { }
             Mock -CommandName Invoke-Plaster -MockWith {

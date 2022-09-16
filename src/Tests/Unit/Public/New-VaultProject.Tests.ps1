@@ -19,10 +19,10 @@ InModuleScope $ModuleName {
         # Mock -CommandName Write-Error { }
         # Mock -CommandName Write-Warning { }
         Context 'ShouldProcess' {
-            Mock -CommandName Invoke-Plaster { }
-            Mock -CommandName Import-Module { }
-            Mock -CommandName New-VaultProject -MockWith { } #endMock
             BeforeEach {
+                Mock -CommandName Invoke-Plaster { }
+                Mock -CommandName Import-Module { }
+                Mock -CommandName New-VaultProject -MockWith { } #endMock
                 Mock New-VaultProject {}
             }
             It 'Should process by default' {
