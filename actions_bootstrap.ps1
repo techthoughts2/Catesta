@@ -21,7 +21,7 @@ $null = $modulesToInstall.Add(([PSCustomObject]@{
 # https://github.com/nightroman/Invoke-Build
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.9.10'
+            ModuleVersion = '5.9.11'
         }))
 # https://github.com/PowerShell/PSScriptAnalyzer
 $null = $modulesToInstall.Add(([PSCustomObject]@{
