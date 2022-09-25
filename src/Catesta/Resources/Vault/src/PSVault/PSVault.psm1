@@ -1,7 +1,7 @@
 <#
 This is an entirely optional psm1 which you can leverage to surface up
 custom functions to <%=$PLASTER_PARAM_ModuleName%>.psd1
-You could create a specialized wrapper function for Registering/Unregistering your vault.
+You could create a specialized wrapper function for Registering/Un-registering your vault.
 You could create specialized configuration functions.
 You could also register autocompleters here.
 A few examples have been included below.
@@ -49,7 +49,7 @@ A few examples have been included below.
 
 <#
 .SYNOPSIS
-    Custom wrapper function for unregistering your vault.
+    Custom wrapper function for un-registering your vault.
 #>
 # function Unregister-<%=$PLASTER_PARAM_ModuleName%>Vault {
 #     [CmdletBinding()]

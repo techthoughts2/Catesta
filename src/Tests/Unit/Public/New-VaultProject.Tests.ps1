@@ -19,14 +19,13 @@ InModuleScope $ModuleName {
         # Mock -CommandName Write-Error { }
         # Mock -CommandName Write-Warning { }
         Context 'ShouldProcess' {
-            Mock -CommandName Invoke-Plaster { }
-            Mock -CommandName Import-Module { }
-            Mock -CommandName New-VaultProject -MockWith { } #endMock
             BeforeEach {
+                Mock -CommandName Invoke-Plaster { }
+                Mock -CommandName Import-Module { }
+                Mock -CommandName New-VaultProject -MockWith { } #endMock
                 Mock New-VaultProject {}
             }
             It 'Should process by default' {
-
                 New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path
                 Should -Invoke -CommandName New-VaultProject -Exactly -Times 1 -Scope It
             } #it
@@ -62,7 +61,7 @@ InModuleScope $ModuleName {
             Mock -CommandName Import-Module { }
             Mock -CommandName Invoke-Plaster -MockWith {
                 [PSCustomObject]@{
-                    TemplatePath    = 'C:\Users\jakew\Desktop\Project\0_CodeProject\Catesta\src\Catesta\Resources\AWS'
+                    TemplatePath    = 'C:\Users\jake\Desktop\Project\0_CodeProject\Catesta\src\Catesta\Resources\AWS'
                     DestinationPath = 'C:\rs-pkgs\test\plastertest3'
                     Success         = $true
                     TemplateType    = 'Project'

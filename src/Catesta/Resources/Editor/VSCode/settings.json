@@ -1,7 +1,7 @@
 {
     // When enabled, will trim trailing whitespace when you save a file.
     "files.trimTrailingWhitespace": true,
-    // specifies the location of the explicity ScriptAnalyzer settings file
+    // specifies the location of the explicitly ScriptAnalyzer settings file
     "powershell.scriptAnalysis.settingsPath": "PSScriptAnalyzerSettings.psd1",
     // specifies the PowerShell coding style used in this project (https://github.com/PoshCode/PowerShellPracticeAndStyle/issues/81)
 <%

@@ -68,7 +68,7 @@ $null = $modulesToInstall.Add(([PSCustomObject]@{
 %>
 $null = $modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.9.10'
+            ModuleVersion = '5.9.11'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
             KeyPrefix     = ''
         }))

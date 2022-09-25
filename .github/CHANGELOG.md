@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.3]
+
+- Minor spelling corrections throughout
+- Catesta template module changes
+  - InvokeBuild bumped from `5.9.11` to `5.9.12`
+  - All build files: replaced use of `[PesterConfiguration]::new()` with `New-PesterConfiguration`
+- Catesta primary module changes
+  - InvokeBuild bumped from `5.9.11` to `5.9.12`
+  - Build file: replaced use of `[PesterConfiguration]::new()` with `New-PesterConfiguration`
+  - Removed use of `Assert-MockCalled` from all tests
+
 ## [1.2.0]
 
 - Catesta template module changes
@@ -14,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
       - Updated to no longer reference the Module name directly. Instead ```${workspaceFolderBasename}``` is used throughout the tasks file now.
   - All bootstrap files:
     - Pester bumped from ```5.3.1``` to ```5.3.3```
-    - InvokeBuild bumped from ```5.8.8``` to ```5.9.10```
+    - InvokeBuild bumped from ```5.8.8``` to ```5.9.11```
     - Microsoft.PowerShell.SecretManagement bumped from ```1.1.1``` to ```1.1.2```
   - AWS CodeBuild CI/CD changes:
     - ```PowerShellCodeBuildGit.yml```
@@ -30,12 +41,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - ```buildspec_pwsh_windows.yml```
     - ```install_modules.ps1```
       - AWS.Tools.Common bumped from ```4.1.17.0``` to ```4.1.133```
-  - Minimum version of ```Microsoft.PowerShell.SecretManagement``` for vault builds is now ```1.2.0```
+  - Minimum version of ```Microsoft.PowerShell.SecretManagement``` for vault builds is now ```1.2.3```
 - Catesta primary module changes
   - ```tasks.json```
     - ```PesterTest```, ```Pester-Single-Coverage```, ```Pester-Single-Detailed```, ```DevCC-Single``` tasks no longer use legacy parameters for Pester 5
   - Pester bumped from ```5.3.1``` to ```5.3.3```
-  - InvokeBuild bumped from ```5.8.8``` to ```5.9.10```
+  - InvokeBuild bumped from ```5.8.8``` to ```5.9.11```
 
 ## [1.0.0]
 
@@ -52,7 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
       - Updated reference links
     - ```install_modules.ps1```
       - Minor spelling correction
-      - AWS.Tools.Common bumped from ```4.1.2.0``` to ```4.1.17.0```
+      - AWS.Tools.Common bumped from ```4.1.2.3``` to ```4.1.17.0```
     - ```New-PowerShellProject.ps1``` & ```New-VaultProject.ps1```
       - Minor formatting updates
   - Appveyor CI/CD changes:
@@ -75,7 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Updated primary branch name from master to main**
     - Updated references from master to main throughout repository
   - Pester bumped from ```5.2.2``` to ```5.3.3```
-  - InvokeBuild bumped from ```5.8.0``` to ```5.9.10```
+  - InvokeBuild bumped from ```5.8.0``` to ```5.9.11```
   - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
   - ```tasks.json```
     - Adjusted formatting

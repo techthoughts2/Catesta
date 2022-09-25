@@ -4,7 +4,7 @@
   <metadata>
     <name>AWSCBVaultExtension</name>
     <id>58d9f168-a786-43e6-8b79-0766ded4fd22</id>
-    <version>1.2.0</version>
+    <version>1.2.3</version>
     <title>Catesta - SecretManagement extension vault module template for AWS CodeBuild</title>
     <description>Scaffolds a new PowerShell SecretManagement extension vault module project intended for CI/CD workflow using AWS CodeBuild</description>
     <author>Jake Morrison</author>
@@ -46,7 +46,7 @@
       <choice label='&amp;None' help="No coding style is set for the project." value="None"/>
     </parameter>
     <parameter name='S3Bucket' type='text' prompt='Enter S3 bucket name to download needed PS modules from S3 location. Leave blank to DL modules from PSGallery.' default='PSGallery'/>
-    <parameter name='Options' type='multichoice' default='0' store='text' prompt='Select desired buildpsec file options?'>
+    <parameter name='Options' type='multichoice' default='0' store='text' prompt='Select desired buildspec file options?'>
       <choice label='&amp;Windows - PowerShell' help="Adds a powershell focused buildspec.yml for Windows CodeBuild." value="ps"/>
       <choice label='&amp;Core (Windows)- pwsh' help="Adds a pwsh focused buildspec.yml for Windows CodeBuild." value="pwshcore"/>
       <choice label='&amp;Linux - pwsh' help="Adds a pwsh focused buildspec.yml for Linux CodeBuild." value="pwsh"/>
@@ -116,7 +116,7 @@
     <requireModule condition="$PLASTER_PARAM_Pester -eq '5'" name="Pester" minimumVersion="5.2.2" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file."/>
     <requireModule name="InvokeBuild" minimumVersion="5.8.0" message="Without InvokeBuild, you will not be able to run local builds."/>
     <requireModule name="platyPS" requiredVersion ="0.12.0" message="This template requires platyPS v0.12.0 module to properly generate help."/>
-    <requireModule name="Microsoft.PowerShell.SecretManagement" minimumVersion ="1.2.0" message="Without the PowerShell SecretManagement you will not be able to properly test your extension."/>
+    <requireModule name="Microsoft.PowerShell.SecretManagement" minimumVersion ="1.2.3" message="Without the PowerShell SecretManagement you will not be able to properly test your extension."/>
 
     <message>
 

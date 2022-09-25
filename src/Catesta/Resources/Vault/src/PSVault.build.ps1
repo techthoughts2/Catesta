@@ -320,7 +320,7 @@ if ($PLASTER_PARAM_Pester-eq '4') {
 }
 elseif ($PLASTER_PARAM_Pester-eq '5') {
             @'
-        $pesterConfiguration = [PesterConfiguration]::new()
+        $pesterConfiguration = New-PesterConfiguration
         $pesterConfiguration.run.Path = $script:TestsPath
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
@@ -434,7 +434,7 @@ if ($PLASTER_PARAM_Pester-eq '4') {
 }
 elseif ($PLASTER_PARAM_Pester-eq '5') {
         @'
-    $pesterConfiguration = [PesterConfiguration]::new()
+    $pesterConfiguration = New-PesterConfiguration
     $pesterConfiguration.run.Path = 'Tests\Unit'
     $pesterConfiguration.CodeCoverage.Enabled = $true
     $pesterConfiguration.CodeCoverage.Path = "$PSScriptRoot\$ModuleName\*\*.ps1"
@@ -496,7 +496,7 @@ if ($PLASTER_PARAM_Pester-eq '4') {
 }
 elseif ($PLASTER_PARAM_Pester-eq '5') {
             @'
-        $pesterConfiguration = [PesterConfiguration]::new()
+        $pesterConfiguration = New-PesterConfiguration
         $pesterConfiguration.run.Path = 'Tests\Infrastructure'
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
