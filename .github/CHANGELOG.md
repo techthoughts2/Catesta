@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Catesta primary module changes
   - InvokeBuild bumped from `5.9.11` to `5.9.12`
   - Build file: replaced use of `[PesterConfiguration]::new()` with `New-PesterConfiguration`
+  - Removed use of `Assert-MockCalled` from all tests
 
 ## [1.2.0]
 

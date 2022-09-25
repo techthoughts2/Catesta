@@ -26,7 +26,6 @@ InModuleScope $ModuleName {
                 Mock New-VaultProject {}
             }
             It 'Should process by default' {
-
                 New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path
                 Should -Invoke -CommandName New-VaultProject -Exactly -Times 1 -Scope It
             } #it
