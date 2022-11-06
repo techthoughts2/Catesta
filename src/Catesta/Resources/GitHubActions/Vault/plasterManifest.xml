@@ -4,7 +4,7 @@
   <metadata>
     <name>GHAVaultExtension</name>
     <id>02c6673d-bf8b-4997-b229-0d1856af4506</id>
-    <version>1.2.3</version>
+    <version>1.2.6</version>
     <title>Catesta - SecretManagement extension vault module template for GitHub Actions</title>
     <description>Scaffolds a new PowerShell SecretManagement extension vault module project for CI/CD workflow using GitHub Actions</description>
     <author>Jake Morrison</author>
@@ -67,9 +67,9 @@
     <file source='' destination='src\Tests\Infrastructure'/>
     <file source='' destination='src\Tests\Unit'/>
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}'/>
-    <templateFile source='..\..\editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
-    <file source='..\..\editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
-    <templateFile source='..\..\editor\VSCode\settings.json' destination='.vscode\settings.json' />
+    <templateFile source='..\..\Editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
+    <file source='..\..\Editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
+    <templateFile source='..\..\Editor\VSCode\settings.json' destination='.vscode\settings.json' />
 
     <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\..\Vault\src\Tests\v4\Unit\PSVault-Module.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
     <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\..\Vault\src\Tests\v4\Unit\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />
@@ -112,7 +112,7 @@
     <requireModule condition="$PLASTER_PARAM_Pester -eq '5'" name="Pester" minimumVersion="5.2.2" message="Without Pester, you will not be able to run the provided Pester test to validate your module manifest file."/>
     <requireModule name="InvokeBuild" minimumVersion="5.8.0" message="Without InvokeBuild, you will not be able to run local builds."/>
     <requireModule name="platyPS" requiredVersion ="0.12.0" message="This template requires platyPS v0.12.0 module to properly generate help."/>
-    <requireModule name="Microsoft.PowerShell.SecretManagement" minimumVersion ="1.2.3" message="Without the PowerShell SecretManagement you will not be able to properly test your extension."/>
+    <requireModule name="Microsoft.PowerShell.SecretManagement" minimumVersion ="1.1.2" message="Without the PowerShell SecretManagement you will not be able to properly test your extension."/>
 
     <message>
 

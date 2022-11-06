@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.6]
+
+- Catesta template module changes
+  - Fixed casing issue in all templates that caused Catesta to have an issue on certain Linux distros
+  - Fixed bug where vault templates were referencing an incorrect version of Microsoft.PowerShell.SecretManagement
+  - InvokeBuild bumped from `5.9.11` to `5.10.1`
+  - PSScriptAnalyzer bumped from `1.20.0` to `1.21.0`
+- Catesta primary module changes
+  - Added infrastructure tests to check for casing violations
+  - InvokeBuild bumped from `5.9.11` to `5.10.1`
+  - PSScriptAnalyzer bumped from `1.20.0` to `1.21.0`
+
 ## [1.2.3]
 
 - Minor spelling corrections throughout
@@ -20,108 +32,108 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Catesta template module changes
   - Improved plaster references throughout Catesta to better handle situations when a user choose Pester 4 vs Pester 5. While this affects a few minor files it primarily focuses on updating the way VSCode tasks are engaged.
-    - ```tasks.json```
-      - ```PesterTest```, ```Pester-Single-Coverage```, ```Pester-Single-Detailed```, ```DevCC-Single``` tasks no longer use legacy parameters for Pester 5
-      - Updated to no longer reference the Module name directly. Instead ```${workspaceFolderBasename}``` is used throughout the tasks file now.
+    - `tasks.json`
+      - `PesterTest`, `Pester-Single-Coverage`, `Pester-Single-Detailed`, `DevCC-Single` tasks no longer use legacy parameters for Pester 5
+      - Updated to no longer reference the Module name directly. Instead `${workspaceFolderBasename}` is used throughout the tasks file now.
   - All bootstrap files:
-    - Pester bumped from ```5.3.1``` to ```5.3.3```
-    - InvokeBuild bumped from ```5.8.8``` to ```5.9.11```
-    - Microsoft.PowerShell.SecretManagement bumped from ```1.1.1``` to ```1.1.2```
+    - Pester bumped from `5.3.1` to `5.3.3`
+    - InvokeBuild bumped from `5.8.8` to `5.9.11`
+    - Microsoft.PowerShell.SecretManagement bumped from `1.1.1` to `1.1.2`
   - AWS CodeBuild CI/CD changes:
-    - ```PowerShellCodeBuildGit.yml```
-      - ```aws/codebuild/windows-base:2019-1.0``` to  ```aws/codebuild/windows-base:2019-2.0```
-      - ```aws/codebuild/standard:5.0``` to ```aws/codebuild/standard:6.0```
-      - All Lambdas updated from ```Runtime: python3.6``` to ```Runtime: python3.9```
-    - ```PowerShellCodeBuildGit.yml```
-      - ```aws/codebuild/windows-base:2019-1.0``` to  ```aws/codebuild/windows-base:2019-2.0```
-      - ```aws/codebuild/standard:5.0``` to ```aws/codebuild/standard:6.0```
+    - `PowerShellCodeBuildGit.yml`
+      - `aws/codebuild/windows-base:2019-1.0` to  `aws/codebuild/windows-base:2019-2.0`
+      - `aws/codebuild/standard:5.0` to `aws/codebuild/standard:6.0`
+      - All Lambdas updated from `Runtime: python3.6` to `Runtime: python3.9`
+    - `PowerShellCodeBuildGit.yml`
+      - `aws/codebuild/windows-base:2019-1.0` to  `aws/codebuild/windows-base:2019-2.0`
+      - `aws/codebuild/standard:5.0` to `aws/codebuild/standard:6.0`
     - buildspec updates
-      - Updated runtime version from ```dotnet: 3.1``` to ```dotnet: 6.0```
-        - ```buildspec_pwsh_linux.yml```
-        - ```buildspec_pwsh_windows.yml```
-    - ```install_modules.ps1```
-      - AWS.Tools.Common bumped from ```4.1.17.0``` to ```4.1.133```
-  - Minimum version of ```Microsoft.PowerShell.SecretManagement``` for vault builds is now ```1.2.3```
+      - Updated runtime version from `dotnet: 3.1` to `dotnet: 6.0`
+        - `buildspec_pwsh_linux.yml`
+        - `buildspec_pwsh_windows.yml`
+    - `install_modules.ps1`
+      - AWS.Tools.Common bumped from `4.1.17.0` to `4.1.133`
+  - Minimum version of `Microsoft.PowerShell.SecretManagement` for vault builds is now `1.2.6`
 - Catesta primary module changes
-  - ```tasks.json```
-    - ```PesterTest```, ```Pester-Single-Coverage```, ```Pester-Single-Detailed```, ```DevCC-Single``` tasks no longer use legacy parameters for Pester 5
-  - Pester bumped from ```5.3.1``` to ```5.3.3```
-  - InvokeBuild bumped from ```5.8.8``` to ```5.9.11```
+  - `tasks.json`
+    - `PesterTest`, `Pester-Single-Coverage`, `Pester-Single-Detailed`, `DevCC-Single` tasks no longer use legacy parameters for Pester 5
+  - Pester bumped from `5.3.1` to `5.3.3`
+  - InvokeBuild bumped from `5.8.8` to `5.9.11`
 
 ## [1.0.0]
 
 - Catesta template module changes
   - All build yaml files - added commented line for easily retrieving modules/variables/env variables are available in the build image
   - All bootstrap files:
-    - Pester bumped from ```5.2.2``` to ```5.3.1```
-    - InvokeBuild bumped from ```5.8.0``` to ```5.8.8```
-    - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
-    - Microsoft.PowerShell.SecretManagement bumped from ```1.0.0``` to ```1.1.1```
+    - Pester bumped from `5.2.2` to `5.3.1`
+    - InvokeBuild bumped from `5.8.0` to `5.8.8`
+    - PSScriptAnalyzer bumped from `1.19.1` to `1.20.0`
+    - Microsoft.PowerShell.SecretManagement bumped from `1.0.0` to `1.1.1`
   - AWS CodeBuild CI/CD changes:
-    - ```PowerShellCodeBuildGit.yml```
+    - `PowerShellCodeBuildGit.yml`
       - Now enables user to specify Branch name on Webhook filter. Default is set to main.
       - Updated reference links
-    - ```install_modules.ps1```
+    - `install_modules.ps1`
       - Minor spelling correction
-      - AWS.Tools.Common bumped from ```4.1.2.3``` to ```4.1.17.0```
-    - ```New-PowerShellProject.ps1``` & ```New-VaultProject.ps1```
+      - AWS.Tools.Common bumped from `4.1.2.6` to `4.1.17.0`
+    - `New-PowerShellProject.ps1` & `New-VaultProject.ps1`
       - Minor formatting updates
   - Appveyor CI/CD changes:
-    - ```appveyor.yml```
+    - `appveyor.yml`
       - Updated windows images to more recent versions
         - Windows Powershell from 2017 to 2019
         - PowerShell from 2019 to 2022
   - Azure DevOps CI/CD changes:
-    - ```azure-pipelines.yml```
+    - `azure-pipelines.yml`
       - ubuntu-latest
         - No longer installs PowerShell core (PowerShell 7 is now native to image)
-        - switched from script using ```pwsh -c ''``` style to native ```-pwsh: |``` call
+        - switched from script using `pwsh -c ''` style to native `-pwsh: |` call
       - macOS-latest
-        - switched from script using ```pwsh -c ''``` style to native ```-pwsh: |``` call
-  - ```tasks.json```
+        - switched from script using `pwsh -c ''` style to native `-pwsh: |` call
+  - `tasks.json`
     - Adjusted formatting
     - Updated documentation
     - Updated references to align with new tasks requirements
 - Catesta primary module changes
   - **Updated primary branch name from master to main**
     - Updated references from master to main throughout repository
-  - Pester bumped from ```5.2.2``` to ```5.3.3```
-  - InvokeBuild bumped from ```5.8.0``` to ```5.9.11```
-  - PSScriptAnalyzer bumped from ```1.19.1``` to ```1.20.0```
-  - ```tasks.json```
+  - Pester bumped from `5.2.2` to `5.3.3`
+  - InvokeBuild bumped from `5.8.0` to `5.9.11`
+  - PSScriptAnalyzer bumped from `1.19.1` to `1.20.0`
+  - `tasks.json`
     - Adjusted formatting
     - Updated documentation
     - Updated references to align with new tasks requirements
-  - ```Catesta.build.ps1```
+  - `Catesta.build.ps1`
     - Updated pester module import to use a min/max value
   - Documentation updates
     - Minor README corrections/updates
     - AWS
-      - Updated ```Catesta-AWS.md```
+      - Updated `Catesta-AWS.md`
       - Re-did several AWS diagrams and included raw drawio diagrams
       - Updated screenshots
     - AppVeyor
-      - Updated ```Catesta-AppVeyor.md```
+      - Updated `Catesta-AppVeyor.md`
       - Added diagram
       - Updated screenshots
     - GitHub Actions
-      - Updated ```Catesta-GHActions.md```
+      - Updated `Catesta-GHActions.md`
       - Added diagram
     - Azure DevOps
-      - Updated ```Catesta-Azure.md```
+      - Updated `Catesta-Azure.md`
       - Added diagram
-    - Updated ```Catesta-FAQ.md```
-    - Updated ```Catesta-Vault-Extension.md```
+    - Updated `Catesta-FAQ.md`
+    - Updated `Catesta-Vault-Extension.md`
 
 ## [0.12.4]
 
-- ```*.build.ps1```
-  - Test task now correctly references ```$script:UnitTestsPath``` instead of overall ```$script:TestsPath```
-  - DevCC task now correctly references ```$script:UnitTestsPath``` instead of ```'Tests\Unit'```
-  - Infra task now correctly references ```$script:InfraTestsPath``` instead of ```'Tests\Infrastructure'```
-  - Adjusted ValidateRequirements task to work with ```[version]``` type when verifying minimum version of PowerShell to validate
+- `*.build.ps1`
+  - Test task now correctly references `$script:UnitTestsPath` instead of overall `$script:TestsPath`
+  - DevCC task now correctly references `$script:UnitTestsPath` instead of `'Tests\Unit'`
+  - Infra task now correctly references `$script:InfraTestsPath` instead of `'Tests\Infrastructure'`
+  - Adjusted ValidateRequirements task to work with `[version]` type when verifying minimum version of PowerShell to validate
   - Added new BuildNoInfra task for building module without running Infra tests
-- ```tasks.json```
+- `tasks.json`
   - Added new VSCode tasks
     - BuildNoInfra - runs BuildNoInfra tasks
     - Pester-Single-Coverage - enables user to run pester test for single function and get code coverage report
@@ -130,7 +142,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.12.1]
 
-- Changed the Pester 5 minimum version requirement from ```v5.0.0``` to ```v5.2.2```
+- Changed the Pester 5 minimum version requirement from `v5.0.0` to `v5.2.2`
 - Updated CloudFormation GitHub template to use CodeBuild image version 5.0.
 
 ## [0.12.0]
@@ -140,7 +152,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Some CICD containers have the Pester module loaded into memory. Added explicit remove in the build file to account for this.
     - Moved Pester import handling from the buildspec/yaml to InvokeBuild
   - Updated pester tests that were using legacy Should syntax (without dashes)
-  - Fixed ```tasks.json``` VSCode file to be valid json (was missing comma)
+  - Fixed `tasks.json` VSCode file to be valid json (was missing comma)
   - Added prompt on ModuleOnly module type to prompt user if they want helpful .vscode files for their module project
   - Catesta now deploys the initial sample module in a style that better reflects a real-world module
     - The private sample function was renamed to Get-Day and gets the day of the week
@@ -148,11 +160,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Sample tests are now created for these sample functions in the appropriate public/private folders under the Tests/Unit folder
     - Sample tests now actually test the sample functions
   - AppVeyor CI/CD changes:
-    - Updated Ubuntu image from ```Ubuntu1804``` to ```Ubuntu2004```
+    - Updated Ubuntu image from `Ubuntu1804` to `Ubuntu2004`
   - Azure DevOps CI/CD changes:
     - The latest macOS image [now includes PowerShell](https://github.com/actions/virtual-environments/blob/main/images/macos/macos-10.15-Readme.md) by default - removed step in yaml to install PowerShell.
   - AWS CodeBuild CI/CD changes:
-    - CB Linux Image updated in CFN from ```Image: aws/codebuild/standard:4.0``` to use latest: ```Image: aws/codebuild/standard:5.0```
+    - CB Linux Image updated in CFN from `Image: aws/codebuild/standard:4.0` to use latest: `Image: aws/codebuild/standard:5.0`
     - Updated buildspec_pwsh_windows.yml to use the new syntax for installing PowerShell 7.
 
       ```bash
@@ -161,11 +173,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
       ```
 
     - Added additional documentation links to the buildspec files
-  - InvokeBuild bumped from ```5.6.1``` to ```5.8.0```
+  - InvokeBuild bumped from `5.6.1` to `5.8.0`
 - Catesta primary module changes
   - Updated pester tests that were using Legacy Should syntax (without dashes)
   - Updated pester tests to support v5+
-  - InvokeBuild bumped from ```5.6.1``` to ```5.8.0```
+  - InvokeBuild bumped from `5.6.1` to `5.8.0`
 
 ## [0.11.0]
 
@@ -173,8 +185,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - New optional cmdlets
   - New metadata parameter on several cmdlets
 - Added new optional vault parent .psm1 example file
-- Catesta now references the GA version of ```Microsoft.PowerShell.SecretManagement```
-- Added best practice naming suggestion to ```New-VaultProject```
+- Catesta now references the GA version of `Microsoft.PowerShell.SecretManagement`
+- Added best practice naming suggestion to `New-VaultProject`
 - Corrected verbiage on several commands to properly reflect which module project was being scaffold
 - Fixed bug where module would fail to scaffold on Linux systems due to case sensitivity of path
 
@@ -220,7 +232,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Added build steps which import the module manifest explicitly
     - Adjusted ExportedFunctions.Tests.ps1 to check for included example rather than example count
 - Updated a few areas of documentation/help to provide more clarification
-- Updated .vscode settings to use ```${workspaceFolderBasename}``` instead of hard-coded Catesta name
+- Updated .vscode settings to use `${workspaceFolderBasename}` instead of hard-coded Catesta name
 
 ## [0.9.0]
 

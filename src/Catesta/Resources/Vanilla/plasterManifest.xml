@@ -4,11 +4,11 @@
   <metadata>
     <name>BasicManifestPS</name>
     <id>c95c4daa-7715-4429-839e-158412655abb</id>
-    <version>1.2.3</version>
+    <version>1.2.6</version>
     <title>Catesta - Basic PSModule template</title>
     <description>Scaffolds a new PowerShell module project</description>
     <author>Jake Morrison</author>
-    <tags>PowerShell,Template,PowerShell Module</tags>
+    <tags>PowerShell,Template,PowerShell Module, public</tags>
   </metadata>
   <parameters>
     <parameter name='VAULT' type='text' prompt='NOTVAULT'/>
@@ -42,9 +42,9 @@
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Public'/>
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Private'/>
 
-    <templateFile condition="$PLASTER_PARAM_VSCode -eq 'Yes'" source='..\editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
-    <file condition="$PLASTER_PARAM_VSCode -eq 'Yes'" source='..\editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
-    <templateFile condition="$PLASTER_PARAM_VSCode -eq 'Yes'" source='..\editor\VSCode\settings.json' destination='.vscode\settings.json' />
+    <templateFile condition="$PLASTER_PARAM_VSCode -eq 'Yes'" source='..\Editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
+    <file condition="$PLASTER_PARAM_VSCode -eq 'Yes'" source='..\Editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
+    <templateFile condition="$PLASTER_PARAM_VSCode -eq 'Yes'" source='..\Editor\VSCode\settings.json' destination='.vscode\settings.json' />
 
     <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Unit\PSModule-Module.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
     <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Unit\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />

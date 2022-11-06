@@ -7,11 +7,15 @@ $manifests = Get-ChildItem -Path $resourcePath1 -Include '*.xml' -Recurse
 #-------------------------------------------------------------------------
 Describe 'File Checks' {
     BeforeAll {
+        $WarningPreference = 'Continue'
         Set-Location -Path $PSScriptRoot
         $ModuleName = 'Catesta'
         $resourcePath = [System.IO.Path]::Combine( '..', '..', $ModuleName, 'Resources')
         $PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
+        $srcRoot = [System.IO.Path]::Combine( '..', '..')
         $script:manifestEval = Test-ModuleManifest -Path $PathToManifest
+        $directories = Get-ChildItem -Path $srcRoot -Recurse | Where-Object { $_.PSIsContainer -eq $true }
+        $directoryNames = $directories | Select-Object -ExpandProperty Name | Sort-Object -Unique
         $manifestsEvalz = Get-ChildItem -Path $resourcePath -Include '*.xml' -Recurse
         $editorFiles = Get-ChildItem -Path "$resourcePath\Editor\*" -Recurse
         $srcFiles = Get-ChildItem -Path "$resourcePath\Module\*" -Recurse
@@ -179,5 +183,54 @@ Describe 'File Checks' {
             $uniqueCount = $ids | Get-Unique | Measure-Object | Select-Object -ExpandProperty Count
             $uniqueCount | Should -BeExactly 10
         } #it
+        Context 'Case Sensitivity Checks' {
+            It 'should have template references that match the casing of the directory path' {
+                $caseViolationCount = 0
+                foreach ($manifest in $manifestsEvalz) {
+                    # --------------
+                    # resets
+                    $zeMatches = $null
+                    $content = $null
+                    $content = Get-Content -Path $manifest.FullName
+                    # --------------
+                    foreach ($dir in $directoryNames) {
+                        # --------------
+                        # resets
+                        $zeMatches = $null
+                        $zeMatches = $content -imatch $dir
+                        # --------------
+                        foreach ($line in $zeMatches) {
+                            if ($line -like '*<*>*') {
+                                if (
+                                    $line -like "*/$dir*" -or
+                                    $line -like "*\$dir*" -or
+                                    $line -like "*$dir/*" -or
+                                    $line -like "*$dir\*"
+                                ) {
+                                    if ($line -like "*$dir.*" -or $line -like '*azure-pipelines.yml*') {
+                                        # skip if referencing a filename
+                                        continue
+                                    }
+                                    # evaluate case sensitivity
+                                    if ($dir -like '*.*') {
+                                        if (-not ($line -cmatch [regex]::Escape($dir))) {
+                                            $caseViolationCount++
+                                            Write-Warning -Message ('VIOLATION: {0} - {1} - {2}' -f $dir, $line, $manifest)
+                                        }
+                                    }
+                                    else {
+                                        if (-not ([regex]::Escape($line) -cmatch [regex]::Escape($dir))) {
+                                            $caseViolationCount++
+                                            Write-Warning -Message ('VIOLATION: {0} - {1} - {2}' -f $dir, $line, $manifest)
+                                        }
+                                    }
+                                } #if_dir
+                            } #if_reference_line
+                        } #foreach_line_match
+                    } #foreach_directoryName
+                } #foreach_manifest
+                $caseViolationCount | Should -BeExactly 0
+            } #it
+        } #context_case_sensitivity
     } #context_templates
 } #describe_File_Checks

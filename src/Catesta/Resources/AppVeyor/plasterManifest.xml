@@ -4,7 +4,7 @@
   <metadata>
     <name>AppVeyorManifestPS</name>
     <id>e7c065d2-f8c5-4bf2-b33e-db50a62abbb4</id>
-    <version>1.2.3</version>
+    <version>1.2.6</version>
     <title>Catesta - PSModule template for AppVeyor</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using AppVeyor</description>
     <author>Jake Morrison</author>
@@ -75,9 +75,9 @@
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}'/>
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Public'/>
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Private'/>
-    <templateFile source='..\editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
-    <file source='..\editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
-    <templateFile source='..\editor\VSCode\settings.json' destination='.vscode\settings.json' />
+    <templateFile source='..\Editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
+    <file source='..\Editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
+    <templateFile source='..\Editor\VSCode\settings.json' destination='.vscode\settings.json' />
 
     <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Unit\PSModule-Module.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
     <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Unit\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />
