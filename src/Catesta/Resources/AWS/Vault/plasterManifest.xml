@@ -4,7 +4,7 @@
   <metadata>
     <name>AWSCBVaultExtension</name>
     <id>58d9f168-a786-43e6-8b79-0766ded4fd22</id>
-    <version>1.2.5</version>
+    <version>1.2.6</version>
     <title>Catesta - SecretManagement extension vault module template for AWS CodeBuild</title>
     <description>Scaffolds a new PowerShell SecretManagement extension vault module project intended for CI/CD workflow using AWS CodeBuild</description>
     <author>Jake Morrison</author>

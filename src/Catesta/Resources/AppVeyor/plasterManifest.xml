@@ -4,7 +4,7 @@
   <metadata>
     <name>AppVeyorManifestPS</name>
     <id>e7c065d2-f8c5-4bf2-b33e-db50a62abbb4</id>
-    <version>1.2.5</version>
+    <version>1.2.6</version>
     <title>Catesta - PSModule template for AppVeyor</title>
     <description>Scaffolds a new PowerShell module project intended for CI/CD workflow using AppVeyor</description>
     <author>Jake Morrison</author>

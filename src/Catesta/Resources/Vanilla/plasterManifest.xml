@@ -4,7 +4,7 @@
   <metadata>
     <name>BasicManifestPS</name>
     <id>c95c4daa-7715-4429-839e-158412655abb</id>
-    <version>1.2.5</version>
+    <version>1.2.6</version>
     <title>Catesta - Basic PSModule template</title>
     <description>Scaffolds a new PowerShell module project</description>
     <author>Jake Morrison</author>
