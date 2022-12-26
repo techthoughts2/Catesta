@@ -5,10 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.2.7]
+## [1.3.0]
 
 - Catesta template module changes
   - Vanilla module (aka `ModuleOnly` CICD choice) will now prompt user to decide if they want InvokeBuild tasks for PlatyPS help generation and code style enforcement.
+  - Vanilla module (aka `ModuleOnly` CICD choice) will no longer prompt for helpful VSCode files creation.
 
 ## [1.2.6]
 
@@ -58,7 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - `buildspec_pwsh_windows.yml`
     - `install_modules.ps1`
       - AWS.Tools.Common bumped from `4.1.17.0` to `4.1.133`
-  - Minimum version of `Microsoft.PowerShell.SecretManagement` for vault builds is now `1.2.7`
+  - Minimum version of `Microsoft.PowerShell.SecretManagement` for vault builds is now `1.3.0`
 - Catesta primary module changes
   - `tasks.json`
     - `PesterTest`, `Pester-Single-Coverage`, `Pester-Single-Detailed`, `DevCC-Single` tasks no longer use legacy parameters for Pester 5
@@ -80,7 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
       - Updated reference links
     - `install_modules.ps1`
       - Minor spelling correction
-      - AWS.Tools.Common bumped from `4.1.2.7` to `4.1.17.0`
+      - AWS.Tools.Common bumped from `4.1.3.0` to `4.1.17.0`
     - `New-PowerShellProject.ps1` & `New-VaultProject.ps1`
       - Minor formatting updates
   - Appveyor CI/CD changes:

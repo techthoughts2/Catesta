@@ -4,7 +4,7 @@
   <metadata>
     <name>GHAVaultExtension</name>
     <id>02c6673d-bf8b-4997-b229-0d1856af4506</id>
-    <version>1.2.7</version>
+    <version>1.3.0</version>
     <title>Catesta - SecretManagement extension vault module template for GitHub Actions</title>
     <description>Scaffolds a new PowerShell SecretManagement extension vault module project for CI/CD workflow using GitHub Actions</description>
     <author>Jake Morrison</author>

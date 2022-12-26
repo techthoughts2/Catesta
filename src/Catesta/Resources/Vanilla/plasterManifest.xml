@@ -4,7 +4,7 @@
   <metadata>
     <name>BasicManifestPS</name>
     <id>c95c4daa-7715-4429-839e-158412655abb</id>
-    <version>1.2.7</version>
+    <version>1.3.0</version>
     <title>Catesta - Basic PSModule template</title>
     <description>Scaffolds a new PowerShell module project</description>
     <author>Jake Morrison</author>
@@ -16,10 +16,6 @@
     <parameter name='Description' type='text' prompt='Enter a description for the module'/>
     <parameter name='Version' type='text' prompt='Enter the version number of the module' default='0.0.1'/>
     <parameter name='FN' type='user-fullname' store='text' prompt='Enter your full name'/>
-    <parameter name='VSCode' type='choice' default='0' store='text' prompt='Would you like to add helpful VSCode files for your project?'>
-      <choice label='&amp;Yes' help="VSCode files will be added to make editing in VSCode easier." value="Yes"/>
-      <choice label='&amp;No' help="VSCode files will not be added." value="No"/>
-    </parameter>
     <parameter name='CodingStyle' type='choice' default='0' store='text' prompt='Would you like to specify a coding style for the project?'>
       <choice label='&amp;Stroustrup' help="Sets Stroustrup as the preferred coding style." value="Stroustrup"/>
       <choice label='&amp;OTBS' help="Sets OTBS as the preferred coding style." value="OTBS"/>
@@ -52,9 +48,9 @@
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Public'/>
     <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Private'/>
 
-    <templateFile condition="$PLASTER_PARAM_VSCode -eq 'Yes'" source='..\Editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
-    <file condition="$PLASTER_PARAM_VSCode -eq 'Yes'" source='..\Editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
-    <templateFile condition="$PLASTER_PARAM_VSCode -eq 'Yes'" source='..\Editor\VSCode\settings.json' destination='.vscode\settings.json' />
+    <templateFile source='..\Editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
+    <file source='..\Editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
+    <templateFile source='..\Editor\VSCode\settings.json' destination='.vscode\settings.json' />
 
     <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Unit\PSModule-Module.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
     <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Unit\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />
