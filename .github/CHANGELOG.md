@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Catesta template module changes
   - Vanilla module (aka `ModuleOnly` CICD choice) will now prompt user to decide if they want InvokeBuild tasks for PlatyPS help generation and code style enforcement.
   - Vanilla module (aka `ModuleOnly` CICD choice) will no longer prompt for helpful VSCode files creation.
+  - Added a template file for GitHub `SECURITY.md`
+- Catesta primary module changes
+  - Added a `SECURITY.md` file for the Catesta project
 
 ## [1.2.6]
 
