@@ -4,7 +4,7 @@
   <metadata>
     <name>BasicManifestPS</name>
     <id>c95c4daa-7715-4429-839e-158412655abb</id>
-    <version>1.2.6</version>
+    <version>1.2.7</version>
     <title>Catesta - Basic PSModule template</title>
     <description>Scaffolds a new PowerShell module project</description>
     <author>Jake Morrison</author>
@@ -19,6 +19,16 @@
     <parameter name='VSCode' type='choice' default='0' store='text' prompt='Would you like to add helpful VSCode files for your project?'>
       <choice label='&amp;Yes' help="VSCode files will be added to make editing in VSCode easier." value="Yes"/>
       <choice label='&amp;No' help="VSCode files will not be added." value="No"/>
+    </parameter>
+    <parameter name='CodingStyle' type='choice' default='0' store='text' prompt='Would you like to specify a coding style for the project?'>
+      <choice label='&amp;Stroustrup' help="Sets Stroustrup as the preferred coding style." value="Stroustrup"/>
+      <choice label='&amp;OTBS' help="Sets OTBS as the preferred coding style." value="OTBS"/>
+      <choice label='&amp;Allman' help="Sets Allman as the preferred coding style." value="Allman"/>
+      <choice label='&amp;None' help="No coding style is set for the project." value="None"/>
+    </parameter>
+    <parameter name='Help' type='choice' default='0' store='text' prompt='Would you like to use platyPS to generate help documentation files for your project?'>
+      <choice label='&amp;Yes' help="platyPS will generate MarkDown help and external xml help" value="Yes"/>
+      <choice label='&amp;No' help="No help files will be generated." value="No"/>
     </parameter>
     <parameter name='Pester' type='choice' default='0' store='text' prompt='Which version of Pester would you like to use?'>
       <choice label='&amp;5' help="Pester version 5" value="5"/>
