@@ -15,9 +15,6 @@ Catesta is a PowerShell module project generator. It uses templates to rapidly s
 Scaffolds a PowerShell module project for use with desired CICD platform for easy cross platform PowerShell development.
 TODO: tbd
 
-### [New-PowerShellProject](New-PowerShellProject.md)
-Scaffolds a PowerShell module project for use with desired CICD platform for easy cross platform PowerShell development.
-
 ### [New-VaultProject](New-VaultProject.md)
 Scaffolds a PowerShell SecretManagement vault module project for use with desired CICD platform for easy cross platform PowerShell development.
 

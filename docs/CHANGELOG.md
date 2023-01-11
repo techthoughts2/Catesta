@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0] - *breaking changes introduced*
 
 - Catesta template module changes
-  - `New-PowerShellProject` is now `New-ModuleProject` - ***Breaking Change***
+  - `New-PowerShellProject` has been removed and has been replaced with `New-ModuleProject` - ***Breaking Change***
   - Separate CI/CD PowerShell module manifests have been consolidated into a single module manifest - *potential breaking change*
   - `New-ModuleProject` improvements:
     - Major enhancements to `ShouldProcess` and `WhatIf` functionality
