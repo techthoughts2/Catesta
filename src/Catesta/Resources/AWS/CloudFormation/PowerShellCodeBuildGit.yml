@@ -209,7 +209,7 @@ Resources:
                   - !Sub "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:report-group/<%=$PLASTER_PARAM_ModuleName%>*"
 
 <%
-    if ($PLASTER_PARAM_Options -eq 'ps') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
   # The CodeBuild Project configuration
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
@@ -259,7 +259,7 @@ Resources:
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
   # The CodeBuild Project configuration
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
@@ -309,7 +309,7 @@ Resources:
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwsh') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
   # The CodeBuild Project configuration
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
@@ -411,21 +411,21 @@ Resources:
             - STOPPED
           project-name:
 <%
-    if ($PLASTER_PARAM_Options -eq 'ps') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
             - !Ref CodeBuildpsProject
 '@
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
             - !Ref CodeBuildpwshcoreProject
 '@
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwsh') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
             - !Ref CodeBuildpwshProject
 '@
@@ -449,7 +449,7 @@ Outputs:
     Description: The SNS Topic used for CodeBuild status updates
     Value: !Ref SNSTopicForCodeBuildUpdates
 <%
-    if ($PLASTER_PARAM_Options -eq 'ps') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
   CodeBuildpsProject:
     Description: The name of the CodeBuild Project.
@@ -468,7 +468,7 @@ Outputs:
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
   CodeBuildpwshcoreProject:
     Description: The name of the CodeBuild Project.
@@ -487,7 +487,7 @@ Outputs:
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwsh') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
   CodeBuildpwshProject:
     Description: The name of the CodeBuild Project.

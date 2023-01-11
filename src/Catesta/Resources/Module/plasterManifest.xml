@@ -1,0 +1,282 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<plasterManifest schemaVersion='1.1' templateType='Project'
+    xmlns='http://www.microsoft.com/schemas/PowerShell/Plaster/v1'>
+
+    <!--
+        CodingStyle
+        FN          -g
+        Help        -g
+        ModuleName  -g
+        Options
+        Pester      -g
+        S
+        VAULT       -g
+        Version     -g
+    -->
+
+    <!-- MetaData -->
+    <metadata>
+        <name>Catesta</name>
+        <id>258a61ba-566b-4c3a-8230-c2b6861a1a8d</id>
+        <version>2.0.0</version>
+        <title>Catesta</title>
+        <description>Scaffolds a new PowerShell module project</description>
+        <author>Jake Morrison</author>
+        <tags>PowerShell,Template,CodeBuild,PowerShell Module,AWS</tags>
+    </metadata>
+
+    <!-- Parameters -->
+    <parameters>
+        <!-- Module differentiator -->
+        <parameter name='VAULT' type='text' prompt='NOTVAULT'/>
+        <!-- Standard Parameter Prompts -->
+        <parameter name='ModuleName' type='text' prompt='Enter the name of the module'/>
+        <parameter name='Description' type='text' prompt='Enter a description for the module'/>
+        <parameter name='Version' type='text' prompt='Enter the version number of the module' default='0.0.1'/>
+        <parameter name='FN' type='user-fullname' store='text' prompt='Enter your full name'/>
+        <!-- CI/CD -->
+        <parameter name='CICD' type='choice' default='0' store='text' prompt='Which CICD tool will you use to build and deploy your project?'>
+            <choice label='&amp;Module Only' help='Does not add CI/CD process files. Module scaffolding only.' value='NONE'/>
+            <choice label='&amp;GitHub Actions' help='CI/CD using GitHub Actions.' value='GITHUB'/>
+            <choice label='AWS &amp;CodeBuild' help='CI/CD using AWS CodeBuild' value='CODEBUILD'/>
+            <choice label='Ap&amp;pveyor' help='CI/CD using AWS Appveyor' value='APPVEYOR'/>
+            <choice label='Git&amp;Lab CI/CD' help='CI/CD using GitLab CI/CD' value='GITLAB'/>
+            <choice label='&amp;BitBucket Pipelines' help='CI/CD using BitBucket Pipelines' value='BITBUCKET'/>
+            <choice label='&amp;Azure Pipelines' help='CI/CD using Azure Pipelines' value='AZURE'/>
+        </parameter>
+        <!-- _________ CI/CD Sub-choices -->
+        <!-- !$PLASTER_PARAM_OPTIONS THIS IS A PROBLEM -->
+        <!-- ___________________________GitHub Actions -->
+        <!-- ___________________________AWS -->
+        <parameter condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" name='AWSOptions' type='multichoice' default='0' store='text' prompt='Select desired buildspec file options?'>
+            <choice label='&amp;Windows - PowerShell' help='Adds a powershell focused buildspec.yml for Windows CodeBuild.' value='ps'/>
+            <choice label='&amp;Core (Windows)- pwsh' help='Adds a pwsh focused buildspec.yml for Windows CodeBuild.' value='pwshcore'/>
+            <choice label='&amp;Linux - pwsh' help='Adds a pwsh focused buildspec.yml for Linux CodeBuild.' value='pwsh'/>
+        </parameter>
+        <parameter condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" name='S3Bucket' type='text' prompt='Enter S3 bucket name to download needed PS modules from S3 location. Leave blank to default to PSGallery.' default='PSGallery'/>
+        <!-- ___________________________Appveyor -->
+        <!-- TODO: _____________________________ -->
+        <!-- ___________________________GitLab CI/CD-->
+        <!-- TODO: _____________________________ -->
+        <!-- ___________________________BitBucket Pipelines -->
+        <!-- TODO: _____________________________ -->
+        <!-- ___________________________Azure Pipelines -->
+        <!-- TODO: _____________________________ -->
+        <!-- Repository Questions -->
+        <parameter name='RepoType' type='choice' default='0' store='text' prompt='Which service will host this projects code repository?'>
+            <choice label='&amp;None' help='Does not add any repository files.' value='NONE'/>
+            <choice label='&amp;GitHub' help='Hosted on GitHub.' value='GITHUB'/>
+            <choice label='AWS &amp;CodeCommit' help='Hosted on AWS CodeCommit.' value='CODECOMMIT'/>
+            <choice label='Git&amp;Lab' help='Hosted on GitLab.' value='GITLAB'/>
+            <choice label='&amp;BitBucket' help='Hosted on BitBucket.' value='BITBUCKET'/>
+            <choice label='&amp;Azure Repos' help='Hosted on Azure Repos.' value='AZURE'/>
+        </parameter>
+        <!-- _________ Repository Sub-choices -->
+        <parameter condition="$PLASTER_PARAM_RepoType -ne 'NONE'" name='License' type='choice' default='0' store='text' prompt='Select a License for your module. (Help deciding: https://choosealicense.com/)'>
+            <choice label='&amp;MIT' help='Adds a MIT License file.' value='MIT'/>
+            <choice label='&amp;Apache' help='Adds an Apache License file.' value='Apache'/>
+            <choice label='&amp;GNU' help='Adds a GNU GENERAL PUBLIC LICENSE file.' value='GNU'/>
+            <choice label='&amp;ISC' help='Adds an ISC License file.' value='ISC'/>
+            <choice label='&amp;None' help='Does not add a License file.' value='None'/>
+        </parameter>
+        <parameter condition="$PLASTER_PARAM_RepoType -ne 'NONE'" name='Changelog' type='choice' default='0' store='text' prompt='Would you like to generate a Changelog file?'>
+            <choice label='&amp;Changelog' help='Adds a Changelog file.' value='CHANGELOG'/>
+            <choice label='&amp;None' help='Does not add a Changelog file.' value='NOCHANGELOG'/>
+        </parameter>
+        <parameter condition="$PLASTER_PARAM_RepoType -ne 'NONE'" name='COC' type='choice' default='0' store='text' prompt='Would you like to generate a Code of Conduct file?'>
+            <choice label='&amp;Conduct' help='Adds a Code of Conduct file.' value='CONDUCT'/>
+            <choice label='&amp;None' help='Does not add a Conduct file.' value='NOCONDUCT'/>
+        </parameter>
+        <parameter condition="$PLASTER_PARAM_RepoType -ne 'NONE'" name='Contribute' type='choice' default='0' store='text' prompt='Would you like to generate a Contributing guidelines file?'>
+            <choice label='&amp;Contribute' help='Adds a Contributing file.' value='CONTRIBUTING'/>
+            <choice label='&amp;None' help='Does not add a Contributing file.' value='NOCONTRIBUTING'/>
+        </parameter>
+        <parameter condition="$PLASTER_PARAM_RepoType -ne 'NONE'" name='Security' type='choice' default='0' store='text' prompt='Would you like to generate a Security policy file?'>
+            <choice label='&amp;Security' help='Adds a Security policy file.' value='SECURITY'/>
+            <choice label='&amp;None' help='Does not add a Security policy file.' value='NOSECURITY'/>
+        </parameter>
+        <!-- Coding Style -->
+        <parameter name='CodingStyle' type='choice' default='0' store='text' prompt='Would you like to specify a coding style for the project?'>
+            <choice label='&amp;Stroustrup' help='Sets Stroustrup as the preferred coding style.' value='Stroustrup'/>
+            <choice label='&amp;OTBS' help='Sets OTBS as the preferred coding style.' value='OTBS'/>
+            <choice label='&amp;Allman' help='Sets Allman as the preferred coding style.' value='Allman'/>
+            <choice label='&amp;None' help='No coding style is set for the project.' value='None'/>
+        </parameter>
+        <!-- PlatyPS Help -->
+        <parameter name='Help' type='choice' default='0' store='text' prompt='Would you like to use platyPS to generate documentation files and external xml help for your project?'>
+            <choice label='&amp;Yes' help='platyPS will generate MarkDown help and external xml help' value='Yes'/>
+            <choice label='&amp;No' help='No help files will be generated.' value='No'/>
+        </parameter>
+        <!-- Pester -->
+        <parameter name='Pester' type='choice' default='0' store='text' prompt='Which version of Pester would you like to use?'>
+            <choice label='&amp;5' help='Pester version 5' value='5'/>
+            <choice label='&amp;4' help='Pester version 4' value='4'/>
+        </parameter>
+    </parameters>
+
+    <!-- Content -->
+    <content>
+        <!-- Intro Messages -->
+        <message>
+            &#10;&#10;Scaffolding your PowerShell Module module project with the following options:
+            &#09;CICD: '$PLASTER_PARAM_CICD'
+            &#09;Repo: '$PLASTER_PARAM_RepoType'
+            &#09;CodingStyle: '$PLASTER_PARAM_CodingStyle'
+            &#09;Help: '$PLASTER_PARAM_Help'
+            &#09;Pester: '$PLASTER_PARAM_Pester'
+        </message>
+
+        <!-- Create destination folder structure -->
+        <file source='' destination='docs'/>
+        <file source='' destination='media'/>
+        <file source='' destination='src'/>
+        <file condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" source='' destination='CloudFormation'/>
+        <file source='' destination='src\Archive'/>
+        <file source='' destination='src\Artifacts'/>
+        <file source='' destination='src\Tests'/>
+        <file source='' destination='src\Tests\Infrastructure'/>
+        <file source='' destination='src\Tests\Unit'/>
+        <file source='' destination='src\Tests\Unit\Public'/>
+        <file source='' destination='src\Tests\Unit\Private'/>
+        <file source='' destination='src\${PLASTER_PARAM_ModuleName}'/>
+        <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Public'/>
+        <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Private'/>
+
+        <!-- Module Files -->
+
+        <templateFile source='..\Module\src\Module\Private\Get-Day.ps1' destination='src\${PLASTER_PARAM_ModuleName}\Private\Get-Day.ps1' />
+        <templateFile source='..\Module\src\Module\Public\Get-HelloWorld.ps1' destination='src\${PLASTER_PARAM_ModuleName}\Public\Get-HelloWorld.ps1' />
+
+        <templateFile source='..\Module\src\PSModule.build.ps1' destination='src\${PLASTER_PARAM_ModuleName}.build.ps1'/>
+        <file source='..\Module\src\PSModule.Settings.ps1' destination='src\${PLASTER_PARAM_ModuleName}.Settings.ps1'/>
+        <file source='..\Module\src\PSScriptAnalyzerSettings.psd1' destination='src\PSScriptAnalyzerSettings.psd1'/>
+
+        <!-- VSCode files -->
+        <templateFile source='..\Editor\VSCode\tasks.json' destination='.vscode\tasks.json' />
+        <file source='..\Editor\VSCode\extensions.json' destination='.vscode\extensions.json' />
+        <templateFile source='..\Editor\VSCode\settings.json' destination='.vscode\settings.json' />
+
+        <!-- Pester -->
+        <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Unit\PSModule-Module.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
+        <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Unit\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />
+        <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Unit\Private\Private-Function.Tests.ps1' destination='src\Tests\Unit\Private\Get-Day.Tests.ps1' />
+        <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Unit\Public\Public-Function.Tests.ps1' destination='src\Tests\Unit\Public\Get-HelloWorld.Tests.ps1' />
+        <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Infrastructure\SampleInfraTest.Tests.ps1' destination='src\Tests\Infrastructure\SampleInfraTest.Tests.ps1' />
+
+        <templateFile condition="$PLASTER_PARAM_Pester -eq '5'" source='..\Module\src\Tests\v5\Unit\PSModule-Module.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
+        <templateFile condition="$PLASTER_PARAM_Pester -eq '5'" source='..\Module\src\Tests\v5\Unit\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />
+        <templateFile condition="$PLASTER_PARAM_Pester -eq '5'" source='..\Module\src\Tests\v5\Unit\Private\Private-Function.Tests.ps1' destination='src\Tests\Unit\Private\Get-Day.Tests.ps1' />
+        <templateFile condition="$PLASTER_PARAM_Pester -eq '5'" source='..\Module\src\Tests\v5\Unit\Public\Public-Function.Tests.ps1' destination='src\Tests\Unit\Public\Get-HelloWorld.Tests.ps1' />
+        <templateFile condition="$PLASTER_PARAM_Pester -eq '5'" source='..\Module\src\Tests\v5\Infrastructure\SampleInfraTest.Tests.ps1' destination='src\Tests\Infrastructure\SampleInfraTest.Tests.ps1' />
+
+        <!-- Repo -->
+        <!-- _________gitignore -->
+        <file condition="$PLASTER_PARAM_RepoType -ne 'NONE'" source='..\RepoFiles\agitignore' destination='.gitignore' />
+
+        <!-- _________LICENSE -->
+        <templateFile condition="$PLASTER_PARAM_License -eq 'MIT'" source='..\RepoFiles\Licences\MITLICENSE' destination='LICENSE' />
+        <templateFile condition="$PLASTER_PARAM_License -eq 'Apache'" source='..\RepoFiles\Licences\APACHELICENSE' destination='LICENSE' />
+        <templateFile condition="$PLASTER_PARAM_License -eq 'GNU'" source='..\RepoFiles\Licences\GNULICENSE' destination='LICENSE' />
+        <templateFile condition="$PLASTER_PARAM_License -eq 'ISC'" source='..\RepoFiles\Licences\ISCLICENSE' destination='LICENSE' />
+
+        <!-- _________CHANGELOG -->
+        <templateFile condition="$PLASTER_PARAM_Changelog -eq 'CHANGELOG'" source='..\RepoFiles\CHANGELOG.md' destination='docs\CHANGELOG.md' />
+
+        <!-- _________CodeCommit -->
+        <!-- ________________________Code of Conduct -->
+        <file condition="$PLASTER_PARAM_RepoType -eq 'CODECOMMIT' -and $PLASTER_PARAM_COC -eq 'CONDUCT'" source='..\RepoFiles\CODE_OF_CONDUCT.md' destination='CODE_OF_CONDUCT.md' />
+        <!-- ________________________Contribute -->
+        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'CODECOMMIT' -and $PLASTER_PARAM_Contribute -eq 'CONTRIBUTING'" source='..\RepoFiles\CONTRIBUTING.md' destination='CONTRIBUTING.md' />
+        <!-- ________________________Security -->
+        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'CODECOMMIT' -and $PLASTER_PARAM_Security -eq 'SECURITY'" source='..\RepoFiles\SECURITY.md' destination='SECURITY.md' />
+        <!-- ________________________Templates -->
+        <!-- //N/A _______________________________ -->
+
+        <!-- _________GitHub -->
+        <!-- ________________________Code of Conduct -->
+        <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB' -and $PLASTER_PARAM_COC -eq 'CONDUCT'" source='..\RepoFiles\CODE_OF_CONDUCT.md' destination='.github\CODE_OF_CONDUCT.md' />
+        <!-- ________________________Contribute -->
+        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'GITHUB' -and $PLASTER_PARAM_Contribute -eq 'CONTRIBUTING'" source='..\RepoFiles\CONTRIBUTING.md' destination='.github\CONTRIBUTING.md' />
+        <!-- ________________________Security -->
+        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'GITHUB' -and $PLASTER_PARAM_Security -eq 'SECURITY'" source='..\RepoFiles\SECURITY.md' destination='.github\SECURITY.md' />
+        <!-- ________________________Templates -->
+        <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\GitHubFiles\PULL_REQUEST_TEMPLATE.md' destination='.github\PULL_REQUEST_TEMPLATE.md'/>
+        <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\GitHubFiles\ISSUE_TEMPLATE\bug-report.md' destination='.github\ISSUE_TEMPLATE\bug-report.md'/>
+        <file condition="$PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\GitHubFiles\ISSUE_TEMPLATE\feature_request.md' destination='.github\ISSUE_TEMPLATE\feature_request.md'/>
+
+        <!-- _________Azure Repos -->
+        <!-- ________________________Code of Conduct -->
+        <file condition="$PLASTER_PARAM_RepoType -eq 'AZURE' -and $PLASTER_PARAM_COC -eq 'CONDUCT'" source='..\RepoFiles\CODE_OF_CONDUCT.md' destination='CODE_OF_CONDUCT.md' />
+        <!-- ________________________Contribute -->
+        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'AZURE' -and $PLASTER_PARAM_Contribute -eq 'CONTRIBUTING'" source='..\RepoFiles\CONTRIBUTING.md' destination='CONTRIBUTING.md' />
+        <!-- ________________________Security -->
+        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'AZURE' -and $PLASTER_PARAM_Contribute -eq 'SECURITY'" source='..\RepoFiles\SECURITY.md' destination='SECURITY.md' />
+        <!-- ________________________Templates -->
+        <!-- TODO: ___________________________pull_request_template -->
+
+        <!-- _________BitBucket -->
+        <!-- ________________________Code of Conduct -->
+        <file condition="$PLASTER_PARAM_RepoType -eq 'BITBUCKET' -and $PLASTER_PARAM_COC -eq 'CONDUCT'" source='..\RepoFiles\CODE_OF_CONDUCT.md' destination='CODE_OF_CONDUCT.md' />
+        <!-- ________________________Contribute -->
+        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'BITBUCKET' -and $PLASTER_PARAM_Contribute -eq 'CONTRIBUTING'" source='..\RepoFiles\CONTRIBUTING.md' destination='CONTRIBUTING.md' />
+        <!-- ________________________Security -->
+        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'BITBUCKET' -and $PLASTER_PARAM_Contribute -eq 'SECURITY'" source='..\RepoFiles\SECURITY.md' destination='SECURITY.md' />
+        <!-- ________________________Templates -->
+        <!-- //N/A _______________________________ -->
+
+        <!-- _________GitLab -->
+        <!-- ________________________Code of Conduct -->
+        <file condition="$PLASTER_PARAM_RepoType -eq 'GITLAB' -and $PLASTER_PARAM_COC -eq 'CONDUCT'" source='..\RepoFiles\CODE_OF_CONDUCT.md' destination='CODE_OF_CONDUCT.md' />
+        <!-- ________________________Contribute -->
+        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'GITLAB' -and $PLASTER_PARAM_Contribute -eq 'CONTRIBUTING'" source='..\RepoFiles\CONTRIBUTING.md' destination='CONTRIBUTING.md' />
+        <!-- ________________________Security -->
+        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'GITLAB' -and $PLASTER_PARAM_Contribute -eq 'SECURITY'" source='..\RepoFiles\SECURITY.md' destination='SECURITY.md' />
+        <!-- ________________________Templates -->
+        <!-- TODO: ___________________________merge_request_templates -->
+        <!-- TODO: ___________________________issue_template -->
+        <!-- TODO: ___________________________insights.yml -->
+
+
+        <!-- CI\CD -->
+        <!-- _________GitHub Actions -->
+        <!-- _________AWS -->
+        <file condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" source='..\AWS\configure_aws_credential.ps1' destination='configure_aws_credential.ps1'/>
+        <file condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" source='..\AWS\CloudFormation\S3BucketsForPowerShellDevelopment.yml' destination='CloudFormation\S3BucketsForPowerShellDevelopment.yml'/>
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_AWSOptions -eq 'ps'" source='..\AWS\buildspec_powershell_windows.yml' destination='buildspec_powershell_windows.yml' />
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_AWSOptions -eq 'pwshcore'" source='..\AWS\buildspec_pwsh_windows.yml' destination='buildspec_pwsh_windows.yml' />
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_AWSOptions -eq 'pwsh'" source='..\AWS\buildspec_pwsh_linux.yml' destination='buildspec_pwsh_linux.yml' />
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" source='..\AWS\install_modules.ps1' destination='install_modules.ps1'/>
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\AWS\CloudFormation\PowerShellCodeBuildGit.yml' destination='CloudFormation\PowerShellCodeBuildGit.yml'/>
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_RepoType -eq 'CODECOMMIT'" source='..\AWS\CloudFormation\PowerShellCodeBuildCC.yml' destination='CloudFormation\PowerShellCodeBuildCC.yml'/>
+        <!-- _________Appveyor -->
+        <!-- TODO: _____________________________ -->
+        <!-- _________GitLab CI/CD -->
+        <!-- TODO: _____________________________ -->
+        <!-- _________Bitbucket Pipelines -->
+        <!-- TODO: _____________________________ -->
+        <!-- _________Azure Pipelines -->
+        <!-- TODO: _____________________________ -->
+
+
+        <!-- Manifest -->
+        <newModuleManifest destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_Version' rootModule='${PLASTER_PARAM_ModuleName}.psm1' encoding='UTF8-NoBOM' openInEditor="true" author='$PLASTER_PARAM_FN' description='$PLASTER_PARAM_description'/>
+        <file source='..\Module\src\Module\Imports.ps1' destination='src\${PLASTER_PARAM_ModuleName}\Imports.ps1'/>
+        <file source='..\Module\src\Module\Module.psm1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psm1' openInEditor="true"/>
+
+        <!-- Required modules -->
+        <requireModule condition="$PLASTER_PARAM_Pester -eq '4'" name='Pester' minimumVersion='4.7.2' message='Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 4.5.0, VS Code will not display Pester warnings and errors in the Problems panel.'/>
+        <requireModule condition="$PLASTER_PARAM_Pester -eq '5'" name='Pester' minimumVersion='5.2.2' message='Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.'/>
+        <requireModule name='InvokeBuild' minimumVersion='5.8.0' message='Without InvokeBuild, you will not be able to run local builds.'/>
+        <requireModule name='platyPS' requiredVersion ='0.12.0' message='This template requires platyPS v0.12.0 module to properly generate help.'/>
+
+        <!-- Outro Messages -->
+        <message>
+            &#10;Your new PowerShell module project '$PLASTER_PARAM_ModuleName' has been created.
+        </message>
+        <message condition="$PLASTER_PARAM_Choice -eq 'AWS'">
+            &#10;CloudFormation files have been generated for this project. You can find these in the CloudFormation folder.
+            &#13;You can login to your AWS account and utilize these file to quickly create a stack for your project build.
+            &#13;More information: https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-AWS.md
+        </message>
+    </content>
+</plasterManifest>

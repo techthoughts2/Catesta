@@ -273,7 +273,7 @@ Resources:
       RepositoryDescription: !Ref CodeCommitRepositoryDescription
       Triggers:
 <%
-    if ($PLASTER_PARAM_Options -eq 'ps') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
         - Name: CodeBuildTriggerWPS
           CustomData: !Ref CodeCommitRepositoryName
@@ -285,7 +285,7 @@ Resources:
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
         - Name: CodeBuildTriggerWPwsh
           CustomData: !Ref CodeCommitRepositoryName
@@ -297,7 +297,7 @@ Resources:
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwsh') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
         - Name: CodeBuildTriggerL
           CustomData: !Ref CodeCommitRepositoryName
@@ -311,7 +311,7 @@ Resources:
 
 
 <%
-    if ($PLASTER_PARAM_Options -eq 'ps') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
   # Windows PowerShell CodeBuild
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
@@ -352,7 +352,7 @@ Resources:
 %>
 
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
   # Windows Pwsh CodeBuild
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
@@ -393,7 +393,7 @@ Resources:
 %>
 
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwsh') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
   # Linux Pwsh CodeBuild
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
@@ -453,21 +453,21 @@ Resources:
             - STOPPED
           project-name:
 <%
-    if ($PLASTER_PARAM_Options -eq 'ps') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
             - !Ref CodeBuildProjectWPS
 '@
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
             - !Ref CodeBuildProjectWPwsh
 '@
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwsh') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
             - !Ref CodeBuildProjectLPwsh
 '@
@@ -486,7 +486,7 @@ Resources:
               account: "$.account"
 
 <%
-    if ($PLASTER_PARAM_Options -eq 'ps') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
   # Embedded Lambda Function for Windows PowerShell deployment
   CodeCommitTriggeredLambdaWPS:
@@ -569,7 +569,7 @@ Resources:
 %>
 
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
   # Embedded Lambda Function for Windows pwsh deployment
   CodeCommitTriggeredLambdaWPwsh:
@@ -652,7 +652,7 @@ Resources:
 %>
 
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
   # Embedded Lambda Function for Linux pwsh deployment
   CodeCommitTriggeredLambdaL:
@@ -735,7 +735,7 @@ Resources:
 %>
 
 <%
-    if ($PLASTER_PARAM_Options -eq 'ps') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
   # Allows CodeCommit to invoke the Lambda Function for Windows PowerShell build triggers
   CodeCommitLambdaInvokePermissionWPS:
@@ -750,7 +750,7 @@ Resources:
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
   # Allows CodeCommit to invoke the Lambda Function for Windows pwsh build triggers
   CodeCommitLambdaInvokePermissionWPwsh:
@@ -765,7 +765,7 @@ Resources:
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwsh') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
   # Allows CodeCommit to invoke the Lambda Function for Linux pwsh build triggers
   CodeCommitLambdaInvokePermissionL:
@@ -791,7 +791,7 @@ Outputs:
     Value: !Ref SNSTopicForCodeBuildUpdates
 
 <%
-    if ($PLASTER_PARAM_Options -eq 'ps') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
   CodeBuildProjectWPS:
     Description: The name of the PS Windows CodeBuild Project.
@@ -800,7 +800,7 @@ Outputs:
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
   CodeBuildProjectWPwsh:
     Description: The name of the pwsh Windows CodeBuild Project.
@@ -809,7 +809,7 @@ Outputs:
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwsh') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
   CodeBuildProjectLPwsh:
     Description: The name of the PS Linux CodeBuild Project.

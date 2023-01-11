@@ -12,7 +12,7 @@
     RootModule        = 'Catesta.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.3.0'
+    ModuleVersion     = '2.0.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -92,6 +92,7 @@
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
         'New-PowerShellProject',
+        'New-ModuleProject'
         'New-VaultProject'
     )
 
@@ -161,7 +162,7 @@
             IconUri                  = 'https://github.com/techthoughts2/Catesta/raw/main/media/CatestaIcon.png'
 
             # ReleaseNotes of this module
-            ReleaseNotes             = 'https://github.com/techthoughts2/Catesta/blob/main/.github/CHANGELOG.md'
+            ReleaseNotes             = 'https://github.com/techthoughts2/Catesta/blob/main/docs/CHANGELOG.md'
 
             # Prerelease string of this module
             # Prerelease = ''

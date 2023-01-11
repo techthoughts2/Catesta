@@ -5,7 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.3.0]
+## [2.0.0] - *breaking changes introduced*
+
+- Catesta template module changes
+  - `New-PowerShellProject` is now `New-ModuleProject` - ***Breaking Change***
+  - Separate CI/CD PowerShell module manifests have been consolidated into a single module manifest - *potential breaking change*
+  - `New-ModuleProject` improvements:
+    - Major enhancements to `ShouldProcess` and `WhatIf` functionality
+  - Moved generic repo file samples in `Resources` to `RepoFiles`
+  - `CHANGELOG` now generates to the `docs` folder for all repository choices
+    - Previous behavior was that this was only supported for GitHub repo selection and generated to the `.github` directory.
+  - Updated `.psd1` to link to new CHANGELOG url
+- Catesta primary module changes
+  - Massively improved infrastructure test suite
+  - Moved `CHANGELOG.md` from `.github` directory to `docs` directory
+
+## [1.3.0] - (Never released)
 
 - Catesta template module changes
   - Vanilla module (aka `ModuleOnly` CICD choice) will now prompt user to decide if they want InvokeBuild tasks for PlatyPS help generation and code style enforcement.

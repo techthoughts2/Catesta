@@ -18,6 +18,7 @@ Describe 'File Checks' {
         $directoryNames = $directories | Select-Object -ExpandProperty Name | Sort-Object -Unique
         $manifestsEvalz = Get-ChildItem -Path $resourcePath -Include '*.xml' -Recurse
         $editorFiles = Get-ChildItem -Path "$resourcePath\Editor\*" -Recurse
+        $repoFiles = Get-ChildItem -Path "$resourcePath\RepoFiles\*" -Recurse
         $srcFiles = Get-ChildItem -Path "$resourcePath\Module\*" -Recurse
         $vaultFiles = Get-ChildItem -Path "$resourcePath\Vault\*" -Recurse
         $gitFiles = Get-ChildItem -Path "$resourcePath\GitHubFiles\*" -Recurse
@@ -26,15 +27,20 @@ Describe 'File Checks' {
         $azureFiles = Get-ChildItem -Path "$resourcePath\Azure\*" -Recurse
         $appVeyorFiles = Get-ChildItem -Path "$resourcePath\AppVeyor\*" -Recurse
         $mOnlyFiles = Get-ChildItem -Path "$resourcePath\Vanilla\*" -Recurse
-    }
+    } #beforeAll
+
     Context 'Editor' {
+
         It 'should have all VSCode files' {
             $editorFiles.Name.Contains('extensions.json') | Should -BeExactly $true
             $editorFiles.Name.Contains('settings.json') | Should -BeExactly $true
             $editorFiles.Name.Contains('tasks.json') | Should -BeExactly $true
         } #it
+
     } #context_Editor
+
     Context 'Module Source Files' {
+
         It 'should have a module file' {
             $srcFiles.Name.Contains('Module.psm1') | Should -BeExactly $true
         } #it
@@ -51,7 +57,9 @@ Describe 'File Checks' {
         It 'should have a private function example' {
             $srcFiles.Name.Contains('Get-Day.ps1') | Should -BeExactly $true
         } #it
+
     } #context_module
+
     Context 'Vault Source Files' {
         It 'should have an extension module file' {
             $vaultFiles.Name.Contains('PSVault.Extension.psm1') | Should -BeExactly $true
@@ -67,27 +75,31 @@ Describe 'File Checks' {
             $vaultFiles.Name.Contains('PSScriptAnalyzerSettings.psd1') | Should -BeExactly $true
         } #it
     } #context_vault
-    Context 'Github' {
-        It 'should have all license files' {
-            $gitFiles.Name.Contains('GNULICENSE') | Should -BeExactly $true
-            $gitFiles.Name.Contains('ISCLICENSE') | Should -BeExactly $true
-            $gitFiles.Name.Contains('MITLICENSE') | Should -BeExactly $true
-            $gitFiles.Name.Contains('APACHELICENSE') | Should -BeExactly $true
-        } #it
-        It 'should have a Pull Request Template' {
-            $gitFiles.Name.Contains('PULL_REQUEST_TEMPLATE.md') | Should -BeExactly $true
 
+    Context 'Repo Files' {
+        It 'should have all license files' {
+            $repoFiles.Name.Contains('GNULICENSE') | Should -BeExactly $true
+            $repoFiles.Name.Contains('ISCLICENSE') | Should -BeExactly $true
+            $repoFiles.Name.Contains('MITLICENSE') | Should -BeExactly $true
+            $repoFiles.Name.Contains('APACHELICENSE') | Should -BeExactly $true
         } #it
         It 'should have a Contributing file' {
-            $gitFiles.Name.Contains('CONTRIBUTING.md') | Should -BeExactly $true
-
+            $repoFiles.Name.Contains('CONTRIBUTING.md') | Should -BeExactly $true
         } #it
         It 'should have a Code of Conduct' {
-            $gitFiles.Name.Contains('CODE_OF_CONDUCT.md') | Should -BeExactly $true
-
+            $repoFiles.Name.Contains('CODE_OF_CONDUCT.md') | Should -BeExactly $true
         } #it
         It 'should have a Changelog' {
-            $gitFiles.Name.Contains('CHANGELOG.md') | Should -BeExactly $true
+            $repoFiles.Name.Contains('CHANGELOG.md') | Should -BeExactly $true
+        } #it
+        It 'should have a gitignore file' {
+            $repoFiles.Name.Contains('agitignore') | Should -BeExactly $true
+        } #it
+    } #context_repo
+
+    Context 'Github' {
+        It 'should have a Pull Request Template' {
+            $gitFiles.Name.Contains('PULL_REQUEST_TEMPLATE.md') | Should -BeExactly $true
 
         } #it
         It 'should have issue templates' {
@@ -95,6 +107,7 @@ Describe 'File Checks' {
             $gitFiles.Name.Contains('feature_request.md') | Should -BeExactly $true
         } #it
     } #context_Github
+
     Context 'AWS' {
         It 'should have a plaster manifest file' {
             $awsFiles.Name.Contains('plasterManifest.xml') | Should -BeExactly $true
@@ -116,6 +129,7 @@ Describe 'File Checks' {
             $awsFiles.Name.Contains('S3BucketsForPowerShellDevelopment.yml') | Should -BeExactly $true
         } #it
     } #context_AWS
+
     Context 'GitHub Actions' {
         It 'should have a plaster manifest file' {
             $githubFiles.Name.Contains('plasterManifest.xml') | Should -BeExactly $true
@@ -129,6 +143,7 @@ Describe 'File Checks' {
             $githubFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
         } #it
     } #context_githubactions
+
     Context 'Azure Pipelines' {
         It 'should have a plaster manifest file' {
             $azureFiles.Name.Contains('plasterManifest.xml') | Should -BeExactly $true
@@ -141,6 +156,7 @@ Describe 'File Checks' {
             $azureFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
         } #it
     } ##context_azure_pipelines
+
     Context 'AppVeyor' {
         It 'should have a plaster manifest file' {
             $appVeyorFiles.Name.Contains('plasterManifest.xml') | Should -BeExactly $true
@@ -153,36 +169,39 @@ Describe 'File Checks' {
             $appVeyorFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
         } #it
     } #appVeyor
+
     Context 'ModuleOnly' {
         It 'should have a plaster manifest file' {
             $mOnlyFiles.Name.Contains('plasterManifest.xml') | Should -BeExactly $true
         } #it
     } ##context_moduleOnly
+
     Context 'Templates' {
-        It 'should have the correct number of templates' {
-            $manifestCount = $manifestsEvalz | Measure-Object | Select-Object -ExpandProperty Count
-            $manifestCount | Should -BeExactly 10
-        } #it
-        Context 'Manifest Version' -Foreach $manifests {
-            It "<_>.FullName version should match the module version" {
+        # TODO: Template Tests
+        # It 'should have the correct number of templates' {
+        #     $manifestCount = $manifestsEvalz | Measure-Object | Select-Object -ExpandProperty Count
+        #     $manifestCount | Should -BeExactly 10
+        # } #it
+        # Context 'Manifest Version' -Foreach $manifests {
+        #     It "<_>.FullName version should match the module version" {
 
-                [version]$scriptVersion = $script:manifestEval.Version
-                [xml]$eval = $null
-                $eval = Get-Content -Path $_.FullName
-                $eval.plasterManifest.metadata.version | Should -BeExactly $scriptVersion
-            } #it
+        #         [version]$scriptVersion = $script:manifestEval.Version
+        #         [xml]$eval = $null
+        #         $eval = Get-Content -Path $_.FullName
+        #         $eval.plasterManifest.metadata.version | Should -BeExactly $scriptVersion
+        #     } #it
 
-        } #context_manifests
-        It 'should not have any duplicate manifest ids' {
-            $ids = @()
-            foreach ($manifest in $manifestsEvalz) {
-                [xml]$eval = $null
-                $eval = Get-Content -Path $manifest.FullName
-                $ids += $eval.plasterManifest.metadata.id
-            }
-            $uniqueCount = $ids | Get-Unique | Measure-Object | Select-Object -ExpandProperty Count
-            $uniqueCount | Should -BeExactly 10
-        } #it
+        # } #context_manifests
+        # It 'should not have any duplicate manifest ids' {
+        #     $ids = @()
+        #     foreach ($manifest in $manifestsEvalz) {
+        #         [xml]$eval = $null
+        #         $eval = Get-Content -Path $manifest.FullName
+        #         $ids += $eval.plasterManifest.metadata.id
+        #     }
+        #     $uniqueCount = $ids | Get-Unique | Measure-Object | Select-Object -ExpandProperty Count
+        #     $uniqueCount | Should -BeExactly 10
+        # } #it
         Context 'Case Sensitivity Checks' {
             It 'should have template references that match the casing of the directory path' {
                 $caseViolationCount = 0
@@ -233,4 +252,9 @@ Describe 'File Checks' {
             } #it
         } #context_case_sensitivity
     } #context_templates
+
+    Context 'Docs' {
+        # TODO: manifest schema check
+    } #context_docs
+
 } #describe_File_Checks

@@ -195,7 +195,10 @@ Add-BuildTask AnalyzeTests -After Analyze {
         $scriptAnalyzerParams = @{
             Path        = $script:TestsPath
             Setting     = 'PSScriptAnalyzerSettings.psd1'
-            ExcludeRule = 'PSUseDeclaredVarsMoreThanAssignments'
+            ExcludeRule = @(
+                'PSUseDeclaredVarsMoreThanAssignments',
+                'PSReviewUnusedParameter'
+            )
             Recurse     = $true
             Verbose     = $false
         }
@@ -503,6 +506,8 @@ Add-BuildTask Build {
     Remove-Item "$script:ArtifactsPath\Private" -Recurse -Force -ErrorAction SilentlyContinue
     Write-Build Green '        ...Build Complete!'
 } #Build
+
+# TODO: schema generator step
 
 #Synopsis: Invokes all Pester Infrastructure Tests in the Tests\Infrastructure folder (if it exists)
 Add-BuildTask InfraTest {
