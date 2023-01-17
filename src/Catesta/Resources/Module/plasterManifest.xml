@@ -49,7 +49,7 @@
         <!-- ___________________________GitHub Actions -->
         <!-- ___________________________AWS -->
         <parameter condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" name='AWSOptions' type='multichoice' default='0' store='text' prompt='Select desired buildspec file options?'>
-            <choice label='&amp;Windows - PowerShell' help='Adds a powershell focused buildspec.yml for Windows CodeBuild.' value='ps'/>
+            <choice label='&amp;Windows - PowerShell' help='Adds a Windows PowerShell focused buildspec.yml for Windows CodeBuild.' value='ps'/>
             <choice label='&amp;Core (Windows)- pwsh' help='Adds a pwsh focused buildspec.yml for Windows CodeBuild.' value='pwshcore'/>
             <choice label='&amp;Linux - pwsh' help='Adds a pwsh focused buildspec.yml for Linux CodeBuild.' value='pwsh'/>
         </parameter>
@@ -61,7 +61,13 @@
         <!-- ___________________________BitBucket Pipelines -->
         <!-- TODO: _____________________________ -->
         <!-- ___________________________Azure Pipelines -->
-        <!-- TODO: _____________________________ -->
+        <parameter condition="$PLASTER_PARAM_CICD -eq 'AZURE'" name='AzureOptions' type='multichoice' default='0' store='text' prompt='Select desired Azure pipeline job options?'>
+            <choice label='&amp;Windows - PowerShell' help='Adds a Windows PowerShell focused job on a Windows image.' value='windows'/>
+            <choice label='&amp;Core (Windows)- pwsh' help='Adds a pwsh focused job on a Windows image.' value='pwshcore'/>
+            <choice label='&amp;Linux - pwsh' help='Adds a pwsh focused job for a Linux image.' value='linux'/>
+            <choice label='&amp;Linux - pwsh' help='Adds a pwsh focused job for a MacOS image.' value='macos'/>
+        </parameter>
+
         <!-- Repository Questions -->
         <parameter name='RepoType' type='choice' default='0' store='text' prompt='Which service will host this projects code repository?'>
             <choice label='&amp;None' help='Does not add any repository files.' value='NONE'/>
@@ -255,7 +261,8 @@
         <!-- _________Bitbucket Pipelines -->
         <!-- TODO: _____________________________ -->
         <!-- _________Azure Pipelines -->
-        <!-- TODO: _____________________________ -->
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'AZURE'" source='..\Azure\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'AZURE'" source='..\Azure\azure-pipelines.yml' destination='azure-pipelines.yml' />
 
 
         <!-- Manifest -->

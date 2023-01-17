@@ -12,7 +12,7 @@ Import-Module $PathToManifest -Force
 $resourcePath1 = [System.IO.Path]::Combine( '..', '..', $ModuleName, 'Resources')
 # $manifests = Get-ChildItem -Path $resourcePath1 -Include '*.xml' -Recurse
 #-------------------------------------------------------------------------
-Describe 'File Checks' {
+Describe 'Module Infra Tests' {
 
     BeforeAll {
         $WarningPreference = 'Continue'
@@ -26,6 +26,7 @@ Describe 'File Checks' {
     } #beforeAll
 
     Context 'Module Checks' {
+
         BeforeEach {
             Remove-Item -Path "$outPutPath\*" -Recurse -Force
             # $codeBuildModuleFiles = Get-ChildItem -Path "$outPutPath\*" -Recurse
@@ -233,7 +234,47 @@ Describe 'File Checks' {
                     $cfnContent | Should -BeLike "*CodeBuildProjectLPwsh*"
                 } #it
 
-            } #aws_CodeBuild
+            } #aws_codeBuild
+
+            Context 'Azure Pipelines' {
+
+                It 'should generate a Azure Pipelines based module stored on GitHub with all required elements' {
+                    $moduleParameters = @{
+                        VAULT        = 'text'
+                        ModuleName   = 'modulename'
+                        Description  = 'text'
+                        Version      = '0.0.1'
+                        FN           = 'user full name'
+                        CICD         = 'AZURE'
+                        AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
+                        RepoType     = 'GITHUB'
+                        License      = 'None'
+                        Changelog    = 'NOCHANGELOG'
+                        COC          = 'NOCONDUCT'
+                        Contribute   = 'NOCONTRIBUTING'
+                        Security     = 'NOSECURITY'
+                        CodingStyle  = 'Stroustrup'
+                        Help         = 'Yes'
+                        Pester       = '5'
+                        PassThru     = $true
+                        NoLogo       = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $azureModuleFiles = Get-ChildItem -Path "$outPutPath\*" -Recurse
+
+                    $azureModuleFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $true
+                    $azureModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+
+                    $azureYMLContent = Get-Content -Path "$outPutPath\azure-pipelines.yml" -Raw
+                    $azureYMLContent | Should -BeLike "*build_ps_WinLatest*"
+                    $azureYMLContent | Should -BeLike "*build_pwsh_WinLatest*"
+                    $azureYMLContent | Should -BeLike "*build_pwsh_ubuntuLatest*"
+                    $azureYMLContent | Should -BeLike "*build_pwsh_macOSLatest*"
+                } #it
+
+            } #azure_pipelines
 
         } #context_cicd
 
@@ -368,4 +409,4 @@ Describe 'File Checks' {
 
     } #context_module_checks
 
-}
+} #describe_module_tests
