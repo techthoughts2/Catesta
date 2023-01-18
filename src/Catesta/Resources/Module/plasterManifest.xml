@@ -47,19 +47,25 @@
         <!-- _________ CI/CD Sub-choices -->
         <!-- !$PLASTER_PARAM_OPTIONS THIS IS A PROBLEM -->
         <!-- ___________________________GitHub Actions -->
+        <parameter condition="$PLASTER_PARAM_CICD -eq 'GITHUB'" name='GitHubAOptions' type='multichoice' default='0' store='text' prompt='Select desired workflow action options? (If your module is cross-platform you should select multiple)'>
+            <choice label='&amp;Windows - PowerShell' help="Adds a Windows PowerShell based Workflow action." value="windows"/>
+            <choice label='&amp;Core (Windows)- pwsh' help="Adds a Windows pwsh based pipeline job." value="pwshcore"/>
+            <choice label='&amp;Linux' help="Adds a Linux based Workflow action." value="linux"/>
+            <choice label='&amp;MacOS' help="Adds a MacOS based Workflow action." value="macos"/>
+        </parameter>
         <!-- ___________________________AWS -->
-        <parameter condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" name='AWSOptions' type='multichoice' default='0' store='text' prompt='Select desired buildspec file options?'>
+        <parameter condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" name='AWSOptions' type='multichoice' default='0' store='text' prompt='Select desired buildspec file options? (If your module is cross-platform you should select multiple)' >
             <choice label='&amp;Windows - PowerShell' help='Adds a Windows PowerShell focused buildspec.yml for Windows CodeBuild.' value='ps'/>
             <choice label='&amp;Core (Windows)- pwsh' help='Adds a pwsh focused buildspec.yml for Windows CodeBuild.' value='pwshcore'/>
             <choice label='&amp;Linux - pwsh' help='Adds a pwsh focused buildspec.yml for Linux CodeBuild.' value='pwsh'/>
         </parameter>
         <parameter condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" name='S3Bucket' type='text' prompt='Enter S3 bucket name to download needed PS modules from S3 location. Leave blank to default to PSGallery.' default='PSGallery'/>
         <!-- ___________________________Appveyor -->
-        <parameter condition="$PLASTER_PARAM_CICD -eq 'APPVEYOR'" name='AppveyorOptions' type='multichoice' default='0' store='text' prompt='Select desired Appveyor build environment options?'>
-            <choice label='&amp;Windows - PowerShell' help='Adds a Windows PowerShell focused job on a Windows image.' value='windows'/>
-            <choice label='&amp;Core (Windows)- pwsh' help='Adds a pwsh focused job on a Windows image.' value='pwshcore'/>
-            <choice label='&amp;Linux - pwsh' help='Adds a pwsh focused job for a Linux image.' value='linux'/>
-            <choice label='&amp;MacOS - pwsh' help='Adds a pwsh focused job for a MacOS image.' value='macos'/>
+        <parameter condition="$PLASTER_PARAM_CICD -eq 'APPVEYOR'" name='AppveyorOptions' type='multichoice' default='0' store='text' prompt='Select desired Appveyor build environment options? (If your module is cross-platform you should select multiple)'>
+            <choice label='&amp;Windows - PowerShell' help='Adds a Windows PowerShell focused build on a Windows image.' value='windows'/>
+            <choice label='&amp;Core (Windows)- pwsh' help='Adds a pwsh focused build on a Windows image.' value='pwshcore'/>
+            <choice label='&amp;Linux - pwsh' help='Adds a pwsh focused build for a Linux image.' value='linux'/>
+            <choice label='&amp;MacOS - pwsh' help='Adds a pwsh focused build for a MacOS image.' value='macos'/>
         </parameter>
         <!-- ___________________________GitLab CI/CD-->
         <!-- TODO: _____________________________ -->
@@ -250,6 +256,11 @@
 
         <!-- CI\CD -->
         <!-- _________GitHub Actions -->
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'GITHUB' -and $PLASTER_PARAM_GitHubAOptions -eq 'windows'" source='..\GitHubActions\workflows\wf_Windows.yml' destination='.github\workflows\wf_Windows.yml' />
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'GITHUB' -and $PLASTER_PARAM_GitHubAOptions -eq 'pwshcore'" source='..\GitHubActions\workflows\wf_Windows_Core.yml' destination='.github\workflows\wf_Windows_Core.yml' />
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'GITHUB' -and $PLASTER_PARAM_GitHubAOptions -eq 'linux'" source='..\GitHubActions\workflows\wf_Linux.yml' destination='.github\workflows\wf_Linux.yml' />
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'GITHUB' -and $PLASTER_PARAM_GitHubAOptions -eq 'macos'" source='..\GitHubActions\workflows\wf_MacOS.yml' destination='.github\workflows\wf_MacOS.yml' />
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'GITHUB'" source='..\GitHubActions\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
         <!-- _________AWS -->
         <file condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" source='..\AWS\configure_aws_credential.ps1' destination='configure_aws_credential.ps1'/>
         <file condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" source='..\AWS\CloudFormation\S3BucketsForPowerShellDevelopment.yml' destination='CloudFormation\S3BucketsForPowerShellDevelopment.yml'/>

@@ -316,6 +316,55 @@ Describe 'Module Infra Tests' {
 
             } #appveyor
 
+            Context 'GitHub Actions' {
+
+                It 'should generate a GitHub Actions based module stored on GitHub with all required elements' {
+                    $moduleParameters = @{
+                        VAULT          = 'text'
+                        ModuleName     = 'modulename'
+                        Description    = 'text'
+                        Version        = '0.0.1'
+                        FN             = 'user full name'
+                        CICD           = 'GITHUB'
+                        GitHubAOptions = 'windows', 'pwshcore', 'linux', 'macos'
+                        RepoType       = 'GITHUB'
+                        License        = 'None'
+                        Changelog      = 'NOCHANGELOG'
+                        COC            = 'NOCONDUCT'
+                        Contribute     = 'NOCONTRIBUTING'
+                        Security       = 'NOSECURITY'
+                        CodingStyle    = 'Stroustrup'
+                        Help           = 'Yes'
+                        Pester         = '5'
+                        PassThru       = $true
+                        NoLogo         = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $ghaModuleFiles = Get-ChildItem -Path "$outPutPath\*" -Recurse
+
+                    $ghaModuleFiles.Name.Contains('wf_Linux.yml') | Should -BeExactly $true
+                    $ghaModuleFiles.Name.Contains('wf_MacOS.yml') | Should -BeExactly $true
+                    $ghaModuleFiles.Name.Contains('wf_Windows_Core.yml') | Should -BeExactly $true
+                    $ghaModuleFiles.Name.Contains('wf_Windows.yml') | Should -BeExactly $true
+
+                    $wfLinuxContent = Get-Content -Path "$outPutPath\.github\workflows\wf_Linux.yml" -Raw
+                    $wfLinuxContent | Should -BeLike "*modulename*"
+
+                    $wfMacOSContent = Get-Content -Path "$outPutPath\.github\workflows\wf_MacOS.yml" -Raw
+                    $wfMacOSContent | Should -BeLike "*modulename*"
+
+                    $wfWindowsCoreContent = Get-Content -Path "$outPutPath\.github\workflows\wf_Windows_Core.yml" -Raw
+                    $wfWindowsCoreContent | Should -BeLike "*modulename*"
+
+                    $wfWindowsContent = Get-Content -Path "$outPutPath\.github\workflows\wf_Windows.yml" -Raw
+                    $wfWindowsContent | Should -BeLike "*modulename*"
+
+                } #it
+
+            } #github_actions
+
         } #context_cicd
 
         Context 'Repo Checks' {
