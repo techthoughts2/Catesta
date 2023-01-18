@@ -238,7 +238,7 @@ Describe 'Module Infra Tests' {
 
             Context 'Azure Pipelines' {
 
-                It 'should generate a Azure Pipelines based module stored on GitHub with all required elements' {
+                It 'should generate an Azure Pipelines based module stored on GitHub with all required elements' {
                     $moduleParameters = @{
                         VAULT        = 'text'
                         ModuleName   = 'modulename'
@@ -275,6 +275,46 @@ Describe 'Module Infra Tests' {
                 } #it
 
             } #azure_pipelines
+
+            Context 'Appveyor Build' {
+
+                It 'should generate an Appveyor based module stored on GitHub with all required elements' {
+                    $moduleParameters = @{
+                        VAULT           = 'text'
+                        ModuleName      = 'modulename'
+                        Description     = 'text'
+                        Version         = '0.0.1'
+                        FN              = 'user full name'
+                        CICD            = 'APPVEYOR'
+                        AppveyorOptions = 'windows', 'pwshcore', 'linux', 'macos'
+                        RepoType        = 'GITHUB'
+                        License         = 'None'
+                        Changelog       = 'NOCHANGELOG'
+                        COC             = 'NOCONDUCT'
+                        Contribute      = 'NOCONTRIBUTING'
+                        Security        = 'NOSECURITY'
+                        CodingStyle     = 'Stroustrup'
+                        Help            = 'Yes'
+                        Pester          = '5'
+                        PassThru        = $true
+                        NoLogo          = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $appveyorModuleFiles = Get-ChildItem -Path "$outPutPath\*" -Recurse
+
+                    $appveyorModuleFiles.Name.Contains('appveyor.yml') | Should -BeExactly $true
+                    $appveyorModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+
+                    $appveyorYMLContent = Get-Content -Path "$outPutPath\appveyor.yml" -Raw
+                    $appveyorYMLContent | Should -BeLike "*Visual Studio 2019*"
+                    $appveyorYMLContent | Should -BeLike "*Visual Studio 2022*"
+                    $appveyorYMLContent | Should -BeLike "*Ubuntu2004*"
+                    $appveyorYMLContent | Should -BeLike "*macOS*"
+                } #it
+
+            } #appveyor
 
         } #context_cicd
 

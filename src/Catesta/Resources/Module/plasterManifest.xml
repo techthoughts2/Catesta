@@ -55,7 +55,12 @@
         </parameter>
         <parameter condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" name='S3Bucket' type='text' prompt='Enter S3 bucket name to download needed PS modules from S3 location. Leave blank to default to PSGallery.' default='PSGallery'/>
         <!-- ___________________________Appveyor -->
-        <!-- TODO: _____________________________ -->
+        <parameter condition="$PLASTER_PARAM_CICD -eq 'APPVEYOR'" name='AppveyorOptions' type='multichoice' default='0' store='text' prompt='Select desired Appveyor build environment options?'>
+            <choice label='&amp;Windows - PowerShell' help='Adds a Windows PowerShell focused job on a Windows image.' value='windows'/>
+            <choice label='&amp;Core (Windows)- pwsh' help='Adds a pwsh focused job on a Windows image.' value='pwshcore'/>
+            <choice label='&amp;Linux - pwsh' help='Adds a pwsh focused job for a Linux image.' value='linux'/>
+            <choice label='&amp;MacOS - pwsh' help='Adds a pwsh focused job for a MacOS image.' value='macos'/>
+        </parameter>
         <!-- ___________________________GitLab CI/CD-->
         <!-- TODO: _____________________________ -->
         <!-- ___________________________BitBucket Pipelines -->
@@ -65,7 +70,7 @@
             <choice label='&amp;Windows - PowerShell' help='Adds a Windows PowerShell focused job on a Windows image.' value='windows'/>
             <choice label='&amp;Core (Windows)- pwsh' help='Adds a pwsh focused job on a Windows image.' value='pwshcore'/>
             <choice label='&amp;Linux - pwsh' help='Adds a pwsh focused job for a Linux image.' value='linux'/>
-            <choice label='&amp;Linux - pwsh' help='Adds a pwsh focused job for a MacOS image.' value='macos'/>
+            <choice label='&amp;MacOS - pwsh' help='Adds a pwsh focused job for a MacOS image.' value='macos'/>
         </parameter>
 
         <!-- Repository Questions -->
@@ -255,7 +260,8 @@
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\AWS\CloudFormation\PowerShellCodeBuildGit.yml' destination='CloudFormation\PowerShellCodeBuildGit.yml'/>
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_RepoType -eq 'CODECOMMIT'" source='..\AWS\CloudFormation\PowerShellCodeBuildCC.yml' destination='CloudFormation\PowerShellCodeBuildCC.yml'/>
         <!-- _________Appveyor -->
-        <!-- TODO: _____________________________ -->
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'APPVEYOR'" source='..\AppVeyor\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'APPVEYOR'" source='..\AppVeyor\appveyor.yml' destination='appveyor.yml' />
         <!-- _________GitLab CI/CD -->
         <!-- TODO: _____________________________ -->
         <!-- _________Bitbucket Pipelines -->
