@@ -9,7 +9,6 @@ schema: 2.0.0
 
 ## SYNOPSIS
 Scaffolds a PowerShell module project for use with desired CICD platform for easy cross platform PowerShell development.
-TODO: tbd
 
 ## SYNTAX
 
@@ -19,49 +18,170 @@ New-ModuleProject [-DestinationPath] <String> [-ModuleParameters <Hashtable>] [-
 ```
 
 ## DESCRIPTION
-Leverages plaster to scaffold a PowerShell module that adheres to community best practices.
+Leverages Plaster to scaffold a PowerShell module that adheres to community best practices.
 Based on selections made this cmdlet will generate the necessary files for a variety of CICD platforms.
 Selections can also determine what CICD builds should be run enabling easy cross-platform verification (Windows/Linux/MacOS).
 InvokeBuild tasks will be created for validation / analysis / test / build automation.
-Additional selections can generate other helpful files such as GitHub community files and VSCode project files.
-TODO: tbd
+Basic Pester tests will be generated to get you started with either Pester 4 or Pester 5.
+Additional selections can generate other helpful files such as Git repository community files and VSCode project files.
+If no ModuleParameters are passed in, you will be prompted by Plaster for a decision on each template choice.
+If you pass in a partial ModuleParameters, you will be prompted by Plaster for any decisions from template choices.
+If you pass in a full ModuleParameters set, Plaster will not prompt you for any decisions from Plaster.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-New-ModuleProject -DestinationPath . -NoLogo -Verbose
+New-ModuleProject -DestinationPath $outPutPath
 ```
 
-TODO: tbd
+Initiates Plaster template to scaffold a PowerShell project with customizable CI/CD integration options.
+Choices made during scaffolding will result in a PowerShell project tailored to the chosen CI/CD platform, or a standard PowerShell module project with no CI/CD integration.
 
 ### EXAMPLE 2
 ```
-New-ModuleProject -CICDChoice 'GitHubActions' -DestinationPath c:\path\GitHubActions
+New-ModuleProject -DestinationPath $outPutPath -NoLogo
 ```
 
-TODO: tbd
+Initiates Plaster template to scaffold a PowerShell project with customizable CI/CD integration options.
+Choices made during scaffolding will result in a PowerShell project tailored to the chosen CI/CD platform, or a standard PowerShell module project with no CI/CD integration.
+The Plaster logo will be suppressed and not shown.
 
 ### EXAMPLE 3
 ```
-New-ModuleProject -CICDChoice 'Azure' -DestinationPath c:\path\AzurePipeline
+New-ModuleProject -DestinationPath $outPutPath -PassThru
 ```
 
-TODO: tbd
+Initiates Plaster template to scaffold a PowerShell project with customizable CI/CD integration options.
+Choices made during scaffolding will result in a PowerShell project tailored to the chosen CI/CD platform, or a standard PowerShell module project with no CI/CD integration.
+An object will be returned containing details of the Plaster template deployment.
 
 ### EXAMPLE 4
 ```
-New-ModuleProject -CICDChoice 'AppVeyor' -DestinationPath c:\path\AppVeyor
+$moduleParameters = @{
+    ModuleName  = 'ModuleName'
+    Description = 'My awesome module is awesome'
+    Version     = '0.0.1'
+    FN          = 'user full name'
+    CICD        = 'NONE'
+    RepoType    = 'NONE'
+    CodingStyle = 'Stroustrup'
+    Help        = 'Yes'
+    Pester      = '5'
+    NoLogo      = $true
+}
+New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
 ```
 
-TODO: tbd
+Scaffolds a basic PowerShell module project with no additional extras.
+You just get a basic PowerShell module construct.
 
 ### EXAMPLE 5
 ```
-New-ModuleProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOnly
+$moduleParameters = @{
+    ModuleName     = 'ModuleName'
+    Description    = 'My awesome module is awesome'
+    Version        = '0.0.1'
+    FN             = 'user full name'
+    CICD           = 'GITHUB'
+    GitHubAOptions = 'windows', 'pwshcore', 'linux', 'macos'
+    RepoType       = 'GITHUB'
+    License        = 'MIT'
+    Changelog      = 'CHANGELOG'
+    COC            = 'CONDUCT'
+    Contribute     = 'CONTRIBUTING'
+    Security       = 'SECURITY'
+    CodingStyle    = 'Stroustrup'
+    Help           = 'Yes'
+    Pester         = '5'
+    S3Bucket       = 'PSGallery'
+    NoLogo         = $true
+}
+New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
 ```
 
-TODO: tbd
+Scaffolds a PowerShell module project for integration with GitHub Actions with the project code stored in GitHub.
+A full set of GitHub project supporting files is provided.
+
+### EXAMPLE 6
+```
+$moduleParameters = @{
+    ModuleName  = 'ModuleName'
+    Description = 'My awesome module is awesome'
+    Version     = '0.0.1'
+    FN          = 'user full name'
+    CICD        = 'CODEBUILD'
+    AWSOptions  = 'ps', 'pwshcore', 'pwsh'
+    RepoType    = 'GITHUB'
+    License     = 'MIT'
+    Changelog   = 'CHANGELOG'
+    COC         = 'CONDUCT'
+    Contribute  = 'CONTRIBUTING'
+    Security    = 'SECURITY'
+    CodingStyle = 'Stroustrup'
+    Help        = 'Yes'
+    Pester      = '5'
+    S3Bucket    = 'PSGallery'
+    NoLogo      = $true
+}
+New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+```
+
+Scaffolds a PowerShell module project for integration with AWS CodeBuild with the project code stored in GitHub.
+A full set of GitHub project supporting files is provided.
+
+### EXAMPLE 7
+```
+$moduleParameters = @{
+    ModuleName  = 'ModuleName'
+    Description = 'My awesome module is awesome'
+    Version      = '0.0.1'
+    FN           = 'user full name'
+    CICD         = 'AZURE'
+    AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
+    RepoType     = 'GITHUB'
+    License      = 'None'
+    Changelog    = 'NOCHANGELOG'
+    COC          = 'NOCONDUCT'
+    Contribute   = 'NOCONTRIBUTING'
+    Security     = 'NOSECURITY'
+    CodingStyle  = 'Stroustrup'
+    Help         = 'Yes'
+    Pester       = '5'
+    NoLogo       = $true
+}
+New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+```
+
+Scaffolds a PowerShell module project for integration with Azure Pipelines with the project code stored in GitHub.
+No repository supporting files are included.
+
+### EXAMPLE 8
+```
+$moduleParameters = @{
+    ModuleName  = 'ModuleName'
+    Description = 'My awesome module is awesome'
+    Version         = '0.0.1'
+    FN              = 'user full name'
+    CICD            = 'APPVEYOR'
+    AppveyorOptions = 'windows', 'pwshcore', 'linux', 'macos'
+    RepoType        = 'GITHUB'
+    License         = 'None'
+    Changelog       = 'NOCHANGELOG'
+    COC             = 'NOCONDUCT'
+    Contribute      = 'NOCONTRIBUTING'
+    Security        = 'NOSECURITY'
+    CodingStyle     = 'Stroustrup'
+    Help            = 'Yes'
+    Pester          = '5'
+    PassThru        = $true
+    NoLogo          = $true
+}
+New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+```
+
+Scaffolds a PowerShell module project for integration with Appveyor with the project code stored in GitHub.
+No repository supporting files are included.
 
 ## PARAMETERS
 
@@ -81,7 +201,9 @@ Accept wildcard characters: False
 ```
 
 ### -ModuleParameters
-TODO: tbd
+Experimental parameter that allows you to provide all Plaster decisions inside a Hashtable.
+If any decision choice is not provided, Plaster will still prompt you for a decision.
+See NOTES for additional limitations.
 
 ```yaml
 Type: Hashtable
@@ -96,7 +218,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoLogo
-TODO: tbd
+Suppresses the display of the Plaster logo.
 
 ```yaml
 Type: SwitchParameter
@@ -111,7 +233,7 @@ Accept wildcard characters: False
 ```
 
 ### -PassThru
-TODO: tbd
+Returns an object containing details of Plaster template deployment.
 
 ```yaml
 Type: SwitchParameter
@@ -183,9 +305,18 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## NOTES
 Author: Jake Morrison - @jakemorrison - https://www.techthoughts.info/
 
+Catesta Plaster templates have dynamic choices.
+This means that early choices influence subsequent choices.
+This requires an understanding of the template manifest schema which is provided in the Catesta docs.
+Due to the nature of the lower level Plaster engagement, this means it is possible to pass hashtable choices
+in ModuleParameters that are not supported.
+Read the manifest schemas to understand how to properly craft a ModuleParameters table.
+
 ## RELATED LINKS
 
 [https://github.com/techthoughts2/Catesta/blob/main/docs/New-ModuleProject.md](https://github.com/techthoughts2/Catesta/blob/main/docs/New-ModuleProject.md)
+
+[https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Module-Manifest-Schema.md](https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Module-Manifest-Schema.md)
 
 [https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module](https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module)
 

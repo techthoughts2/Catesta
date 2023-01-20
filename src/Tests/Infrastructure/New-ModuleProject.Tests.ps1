@@ -496,6 +496,131 @@ Describe 'Module Infra Tests' {
 
         } #context_repo
 
+        Context 'Help Examples' {
+
+            It 'should have a working example for vanilla module' {
+                $moduleParameters = @{
+                    ModuleName  = 'ModuleName'
+                    Description = 'My awesome module is awesome'
+                    Version     = '0.0.1'
+                    FN          = 'user full name'
+                    CICD        = 'NONE'
+                    RepoType    = 'NONE'
+                    CodingStyle = 'Stroustrup'
+                    Help        = 'Yes'
+                    Pester      = '5'
+                    NoLogo      = $true
+                }
+                New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+
+                $manifestContent = Get-Content -Path "$outPutPath\src\ModuleName\ModuleName.psd1" -Raw
+                $manifestContent | Should -BeLike '*My awesome module is awesome*'
+            } #it
+
+            It 'should have a working example for GitHub Actions module' {
+                $moduleParameters = @{
+                    ModuleName     = 'ModuleName'
+                    Description    = 'My awesome module is awesome'
+                    Version        = '0.0.1'
+                    FN             = 'user full name'
+                    CICD           = 'GITHUB'
+                    GitHubAOptions = 'windows', 'pwshcore', 'linux', 'macos'
+                    RepoType       = 'GITHUB'
+                    License        = 'MIT'
+                    Changelog      = 'CHANGELOG'
+                    COC            = 'CONDUCT'
+                    Contribute     = 'CONTRIBUTING'
+                    Security       = 'SECURITY'
+                    CodingStyle    = 'Stroustrup'
+                    Help           = 'Yes'
+                    Pester         = '5'
+                    S3Bucket       = 'PSGallery'
+                    NoLogo         = $true
+                }
+                New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+
+                $manifestContent = Get-Content -Path "$outPutPath\src\ModuleName\ModuleName.psd1" -Raw
+                $manifestContent | Should -BeLike '*My awesome module is awesome*'
+            } #it
+
+            It 'should have a working example for AWS module' {
+                $moduleParameters = @{
+                    ModuleName  = 'ModuleName'
+                    Description = 'My awesome module is awesome'
+                    Version     = '0.0.1'
+                    FN          = 'user full name'
+                    CICD        = 'CODEBUILD'
+                    AWSOptions  = 'ps', 'pwshcore', 'pwsh'
+                    RepoType    = 'GITHUB'
+                    License     = 'MIT'
+                    Changelog   = 'CHANGELOG'
+                    COC         = 'CONDUCT'
+                    Contribute  = 'CONTRIBUTING'
+                    Security    = 'SECURITY'
+                    CodingStyle = 'Stroustrup'
+                    Help        = 'Yes'
+                    Pester      = '5'
+                    S3Bucket    = 'PSGallery'
+                    NoLogo      = $true
+                }
+                New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+
+                $manifestContent = Get-Content -Path "$outPutPath\src\ModuleName\ModuleName.psd1" -Raw
+                $manifestContent | Should -BeLike '*My awesome module is awesome*'
+            } #it
+
+            It 'should have a working example for Azure module' {
+                $moduleParameters = @{
+                    ModuleName   = 'ModuleName'
+                    Description  = 'My awesome module is awesome'
+                    Version      = '0.0.1'
+                    FN           = 'user full name'
+                    CICD         = 'AZURE'
+                    AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
+                    RepoType     = 'GITHUB'
+                    License      = 'None'
+                    Changelog    = 'NOCHANGELOG'
+                    COC          = 'NOCONDUCT'
+                    Contribute   = 'NOCONTRIBUTING'
+                    Security     = 'NOSECURITY'
+                    CodingStyle  = 'Stroustrup'
+                    Help         = 'Yes'
+                    Pester       = '5'
+                    NoLogo       = $true
+                }
+                New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+
+                $manifestContent = Get-Content -Path "$outPutPath\src\ModuleName\ModuleName.psd1" -Raw
+                $manifestContent | Should -BeLike '*My awesome module is awesome*'
+            } #it
+
+            It 'should have a working example for Appveyor module' {
+                $moduleParameters = @{
+                    ModuleName      = 'ModuleName'
+                    Description     = 'My awesome module is awesome'
+                    Version         = '0.0.1'
+                    FN              = 'user full name'
+                    CICD            = 'APPVEYOR'
+                    AppveyorOptions = 'windows', 'pwshcore', 'linux', 'macos'
+                    RepoType        = 'GITHUB'
+                    License         = 'None'
+                    Changelog       = 'NOCHANGELOG'
+                    COC             = 'NOCONDUCT'
+                    Contribute      = 'NOCONTRIBUTING'
+                    Security        = 'NOSECURITY'
+                    CodingStyle     = 'Stroustrup'
+                    Help            = 'Yes'
+                    Pester          = '5'
+                    PassThru        = $true
+                    NoLogo          = $true
+                }
+                New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+
+                $manifestContent = Get-Content -Path "$outPutPath\src\ModuleName\ModuleName.psd1" -Raw
+                $manifestContent | Should -BeLike '*My awesome module is awesome*'
+            } #it
+        }
+
     } #context_module_checks
 
 } #describe_module_tests
