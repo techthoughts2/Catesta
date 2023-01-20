@@ -8,17 +8,17 @@ schema: 2.0.0
 # New-VaultProject
 
 ## SYNOPSIS
-Scaffolds a PowerShell SecretManagement vault module project for use with desired CICD platform for easy cross platform PowerShell development.
+Scaffolds a PowerShell SecretManagement vault project for use with desired CICD platform for easy cross platform PowerShell development.
 
 ## SYNTAX
 
 ```
-New-VaultProject [-CICDChoice] <String> [-DestinationPath] <String> [-Force] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+New-VaultProject [-DestinationPath] <String> [[-VaultParameters] <Hashtable>] [-NoLogo] [-PassThru] [-Force]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Leverages plaster to scaffold a PowerShell SecretManagement vault module project that adheres to community best practices.
+Leverages plaster to scaffold a PowerShell SecretManagement vault project that adheres to community best practices.
 Based on selections made this cmdlet will generate the necessary files for a variety of CICD platforms.
 Selections can also determine what CICD builds should be run enabling easy cross-platform verification (Windows/Linux/MacOS).
 InvokeBuild tasks will be created for validation / analysis / test / build automation.
@@ -31,46 +31,46 @@ Additional selections can generate other helpful files such as GitHub community 
 New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path\AWSProject
 ```
 
-Scaffolds a PowerShell SecretManagement vault module project for integration with AWS CodeBuild.
+Scaffolds a PowerShell SecretManagement vault project for integration with AWS CodeBuild.
+TODO: tbd
 
 ### EXAMPLE 2
 ```
 New-VaultProject -CICDChoice 'GitHubActions' -DestinationPath c:\path\GitHubActions
 ```
 
-Scaffolds a PowerShell SecretManagement vault module project for integration with GitHub Actions Workflows.
+Scaffolds a PowerShell SecretManagement vault project for integration with GitHub Actions Workflows.
+TODO: tbd
 
 ### EXAMPLE 3
 ```
 New-VaultProject -CICDChoice 'Azure' -DestinationPath c:\path\AzurePipeline
 ```
 
-Scaffolds a PowerShell SecretManagement vault module project for integration with Azure DevOps Pipelines.
+Scaffolds a PowerShell SecretManagement vault project for integration with Azure DevOps Pipelines.
+TODO: tbd
 
 ### EXAMPLE 4
 ```
 New-VaultProject -CICDChoice 'AppVeyor' -DestinationPath c:\path\AppVeyor
 ```
 
-Scaffolds a PowerShell SecretManagement vault module project for integration with AppVeyor Projects.
+Scaffolds a PowerShell SecretManagement vault project for integration with AppVeyor Projects.
+TODO: tbd
 
 ### EXAMPLE 5
 ```
 New-VaultProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOnly
 ```
 
-Scaffolds a basic PowerShell SecretManagement vault module project with no additional extras.
-You just get a basic PowerShell module construct.
+Scaffolds a basic PowerShell SecretManagement vault project with no additional extras.
+You just get a basic PowerShell vault construct.
+TODO: tbd
 
 ## PARAMETERS
 
-### -CICDChoice
-CICD Platform Choice
-AWS - AWS CodeBuild
-GitHubActions - GitHub Actions Workflows
-Azure - Azure DevOps Pipelines
-AppVeyor - AppVeyor Projects
-ModuleOnly - Just a Vanilla PowerShell module scaffold
+### -DestinationPath
+File path where PowerShell SecretManagement vault project will be created
 
 ```yaml
 Type: String
@@ -84,17 +84,47 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DestinationPath
-File path where PowerShell SecretManagement vault module project will be created
+### -VaultParameters
+TODO: tbd
 
 ```yaml
-Type: String
+Type: Hashtable
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoLogo
+TODO: tbd
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PassThru
+TODO: tbd
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -16,6 +16,6 @@ Scaffolds a PowerShell module project for use with desired CICD platform for eas
 TODO: tbd
 
 ### [New-VaultProject](New-VaultProject.md)
-Scaffolds a PowerShell SecretManagement vault module project for use with desired CICD platform for easy cross platform PowerShell development.
+Scaffolds a PowerShell SecretManagement vault project for use with desired CICD platform for easy cross platform PowerShell development.
 
 

@@ -1,8 +1,8 @@
 <#
 .SYNOPSIS
-    Scaffolds a PowerShell SecretManagement vault module project for use with desired CICD platform for easy cross platform PowerShell development.
+    Scaffolds a PowerShell SecretManagement vault project for use with desired CICD platform for easy cross platform PowerShell development.
 .DESCRIPTION
-    Leverages plaster to scaffold a PowerShell SecretManagement vault module project that adheres to community best practices.
+    Leverages plaster to scaffold a PowerShell SecretManagement vault project that adheres to community best practices.
     Based on selections made this cmdlet will generate the necessary files for a variety of CICD platforms.
     Selections can also determine what CICD builds should be run enabling easy cross-platform verification (Windows/Linux/MacOS).
     InvokeBuild tasks will be created for validation / analysis / test / build automation.
@@ -10,32 +10,36 @@
 .EXAMPLE
     New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path\AWSProject
 
-    Scaffolds a PowerShell SecretManagement vault module project for integration with AWS CodeBuild.
+    Scaffolds a PowerShell SecretManagement vault project for integration with AWS CodeBuild.
+    TODO: tbd
 .EXAMPLE
     New-VaultProject -CICDChoice 'GitHubActions' -DestinationPath c:\path\GitHubActions
 
-    Scaffolds a PowerShell SecretManagement vault module project for integration with GitHub Actions Workflows.
+    Scaffolds a PowerShell SecretManagement vault project for integration with GitHub Actions Workflows.
+    TODO: tbd
 .EXAMPLE
     New-VaultProject -CICDChoice 'Azure' -DestinationPath c:\path\AzurePipeline
 
-    Scaffolds a PowerShell SecretManagement vault module project for integration with Azure DevOps Pipelines.
+    Scaffolds a PowerShell SecretManagement vault project for integration with Azure DevOps Pipelines.
+    TODO: tbd
 .EXAMPLE
     New-VaultProject -CICDChoice 'AppVeyor' -DestinationPath c:\path\AppVeyor
 
-    Scaffolds a PowerShell SecretManagement vault module project for integration with AppVeyor Projects.
+    Scaffolds a PowerShell SecretManagement vault project for integration with AppVeyor Projects.
+    TODO: tbd
 .EXAMPLE
     New-VaultProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOnly
 
-    Scaffolds a basic PowerShell SecretManagement vault module project with no additional extras. You just get a basic PowerShell module construct.
-.PARAMETER CICDChoice
-    CICD Platform Choice
-    AWS - AWS CodeBuild
-    GitHubActions - GitHub Actions Workflows
-    Azure - Azure DevOps Pipelines
-    AppVeyor - AppVeyor Projects
-    ModuleOnly - Just a Vanilla PowerShell module scaffold
+    Scaffolds a basic PowerShell SecretManagement vault project with no additional extras. You just get a basic PowerShell vault construct.
+    TODO: tbd
 .PARAMETER DestinationPath
-    File path where PowerShell SecretManagement vault module project will be created
+    File path where PowerShell SecretManagement vault project will be created
+.PARAMETER VaultParameters
+    TODO: tbd
+.PARAMETER NoLogo
+    TODO: tbd
+.PARAMETER PassThru
+    TODO: tbd
 .PARAMETER Force
     Skip Confirmation
 .OUTPUTS
@@ -62,15 +66,22 @@ function New-VaultProject {
         SupportsShouldProcess = $true)]
     param (
         [Parameter(Mandatory = $true,
-            HelpMessage = 'CICD Platform Choice')]
-        [ValidateSet('AWS', 'GitHubActions', 'Azure', 'AppVeyor', 'ModuleOnly')]
-        [string]
-        $CICDChoice,
-
-        [Parameter(Mandatory = $true,
-            HelpMessage = 'File path where PowerShell SecretManagement vault module project will be created')]
+            HelpMessage = 'File path where PowerShell SecretManagement vault project will be created')]
         [string]
         $DestinationPath,
+
+        [Parameter(Mandatory = $false,
+            HelpMessage = 'TBD')]
+        [hashtable]
+        $VaultParameters,
+
+        [Parameter(Mandatory = $false,
+            HelpMessage = 'TBD')]
+        [switch]$NoLogo,
+
+        [Parameter(Mandatory = $false,
+            HelpMessage = 'TBD')]
+        [switch]$PassThru,
 
         [Parameter(Mandatory = $false,
             HelpMessage = 'Skip confirmation')]
@@ -89,69 +100,75 @@ function New-VaultProject {
         }
 
         Write-Verbose -Message ('[{0}] Confirm={1} ConfirmPreference={2} WhatIf={3} WhatIfPreference={4}' -f $MyInvocation.MyCommand, $Confirm, $ConfirmPreference, $WhatIf, $WhatIfPreference)
+        Write-Verbose -Message ('ParameterSetName: {0}' -f $PSCmdlet.ParameterSetName)
     } #begin
     Process {
-        # -Confirm --> $ConfirmPreference = 'Low'
-        # ShouldProcess intercepts WhatIf* --> no need to pass it on
-        if ($Force -or $PSCmdlet.ShouldProcess("ShouldProcess?")) {
+
+        Write-Verbose -Message 'Importing Plaster...'
+        try {
+            Import-Module -Name Plaster -ErrorAction Stop
+            Write-Verbose 'Plaster Imported.'
+        }
+        catch {
+            throw $_
+        }
+
+        $path = 'Vault'
+        Write-Verbose -Message ('Template Path: {0}\{1}' -f $script:resourcePath, $path)
+
+        if ($VaultParameters) {
+
+            # process overrides for ModuleParameters that do not permit customization
+            $VaultParameters['VAULT'] = 'VAULT'
+            $VaultParameters['ErrorAction'] = 'Stop'
+            $VaultParameters['TemplatePath'] = '{0}\{1}' -f $script:resourcePath, $path
+            $VaultParameters['DestinationPath'] = $DestinationPath
+
+            if ($PassThru -eq $true) {
+                $VaultParameters['PassThru'] = $true
+            }
+            $invokePlasterSplat = $VaultParameters
+
+            $shouldProcessMessage = 'Scaffolding PowerShell vault project with provided custom vault parameters: {0}' -f $($invokePlasterSplat | Out-String)
+
+        } #if_$VaultParameters
+        else {
+            $invokePlasterSplat = @{
+                TemplatePath    = '{0}\{1}' -f $script:resourcePath, $path
+                DestinationPath = $DestinationPath
+                VAULT           = 'VAULT'
+                PassThru        = $PassThru
+                NoLogo          = $NoLogo
+                ErrorAction     = 'Stop'
+            }
+            # if ($NoLogo -eq $true) {
+            #     $invokePlasterSplat['NoLogo'] = $NoLogo
+            # }
+
+            $shouldProcessMessage = 'Scaffolding PowerShell vault project with: {0}' -f $($invokePlasterSplat | Out-String)
+
+        } #else_$VaultParameters
+
+        if ($Force -or $PSCmdlet.ShouldProcess($DestinationPath, $shouldProcessMessage)) {
             Write-Verbose -Message ('[{0}] Reached command' -f $MyInvocation.MyCommand)
+
+            # Save current value of $ConfirmPreference
+            $originalConfirmPreference = $ConfirmPreference
+            # Set $ConfirmPreference to 'None'
             $ConfirmPreference = 'None'
 
-            Write-Verbose -Message 'Importing Plaster...'
-            try {
-                Import-Module -Name Plaster -ErrorAction Stop
-                Write-Verbose 'Plaster Imported.'
-            }
-            catch {
-                throw $_
-            }
-
-            Write-Verbose -Message 'Sourcing correct template...'
-            switch ($CICDChoice) {
-                'AWS' {
-                    Write-Verbose -Message 'AWS Template Selected.'
-                    $path = '\AWS\Vault'
-                } #aws
-                'GitHubActions' {
-                    Write-Verbose -Message 'GitHub Actions Template Selected.'
-                    $path = '\GitHubActions\Vault'
-                } #githubactions
-                'Azure' {
-                    Write-Verbose -Message 'Azure Pipelines Template Selected.'
-                    $path = '\Azure\Vault'
-                } #azure
-                'AppVeyor' {
-                    Write-Verbose -Message 'AppVeyor Template Selected.'
-                    $path = '\AppVeyor\Vault'
-                } #appveyor
-                'ModuleOnly' {
-                    Write-Verbose -Message 'Module Only Template Selected.'
-                    $path = '\Vanilla\Vault'
-                } #moduleonly
-            } #switch
-
             Write-Verbose -Message 'Deploying template...'
-            try {
-                Write-Verbose -Message "Template Path: $script:resourcePath\$path"
-                $invokePlasterSplat = @{
-                    TemplatePath    = "$script:resourcePath\$path"
-                    DestinationPath = $DestinationPath
-                    VAULT           = 'VAULT'
-                    PassThru        = $true
-                    ErrorAction     = 'Stop'
-                }
-                $results = Invoke-Plaster @invokePlasterSplat
-                Write-Verbose -Message 'Template Deployed.'
-            }
-            catch {
-                Write-Error $_
-                $results = [PSCustomObject]@{
-                    Success = $false
-                }
-            }
+            $result = Invoke-Plaster @invokePlasterSplat
+            Write-Verbose -Message 'Template Deployed.'
+
+            # Set $ConfirmPreference back to original value
+            $ConfirmPreference = $originalConfirmPreference
         } #if_Should
+
     } #process
     End {
-        return $results
+        if ($PassThru -or $VaultParameters.PassThru -eq $true) {
+            return $result
+        }
     } #end
 } #New-VaultProject

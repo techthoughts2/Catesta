@@ -103,15 +103,15 @@ InModuleScope $ModuleName {
 
         Context 'Success' {
 
-            It 'should not throw if issues are encountered' {
+            It 'should not throw if no issues are encountered' {
                 { New-ModuleProject -DestinationPath $path } | Should -Not -Throw
             } #it
 
-            It 'should return an InvokePlasterInfo object if Passthru switch provided' {
+            It 'should return an InvokePlasterInfo object if PassThru switch provided' {
                 New-ModuleProject -DestinationPath $path -PassThru | Should -Not -BeNullOrEmpty
             } #it
 
-            It 'should return null if Passthru switch not provided' {
+            It 'should return null if PassThru switch not provided' {
                 New-ModuleProject -DestinationPath $path | Should -BeNullOrEmpty
             } #it
 
@@ -133,7 +133,7 @@ InModuleScope $ModuleName {
                 }
             } #it
 
-            It 'should pass on the expected parameters when ModulParameters are supplied' {
+            It 'should pass on the expected parameters when ModuleParameters are supplied' {
                 $moduleParameters = @{
                     VAULT       = 'text'
                     ModuleName  = 'text'
@@ -179,6 +179,5 @@ InModuleScope $ModuleName {
             } #it
 
         } #context_Success
-
     } #describe
 } #inModule
