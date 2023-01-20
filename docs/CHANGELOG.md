@@ -19,10 +19,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Moved generic repo file samples in `Resources` to `RepoFiles`
   - `CHANGELOG` now generates to the `docs` folder for all repository choices
     - Previous behavior was that this was only supported for GitHub repo selection and generated to the `.github` directory.
+  - `tasks.json`
+    - Added new task: `Infra-Single-Detailed` which is capable of running Infrastructure tests against individual test files
 - Catesta primary module changes
   - Massively improved infrastructure test suite
   - Moved `CHANGELOG.md` from `.github` directory to `docs` directory
     - Updated `.psd1` to link to new CHANGELOG url
+  - `tasks.json`
+    - Added new task: `Infra-Single-Detailed` which is capable of running Infrastructure tests against individual test files
 
 ## [1.3.0] - (Never released)
 

@@ -243,6 +243,17 @@
                 "showReuseMessage": false
             },
             "group": "test"
+        },
+        {
+            "label": "Infra-Single-Detailed",
+            "type": "shell",
+            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Infrastructure/*/${input:functionName}.Tests.ps1' -Output Detailed",
+            "problemMatcher": "$pester",
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "test"
         }
     ],
     "inputs": [
