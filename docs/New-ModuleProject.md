@@ -18,10 +18,10 @@ New-ModuleProject [-DestinationPath] <String> [-ModuleParameters <Hashtable>] [-
 ```
 
 ## DESCRIPTION
-Leverages Plaster to scaffold a PowerShell module that adheres to community best practices.
-Based on selections made this cmdlet will generate the necessary files for a variety of CICD platforms.
-Selections can also determine what CICD builds should be run enabling easy cross-platform verification (Windows/Linux/MacOS).
-InvokeBuild tasks will be created for validation / analysis / test / build automation.
+Uses the Plaster framework to scaffold a PowerShell module that adheres to community best practices.
+Based on selections made, generates the files and configuration required to integrate with a variety of CI/CD platforms,
+including options for easy cross-platform verification on Windows, Linux, and MacOS.
+InvokeBuild tasks will be created for validation, analysis, testing, and build automation.
 Basic Pester tests will be generated to get you started with either Pester 4 or Pester 5.
 Additional selections can generate other helpful files such as Git repository community files and VSCode project files.
 If no ModuleParameters are passed in, you will be prompted by Plaster for a decision on each template choice.
