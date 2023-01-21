@@ -25,8 +25,8 @@ InvokeBuild tasks will be created for validation / analysis / test / build autom
 Basic Pester tests will be generated to get you started with either Pester 4 or Pester 5.
 Additional selections can generate other helpful files such as Git repository community files and VSCode project files.
 If no ModuleParameters are passed in, you will be prompted by Plaster for a decision on each template choice.
-If you pass in a partial ModuleParameters, you will be prompted by Plaster for any decisions from template choices.
-If you pass in a full ModuleParameters set, Plaster will not prompt you for any decisions from Plaster.
+If you pass in a partial ModuleParameters, you will be prompted by Plaster for any missing template decisions.
+If you pass in a full ModuleParameters set, Plaster will not prompt you for any template decisions.
 
 ## EXAMPLES
 
@@ -35,7 +35,7 @@ If you pass in a full ModuleParameters set, Plaster will not prompt you for any 
 New-ModuleProject -DestinationPath $outPutPath
 ```
 
-Initiates Plaster template to scaffold a PowerShell project with customizable CI/CD integration options.
+Initiates Plaster template to scaffold a PowerShell module project with customizable CI/CD integration options.
 Choices made during scaffolding will result in a PowerShell project tailored to the chosen CI/CD platform, or a standard PowerShell module project with no CI/CD integration.
 
 ### EXAMPLE 2
@@ -43,7 +43,7 @@ Choices made during scaffolding will result in a PowerShell project tailored to 
 New-ModuleProject -DestinationPath $outPutPath -NoLogo
 ```
 
-Initiates Plaster template to scaffold a PowerShell project with customizable CI/CD integration options.
+Initiates Plaster template to scaffold a PowerShell module project with customizable CI/CD integration options.
 Choices made during scaffolding will result in a PowerShell project tailored to the chosen CI/CD platform, or a standard PowerShell module project with no CI/CD integration.
 The Plaster logo will be suppressed and not shown.
 
@@ -52,7 +52,7 @@ The Plaster logo will be suppressed and not shown.
 New-ModuleProject -DestinationPath $outPutPath -PassThru
 ```
 
-Initiates Plaster template to scaffold a PowerShell project with customizable CI/CD integration options.
+Initiates Plaster template to scaffold a PowerShell module project with customizable CI/CD integration options.
 Choices made during scaffolding will result in a PowerShell project tailored to the chosen CI/CD platform, or a standard PowerShell module project with no CI/CD integration.
 An object will be returned containing details of the Plaster template deployment.
 
@@ -201,7 +201,7 @@ Accept wildcard characters: False
 ```
 
 ### -ModuleParameters
-Experimental parameter that allows you to provide all Plaster decisions inside a Hashtable.
+Provide all Plaster decisions inside a Hashtable.
 If any decision choice is not provided, Plaster will still prompt you for a decision.
 See NOTES for additional limitations.
 

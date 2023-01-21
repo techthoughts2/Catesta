@@ -23,49 +23,159 @@ Based on selections made this cmdlet will generate the necessary files for a var
 Selections can also determine what CICD builds should be run enabling easy cross-platform verification (Windows/Linux/MacOS).
 InvokeBuild tasks will be created for validation / analysis / test / build automation.
 Additional selections can generate other helpful files such as GitHub community files and VSCode project files.
+If no VaultParameters are passed in, you will be prompted by Plaster for a decision on each template choice.
+If you pass in a partial VaultParameters, you will be prompted by Plaster for any missing template decisions.
+If you pass in a full VaultParameters set, Plaster will not prompt you for any template decisions.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path\AWSProject
+New-VaultProject -DestinationPath $outPutPath
 ```
 
-Scaffolds a PowerShell SecretManagement vault project for integration with AWS CodeBuild.
-TODO: tbd
+Initiates Plaster template to scaffold a PowerShell SecretManagement vault project with customizable CI/CD integration options.
+Choices made during scaffolding will result in a PowerShell project tailored to the chosen CI/CD platform, or a standard PowerShell SecretManagement vault project with no CI/CD integration.
 
 ### EXAMPLE 2
 ```
-New-VaultProject -CICDChoice 'GitHubActions' -DestinationPath c:\path\GitHubActions
+New-VaultProject -DestinationPath $outPutPath -NoLogo
 ```
 
-Scaffolds a PowerShell SecretManagement vault project for integration with GitHub Actions Workflows.
-TODO: tbd
+Initiates Plaster template to scaffold a PowerShell SecretManagement vault project with customizable CI/CD integration options.
+Choices made during scaffolding will result in a PowerShell project tailored to the chosen CI/CD platform, or a standard PowerShell SecretManagement vault project with no CI/CD integration.
+The Plaster logo will be suppressed and not shown.
 
 ### EXAMPLE 3
 ```
-New-VaultProject -CICDChoice 'Azure' -DestinationPath c:\path\AzurePipeline
+New-VaultProject -DestinationPath $outPutPath -PassThru
 ```
 
-Scaffolds a PowerShell SecretManagement vault project for integration with Azure DevOps Pipelines.
-TODO: tbd
+Initiates Plaster template to scaffold a PowerShell SecretManagement vault project with customizable CI/CD integration options.
+Choices made during scaffolding will result in a PowerShell project tailored to the chosen CI/CD platform, or a standard PowerShell SecretManagement vault project with no CI/CD integration.
+An object will be returned containing details of the Plaster template deployment.
 
 ### EXAMPLE 4
 ```
-New-VaultProject -CICDChoice 'AppVeyor' -DestinationPath c:\path\AppVeyor
-```
-
-Scaffolds a PowerShell SecretManagement vault project for integration with AppVeyor Projects.
-TODO: tbd
-
-### EXAMPLE 5
-```
-New-VaultProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOnly
+$vaultParameters = @{
+    ModuleName       = 'SecretManagement.VaultName'
+    Description      = 'My awesome vault is awesome'
+    Version          = '0.0.1'
+    FN               = 'user full name'
+    CICD             = 'NONE'
+    RepoType         = 'NONE'
+    CodingStyle      = 'Stroustrup'
+    Pester           = '5'
+    NoLogo           = $true
+}
+New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
 ```
 
 Scaffolds a basic PowerShell SecretManagement vault project with no additional extras.
-You just get a basic PowerShell vault construct.
-TODO: tbd
+You just get a basic PowerShell SecretManagement vault construct.
+
+### EXAMPLE 5
+```
+$vaultParameters = @{
+    ModuleName       = 'SecretManagement.VaultName'
+    Description      = 'My awesome vault is awesome'
+    Version          = '0.0.1'
+    FN               = 'user full name'
+    CICD             = 'GITHUB'
+    GitHubAOptions   = 'windows', 'pwshcore', 'linux', 'macos'
+    RepoType         = 'GITHUB'
+    License          = 'MIT'
+    Changelog        = 'CHANGELOG'
+    COC              = 'CONDUCT'
+    Contribute       = 'CONTRIBUTING'
+    Security         = 'SECURITY'
+    CodingStyle      = 'Stroustrup'
+    Pester           = '5'
+    S3Bucket         = 'PSGallery'
+    NoLogo           = $true
+}
+New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+```
+
+Scaffolds a PowerShell SecretManagement vault project for integration with GitHub Actions with the project code stored in GitHub.
+A full set of GitHub project supporting files is provided.
+
+### EXAMPLE 6
+```
+$vaultParameters = @{
+    ModuleName       = 'SecretManagement.VaultName'
+    Description      = 'My awesome vault is awesome'
+    Version          = '0.0.1'
+    FN               = 'user full name'
+    CICD             = 'CODEBUILD'
+    AWSOptions       = 'ps', 'pwshcore', 'pwsh'
+    RepoType         = 'GITHUB'
+    License          = 'MIT'
+    Changelog        = 'CHANGELOG'
+    COC              = 'CONDUCT'
+    Contribute       = 'CONTRIBUTING'
+    Security         = 'SECURITY'
+    CodingStyle      = 'Stroustrup'
+    Pester           = '5'
+    S3Bucket         = 'PSGallery'
+    NoLogo           = $true
+}
+New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+```
+
+Scaffolds a PowerShell SecretManagement vault project for integration with AWS CodeBuild with the project code stored in GitHub.
+A full set of GitHub project supporting files is provided.
+
+### EXAMPLE 7
+```
+$vaultParameters = @{
+    ModuleName       = 'SecretManagement.VaultName'
+    Description      = 'My awesome vault is awesome'
+    Version          = '0.0.1'
+    FN               = 'user full name'
+    CICD             = 'AZURE'
+    AzureOptions     = 'windows', 'pwshcore', 'linux', 'macos'
+    RepoType         = 'GITHUB'
+    License          = 'None'
+    Changelog        = 'NOCHANGELOG'
+    COC              = 'NOCONDUCT'
+    Contribute       = 'NOCONTRIBUTING'
+    Security         = 'NOSECURITY'
+    CodingStyle      = 'Stroustrup'
+    Pester           = '5'
+    NoLogo           = $true
+}
+New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+```
+
+Scaffolds a PowerShell SecretManagement vault project for integration with Azure Pipelines with the project code stored in GitHub.
+No repository supporting files are included.
+
+### EXAMPLE 8
+```
+$vaultParameters = @{
+    ModuleName       = 'SecretManagement.VaultName'
+    Description      = 'My awesome vault is awesome'
+    Version          = '0.0.1'
+    FN               = 'user full name'
+    CICD             = 'APPVEYOR'
+    AppveyorOptions  = 'windows', 'pwshcore', 'linux', 'macos'
+    RepoType         = 'GITHUB'
+    License          = 'None'
+    Changelog        = 'NOCHANGELOG'
+    COC              = 'NOCONDUCT'
+    Contribute       = 'NOCONTRIBUTING'
+    Security         = 'NOSECURITY'
+    CodingStyle      = 'Stroustrup'
+    Pester           = '5'
+    PassThru         = $true
+    NoLogo           = $true
+}
+New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+```
+
+Scaffolds a PowerShell SecretManagement vault project for integration with Appveyor with the project code stored in GitHub.
+No repository supporting files are included.
 
 ## PARAMETERS
 
@@ -85,7 +195,9 @@ Accept wildcard characters: False
 ```
 
 ### -VaultParameters
-TODO: tbd
+Provide all Plaster decisions inside a Hashtable.
+If any decision choice is not provided, Plaster will still prompt you for a decision.
+See NOTES for additional limitations.
 
 ```yaml
 Type: Hashtable
@@ -100,7 +212,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoLogo
-TODO: tbd
+Suppresses the display of the Plaster logo.
 
 ```yaml
 Type: SwitchParameter
@@ -115,7 +227,7 @@ Accept wildcard characters: False
 ```
 
 ### -PassThru
-TODO: tbd
+Returns an object containing details of Plaster template deployment.
 
 ```yaml
 Type: SwitchParameter
@@ -190,6 +302,8 @@ Author: Jake Morrison - @jakemorrison - https://www.techthoughts.info/
 ## RELATED LINKS
 
 [https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Extension.md](https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Extension.md)
+
+[https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Manifest-Schema.md](https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Manifest-Schema.md)
 
 [https://github.com/PowerShell/SecretManagement](https://github.com/PowerShell/SecretManagement)
 

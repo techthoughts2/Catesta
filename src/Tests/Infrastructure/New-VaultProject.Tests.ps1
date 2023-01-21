@@ -501,6 +501,126 @@ Describe 'Vault Infra Tests' {
 
         } #context_repo
 
+        Context 'Help Examples' {
+
+            It 'should have a working example for vanilla module' {
+                $vaultParameters = @{
+                    ModuleName  = 'SecretManagement.VaultName'
+                    Description = 'My awesome vault is awesome'
+                    Version     = '0.0.1'
+                    FN          = 'user full name'
+                    CICD        = 'NONE'
+                    RepoType    = 'NONE'
+                    CodingStyle = 'Stroustrup'
+                    Pester      = '5'
+                    NoLogo      = $true
+                }
+                New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+
+                $manifestContent = Get-Content -Path "$outPutPath\src\SecretManagement.VaultName\SecretManagement.VaultName.psd1" -Raw
+                $manifestContent | Should -BeLike '*My awesome vault is awesome*'
+            } #it
+
+            It 'should have a working example for GitHub Actions module' {
+                $vaultParameters = @{
+                    ModuleName     = 'SecretManagement.VaultName'
+                    Description    = 'My awesome vault is awesome'
+                    Version        = '0.0.1'
+                    FN             = 'user full name'
+                    CICD           = 'GITHUB'
+                    GitHubAOptions = 'windows', 'pwshcore', 'linux', 'macos'
+                    RepoType       = 'GITHUB'
+                    License        = 'MIT'
+                    Changelog      = 'CHANGELOG'
+                    COC            = 'CONDUCT'
+                    Contribute     = 'CONTRIBUTING'
+                    Security       = 'SECURITY'
+                    CodingStyle    = 'Stroustrup'
+                    Pester         = '5'
+                    S3Bucket       = 'PSGallery'
+                    NoLogo         = $true
+                }
+                New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+
+                $manifestContent = Get-Content -Path "$outPutPath\src\SecretManagement.VaultName\SecretManagement.VaultName.psd1" -Raw
+                $manifestContent | Should -BeLike '*My awesome vault is awesome*'
+            } #it
+
+            It 'should have a working example for AWS module' {
+                $vaultParameters = @{
+                    ModuleName  = 'SecretManagement.VaultName'
+                    Description = 'My awesome vault is awesome'
+                    Version     = '0.0.1'
+                    FN          = 'user full name'
+                    CICD        = 'CODEBUILD'
+                    AWSOptions  = 'ps', 'pwshcore', 'pwsh'
+                    RepoType    = 'GITHUB'
+                    License     = 'MIT'
+                    Changelog   = 'CHANGELOG'
+                    COC         = 'CONDUCT'
+                    Contribute  = 'CONTRIBUTING'
+                    Security    = 'SECURITY'
+                    CodingStyle = 'Stroustrup'
+                    Pester      = '5'
+                    S3Bucket    = 'PSGallery'
+                    NoLogo      = $true
+                }
+                New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+
+                $manifestContent = Get-Content -Path "$outPutPath\src\SecretManagement.VaultName\SecretManagement.VaultName.psd1" -Raw
+                $manifestContent | Should -BeLike '*My awesome vault is awesome*'
+            } #it
+
+            It 'should have a working example for Azure module' {
+                $vaultParameters = @{
+                    ModuleName   = 'SecretManagement.VaultName'
+                    Description  = 'My awesome vault is awesome'
+                    Version      = '0.0.1'
+                    FN           = 'user full name'
+                    CICD         = 'AZURE'
+                    AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
+                    RepoType     = 'GITHUB'
+                    License      = 'None'
+                    Changelog    = 'NOCHANGELOG'
+                    COC          = 'NOCONDUCT'
+                    Contribute   = 'NOCONTRIBUTING'
+                    Security     = 'NOSECURITY'
+                    CodingStyle  = 'Stroustrup'
+                    Pester       = '5'
+                    NoLogo       = $true
+                }
+                New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+
+                $manifestContent = Get-Content -Path "$outPutPath\src\SecretManagement.VaultName\SecretManagement.VaultName.psd1" -Raw
+                $manifestContent | Should -BeLike '*My awesome vault is awesome*'
+            } #it
+
+            It 'should have a working example for Appveyor module' {
+                $vaultParameters = @{
+                    ModuleName      = 'SecretManagement.VaultName'
+                    Description     = 'My awesome vault is awesome'
+                    Version         = '0.0.1'
+                    FN              = 'user full name'
+                    CICD            = 'APPVEYOR'
+                    AppveyorOptions = 'windows', 'pwshcore', 'linux', 'macos'
+                    RepoType        = 'GITHUB'
+                    License         = 'None'
+                    Changelog       = 'NOCHANGELOG'
+                    COC             = 'NOCONDUCT'
+                    Contribute      = 'NOCONTRIBUTING'
+                    Security        = 'NOSECURITY'
+                    CodingStyle     = 'Stroustrup'
+                    Pester          = '5'
+                    PassThru        = $true
+                    NoLogo          = $true
+                }
+                New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+
+                $manifestContent = Get-Content -Path "$outPutPath\src\SecretManagement.VaultName\SecretManagement.VaultName.psd1" -Raw
+                $manifestContent | Should -BeLike '*My awesome vault is awesome*'
+            } #it
+        }
+
     } #context_module_checks
 
 } #describe_module_tests
