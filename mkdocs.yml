@@ -23,10 +23,14 @@ copyright: "2023 copyright"
 # extra_css:
 # extra_javascript:
 markdown_extensions:
-- codehilite
-- pymdownx.highlight:
-    use_pygments: true
-# - markdown_include.include
+    - codehilite
+    - pymdownx.highlight:
+        use_pygments: true
+    - pymdownx.highlight:
+      anchor_linenums: true
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.superfences
 
 # - admonition
 - toc:
