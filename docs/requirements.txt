@@ -2,3 +2,4 @@
 # requirements.txt
 jinja2==3.0.3
 mkdocs>=1.4.2
+mkdocs-material==9.0.6

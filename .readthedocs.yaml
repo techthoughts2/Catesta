@@ -12,11 +12,8 @@ build:
   tools:
     python: "3.11"
 
-# mkdocs:
-#   configuration: mkdocs.yml
-
 mkdocs:
-  fail_on_warning: false
+  configuration: mkdocs.yml
 
 python:
   install:
