@@ -1,0 +1,4 @@
+# https://github.com/readthedocs-examples/example-mkdocs-basic/blob/main/docs/requirements.txt
+# requirements.txt
+jinja2==3.0.3
+mkdocs>=1.4.2
