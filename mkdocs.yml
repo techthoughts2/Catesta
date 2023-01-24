@@ -27,7 +27,7 @@ copyright: "2023 copyright"
 # theme: readthedocs
 theme:
   name: readthedocs
-  custom_dir: overrides
+  # custom_dir: overrides
   # favicon: assets/favicon.png
   # font:
   #   text: Work Sans
