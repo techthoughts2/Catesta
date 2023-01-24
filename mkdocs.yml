@@ -24,17 +24,17 @@ copyright: "2023 copyright"
 # extra_javascript:
 # extra_templates:
 # extra:
-theme: readthedocs
-# theme:
-#   name: readthedocs
-#   custom_dir: theme
-#   # favicon: assets/favicon.png
-#   # font:
-#   #   text: Work Sans
-#   logo: assets/CatestaIcon.png
-#   name: material
-#   palette:
-#     primary: teal
+# theme: readthedocs
+theme:
+  name: readthedocs
+  custom_dir: theme
+  # favicon: assets/favicon.png
+  # font:
+  #   text: Work Sans
+  logo: assets/CatestaIcon.png
+  name: material
+  palette:
+    primary: teal
 # theme:
 #     name: readthedocs
 #     locale: en
