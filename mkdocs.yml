@@ -23,9 +23,16 @@ copyright: "2023 copyright"
 # extra_css:
 # extra_javascript:
 markdown_extensions:
-    - codehilite
-    - toc:
-      permalink: true
+- codehilite
+- pymdownx.highlight:
+    use_pygments: true
+- pymdownx.highlight:
+  anchor_linenums: true
+- pymdownx.inlinehilite
+- pymdownx.snippets
+- pymdownx.superfences
+- toc:
+  permalink: true
 # extra_templates:
 # extra:
 # theme: readthedocs
