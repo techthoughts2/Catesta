@@ -22,6 +22,12 @@ copyright: "2023 copyright"
 # site_dir:
 # extra_css:
 # extra_javascript:
+markdown_extensions:
+# - markdown_include.include
+- codehilite
+# - admonition
+- toc:
+    permalink: true
 # extra_templates:
 # extra:
 # theme: readthedocs
