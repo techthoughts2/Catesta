@@ -24,8 +24,8 @@ copyright: "2023 copyright"
 # extra_javascript:
 markdown_extensions:
   - codehilite
-  - pymdownx.highlight:
-      use_pygments: true
+  # - pymdownx.highlight:
+  #     use_pygments: true
 # - markdown_include.include
 
 # - admonition
