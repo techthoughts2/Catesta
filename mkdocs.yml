@@ -24,7 +24,11 @@ copyright: "Catesta is licensed under the <a href='https://github.com/techthough
 # extra_css:
 # extra_javascript:
 markdown_extensions:
-  # - codehilite
+  # Python Markdown
+  - admonition
+  - toc:
+      permalink: true
+  # code highlighting
   - pymdownx.highlight:
       use_pygments: true
   - pymdownx.highlight:
@@ -32,8 +36,7 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
-  - toc:
-      permalink: true
+
 # extra_templates:
 # extra:
 # theme: readthedocs
@@ -56,17 +59,17 @@ theme:
   palette:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
-      # scheme: default
-      primary: indigo
-      accent: light blue
+      scheme: default
+      primary: light blue
+      accent: pink
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
 
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
-      # scheme: slate
-      primary: black
+      scheme: slate
+      primary: indigo
       accent: pink
       toggle:
         icon: material/brightness-4
