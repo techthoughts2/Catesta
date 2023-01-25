@@ -5,17 +5,18 @@
 # https://mkdocs.readthedocs.io/en/0.15.2/user-guide/styling-your-docs/
 # https://example-mkdocs-basic.readthedocs.io/en/latest/
 # https://github.com/mkdocs/mkdocs/blob/master/mkdocs.yml
+# https://squidfunk.github.io/mkdocs-material/creating-your-site/
 # mkdocs.yml
 
-site_name: Catesta - tbd
+site_name: Catesta - a PowerShell module project generator.
 # site_url:
 repo_url: https://github.com/techthoughts2/Catesta
 # repo_name:
 # edit_uri: edit/main/docs/
 # edit_uri_template:
-site_description: Catesta read the docs deployment # meta tag to the generated HTML header
-site_author: Jake # meta tag to the generated HTML header
-copyright: "2023 copyright"
+site_description: Catesta is a PowerShell module project generator. It uses templates to rapidly scaffold test and build integration for a variety of CI/CD platforms. # meta tag to the generated HTML header
+site_author: Jake Morrison # meta tag to the generated HTML header
+copyright: "Catesta is licensed under the <a href='https://github.com/techthoughts2/Catesta/blob/main/LICENSE'>MIT license"
 # remote_branch:
 # remote_name:
 # docs_dir: docs
@@ -23,7 +24,7 @@ copyright: "2023 copyright"
 # extra_css:
 # extra_javascript:
 markdown_extensions:
-  - codehilite
+  # - codehilite
   - pymdownx.highlight:
       use_pygments: true
   - pymdownx.highlight:
@@ -37,15 +38,40 @@ markdown_extensions:
 # extra:
 # theme: readthedocs
 theme:
-  name: readthedocs
+  name: material
+  language: en
   # custom_dir: overrides
-  # favicon: assets/favicon.png
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.path
+  favicon: assets/Catesta_favicon-32x32.png
+  icon:
+    repo: fontawesome/brands/github
   # font:
   #   text: Work Sans
   logo: assets/CatestaIcon.png
-  name: material
+  # palette:
+  #   primary: teal
   palette:
-    primary: teal
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      # scheme: default
+      primary: indigo
+      accent: light blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      # scheme: slate
+      primary: black
+      accent: pink
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
 # theme:
 #     name: readthedocs
 #     locale: en
@@ -59,55 +85,3 @@ nav:
   - Functions:
     - New-ModuleProject: New-ModuleProject.md
     - New-VaultProject: New-VaultProject.md
-
-
-#  -------------------------------------------------------------------------------------------
-# site_name:
-# site_url:
-# repo_url:
-# repo_name:
-# edit_uri:
-# edit_uri_template:
-# site_description:
-# site_author:
-# copyright:
-# remote_branch:
-# remote_name:
-# docs_dir:
-# site_dir:
-# extra_css:
-# extra_javascript:
-# extra_templates:
-# extra:
-  # version: 1.0
-# theme:
-#     name: mkdocs
-#     locale: en
-#     custom_dir: my_theme_customizations/
-#     static_templates:
-#         - sitemap.html
-#     include_sidebar: false
-# Navigation sub-sections can be created by listing related pages together under a section title. For example:
-# nav:
-#     - Home: 'index.md'
-#     - 'User Guide':
-#         - 'Writing your docs': 'writing-your-docs.md'
-#         - 'Styling your docs': 'styling-your-docs.md'
-#     - About:
-#         - 'License': 'license.md'
-#         - 'Release Notes': 'release-notes.md'
-# -------------------------------------------------------------------------------------------
-
-
-# site_name: Convert - PowerShell Module for object conversions
-# repo_url: https://github.com/austoonz/Convert
-# site_author: Andrew Pearce
-# edit_uri: edit/master/docs/
-# theme: readthedocs
-# copyright: "Convert is licensed under the <a href='https://github.com/austoonz/Convert/blob/master/LICENSE'>MIT license"
-# pages:
-#   - Home: index.md
-#   - Change Log: CHANGELOG.md
-#   - Functions:
-#     - ConvertFrom-Base64: functions/ConvertFrom-Base64.md
-#     - ConvertFrom-Base64ToByteArray: functions/ConvertFrom-Base64ToByteArray.md
