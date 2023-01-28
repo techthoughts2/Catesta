@@ -22,17 +22,19 @@ Describe 'Module Infra Tests' {
         # $PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
         # $srcRoot = [System.IO.Path]::Combine( '..', '..')
         $outPutPath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), 'catesta_infra_testing')
+        $outPutPathStar = "$outPutPath$([System.IO.Path]::DirectorySeparatorChar)*"
+        $buildFile = [System.IO.Path]::Combine($outPutPath, 'src', 'modulename.build.ps1')
         New-Item -Path $outPutPath -ItemType Directory  -ErrorAction SilentlyContinue
     } #beforeAll
 
     Context 'Module Checks' {
 
         BeforeEach {
-            Remove-Item -Path "$outPutPath\*" -Recurse -Force
-            # $codeBuildModuleFiles = Get-ChildItem -Path "$outPutPath\*" -Recurse
+            Remove-Item -Path $outPutPathStar -Recurse -Force
+            # $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse
         } #beforeEach
         # BeforeAll {
-        #     Remove-Item -Path "$outPutPath\*" -Recurse -Force
+        #     Remove-Item -Path $outPutPathStar -Recurse -Force
         # }
 
         Context 'CI/CD' {
@@ -58,7 +60,7 @@ Describe 'Module Infra Tests' {
                     $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $moduleOnlyFiles = Get-ChildItem -Path "$outPutPath\*" -Recurse
+                    $moduleOnlyFiles = Get-ChildItem -Path $outPutPathStar -Recurse
 
                     $moduleOnlyFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $false
 
@@ -117,7 +119,7 @@ Describe 'Module Infra Tests' {
                     # AppVeyor
                     $moduleOnlyFiles.Name.Contains('appveyor.yml') | Should -BeExactly $false
 
-                    $buildContent = Get-Content -Path "$outPutPath\src\modulename.build.ps1" -Raw
+                    $buildContent = Get-Content -Path $buildFile -Raw
 
                     # Styling
                     $buildContent | Should -BeLike '*Stroustrup*'
@@ -159,29 +161,34 @@ Describe 'Module Infra Tests' {
                     $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $codeBuildModuleFiles = Get-ChildItem -Path "$outPutPath\*" -Recurse
+                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse
 
                     $codeBuildModuleFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
                     $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
                     $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $true
-                    $powershellContent = Get-Content -Path "$outPutPath\buildspec_powershell_windows.yml" -Raw
+                    $powershellContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_powershell_windows.yml')
+                    $powershellContent = Get-Content -Path $powershellContentPath -Raw
                     $powershellContent | Should -BeLike '*modulename*'
-                    $linuxContent = Get-Content -Path "$outPutPath\buildspec_pwsh_linux.yml" -Raw
+                    $linuxContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_pwsh_linux.yml')
+                    $linuxContent = Get-Content -Path $linuxContentPath -Raw
                     $linuxContent | Should -BeLike '*modulename*'
-                    $pwshContent = Get-Content -Path "$outPutPath\buildspec_pwsh_windows.yml" -Raw
+                    $pwshContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_pwsh_windows.yml')
+                    $pwshContent = Get-Content -Path $pwshContentPath -Raw
                     $pwshContent | Should -BeLike '*modulename*'
 
                     $codeBuildModuleFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $true
 
                     $codeBuildModuleFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $true
-                    $installContent = Get-Content -Path "$outPutPath\install_modules.ps1" -Raw
+                    $installContentPath = [System.IO.Path]::Combine($outPutPath, 'install_modules.ps1')
+                    $installContent = Get-Content -Path $installContentPath -Raw
                     $installContent | Should -BeLike '*$galleryDownload = $true*'
 
                     $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
                     $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $true
                     $codeBuildModuleFiles.Name.Contains('S3BucketsForPowerShellDevelopment.yml') | Should -BeExactly $true
 
-                    $cfnContent = Get-Content -Path "$outPutPath\CloudFormation\PowerShellCodeBuildGit.yml" -Raw
+                    $cfnContentPath = [System.IO.Path]::Combine($outPutPath, 'CloudFormation', 'PowerShellCodeBuildGit.yml')
+                    $cfnContent = Get-Content -Path $cfnContentPath -Raw
                     $cfnContent | Should -BeLike "*CodeBuildpsProject*"
                     $cfnContent | Should -BeLike "*CodeBuildpwshcoreProject*"
                     $cfnContent | Should -BeLike "*CodeBuildpwshProject*"
@@ -212,7 +219,7 @@ Describe 'Module Infra Tests' {
                     $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $codeBuildModuleFiles = Get-ChildItem -Path "$outPutPath\*" -Recurse
+                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse
 
                     $codeBuildModuleFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
                     $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
@@ -221,14 +228,16 @@ Describe 'Module Infra Tests' {
                     $codeBuildModuleFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $true
 
                     $codeBuildModuleFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $true
-                    $installContent = Get-Content -Path "$outPutPath\install_modules.ps1" -Raw
+                    $installContentPath = [System.IO.Path]::Combine($outPutPath, 'install_modules.ps1')
+                    $installContent = Get-Content -Path $installContentPath -Raw
                     $installContent | Should -BeLike '*$galleryDownload = $true*'
 
                     $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $true
                     $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $false
                     $codeBuildModuleFiles.Name.Contains('S3BucketsForPowerShellDevelopment.yml') | Should -BeExactly $true
 
-                    $cfnContent = Get-Content -Path "$outPutPath\CloudFormation\PowerShellCodeBuildCC.yml" -Raw
+                    $cfnContentPath = [System.IO.Path]::Combine($outPutPath, 'CloudFormation', 'PowerShellCodeBuildCC.yml')
+                    $cfnContent = Get-Content -Path $cfnContentPath -Raw
                     $cfnContent | Should -BeLike "*CodeBuildProjectWPS*"
                     $cfnContent | Should -BeLike "*CodeBuildProjectWPwsh*"
                     $cfnContent | Should -BeLike "*CodeBuildProjectLPwsh*"
@@ -262,12 +271,13 @@ Describe 'Module Infra Tests' {
                     $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $azureModuleFiles = Get-ChildItem -Path "$outPutPath\*" -Recurse
+                    $azureModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse
 
                     $azureModuleFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $true
                     $azureModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
 
-                    $azureYMLContent = Get-Content -Path "$outPutPath\azure-pipelines.yml" -Raw
+                    $azureYMLContentPath = [System.IO.Path]::Combine($outPutPath, 'azure-pipelines.yml')
+                    $azureYMLContent = Get-Content -Path $azureYMLContentPath -Raw
                     $azureYMLContent | Should -BeLike "*build_ps_WinLatest*"
                     $azureYMLContent | Should -BeLike "*build_pwsh_WinLatest*"
                     $azureYMLContent | Should -BeLike "*build_pwsh_ubuntuLatest*"
@@ -302,12 +312,13 @@ Describe 'Module Infra Tests' {
                     $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $appveyorModuleFiles = Get-ChildItem -Path "$outPutPath\*" -Recurse
+                    $appveyorModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse
 
                     $appveyorModuleFiles.Name.Contains('appveyor.yml') | Should -BeExactly $true
                     $appveyorModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
 
-                    $appveyorYMLContent = Get-Content -Path "$outPutPath\appveyor.yml" -Raw
+                    $appveyorYMLContentPath = [System.IO.Path]::Combine($outPutPath, 'appveyor.yml')
+                    $appveyorYMLContent = Get-Content -Path $appveyorYMLContentPath -Raw
                     $appveyorYMLContent | Should -BeLike "*Visual Studio 2019*"
                     $appveyorYMLContent | Should -BeLike "*Visual Studio 2022*"
                     $appveyorYMLContent | Should -BeLike "*Ubuntu2004*"
@@ -342,23 +353,27 @@ Describe 'Module Infra Tests' {
                     $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $ghaModuleFiles = Get-ChildItem -Path "$outPutPath\*" -Recurse
+                    $ghaModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse
 
                     $ghaModuleFiles.Name.Contains('wf_Linux.yml') | Should -BeExactly $true
                     $ghaModuleFiles.Name.Contains('wf_MacOS.yml') | Should -BeExactly $true
                     $ghaModuleFiles.Name.Contains('wf_Windows_Core.yml') | Should -BeExactly $true
                     $ghaModuleFiles.Name.Contains('wf_Windows.yml') | Should -BeExactly $true
 
-                    $wfLinuxContent = Get-Content -Path "$outPutPath\.github\workflows\wf_Linux.yml" -Raw
+                    $wfLinuxContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Linux.yml')
+                    $wfLinuxContent = Get-Content -Path $wfLinuxContentPath -Raw
                     $wfLinuxContent | Should -BeLike "*modulename*"
 
-                    $wfMacOSContent = Get-Content -Path "$outPutPath\.github\workflows\wf_MacOS.yml" -Raw
+                    $wfMacOSContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_MacOS.yml')
+                    $wfMacOSContent = Get-Content -Path $wfMacOSContentPath -Raw
                     $wfMacOSContent | Should -BeLike "*modulename*"
 
-                    $wfWindowsCoreContent = Get-Content -Path "$outPutPath\.github\workflows\wf_Windows_Core.yml" -Raw
+                    $wfWindowsCoreContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Windows_Core.yml')
+                    $wfWindowsCoreContent = Get-Content -Path $wfWindowsCoreContentPath -Raw
                     $wfWindowsCoreContent | Should -BeLike "*modulename*"
 
-                    $wfWindowsContent = Get-Content -Path "$outPutPath\.github\workflows\wf_Windows.yml" -Raw
+                    $wfWindowsContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Windows.yml')
+                    $wfWindowsContent = Get-Content -Path $wfWindowsContentPath -Raw
                     $wfWindowsContent | Should -BeLike "*modulename*"
 
                 } #it
@@ -371,7 +386,7 @@ Describe 'Module Infra Tests' {
 
             Context 'CodeCommit' {
 
-                It 'should generate the appropriate repo files for GitHub' {
+                It 'should generate the appropriate repo files for CodeCommit' {
                     $moduleParameters = @{
                         VAULT       = 'text'
                         ModuleName  = 'modulename'
@@ -395,7 +410,7 @@ Describe 'Module Infra Tests' {
                     $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $repoFiles = Get-ChildItem -Path "$outPutPath\*" -Recurse
+                    $repoFiles = Get-ChildItem -Path $outPutPathStar -Recurse
 
                     # REPO
                     $repoFiles.Name.Contains('.gitignore') | Should -BeExactly $true
@@ -449,23 +464,27 @@ Describe 'Module Infra Tests' {
                     $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $repoFiles = Get-ChildItem -Path "$outPutPath\*" -Recurse
+                    $repoFiles = Get-ChildItem -Path $outPutPathStar -Recurse
 
                     # LICENSE
                     $repoFiles.Name.Contains('LICENSE') | Should -BeExactly $true
-                    $licenseContent = Get-Content -Path "$outPutPath\LICENSE" -Raw
+                    $licenseContentPath = [System.IO.Path]::Combine($outPutPath, 'LICENSE')
+                    $licenseContent = Get-Content -Path $licenseContentPath -Raw
                     $licenseContent | Should -BeLike '*mit*'
 
                     # REPO
                     $repoFiles.Name.Contains('CHANGELOG.md') | Should -BeExactly $true
-                    $changelogContent = Get-Content -Path "$outPutPath\docs\CHANGELOG.md" -Raw
+                    $changelogContentPath = [System.IO.Path]::Combine($outPutPath, 'docs', 'CHANGELOG.md')
+                    $changelogContent = Get-Content -Path $changelogContentPath -Raw
                     $changelogContent | Should -BeLike '*0.0.1*'
                     $repoFiles.Name.Contains('CODE_OF_CONDUCT.md') | Should -BeExactly $true
                     $repoFiles.Name.Contains('CONTRIBUTING.md') | Should -BeExactly $true
-                    $contributingContent = Get-Content -Path "$outPutPath\.github\CONTRIBUTING.md" -Raw
+                    $contributingContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'CONTRIBUTING.md')
+                    $contributingContent = Get-Content -Path $contributingContentPath -Raw
                     $contributingContent | Should -BeLike '*modulename*'
                     $repoFiles.Name.Contains('SECURITY.md') | Should -BeExactly $true
-                    $securityContent = Get-Content -Path "$outPutPath\.github\SECURITY.md" -Raw
+                    $securityContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'SECURITY.md')
+                    $securityContent = Get-Content -Path $securityContentPath -Raw
                     $securityContent | Should -BeLike '*modulename*'
                     $repoFiles.Name.Contains('.gitignore') | Should -BeExactly $true
                     $repoFiles.Name.Contains('PULL_REQUEST_TEMPLATE.md') | Should -BeExactly $true
@@ -513,7 +532,8 @@ Describe 'Module Infra Tests' {
                 }
                 New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
 
-                $manifestContent = Get-Content -Path "$outPutPath\src\ModuleName\ModuleName.psd1" -Raw
+                $manifestContentPath = [System.IO.Path]::Combine($outPutPath, 'src', 'ModuleName', 'ModuleName.psd1')
+                $manifestContent = Get-Content -Path $manifestContentPath -Raw
                 $manifestContent | Should -BeLike '*My awesome module is awesome*'
             } #it
 
@@ -539,7 +559,8 @@ Describe 'Module Infra Tests' {
                 }
                 New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
 
-                $manifestContent = Get-Content -Path "$outPutPath\src\ModuleName\ModuleName.psd1" -Raw
+                $manifestContentPath = [System.IO.Path]::Combine($outPutPath, 'src', 'ModuleName', 'ModuleName.psd1')
+                $manifestContent = Get-Content -Path $manifestContentPath -Raw
                 $manifestContent | Should -BeLike '*My awesome module is awesome*'
             } #it
 
@@ -565,7 +586,8 @@ Describe 'Module Infra Tests' {
                 }
                 New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
 
-                $manifestContent = Get-Content -Path "$outPutPath\src\ModuleName\ModuleName.psd1" -Raw
+                $manifestContentPath = [System.IO.Path]::Combine($outPutPath, 'src', 'ModuleName', 'ModuleName.psd1')
+                $manifestContent = Get-Content -Path $manifestContentPath -Raw
                 $manifestContent | Should -BeLike '*My awesome module is awesome*'
             } #it
 
@@ -590,7 +612,8 @@ Describe 'Module Infra Tests' {
                 }
                 New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
 
-                $manifestContent = Get-Content -Path "$outPutPath\src\ModuleName\ModuleName.psd1" -Raw
+                $manifestContentPath = [System.IO.Path]::Combine($outPutPath, 'src', 'ModuleName', 'ModuleName.psd1')
+                $manifestContent = Get-Content -Path $manifestContentPath -Raw
                 $manifestContent | Should -BeLike '*My awesome module is awesome*'
             } #it
 
@@ -616,7 +639,8 @@ Describe 'Module Infra Tests' {
                 }
                 New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
 
-                $manifestContent = Get-Content -Path "$outPutPath\src\ModuleName\ModuleName.psd1" -Raw
+                $manifestContentPath = [System.IO.Path]::Combine($outPutPath, 'src', 'ModuleName', 'ModuleName.psd1')
+                $manifestContent = Get-Content -Path $manifestContentPath -Raw
                 $manifestContent | Should -BeLike '*My awesome module is awesome*'
             } #it
         }
