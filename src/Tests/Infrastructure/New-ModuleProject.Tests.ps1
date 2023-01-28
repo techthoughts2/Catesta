@@ -34,7 +34,7 @@ Describe 'Module Infra Tests' {
             # $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
         } #beforeEach
         # BeforeAll {
-        #     Remove-Item -Path $outPutPathStar -Recurse -Force -Force
+        #     Remove-Item -Path $outPutPathStar -Recurse -Force
         # }
 
         Context 'CI/CD' {

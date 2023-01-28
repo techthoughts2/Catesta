@@ -34,7 +34,7 @@ Describe 'Vault Infra Tests' {
             # $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
         } #beforeEach
         # BeforeAll {
-        #     Remove-Item -Path $outPutPathStar -Recurse -Force -Force
+        #     Remove-Item -Path $outPutPathStar -Recurse -Force
         # }
 
         Context 'CI/CD' {
@@ -59,7 +59,7 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $moduleOnlyFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force -Force
+                    $moduleOnlyFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
                     $moduleOnlyFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $false
 
