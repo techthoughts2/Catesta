@@ -21,7 +21,7 @@ Describe 'Module Infra Tests' {
         # $resourcePath = [System.IO.Path]::Combine( '..', '..', $ModuleName, 'Resources')
         # $PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
         # $srcRoot = [System.IO.Path]::Combine( '..', '..')
-        $outPutPath = '{0}\{1}' -f $env:TEMP, 'catesta_infra_testing'
+        $outPutPath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), 'catesta_infra_testing')
         New-Item -Path $outPutPath -ItemType Directory  -ErrorAction SilentlyContinue
     } #beforeAll
 
