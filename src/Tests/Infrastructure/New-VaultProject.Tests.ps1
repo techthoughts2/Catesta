@@ -10,7 +10,7 @@ $PathToManifest = [System.IO.Path]::Combine('..', '..', 'Artifacts', "$ModuleNam
 Import-Module $PathToManifest -Force
 #-------------------------------------------------------------------------
 $resourcePath1 = [System.IO.Path]::Combine( '..', '..', $ModuleName, 'Resources')
-# $manifests = Get-ChildItem -Path $resourcePath1 -Include '*.xml' -Recurse
+# $manifests = Get-ChildItem -Path $resourcePath1 -Include '*.xml' -Recurse -Force
 #-------------------------------------------------------------------------
 Describe 'Vault Infra Tests' {
 
@@ -31,10 +31,10 @@ Describe 'Vault Infra Tests' {
 
         BeforeEach {
             Remove-Item -Path $outPutPathStar -Recurse -Force
-            # $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse
+            # $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
         } #beforeEach
         # BeforeAll {
-        #     Remove-Item -Path $outPutPathStar -Recurse -Force
+        #     Remove-Item -Path $outPutPathStar -Recurse -Force -Force
         # }
 
         Context 'CI/CD' {
@@ -59,7 +59,7 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $moduleOnlyFiles = Get-ChildItem -Path $outPutPathStar -Recurse
+                    $moduleOnlyFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force -Force
 
                     $moduleOnlyFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $false
 
@@ -161,7 +161,7 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse
+                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
                     $codeBuildModuleFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
                     $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
@@ -219,7 +219,7 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse
+                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
                     $codeBuildModuleFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
                     $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
@@ -271,7 +271,7 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $azureModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse
+                    $azureModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
                     $azureModuleFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $true
                     $azureModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
@@ -315,7 +315,7 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $appveyorModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse
+                    $appveyorModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
                     $appveyorModuleFiles.Name.Contains('appveyor.yml') | Should -BeExactly $true
                     $appveyorModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
@@ -359,7 +359,7 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $ghaModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse
+                    $ghaModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
                     $ghaModuleFiles.Name.Contains('wf_Linux.yml') | Should -BeExactly $true
                     $ghaModuleFiles.Name.Contains('wf_MacOS.yml') | Should -BeExactly $true
@@ -396,7 +396,7 @@ Describe 'Vault Infra Tests' {
 
             Context 'CodeCommit' {
 
-                It 'should generate the appropriate repo files for GitHub' {
+                It 'should generate the appropriate repo files for CodeCommit' {
                     $vaultParameters = @{
                         VAULT       = 'text'
                         ModuleName  = 'SecretManagement.MyVault'
@@ -419,7 +419,7 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $repoFiles = Get-ChildItem -Path $outPutPathStar -Recurse
+                    $repoFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
                     # REPO
                     $repoFiles.Name.Contains('.gitignore') | Should -BeExactly $true
@@ -472,7 +472,7 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $repoFiles = Get-ChildItem -Path $outPutPathStar -Recurse
+                    $repoFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
                     # LICENSE
                     $repoFiles.Name.Contains('LICENSE') | Should -BeExactly $true
