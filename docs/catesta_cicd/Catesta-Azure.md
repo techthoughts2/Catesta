@@ -6,52 +6,41 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [Azu
 
 ## Getting Started
 
-*Note: Before getting started you should have a basic idea of what you expect your module to support. If your module is cross-platform, or you want to test different versions of PowerShell you should run multiple build types.*
+-------------------
 
-| Windows PowerShell  | Windows pwsh | Linux | MacOS |
-| ------------- | ------------- | ------------- | ------------- |
+*Note: It is important to have a clear understanding of what your module should support before you begin your project with Catesta. IIf your module is designed to be cross-platform or you plan to test different versions of PowerShell, it is recommended to run multiple build types to cover different scenarios. This will help you validate that your module works as expected on different platforms and environments.*
+
+![Cross Platform](https://img.shields.io/badge/Builds-Windows%20PowerShell%20%7C%20Windows%20pwsh%20%7C%20Linux%20%7C%20MacOS-lightgrey)
+
+-------------------
 
 1. You will [need an Azure DevOps Organization](https://azure.microsoft.com/services/devops/).
 1. Create a new Project:
-    * ![Azure DevOps Organization New Project](../media/Azure/azure_devops_org_new_project.PNG "Azure DevOps Organization New Project")
+    * ![Azure DevOps Organization New Project](/assets/Azure/azure_devops_org_new_project.PNG "Azure DevOps Organization New Project")
 1. Create a new pipeline and choose where your code will come from:
-    * ![Azure DevOps New Pipeline](../media/Azure/azure_devops_new_pipeline.PNG "Azure DevOps New Pipeline")
+    * ![Azure DevOps New Pipeline](/assets/Azure/azure_devops_new_pipeline.PNG "Azure DevOps New Pipeline")
     * Authenticate to your repository source as needed
-1. Create your project using Catesta
-
-    ```powershell
-    New-PowerShellProject -CICDChoice 'Azure' -DestinationPath C:\path\AzurePipeline
-    ```
-
-    1. The Plaster logo will be displayed and you will see your first prompt
-    1. **Enter the name of the module:** *Name of your module*
-    1. **Enter a description for the module:** *Description of what your module does*
-    1. **Enter the version number of the module (0.0.1)**: *Starting version #*
-    1. **Enter your full name**: *Module author name*
-    1. **Would you like to generate a Changelog file?**
-    1. **Select a License for your module. (Help deciding: [https://choosealicense.com/](https://choosealicense.com/))**
-    1. **Would you like to generate a Code of Conduct file?**
-    1. **Would you like to generate a Contributing guidelines file?**
-    1. **Would you like to specify a coding style for the project? [S] Stroustrup  [O] OTBS  [A] Allman  [N] None  [?] Help (default is "S"):** *The preferred coding style for the project*
-    1. **Would you like to use platyPS to generate help documentation files for your project?** *Creates Markdown & external help for your module*
-    1. **Select desired pipeline job configurations. (If your module is cross-platform you should select multiple)**
-        * [W] Windows - PowerShell
-        * [C] Core (Windows)- pwsh
-        * [L] Linux
-        * [M] MacOS
-1. Write a kick-ass module (the hardest part)
-    * All build testing can be done locally by navigating to src and running ```Invoke-Build```
-    * If using VSCode as your primary editor you can use tasks to perform various local actions
-      * Examples:
-        * ```Press Ctrl+P, then type 'task .'``` - Runs complete build (all tasks)
-        * ```Press Ctrl+P, then type 'task Test'``` - Invokes all Pester Unit Tests
-        * ```Press Ctrl+P, then type 'task Analyze'``` - Invokes Script Analyzer checks
-        * ```Press Ctrl+P, then type 'task DevCC'``` - Generates generate xml file to graphically display code coverage in VSCode using [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters)
+1. Create your project using Catesta and select `[A] Azure Pipelines` at the CICD prompt. *([Catesta Basics](../Catesta-Basics.md))*
+1. Write the logic for your module (the hardest part)
+    * All build testing can be done locally by navigating to `src` and running `Invoke-Build`
+        * By default, this runs all tasks in the build file.
+            * If you want to run a specific task from the build file you can provide the task name. For example, to just execute Pester tests for your project: `Invoke-Build -Task Test`
+    * If using VSCode as your primary editor you can use VSCode tasks to perform various local actions
+        * Open the VSCode Command palette
+            * Shift+Command+P (Mac) / Ctrl+Shift+P (Windows/Linux) or F1
+        * Type `Tasks: Run Task`
+        * Select the task to run
+            * Examples:
+                * `task .` - Runs complete build (all tasks)
+                * `task Test` - Invokes all Pester Unit Tests
+                * `task Analyze` - Invokes Script Analyzer checks
+                * `task DevCC` - Generates generate xml file to graphically display code coverage in VSCode using [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters)
 1. *The comment based help in your functions will be used to generate/update markdown docs for your module in the docs folder.*
+1. Add any module dependencies to your CI/CD bootstrap file: `actions_bootstrap.ps1`
 1. Upload to your desired repository which now has a triggered/monitored build action.
 1. Evaluate results of your build and display your Azure Pipelines badge proudly!
 
-![Azure Pipelines project created by Catesta](../media/Azure/azure_pipelines_project.PNG "Azure Pipelines project created by Catesta")
+![Azure Pipelines project created by Catesta](/assets/Azure/azure_pipelines_project.PNG "Azure Pipelines project created by Catesta")
 
 ## Notes
 
@@ -65,7 +54,7 @@ Additional Reading:
 
 ### Azure DevOps Integration with GitHub
 
-![Catesta PowerShell Azure DevOps Diagram](../media/Azure/catesta_azure_devops_diagram.png)
+![Catesta PowerShell Azure DevOps Diagram](/assets/Azure/catesta_azure_devops_diagram.png)
 
 ## Example Projects
 

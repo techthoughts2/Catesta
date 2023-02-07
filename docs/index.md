@@ -6,175 +6,93 @@
 [psgallery-site]:  https://www.powershellgallery.com/packages/Catesta
 [license-badge]:   https://img.shields.io/github/license/techthoughts2/Catesta
 
-<p align="center">
-    <img src="./docs/assets/Catesta.PNG" alt="Catesta Logo" >
+## What is Catesta?
+
+Catesta is a PowerShell module and vault project generator. It uses templates to rapidly scaffold test and build integration for a variety of CI/CD platforms.
+
+<p align="left">
+    <img src="/assets/Catesta.PNG" alt="Catesta Logo" >
 </p>
 
-Branch | Windows - PowerShell | Windows - pwsh | Linux | MacOS
---- | --- | --- | --- | --- |
-main | ![Build Status Windows PowerShell Main](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-PowerShell/badge.svg?branch=main) | ![Build Status Windows pwsh Main](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=main) | ![Build Status Linux Main](https://github.com/techthoughts2/Catesta/workflows/Catesta-Linux/badge.svg?branch=main) | ![Build Status MacOS Main](https://github.com/techthoughts2/Catesta/workflows/Catesta-MacOS/badge.svg?branch=main)
-Enhancements | ![Build Status Windows PowerShell Enhancements](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-PowerShell/badge.svg?branch=Enhancements) | ![Build Status Windows pwsh Enhancements](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=Enhancements) | ![Build Status Linux Enhancements](https://github.com/techthoughts2/Catesta/workflows/Catesta-Linux/badge.svg?branch=Enhancements) | ![Build Status MacOS Enhancements](https://github.com/techthoughts2/Catesta/workflows/Catesta-MacOS/badge.svg?branch=Enhancements)
+## Why Catesta?
 
-## Synopsis
+Catesta streamlines the process of structuring your PowerShell module or Vault extension project, allowing you to focus on creating a top-quality project without getting bogged down in formatting, testing, and build automation. With Catesta, you can generate all the necessary build files, configurations, and integrations for your project with just a single command.
 
-Catesta is a PowerShell module project generator. It uses templates to rapidly scaffold test and build integration for a variety of CI/CD platforms.
+## Getting Started
 
-## Description
-
-Catesta enables you to quickly scaffold a [PowerShell module](https://docs.microsoft.com/powershell/scripting/developer/module/how-to-write-a-powershell-script-module?view=powershell-7) or [Vault extension](https://github.com/PowerShell/SecretManagement) project with proper formatting, test + build automation, CI/CD integration, with just one line of code.
-
-* Catesta scaffolds an empty PowerShell/Vault extension module project that adheres to PowerShell community guidelines.
-* It generates a few [Pester](https://github.com/pester/Pester) tests to get you started.
-* It makes a [build file](https://github.com/nightroman/Invoke-Build) that analyzes your code for best practices and styling, runs Pester tests, creates PowerShell help, and combines your functions together to build your project for publication.
-* It will create resources you need to trigger CI/CD builds for your module.
-* When you commit your code to your chosen repository, the build(s) will run, and you can view the results.
-
-[Catesta](docs/Catesta.md) provides the following functions:
-
-* [New-PowerShellProject](docs/New-PowerShellProject.md)
-* [New-VaultProject](docs/New-VaultProject.md)
-
-## Why
-
-Simplify the process of structuring your module so that you can focus on building a great PowerShell module instead of the layout and build requirements.
-
-## Documentation
-
-To learn more about Catesta go to the complete documentation.
-
-## Installation
+### Installation
 
 ```powershell
 # Install Catesta from the PowerShell Gallery
 Install-Module -Name Catesta -Repository PSGallery -Scope CurrentUser
 ```
 
-## Quick start
+### Quick start
 
-### PowerShell Module
-
-```powershell
-# Scaffolds a PowerShell module project for integration with AWS CodeBuild.
-New-PowerShellProject -CICDChoice 'AWS' -DestinationPath C:\path\AWSProject
-
-# Scaffolds a PowerShell module project for integration with GitHub Actions Workflows.
-New-PowerShellProject -CICDChoice 'GitHubActions' -DestinationPath C:\path\GitHubActions
-
-# Scaffolds a PowerShell module project for integration with Azure DevOps Pipelines.
-New-PowerShellProject -CICDChoice 'Azure' -DestinationPath C:\path\AzurePipeline
-
-# Scaffolds a PowerShell module project for integration with AppVeyor Projects.
-New-PowerShellProject -CICDChoice 'AppVeyor' -DestinationPath C:\path\AppVeyor
-
-# Scaffolds a basic PowerShell module project with no additional extras. You just get a basic PowerShell module construct.
-New-PowerShellProject -CICDChoice 'ModuleOnly' -DestinationPath C:\path\ModuleOnly
-```
-
-### SecretManagement Vault Extension Module
+#### PowerShell Module
 
 ```powershell
-# Scaffolds a PowerShell SecretManagement vault module project for integration with AWS CodeBuild.
-New-VaultProject -CICDChoice 'AWS' -DestinationPath C:\path\AWSProject
-
-# Scaffolds a PowerShell SecretManagement vault module project for integration with GitHub Actions Workflows.
-New-VaultProject -CICDChoice 'GitHubActions' -DestinationPath C:\path\GitHubActions
-
-# Scaffolds a PowerShell SecretManagement vault module project for integration with Azure DevOps Pipelines.
-New-VaultProject -CICDChoice 'Azure' -DestinationPath C:\path\AzurePipeline
-
-# Scaffolds a PowerShell SecretManagement vault module project for integration with AppVeyor Projects.
-New-VaultProject -CICDChoice 'AppVeyor' -DestinationPath C:\path\AppVeyor
-
-# Scaffolds a basic PowerShell SecretManagement vault module project with no additional extras. You just get a basic module construct.
-New-VaultProject -CICDChoice 'ModuleOnly' -DestinationPath C:\path\ModuleOnly
+# Scaffolds a PowerShell module project with customizable CI/CD integration options
+New-ModuleProject -DestinationPath $outPutPath
 ```
 
-## Getting Started
+#### SecretManagement Vault Extension Project
 
-1. Use Catesta to scaffold your PowerShell/Vault project with your desired CI/CD platform and builds.
-1. Write your module (the hardest part)
-    * All build testing can be done locally by navigating to src and running ```Invoke-Build```
-    * If using VSCode as your primary editor you can use tasks to perform various local actions
-      * Examples:
-        * ```Press Ctrl+P, then type 'task .'``` - Runs complete build (all tasks)
-        * ```Press Ctrl+P, then type 'task Test'``` - Invokes all Pester Unit Tests
-        * ```Press Ctrl+P, then type 'task Analyze'``` - Invokes Script Analyzer checks
-        * ```Press Ctrl+P, then type 'task DevCC'``` - Generates generate xml file to graphically display code coverage in VSCode using [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters)
-1. Add any module dependencies to your CI/CD bootstrap file:
-    * AWS: install_modules.ps1
-    * GitHub Actions: actions_bootstrap.ps1
-    * Azure: actions_bootstrap.ps1
-    * AppVeyor: actions_bootstrap.ps1
-1. Commit your project to desired repository that is integrated with your CI/CD platform. This will trigger the build actions.
-1. Evaluate results of your builds and [display your README badges](https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-FAQ.md#how-do-i-display-the-badges-for-my-project) proudly!
+```powershell
+# Scaffolds a PowerShell SecretManagement vault project with customizable CI/CD integration options
+New-VaultProject -DestinationPath $outPutPath
+```
 
-Additional Catesta documentation that covers the process of CI/CD integration in depth:
+## How Catesta Works
 
-* [Catesta - AWS Doc](docs/Catesta-AWS.md)
-* [Catesta - GitHub Actions Doc](docs/Catesta-GHActions.md)
-* [Catesta - Azure Pipelines Doc](docs/Catesta-Azure.md)
-* [Catesta - AppVeyor Doc](docs/Catesta-AppVeyor.md)
-* [Catesta - Vault Extension](docs/Catesta-Vault-Extension.md)
+Catesta uses customized Plaster templates to enable you to quickly scaffold a [PowerShell module](https://docs.microsoft.com/powershell/scripting/developer/module/how-to-write-a-powershell-script-module?view=powershell-7) or [Vault extension](https://github.com/PowerShell/SecretManagement) project with proper formatting, test + build automation, CI/CD integration, with just one line of code.
 
-### Features
+* Catesta scaffolds an empty Module/Vault project that adheres to PowerShell community guidelines.
+* It generates a few [Pester](https://github.com/pester/Pester) tests to get you started.
+* It makes a [build file](https://github.com/nightroman/Invoke-Build) that analyzes your code for best practices and styling, runs Pester tests, creates PowerShell help, and combines your functions together to build your project for publication.
+* It will create resources you need to trigger CI/CD builds for your project.
+* When you commit your code to your chosen repository, the build(s) will run, and you can view the results.
 
-* Catesta can build two types of module projects:
-  1. [PowerShell module](https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module?view=powershell-7) layout following PowerShell community practices
-  1. [SecretManagement Vault extension module](https://github.com/PowerShell/SecretManagement) layout following PowerShell community practices
-* *[Selection]* Required CI/CD integration files generated:
-  * [AWS](https://aws.amazon.com/codebuild/)
-  * [GitHub Actions](https://help.github.com/actions)
-  * [Azure Pipelines](https://azure.microsoft.com/services/devops/)
-  * [AppVeyor](https://www.appveyor.com/)
+## Features
+
+Catesta can build two types of projects:
+
+1. [PowerShell module](https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module?view=powershell-7) layout following PowerShell community practices
+1. [SecretManagement Vault extension module](https://github.com/PowerShell/SecretManagement) layout following PowerShell community practices
+
+Selections
+
+* *[Selection]* CI/CD build integration:
+    * [AWS](https://aws.amazon.com/codebuild/)
+    * [GitHub Actions](https://help.github.com/actions)
+    * [Azure Pipelines](https://azure.microsoft.com/services/devops/)
+    * [AppVeyor](https://www.appveyor.com/)
 * *[Selection]* Build types for easy cross-platform testing
-  * Windows PowerShell
-  * Windows pwsh
-  * Linux
-  * MacOS
+    * Windows PowerShell
+    * Windows pwsh
+    * Linux
+    * MacOS
 * [InvokeBuild](https://github.com/nightroman/Invoke-Build) tasks for validation / analysis / test / build automation
-  * [PSScriptAnalyzer](https://github.com/PowerShell/PSScriptAnalyzer) code checks
-    * *[Optional]* Code Style Enforcement (Stroustrup, OTBS, Allman)
-  * [Pester](https://github.com/pester/Pester) Tests
-    * Will run Unit / Infrastructure Tests if available
-    * Generates Code Coverage Report
-    * [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters) support
-  * *[Optional]* Create Help using [platyPS](https://github.com/PowerShell/platyPS)
-    * Markdown-based help
-    * External XML help file generation
-  * Build and artifact creation
-* *[Optional]* VSCode editor files
+    * [PSScriptAnalyzer](https://github.com/PowerShell/PSScriptAnalyzer) code checks
+        * *[Optional]* Code Style Enforcement (Stroustrup, OTBS, Allman)
+    * [Pester](https://github.com/pester/Pester) Tests
+        * Will run Unit / Infrastructure Tests if available
+        * Generates Code Coverage Report
+        * [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters) support
+    * *[Optional]* Create Help using [platyPS](https://github.com/PowerShell/platyPS)
+        * Markdown-based help
+        * External XML help file generation
+    * Build and artifact creation
+* Helpful VSCode editor files
 * *[Optional]* Helpful repository files
-  * .gitignore
-  * Project LICENSE (MIT / APACHE / GNU / ISC)
-  * [Changelog](https://keepachangelog.com/en/1.0.0/)
-  * GitHub community files:
-    * Code of Conduct
-    * Contributing guidelines
-    * Templates
-      * Issue Bug Report
-      * Issue Feature Request
-      * Pull Request
-* [Pester](https://github.com/pester/Pester) version selection. Choose between Pester version 5 or Pester version 4 for testing your project.
-
-## FAQ
-
-**[Catesta - FAQ](docs/Catesta-FAQ.md)**
-
-## Author
-
-[Jake Morrison](https://twitter.com/JakeMorrison) - [https://www.techthoughts.info/](https://www.techthoughts.info/)
-
-## Contributors
-
-* [Andrew Pearce](https://twitter.com/austoonz)
-* [Dave Kaylor](https://twitter.com/KaylorDave)
-
-## Notes
-
-Additional Catesta documentation that covers PowerShell Vault Extension module projects more in depth:
-
-* [Catesta - Vault Extension](docs/Catesta-Vault-Extension.md)
-
-## Changelog
-
-Reference the [Changelog](.github/CHANGELOG.md)
+    * .gitignore
+    * Project LICENSE (MIT / APACHE / GNU / ISC)
+    * [Changelog](https://keepachangelog.com/en/1.0.0/)
+    * Community files:
+        * Code of Conduct
+        * Contributing guidelines
+        * Templates *(if supported)*
+            * Issue Bug Report
+            * Issue Feature Request
+            * Pull Request
+* *[Selection]* [Pester](https://github.com/pester/Pester) version selection. Choose between Pester version 5 or Pester version 4 for testing your project.
