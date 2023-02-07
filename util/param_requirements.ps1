@@ -1,4 +1,12 @@
-﻿#region context
+﻿<#
+.SYNOPSIS
+    Helps quickly identify what plaster parameters are found in files in a project
+.DESCRIPTION
+    Loops through and identifies all in-scope project files. Searches each for matches for plaster parameters.
+    This is a useful script for quickly looping through all project files and developing a list of all required
+    plaster parameters.
+#>
+#region context
 
 $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
 $srcPath = "$scriptPath\..\src"
