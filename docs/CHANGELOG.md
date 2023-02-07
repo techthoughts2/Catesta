@@ -22,11 +22,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `tasks.json`
         - Added new task: `Infra-Single-Detailed` which is capable of running Infrastructure tests against individual test files
 - Catesta primary module changes
-    - Massively improved infrastructure test suite
+    - Added support for Read the Docs integration using the Material for MkDocs theme.
+        - Worked on improvements to the Catesta documentation. Updated diagrams, rewrote all current documentation and added a lot of new documentation.
+    - Greatly enhanced infrastructure test suite. Infra tests now actively deploy many different configurations and validate successful module and vault scaffolds.
     - Moved `CHANGELOG.md` from `.github` directory to `docs` directory
         - Updated `.psd1` to link to new CHANGELOG url
     - `tasks.json`
         - Added new task: `Infra-Single-Detailed` which is capable of running Infrastructure tests against individual test files
+    - Addressed bug in build file where `Build` task was failing if docs folder has not already been created
 
 ## [1.3.0] - (Never released)
 

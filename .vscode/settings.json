@@ -1,4 +1,11 @@
 {
+    "markdownlint.config": {
+        "default": true,
+        "MD007": {
+            "indent": 4
+        },
+        "no-hard-tabs": false
+    },
     "[powershell]": {
         "files.encoding": "utf8bom",
         "files.autoGuessEncoding": true,
