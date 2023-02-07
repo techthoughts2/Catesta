@@ -494,10 +494,18 @@ Add-BuildTask Build {
     Write-Build Gray '        ...Module creation complete.'
 
     #here we update the parent level docs. If you would prefer not to update them, comment out this section.
-    Write-Build Gray '        Overwriting docs output...'
-    Move-Item "$script:ArtifactsPath\docs\*.md" -Destination "..\docs\" -Force
-    Remove-Item "$script:ArtifactsPath\docs" -Recurse -Force -ErrorAction Stop
-    Write-Build Gray '        ...Docs output completed.'
+    if (Test-Path "$script:ArtifactsPath\docs") {
+        Write-Build Gray '        Overwriting docs output...'
+        Move-Item "$script:ArtifactsPath\docs\*.md" -Destination "..\docs\" -Force
+        Remove-Item "$script:ArtifactsPath\docs" -Recurse -Force -ErrorAction Stop
+        Write-Build Gray '        ...Docs output completed.'
+    }
+
+    # custom step where we will generate the module and vault schema docs
+    Write-Build Gray '        Generating schema docs...'
+    . "$BuildRoot\..\util\module_schema_generator.ps1"
+    . "$BuildRoot\..\util\vault_schema_generator.ps1"
+    Write-Build Gray '        ...schema docs completed...'
 
     Write-Build Gray '        Cleaning up leftover artifacts...'
     #cleanup artifacts that are no longer required
