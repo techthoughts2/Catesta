@@ -55,7 +55,7 @@ Additional Reading:
 
 ### AppVeyor Integration with GitHub
 
-![Catesta PowerShell AppVeyor Diagram](/assets/AppVeyor/catesta_appveyor_diagram.png)
+![Catesta PowerShell AppVeyor Diagram](assets/AppVeyor/catesta_appveyor_diagram.png)
 
 ## Example Projects
 
