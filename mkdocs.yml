@@ -8,7 +8,7 @@
 # https://squidfunk.github.io/mkdocs-material/creating-your-site/
 # mkdocs.yml
 
-site_name: Catesta - a PowerShell module project generator.
+site_name: Catesta - a PowerShell module and vault project generator.
 # site_url:
 repo_url: https://github.com/techthoughts2/Catesta
 # repo_name:
@@ -45,9 +45,9 @@ theme:
   language: en
   # custom_dir: overrides
   features:
-    - navigation.tabs
-    - navigation.tabs.sticky
-    - navigation.path
+    # - navigation.tabs
+    # - navigation.tabs.sticky
+    # - navigation.path
   favicon: assets/Catesta_favicon-32x32.png
   icon:
     repo: fontawesome/brands/github
@@ -83,8 +83,20 @@ theme:
     #     - sitemap.html
     # include_sidebar: true
 nav:
-  - Home: index.md
-  - Change Log: CHANGELOG.md
+  - Overview: index.md
+  - Usage:
+    - Catesta Basics: Catesta-Basics.md
+    - Catesta Advanced: Catesta-Advanced.md
+    - Module Schema: Catesta-ManifestSchema.md
+    - Vault Schema: Catesta-VaultSchema.md
   - Functions:
     - New-ModuleProject: New-ModuleProject.md
     - New-VaultProject: New-VaultProject.md
+  - Detailed Integrations:
+    - AppVeyor: catesta_cicd/Catesta-AppVeyor.md
+    - CodeBuild: catesta_cicd/Catesta-AWS.md
+    - Azure: catesta_cicd/Catesta-Azure.md
+    - GitHub Actions: catesta_cicd/Catesta-GHActions.md
+    - Vault Project: Catesta-Vault-Extension.md
+  - FAQ: Catesta-FAQ.md
+  - Change Log: CHANGELOG.md
