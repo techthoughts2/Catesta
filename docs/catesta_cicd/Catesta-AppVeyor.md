@@ -16,9 +16,9 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [App
 
 1. You will need an [AppVeyor account](https://ci.appveyor.com/login).
 1. Create a new Project:
-    * ![AppVeyor New Project](/assets/AppVeyor/appveyor_new_project.PNG)
+    * ![AppVeyor New Project](../assets/AppVeyor/appveyor_new_project.PNG)
 1. Select where your code will come from:
-    * ![AppVeyor Repository Selection](/assets/AppVeyor/appveyor_select_code_source.PNG)
+    * ![AppVeyor Repository Selection](../assets/AppVeyor/appveyor_select_code_source.PNG)
     * Authenticate to your repository source as needed
 1. Create your project using Catesta and select `[P] Appveyor` at the CICD prompt. *([Catesta Basics](../Catesta-Basics.md))*
 1. Write the logic for your module (the hardest part)
@@ -40,7 +40,7 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [App
 1. Upload to your desired repository which now has a triggered/monitored build action.
 1. Evaluate results of your build and display your AppVeyor badge proudly!
 
-![AppVeyor project created by Catesta](/assets/AppVeyor/appveyor_build_results.PNG)
+![AppVeyor project created by Catesta](../assets/AppVeyor/appveyor_build_results.PNG)
 
 ## Notes
 

@@ -36,7 +36,7 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [Git
 1. Upload to your desired repository which now has a triggered/monitored build action.
 1. Evaluate results of your build and display your GitHub Actions badge proudly!
 
-![GitHub Actions project created by Catesta](/assets/GHActions/github_actions.PNG)
+![GitHub Actions project created by Catesta](../assets/GHActions/github_actions.PNG)
 
 ## Notes
 
@@ -54,7 +54,7 @@ Additional Reading:
 
 ### GitHub Actions
 
-![Catesta PowerShell GitHub Actions Diagram](/assets/GHActions/catesta_github_actions_diagram.png)
+![Catesta PowerShell GitHub Actions Diagram](../assets/GHActions/catesta_github_actions_diagram.png)
 
 ## Example Projects
 

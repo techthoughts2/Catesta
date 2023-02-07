@@ -49,7 +49,7 @@ The structure and layout of a SecretManagement Vault extension module differs qu
 
 ## PowerShell SecretManagement Diagram
 
-![PowerShell SecretManagement Diagram](/assets/powershell_secretmanagement_diagram.png)
+![PowerShell SecretManagement Diagram](assets/powershell_secretmanagement_diagram.png)
 
 ## Additional Reading
 

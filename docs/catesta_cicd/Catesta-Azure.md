@@ -16,9 +16,9 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [Azu
 
 1. You will [need an Azure DevOps Organization](https://azure.microsoft.com/services/devops/).
 1. Create a new Project:
-    * ![Azure DevOps Organization New Project](/assets/Azure/azure_devops_org_new_project.PNG "Azure DevOps Organization New Project")
+    * ![Azure DevOps Organization New Project](../assets/Azure/azure_devops_org_new_project.PNG "Azure DevOps Organization New Project")
 1. Create a new pipeline and choose where your code will come from:
-    * ![Azure DevOps New Pipeline](/assets/Azure/azure_devops_new_pipeline.PNG "Azure DevOps New Pipeline")
+    * ![Azure DevOps New Pipeline](../assets/Azure/azure_devops_new_pipeline.PNG "Azure DevOps New Pipeline")
     * Authenticate to your repository source as needed
 1. Create your project using Catesta and select `[A] Azure Pipelines` at the CICD prompt. *([Catesta Basics](../Catesta-Basics.md))*
 1. Write the logic for your module (the hardest part)
@@ -40,7 +40,7 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [Azu
 1. Upload to your desired repository which now has a triggered/monitored build action.
 1. Evaluate results of your build and display your Azure Pipelines badge proudly!
 
-![Azure Pipelines project created by Catesta](/assets/Azure/azure_pipelines_project.PNG "Azure Pipelines project created by Catesta")
+![Azure Pipelines project created by Catesta](../assets/Azure/azure_pipelines_project.PNG "Azure Pipelines project created by Catesta")
 
 ## Notes
 
@@ -54,7 +54,7 @@ Additional Reading:
 
 ### Azure DevOps Integration with GitHub
 
-![Catesta PowerShell Azure DevOps Diagram](/assets/Azure/catesta_azure_devops_diagram.png)
+![Catesta PowerShell Azure DevOps Diagram](../assets/Azure/catesta_azure_devops_diagram.png)
 
 ## Example Projects
 

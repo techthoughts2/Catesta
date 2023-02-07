@@ -11,7 +11,7 @@
 Catesta is a PowerShell module and vault project generator. It uses templates to rapidly scaffold test and build integration for a variety of CI/CD platforms.
 
 <p align="left">
-    <img src="/assets/Catesta.PNG" alt="Catesta Logo" >
+    <img src="assets/Catesta.PNG" alt="Catesta Logo" >
 </p>
 
 ## Why Catesta?

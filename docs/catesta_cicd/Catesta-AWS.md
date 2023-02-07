@@ -50,11 +50,11 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [AWS
 
 The following shows the GitHub CFN example:
 
-![Catesta PowerShell AWS CodeBuild CFN Example](/assets/AWS/PowerShell_CodeBuild_CFN_Example.PNG)
+![Catesta PowerShell AWS CodeBuild CFN Example](../assets/AWS/PowerShell_CodeBuild_CFN_Example.PNG)
 
 ### Final CFN Deployment Results example
 
-![AWS CodeBuild projects created by Catesta](/assets/AWS/AWSCodeBuildProjects.PNG)
+![AWS CodeBuild projects created by Catesta](../assets/AWS/AWSCodeBuildProjects.PNG)
 
 ## Notes
 
@@ -77,11 +77,11 @@ You may wish to use different CodeBuild projects to monitor different branches o
 
 ### AWS CodeBuild Integration with GitHub
 
-![Catesta PowerShell AWS CodeBuild GitHub Diagram](/assets/AWS/AWSCodeBuildGitHub.png)
+![Catesta PowerShell AWS CodeBuild GitHub Diagram](../assets/AWS/AWSCodeBuildGitHub.png)
 
 ### AWS CodeBuild Integration with CodeCommit
 
-![Catesta PowerShell AWS CodeBuild CodeCommit Diagram](/assets/AWS/AWSCodeBuildCodeCommit.png)
+![Catesta PowerShell AWS CodeBuild CodeCommit Diagram](../assets/AWS/AWSCodeBuildCodeCommit.png)
 
 ## Example Projects
 
