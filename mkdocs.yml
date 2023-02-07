@@ -87,7 +87,7 @@ nav:
   - Usage:
     - Catesta Basics: Catesta-Basics.md
     - Catesta Advanced: Catesta-Advanced.md
-    - Module Schema: Catesta-ManifestSchema.md
+    - Module Schema: Catesta-ModuleSchema.md
     - Vault Schema: Catesta-VaultSchema.md
   - Functions:
     - New-ModuleProject: New-ModuleProject.md

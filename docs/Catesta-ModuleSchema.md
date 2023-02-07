@@ -1,12 +1,12 @@
-﻿# Catesta - Manifest Schema
+﻿# Catesta - Module Schema
 
 ## Synopsis
 
-tbd
+The Module Schema in Catesta refers to the blueprint for creating new module projects using the New-ModuleProject Plaster template. This schema outlines all of the prompts and parameters that will be encountered during the setup process for a new module project.
 
 ## Description
 
-tbd
+The schema serves as a reference for the project creator, allowing them to understand the various options and customizations available to them as they set up their new module. This information can be used to fill out the required parameters in the ModuleParameters table, ensuring that the new project is configured to meet the specific needs and requirements of the module.
 
 ## Module Schema
 
@@ -49,12 +49,25 @@ choices:
     value : AZURE
     help : CI/CD using Azure Pipelines
 
+name : GitHubAOptions
+type : multichoice
+condition : $PLASTER_PARAM_CICD -eq 'GITHUB'
+choices:
+    value : windows
+    help : Adds a Windows PowerShell based Workflow action.
+    value : pwshcore
+    help : Adds a Windows pwsh based pipeline job.
+    value : linux
+    help : Adds a Linux based Workflow action.
+    value : macos
+    help : Adds a MacOS based Workflow action.
+
 name : AWSOptions
 type : multichoice
 condition : $PLASTER_PARAM_CICD -eq 'CODEBUILD'
 choices:
     value : ps
-    help : Adds a powershell focused buildspec.yml for Windows CodeBuild.
+    help : Adds a Windows PowerShell focused buildspec.yml for Windows CodeBuild.
     value : pwshcore
     help : Adds a pwsh focused buildspec.yml for Windows CodeBuild.
     value : pwsh
@@ -64,6 +77,32 @@ name : S3Bucket
 type : text
 default : PSGallery
 
+name : AppveyorOptions
+type : multichoice
+condition : $PLASTER_PARAM_CICD -eq 'APPVEYOR'
+choices:
+    value : windows
+    help : Adds a Windows PowerShell focused build on a Windows image.
+    value : pwshcore
+    help : Adds a pwsh focused build on a Windows image.
+    value : linux
+    help : Adds a pwsh focused build for a Linux image.
+    value : macos
+    help : Adds a pwsh focused build for a MacOS image.
+
+name : AzureOptions
+type : multichoice
+condition : $PLASTER_PARAM_CICD -eq 'AZURE'
+choices:
+    value : windows
+    help : Adds a Windows PowerShell focused job on a Windows image.
+    value : pwshcore
+    help : Adds a pwsh focused job on a Windows image.
+    value : linux
+    help : Adds a pwsh focused job for a Linux image.
+    value : macos
+    help : Adds a pwsh focused job for a MacOS image.
+
 name : RepoType
 type : choice
 choices:
@@ -71,7 +110,7 @@ choices:
     help : Does not add any repository files.
     value : GITHUB
     help : Hosted on GitHub.
-    value : CC
+    value : CODECOMMIT
     help : Hosted on AWS CodeCommit.
     value : GITLAB
     help : Hosted on GitLab.
@@ -160,27 +199,33 @@ choices:
     help : Pester version 4
 
 ```
+
 ### Example
+
+The example below showcases all the available options for the `New-ModuleProject` Plaster template in a PowerShell splat format. However, it is not meant to be used 'as-is'. Instead, you need to use the Module Schema to determine which options are compatible and appropriate for scaffolding your specific module.
 
 ```powershell
 $moduleParameters = @{
     
-VAULT       = 'text'
-ModuleName  = 'text'
-Description = 'text'
-Version     = '0.0.1'
-FN          = 'user full name'
-CICD        = 'GITHUB'
-AWSOptions  = 'ps','pwshcore','pwsh'
-RepoType    = 'GITHUB'
-License     = 'MIT'
-Changelog   = 'CHANGELOG'
-COC         = 'CONDUCT'
-Contribute  = 'CONTRIBUTING'
-Security    = 'SECURITY'
-CodingStyle = 'Stroustrup'
-Help        = 'Yes'
-Pester      = '5'
+VAULT           = 'text'
+ModuleName      = 'text'
+Description     = 'text'
+Version         = '0.0.1'
+FN              = 'user full name'
+CICD            = 'GITHUB'
+GitHubAOptions  = 'windows','pwshcore','linux','macos'
+AWSOptions      = 'ps','pwshcore','pwsh'
+AppveyorOptions = 'windows','pwshcore','linux','macos'
+AzureOptions    = 'windows','pwshcore','linux','macos'
+RepoType        = 'GITHUB'
+License         = 'MIT'
+Changelog       = 'CHANGELOG'
+COC             = 'CONDUCT'
+Contribute      = 'CONTRIBUTING'
+Security        = 'SECURITY'
+CodingStyle     = 'Stroustrup'
+Help            = 'Yes'
+Pester          = '5'
 
 
 

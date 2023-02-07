@@ -153,15 +153,15 @@ function ConvertTo-Markdown {
 #region context
 
 $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
-$moduleManifestPath = "$scriptPath\..\src\Catesta\Resources\Module\plasterManifest.xml"
-$moduleDocOutPath = "$scriptPath\..\docs\Catesta-ModuleSchema.md"
+$vaultManifestPath = "$scriptPath\..\src\Catesta\Resources\Vault\plasterManifest.xml"
+$vaultDocOutPath = "$scriptPath\..\docs\Catesta-VaultSchema.md"
 
 #endregion
 
 #region manifest parsing
 
-$moduleManifestInfo = Test-PlasterManifest -Path $moduleManifestPath
-$childInfo = $moduleManifestInfo.ChildNodes | Where-Object { $_.templateType -eq 'Project' }
+$vaultManifestInfo = Test-PlasterManifest -Path $vaultManifestPath
+$childInfo = $vaultManifestInfo.ChildNodes | Where-Object { $_.templateType -eq 'Project' }
 $parameters = $childInfo.parameters.parameter
 
 $parameterArray = New-Object System.Collections.Generic.List[PSCustomObject]
@@ -245,15 +245,15 @@ $exampleObj = $exampleObj.Replace(':', '=')
 #region markdown scaffold
 
 $markdown = @'
-# Catesta - Module Schema
+# Catesta - Vault Schema
 
 ## Synopsis
 
-The Module Schema in Catesta refers to the blueprint for creating new module projects using the New-ModuleProject Plaster template. This schema outlines all of the prompts and parameters that will be encountered during the setup process for a new module project.
+The Vault Schema in Catesta refers to the blueprint for creating new Vault projects using the New-VaultProject Plaster template. This schema outlines all of the prompts and parameters that will be encountered during the setup process for a new Vault project.
 
 ## Description
 
-The schema serves as a reference for the project creator, allowing them to understand the various options and customizations available to them as they set up their new module. This information can be used to fill out the required parameters in the ModuleParameters table, ensuring that the new project is configured to meet the specific needs and requirements of the module.
+The schema serves as a reference for the project creator, allowing them to understand the various options and customizations available to them as they set up their new Vault. This information can be used to fill out the required parameters in the VaultParameters table, ensuring that the new project is configured to meet the specific needs and requirements of the Vault.
 
 
 '@
@@ -262,26 +262,26 @@ The schema serves as a reference for the project creator, allowing them to under
 
 #region main
 
-$moduleManifestSchema = Convert-PSObjectToMarkdownText -Object $parameterArray
+$vaultManifestSchema = Convert-PSObjectToMarkdownText -Object $parameterArray
 $markdown += @"
 ## Module Schema
 
-$moduleManifestSchema
+$vaultManifestSchema
 "@
 
 $markdown += @"
 
 ### Example
 
-The example below showcases all the available options for the ``New-ModuleProject`` Plaster template in a PowerShell splat format. However, it is not meant to be used 'as-is'. Instead, you need to use the Module Schema to determine which options are compatible and appropriate for scaffolding your specific module.
+The example below showcases all the available options for the ``New-VaultProject`` Plaster template in a PowerShell splat format. However, it is not meant to be used 'as-is'. Instead, you need to use the Vault Schema to determine which options are compatible and appropriate for scaffolding your specific Vault.
 
 ``````powershell
-`$moduleParameters = @{
+`$vaultParameters = @{
     $exampleObj
 }
-New-ModuleProject -ModuleParameters `$moduleParameters -DestinationPath .
+New-ModuleProject -ModuleParameters `$vaultParameters -DestinationPath .
 ``````
 "@
-$markdown | Out-File -FilePath $moduleDocOutPath -Encoding utf8BOM -Force
+$markdown | Out-File -FilePath $vaultDocOutPath -Encoding utf8BOM -Force
 
 #endregion
