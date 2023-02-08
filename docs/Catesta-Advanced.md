@@ -14,7 +14,7 @@ However, it's important to be aware that some decisions made early on can influe
 
 To avoid passing in unsupported choices, it's crucial to review the relevant manifest schema applicable to your project type before crafting the ModuleParameters table. The schema documents can be found at:
 
-- [Catesta-ManifestSchema](Catesta-ManifestSchema.md)
+- [Catesta-ModuleSchema](Catesta-ModuleSchema.md)
 - [Catesta-VaultSchema](Catesta-VaultSchema.md)
 
 Failing to correctly craft the ModuleParameters table can result in passing in choices that are not supported. To avoid this, make sure to read the manifest schema carefully.
