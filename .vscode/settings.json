@@ -76,6 +76,7 @@
         "pymdownx",
         "Stroustrup",
         "superfences",
+        "unbuilt",
         "vaultname",
         "vscode",
         "wontfix",

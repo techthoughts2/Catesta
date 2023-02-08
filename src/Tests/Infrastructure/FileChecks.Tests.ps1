@@ -2,7 +2,7 @@
 Set-Location -Path $PSScriptRoot
 #-------------------------------------------------------------------------
 $ModuleName = 'Catesta'
-$resourcePath1 = [System.IO.Path]::Combine( '..', '..', $ModuleName, 'Resources')
+$resourcePath1 = [System.IO.Path]::Combine( '..', '..', 'Artifacts', 'Resources')
 $manifests = Get-ChildItem -Path $resourcePath1 -Include '*.xml' -Recurse
 #-------------------------------------------------------------------------
 Describe 'File Checks' {
@@ -10,9 +10,10 @@ Describe 'File Checks' {
         $WarningPreference = 'Continue'
         Set-Location -Path $PSScriptRoot
         $ModuleName = 'Catesta'
-        $resourcePath = [System.IO.Path]::Combine( '..', '..', $ModuleName, 'Resources')
-        $PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
         $srcRoot = [System.IO.Path]::Combine( '..', '..')
+        $resourcePath = [System.IO.Path]::Combine( $srcRoot, 'Artifacts', 'Resources')
+        $PathToManifest = [System.IO.Path]::Combine($srcRoot, 'Artifacts', "$ModuleName.psd1")
+
         $script:manifestEval = Test-ModuleManifest -Path $PathToManifest
         $directories = Get-ChildItem -Path $srcRoot -Recurse | Where-Object { $_.PSIsContainer -eq $true }
         $directoryNames = $directories | Select-Object -ExpandProperty Name | Sort-Object -Unique
@@ -26,7 +27,9 @@ Describe 'File Checks' {
         $githubFiles = Get-ChildItem -Path "$resourcePath\GitHubActions\*" -Recurse
         $azureFiles = Get-ChildItem -Path "$resourcePath\Azure\*" -Recurse
         $appVeyorFiles = Get-ChildItem -Path "$resourcePath\AppVeyor\*" -Recurse
-        $mOnlyFiles = Get-ChildItem -Path "$resourcePath\Vanilla\*" -Recurse
+
+        $docsPath = [System.IO.Path]::Combine( '..', '..', '..', 'docs')
+        $docFiles = Get-ChildItem -Path $docsPath -Recurse
     } #beforeAll
 
     Context 'Editor' {
@@ -109,9 +112,6 @@ Describe 'File Checks' {
     } #context_Github
 
     Context 'AWS' {
-        It 'should have a plaster manifest file' {
-            $awsFiles.Name.Contains('plasterManifest.xml') | Should -BeExactly $true
-        } #it
         It 'should have all build files' {
             $awsFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
             $awsFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
@@ -131,9 +131,6 @@ Describe 'File Checks' {
     } #context_AWS
 
     Context 'GitHub Actions' {
-        It 'should have a plaster manifest file' {
-            $githubFiles.Name.Contains('plasterManifest.xml') | Should -BeExactly $true
-        } #it
         It 'should have all workflow files' {
             $githubFiles.Name.Contains('wf_Linux.yml') | Should -BeExactly $true
             $githubFiles.Name.Contains('wf_MacOS.yml') | Should -BeExactly $true
@@ -145,12 +142,8 @@ Describe 'File Checks' {
     } #context_githubactions
 
     Context 'Azure Pipelines' {
-        It 'should have a plaster manifest file' {
-            $azureFiles.Name.Contains('plasterManifest.xml') | Should -BeExactly $true
-        } #it
         It 'should have a pipelines file' {
             $azureFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $true
-
         } #it
         It 'should have a actions bootstrap file' {
             $azureFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
@@ -158,9 +151,6 @@ Describe 'File Checks' {
     } ##context_azure_pipelines
 
     Context 'AppVeyor' {
-        It 'should have a plaster manifest file' {
-            $appVeyorFiles.Name.Contains('plasterManifest.xml') | Should -BeExactly $true
-        } #it
         It 'should have an appVeyor file' {
             $appVeyorFiles.Name.Contains('appveyor.yml') | Should -BeExactly $true
 
@@ -170,38 +160,38 @@ Describe 'File Checks' {
         } #it
     } #appVeyor
 
-    Context 'ModuleOnly' {
-        It 'should have a plaster manifest file' {
-            $mOnlyFiles.Name.Contains('plasterManifest.xml') | Should -BeExactly $true
-        } #it
-    } ##context_moduleOnly
+    # Context 'ModuleOnly' {
+
+    # } ##context_moduleOnly
 
     Context 'Templates' {
-        # TODO: Template Tests
-        # It 'should have the correct number of templates' {
-        #     $manifestCount = $manifestsEvalz | Measure-Object | Select-Object -ExpandProperty Count
-        #     $manifestCount | Should -BeExactly 10
-        # } #it
-        # Context 'Manifest Version' -Foreach $manifests {
-        #     It "<_>.FullName version should match the module version" {
+        It 'should have the correct number of templates' {
+            $manifestCount = $manifestsEvalz | Measure-Object | Select-Object -ExpandProperty Count
+            $manifestCount | Should -BeExactly 2
+        } #it
+        Context 'Manifest Checks' -Foreach $manifests {
+            It "<_>.FullName version should match the module version" {
 
-        #         [version]$scriptVersion = $script:manifestEval.Version
-        #         [xml]$eval = $null
-        #         $eval = Get-Content -Path $_.FullName
-        #         $eval.plasterManifest.metadata.version | Should -BeExactly $scriptVersion
-        #     } #it
-
-        # } #context_manifests
-        # It 'should not have any duplicate manifest ids' {
-        #     $ids = @()
-        #     foreach ($manifest in $manifestsEvalz) {
-        #         [xml]$eval = $null
-        #         $eval = Get-Content -Path $manifest.FullName
-        #         $ids += $eval.plasterManifest.metadata.id
-        #     }
-        #     $uniqueCount = $ids | Get-Unique | Measure-Object | Select-Object -ExpandProperty Count
-        #     $uniqueCount | Should -BeExactly 10
-        # } #it
+                [version]$scriptVersion = $script:manifestEval.Version
+                [xml]$eval = $null
+                $eval = Get-Content -Path $_.FullName
+                $eval.plasterManifest.metadata.version | Should -BeExactly $scriptVersion
+            } #it
+            It "<_>.FullName should pass module manifest test" {
+                { Test-PlasterManifest -Path $_.FullName } | Should -Not -Throw
+                Test-PlasterManifest -Path $_.FullName | Should -Not -BeNullOrEmpty
+            } #it
+        } #context_manifests
+        It 'should not have any duplicate manifest ids' {
+            $ids = @()
+            foreach ($manifest in $manifestsEvalz) {
+                [xml]$eval = $null
+                $eval = Get-Content -Path $manifest.FullName
+                $ids += $eval.plasterManifest.metadata.id
+            }
+            $uniqueCount = $ids | Get-Unique | Measure-Object | Select-Object -ExpandProperty Count
+            $uniqueCount | Should -BeExactly 2
+        } #it
         Context 'Case Sensitivity Checks' {
             It 'should have template references that match the casing of the directory path' {
                 $caseViolationCount = 0
@@ -254,7 +244,28 @@ Describe 'File Checks' {
     } #context_templates
 
     Context 'Docs' {
-        # TODO: manifest schema check
+        It 'should have a module schema file' {
+            $docFiles.Name.Contains('Catesta-ModuleSchema.md') | Should -BeExactly $true
+        } #it
+        It 'should have a vault schema file' {
+            $docFiles.Name.Contains('Catesta-VaultSchema.md') | Should -BeExactly $true
+        } #it
+        It 'should have the expected readthedocs doc files' {
+            $docFiles.Name.Contains('Catesta-Advanced.md') | Should -BeExactly $true
+            $docFiles.Name.Contains('Catesta-Basics.md') | Should -BeExactly $true
+            $docFiles.Name.Contains('Catesta-FAQ.md') | Should -BeExactly $true
+            $docFiles.Name.Contains('Catesta-Vault-Extension.md') | Should -BeExactly $true
+            $docFiles.Name.Contains('index.md') | Should -BeExactly $true
+            $docFiles.Name.Contains('Catesta-AppVeyor.md') | Should -BeExactly $true
+            $docFiles.Name.Contains('Catesta-AWS.md') | Should -BeExactly $true
+            $docFiles.Name.Contains('Catesta-Azure.md') | Should -BeExactly $true
+            $docFiles.Name.Contains('Catesta-GHActions.md') | Should -BeExactly $true
+        }
+        It 'should have the generated module docs' {
+            $docFiles.Name.Contains('Catesta.md') | Should -BeExactly $true
+            $docFiles.Name.Contains('New-ModuleProject.md') | Should -BeExactly $true
+            $docFiles.Name.Contains('New-VaultProject.md') | Should -BeExactly $true
+        }
     } #context_docs
 
 } #describe_File_Checks
