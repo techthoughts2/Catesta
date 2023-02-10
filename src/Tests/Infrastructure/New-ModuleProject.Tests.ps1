@@ -106,7 +106,6 @@ Describe 'Module Infra Tests' {
 
                     $moduleOnlyFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
                     $moduleOnlyFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('S3BucketsForPowerShellDevelopment.yml') | Should -BeExactly $false
 
                     # GitHub
                     $moduleOnlyFiles.Name.Contains('wf_Linux.yml') | Should -BeExactly $false
@@ -185,7 +184,6 @@ Describe 'Module Infra Tests' {
 
                     $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
                     $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $true
-                    $codeBuildModuleFiles.Name.Contains('S3BucketsForPowerShellDevelopment.yml') | Should -BeExactly $true
 
                     $cfnContentPath = [System.IO.Path]::Combine($outPutPath, 'CloudFormation', 'PowerShellCodeBuildGit.yml')
                     $cfnContent = Get-Content -Path $cfnContentPath -Raw
@@ -234,7 +232,6 @@ Describe 'Module Infra Tests' {
 
                     $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $true
                     $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $false
-                    $codeBuildModuleFiles.Name.Contains('S3BucketsForPowerShellDevelopment.yml') | Should -BeExactly $true
 
                     $cfnContentPath = [System.IO.Path]::Combine($outPutPath, 'CloudFormation', 'PowerShellCodeBuildCC.yml')
                     $cfnContent = Get-Content -Path $cfnContentPath -Raw

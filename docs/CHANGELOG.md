@@ -21,6 +21,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - Previous behavior was that this was only supported for GitHub repo selection and generated to the `.github` directory.
     - `tasks.json`
         - Added new task: `Infra-Single-Detailed` which is capable of running Infrastructure tests against individual test files
+    - AWS CodeBuild CI/CD changes:
+        - Significant improvements to `PowerShellCodeBuildCC.yml`
+            - Added new parameter to allow primary branch name to be specified. Defaults to `main`
+            - Merged S3 artifact buckets into template
+            - Updated to use `${AWS::Partition}` where appropriate
+            - Added more robust tagging of project resources
+            - Added `AWS::Logs::LogGroup` for each trigger lambda with a 60 day retention so that logs don't persist forever
+        - Removed `S3BucketsForPowerShellDevelopment.yml` as it is now combined with `PowerShellCodeBuildCC.yml`
 - Catesta primary module changes
     - Added support for Read the Docs integration using the Material for MkDocs theme.
         - Worked on improvements to the Catesta documentation. Updated diagrams, rewrote all current documentation and added a lot of new documentation.

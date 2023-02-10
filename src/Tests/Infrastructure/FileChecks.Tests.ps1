@@ -126,7 +126,6 @@ Describe 'File Checks' {
         It 'should have all required CloudFormation files' {
             $awsFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $true
             $awsFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $true
-            $awsFiles.Name.Contains('S3BucketsForPowerShellDevelopment.yml') | Should -BeExactly $true
         } #it
     } #context_AWS
 

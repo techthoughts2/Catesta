@@ -263,7 +263,6 @@
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'GITHUB'" source='..\GitHubActions\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
         <!-- _________AWS -->
         <file condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" source='..\AWS\configure_aws_credential.ps1' destination='configure_aws_credential.ps1'/>
-        <file condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" source='..\AWS\CloudFormation\S3BucketsForPowerShellDevelopment.yml' destination='CloudFormation\S3BucketsForPowerShellDevelopment.yml'/>
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_AWSOptions -eq 'ps'" source='..\AWS\buildspec_powershell_windows.yml' destination='buildspec_powershell_windows.yml' />
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_AWSOptions -eq 'pwshcore'" source='..\AWS\buildspec_pwsh_windows.yml' destination='buildspec_pwsh_windows.yml' />
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_AWSOptions -eq 'pwsh'" source='..\AWS\buildspec_pwsh_linux.yml' destination='buildspec_pwsh_linux.yml' />
@@ -297,7 +296,7 @@
         <message>
             &#10;Your new PowerShell module project '$PLASTER_PARAM_ModuleName' has been created.
         </message>
-        <message condition="$PLASTER_PARAM_Choice -eq 'AWS'">
+        <message condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'">
             &#10;CloudFormation files have been generated for this project. You can find these in the CloudFormation folder.
             &#13;You can login to your AWS account and utilize these file to quickly create a stack for your project build.
             &#13;More information: https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-AWS.md

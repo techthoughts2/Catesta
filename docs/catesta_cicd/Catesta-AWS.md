@@ -25,7 +25,7 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [AWS
         * The GitHub process is not currently configured to generate artifacts. You are welcome to make adjustments to include them.
         * *Don't forget to copy your badge URL to display on your project*
     * **CodeCommit**
-        * The CodeCommit does include artifacts. Use the **S3BucketsForPowerShellDevelopment.yml** to quickly create the S3 bucket stack needed to store them.
+        * The CodeCommit does include artifacts. Artifacts built from your main branch will be stored in a primary s3 bucket. All other branches will have artifacts stored in a development bucket.
         * The generated CFN template will guide you through the process. This CFN is different than the GitHub one in that you only need to deploy it once. This CFN will be dynamically altered based on your buildspec choice specified during the plaster process. If you choose all three, the CFN will deploy all required resources to support all three build types.
 1. Write the logic for your module (the hardest part)
     * All build testing can be done locally by navigating to `src` and running `Invoke-Build`
