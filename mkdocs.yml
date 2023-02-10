@@ -14,7 +14,7 @@ repo_url: https://github.com/techthoughts2/Catesta
 # repo_name:
 # edit_uri: edit/main/docs/
 # edit_uri_template:
-site_description: Catesta is a PowerShell module project generator. It uses templates to rapidly scaffold test and build integration for a variety of CI/CD platforms. # meta tag to the generated HTML header
+site_description: Catesta is a PowerShell and vault module project generator. It uses templates to rapidly scaffold test and build integration for a variety of CI/CD platforms. # meta tag to the generated HTML header
 site_author: Jake Morrison # meta tag to the generated HTML header
 copyright: "Catesta is licensed under the <a href='https://github.com/techthoughts2/Catesta/blob/main/LICENSE'>MIT license"
 # remote_branch:

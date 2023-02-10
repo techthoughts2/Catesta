@@ -136,7 +136,7 @@ Describe 'Vault Infra Tests' {
 
             Context 'AWS-CodeBuild' {
 
-                It 'should generate a CodeBuild based module stored on GitHub with all required elements' {
+                It 'should generate a CodeBuild based vault project stored on GitHub with all required elements' {
                     $vaultParameters = @{
                         VAULT       = 'text'
                         ModuleName  = 'SecretManagement.MyVault'
@@ -191,9 +191,68 @@ Describe 'Vault Infra Tests' {
                     $cfnContent | Should -BeLike "*CodeBuildpsProject*"
                     $cfnContent | Should -BeLike "*CodeBuildpwshcoreProject*"
                     $cfnContent | Should -BeLike "*CodeBuildpwshProject*"
+                    $cfnContent | Should -BeLike "*GITHUB*"
                 } #it
 
-                It 'should generate a CodeBuild based module stored on CodeCommit with all required elements' {
+                It 'should generate a CodeBuild based vault project stored on Bitbucket with all required elements' {
+                    $vaultParameters = @{
+                        VAULT       = 'text'
+                        ModuleName  = 'SecretManagement.MyVault'
+                        Description = 'text'
+                        Version     = '0.0.1'
+                        FN          = 'user full name'
+                        CICD        = 'CODEBUILD'
+                        AWSOptions  = 'ps', 'pwshcore', 'pwsh'
+                        RepoType    = 'BITBUCKET'
+                        License     = 'MIT'
+                        Changelog   = 'CHANGELOG'
+                        COC         = 'CONDUCT'
+                        Contribute  = 'CONTRIBUTING'
+                        Security    = 'SECURITY'
+                        CodingStyle = 'Stroustrup'
+                        Pester      = '5'
+                        S3Bucket    = 'PSGallery'
+                        PassThru    = $true
+                        NoLogo      = $true
+                    }
+                    $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $codeBuildModuleFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
+                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
+                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $true
+                    $powershellContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_powershell_windows.yml')
+                    $powershellContent = Get-Content -Path $powershellContentPath -Raw
+                    $powershellContent | Should -BeLike '*SecretManagement.MyVault*'
+                    $linuxContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_pwsh_linux.yml')
+                    $linuxContent = Get-Content -Path $linuxContentPath -Raw
+                    $linuxContent | Should -BeLike '*SecretManagement.MyVault*'
+                    $pwshContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_pwsh_windows.yml')
+                    $pwshContent = Get-Content -Path $pwshContentPath -Raw
+                    $pwshContent | Should -BeLike '*SecretManagement.MyVault*'
+
+                    $codeBuildModuleFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $true
+
+                    $codeBuildModuleFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $true
+                    $installContentPath = [System.IO.Path]::Combine($outPutPath, 'install_modules.ps1')
+                    $installContent = Get-Content -Path $installContentPath -Raw
+                    $installContent | Should -BeLike '*$galleryDownload = $true*'
+                    $installContent | Should -BeLike '*Microsoft.PowerShell.SecretManagement*'
+
+                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
+                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $true
+
+                    $cfnContentPath = [System.IO.Path]::Combine($outPutPath, 'CloudFormation', 'PowerShellCodeBuildGit.yml')
+                    $cfnContent = Get-Content -Path $cfnContentPath -Raw
+                    $cfnContent | Should -BeLike "*CodeBuildpsProject*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshcoreProject*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshProject*"
+                    $cfnContent | Should -BeLike "*BITBUCKET*"
+                } #it
+
+                It 'should generate a CodeBuild based vault project stored on CodeCommit with all required elements' {
                     $vaultParameters = @{
                         VAULT       = 'text'
                         ModuleName  = 'SecretManagement.MyVault'
@@ -239,6 +298,40 @@ Describe 'Vault Infra Tests' {
                     $cfnContent | Should -BeLike "*CodeBuildProjectWPS*"
                     $cfnContent | Should -BeLike "*CodeBuildProjectWPwsh*"
                     $cfnContent | Should -BeLike "*CodeBuildProjectLPwsh*"
+                } #it
+
+                It 'should not generate CFN if a non-supported repo type is chosen' {
+                    $vaultParameters = @{
+                        VAULT       = 'text'
+                        ModuleName  = 'SecretManagement.MyVault'
+                        Description = 'text'
+                        Version     = '0.0.1'
+                        FN          = 'user full name'
+                        CICD        = 'CODEBUILD'
+                        AWSOptions  = 'ps', 'pwshcore', 'pwsh'
+                        RepoType    = 'AZURE'
+                        License     = 'MIT'
+                        Changelog   = 'CHANGELOG'
+                        COC         = 'CONDUCT'
+                        Contribute  = 'CONTRIBUTING'
+                        Security    = 'SECURITY'
+                        CodingStyle = 'Stroustrup'
+                        Pester      = '5'
+                        S3Bucket    = 'PSGallery'
+                        PassThru    = $true
+                        NoLogo      = $true
+                    }
+                    $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $codeBuildModuleFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
+                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
+                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $true
+
+                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
+                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $false
                 } #it
 
             } #aws_codeBuild

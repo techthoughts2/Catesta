@@ -243,6 +243,7 @@
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_AWSOptions -eq 'pwsh'" source='..\AWS\buildspec_pwsh_linux.yml' destination='buildspec_pwsh_linux.yml' />
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" source='..\AWS\install_modules.ps1' destination='install_modules.ps1'/>
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\AWS\CloudFormation\PowerShellCodeBuildGit.yml' destination='CloudFormation\PowerShellCodeBuildGit.yml'/>
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_RepoType -eq 'BITBUCKET'" source='..\AWS\CloudFormation\PowerShellCodeBuildGit.yml' destination='CloudFormation\PowerShellCodeBuildGit.yml'/>
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_RepoType -eq 'CODECOMMIT'" source='..\AWS\CloudFormation\PowerShellCodeBuildCC.yml' destination='CloudFormation\PowerShellCodeBuildCC.yml'/>
         <!-- _________Appveyor -->
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'APPVEYOR'" source='..\AppVeyor\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>

@@ -77,6 +77,7 @@ Parameters:
   DeployEmailNotifications:
     Type: String
     Default: 'no'
+    Description: 'CodeBuild will send email notifications of state changes.'
     AllowedValues:
       - 'yes'
       - 'no'

@@ -29,9 +29,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
             - Added more robust tagging of project resources
             - Added `AWS::Logs::LogGroup` for each trigger lambda with a 60 day retention so that logs don't persist forever
         - Removed `S3BucketsForPowerShellDevelopment.yml` as it is now combined with `PowerShellCodeBuildCC.yml`
+        - Significant improvements to `PowerShellCodeBuildGit.yml`
+            - Added support for Bitbucket repo source
+                - Added new CFN parameter RepositoryType
+                - CodeBuild projects will now be sourced from BITBUCKET if Bitbucket repo is chosen
 - Catesta primary module changes
-    - Added support for Read the Docs integration using the Material for MkDocs theme.
-        - Worked on improvements to the Catesta documentation. Updated diagrams, rewrote all current documentation and added a lot of new documentation.
+    - Complete overhaul of Catesta documentation
+        - Added support for Read the Docs integration using the Material for MkDocs theme.
+            - Worked on improvements to the Catesta documentation. Updated diagrams, rewrote all current documentation and added a lot of new documentation.
     - Greatly enhanced infrastructure test suite. Infra tests now actively deploy many different configurations and validate successful module and vault scaffolds.
     - Moved `CHANGELOG.md` from `.github` directory to `docs` directory
         - Updated `.psd1` to link to new CHANGELOG url

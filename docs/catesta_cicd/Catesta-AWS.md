@@ -21,8 +21,13 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [AWS
 1. Create your CodeBuild project in your AWS account. You can do this manually, or use the generated CloudFormation template (recommended).
     * **GitHub**
         * The generated CFN template will guide you through the process. This CFN will be dynamically altered based on your buildspec choice specified during the plaster process. If you choose all three, the CFN will deploy all required resources to support all three build types.
-        * CodeBuild projects currently use OATH to authenticate with GitHub. See the notes section below for configuring this.
+        * CodeBuild projects currently use OATH to authenticate with GitHub. **You need to configure OATH for CodeBuild *before* you deploy the CFN template**. See the notes section below for configuring this.
         * The GitHub process is not currently configured to generate artifacts. You are welcome to make adjustments to include them.
+        * *Don't forget to copy your badge URL to display on your project*
+    * **Bitbucket**
+        * The generated CFN template will guide you through the process. This CFN will be dynamically altered based on your buildspec choice specified during the plaster process. If you choose all three, the CFN will deploy all required resources to support all three build types.
+        * CodeBuild projects currently use OATH to authenticate with Bitbucket. **You need to configure OATH for CodeBuild *before* you deploy the CFN template**. See the notes section below for configuring this.
+        * The Bitbucket process is not currently configured to generate artifacts. You are welcome to make adjustments to include them.
         * *Don't forget to copy your badge URL to display on your project*
     * **CodeCommit**
         * The CodeCommit does include artifacts. Artifacts built from your main branch will be stored in a primary s3 bucket. All other branches will have artifacts stored in a development bucket.
@@ -46,30 +51,39 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [AWS
 1. Upload to your desired repository which now has a triggered/monitored build action.
 1. Evaluate results of your build and display your AWS CodeBuild badge proudly!
 
-### Manual CFN upload example
+### Deploying the CFN (CloudFormation) Template
+
+#### Adding CodeBuild OATH to your Project Repository
+
+In order to accomplish [source provider access](https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html#access-tokens-github) to your project's repo using OATH, you will first need to configure CodeBuild in the AWS Console.
+
+This needs to be done **prior to deploying your CFN template**.
+
+Essentially, you just need to login to your AWS console, create a new CodeBuild project, and under source, add a source to your supported repository location. You will be prompted to enter your credentials to establish a link. Once complete, CodeBuild will be aware of this OATH link. You do not actually need to create the project in the console. Once you've created the OATH link, you can click Cancel on the new CodeBuild project creation page.
+
+![Catesta AWS CodeBuild OATH Link Create](../assets/AWS/AWSCodeBuild_OAuth.png)
+
+#### Manual CFN upload example
 
 The following shows the GitHub CFN example:
 
 ![Catesta PowerShell AWS CodeBuild CFN Example](../assets/AWS/PowerShell_CodeBuild_CFN_Example.PNG)
 
-### Final CFN Deployment Results example
+#### Final CFN Deployment Results example
 
 ![AWS CodeBuild projects created by Catesta](../assets/AWS/AWSCodeBuildProjects.PNG)
 
 ## Notes
 
-This template currently supports two repository sources that the user can specify when invoking the template:
+This template currently supports three repository sources that the user can specify when invoking the template:
 
 * [GitHub](https://github.com/)
+* [Bitbucket](https://bitbucket.org/)
 * [AWS CodeCommit](https://aws.amazon.com/codecommit/)
 
-If you elect to host your code in GitHub you will need to manually associate your AWS account with your GitHub account. This is a one time manual action.
+If you elect to host your code in GitHub or Bitbucket you will need to manually associate your AWS account with your GitHub account. This is a one time manual action. See CFN notes above.
 
-[Configure GitHub Authentication](https://docs.aws.amazon.com/codepipeline/latest/userguide/GitHub-authentication.html)
-
-> For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the build spec. You must connect your AWS account to your GitHub account. Use the AWS CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with GitHub, on the GitHub Authorize application page, for Organization access, choose Request access next to each repository you want to allow AWS CodeBuild to have access to, and then choose Authorize application. (After you have connected to your GitHub account, you do not need to finish creating the build project. You can leave the AWS CodeBuild console.) To instruct AWS CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.
-
-You may wish to use different CodeBuild projects to monitor different branches of your repository. If you are using GitHub this can be done with a WebhookFilter:
+You may wish to use different CodeBuild projects to monitor different branches of your repository. This can be done with a WebhookFilter:
 
 [AWS CodeBuild Project WebhookFilter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html)
 
@@ -78,6 +92,10 @@ You may wish to use different CodeBuild projects to monitor different branches o
 ### AWS CodeBuild Integration with GitHub
 
 ![Catesta PowerShell AWS CodeBuild GitHub Diagram](../assets/AWS/AWSCodeBuildGitHub.png)
+
+### AWS CodeBuild Integration with Bitbucket
+
+![Catesta PowerShell AWS CodeBuild Bitbucket Diagram](../assets/AWS/AWSCodeBuildBitbucket.png)
 
 ### AWS CodeBuild Integration with CodeCommit
 
