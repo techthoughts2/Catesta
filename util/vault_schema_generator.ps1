@@ -282,6 +282,6 @@ The example below showcases all the available options for the ``New-VaultProject
 New-ModuleProject -ModuleParameters `$vaultParameters -DestinationPath .
 ``````
 "@
-$markdown | Out-File -FilePath $vaultDocOutPath -Encoding utf8BOM -Force
+$markdown | Out-File -FilePath $vaultDocOutPath -Encoding utf8 -Force
 
 #endregion

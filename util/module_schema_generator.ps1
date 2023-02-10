@@ -282,6 +282,6 @@ The example below showcases all the available options for the ``New-ModuleProjec
 New-ModuleProject -ModuleParameters `$moduleParameters -DestinationPath .
 ``````
 "@
-$markdown | Out-File -FilePath $moduleDocOutPath -Encoding utf8BOM -Force
+$markdown | Out-File -FilePath $moduleDocOutPath -Encoding utf8 -Force
 
 #endregion
