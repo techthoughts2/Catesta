@@ -1,4 +1,4 @@
-﻿# Catesta - Module Schema
+# Catesta - Module Schema
 
 ## Synopsis
 

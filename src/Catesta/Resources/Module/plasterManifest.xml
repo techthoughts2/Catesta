@@ -229,7 +229,7 @@
         <!-- ________________________Security -->
         <templateFile condition="$PLASTER_PARAM_RepoType -eq 'AZURE' -and $PLASTER_PARAM_Contribute -eq 'SECURITY'" source='..\RepoFiles\SECURITY.md' destination='SECURITY.md' />
         <!-- ________________________Templates -->
-        <!-- TODO: ___________________________pull_request_template -->
+        <file condition="$PLASTER_PARAM_RepoType -eq 'AZURE'" source='..\AzureRepoFiles\pull_request_template.md' destination='.azuredevops\pull_request_template.md' />
 
         <!-- _________BitBucket -->
         <!-- ________________________Code of Conduct -->

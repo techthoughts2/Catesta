@@ -367,6 +367,83 @@ Describe 'Module Infra Tests' {
 
                     $azureModuleFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $true
                     $azureModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+                    $azureModuleFiles.Name.Contains('pull_request_template.md') | Should -BeExactly $false
+
+                    $azureYMLContentPath = [System.IO.Path]::Combine($outPutPath, 'azure-pipelines.yml')
+                    $azureYMLContent = Get-Content -Path $azureYMLContentPath -Raw
+                    $azureYMLContent | Should -BeLike "*build_ps_WinLatest*"
+                    $azureYMLContent | Should -BeLike "*build_pwsh_WinLatest*"
+                    $azureYMLContent | Should -BeLike "*build_pwsh_ubuntuLatest*"
+                    $azureYMLContent | Should -BeLike "*build_pwsh_macOSLatest*"
+                } #it
+
+                It 'should generate an Azure Pipelines based module stored on Azure Repos with all required elements' {
+                    $moduleParameters = @{
+                        VAULT        = 'text'
+                        ModuleName   = 'modulename'
+                        Description  = 'text'
+                        Version      = '0.0.1'
+                        FN           = 'user full name'
+                        CICD         = 'AZURE'
+                        AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
+                        RepoType     = 'AZURE'
+                        License      = 'None'
+                        Changelog    = 'NOCHANGELOG'
+                        COC          = 'NOCONDUCT'
+                        Contribute   = 'NOCONTRIBUTING'
+                        Security     = 'NOSECURITY'
+                        CodingStyle  = 'Stroustrup'
+                        Help         = 'Yes'
+                        Pester       = '5'
+                        PassThru     = $true
+                        NoLogo       = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $azureModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $azureModuleFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $true
+                    $azureModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+                    $azureModuleFiles.Name.Contains('pull_request_template.md') | Should -BeExactly $true
+
+                    $azureYMLContentPath = [System.IO.Path]::Combine($outPutPath, 'azure-pipelines.yml')
+                    $azureYMLContent = Get-Content -Path $azureYMLContentPath -Raw
+                    $azureYMLContent | Should -BeLike "*build_ps_WinLatest*"
+                    $azureYMLContent | Should -BeLike "*build_pwsh_WinLatest*"
+                    $azureYMLContent | Should -BeLike "*build_pwsh_ubuntuLatest*"
+                    $azureYMLContent | Should -BeLike "*build_pwsh_macOSLatest*"
+                } #it
+
+                It 'should generate an Azure Pipelines based module stored on Bitbucket Repos with all required elements' {
+                    $moduleParameters = @{
+                        VAULT        = 'text'
+                        ModuleName   = 'modulename'
+                        Description  = 'text'
+                        Version      = '0.0.1'
+                        FN           = 'user full name'
+                        CICD         = 'AZURE'
+                        AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
+                        RepoType     = 'BITBUCKET'
+                        License      = 'None'
+                        Changelog    = 'NOCHANGELOG'
+                        COC          = 'NOCONDUCT'
+                        Contribute   = 'NOCONTRIBUTING'
+                        Security     = 'NOSECURITY'
+                        CodingStyle  = 'Stroustrup'
+                        Help         = 'Yes'
+                        Pester       = '5'
+                        PassThru     = $true
+                        NoLogo       = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $azureModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $azureModuleFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $true
+                    $azureModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+                    $azureModuleFiles.Name.Contains('pull_request_template.md') | Should -BeExactly $false
 
                     $azureYMLContentPath = [System.IO.Path]::Combine($outPutPath, 'azure-pipelines.yml')
                     $azureYMLContent = Get-Content -Path $azureYMLContentPath -Raw

@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
             - Added support for Bitbucket repo source
                 - Added new CFN parameter RepositoryType
                 - CodeBuild projects will now be sourced from BITBUCKET if Bitbucket repo is chosen
+    - Added support for Azure Repo choice
 - Catesta primary module changes
     - Complete overhaul of Catesta documentation
         - Added support for Read the Docs integration using the Material for MkDocs theme.

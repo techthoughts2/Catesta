@@ -1,4 +1,4 @@
-﻿# Catesta - Vault Schema
+# Catesta - Vault Schema
 
 ## Synopsis
 

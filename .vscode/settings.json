@@ -21,6 +21,7 @@
         "appveyor",
         "autocompleters",
         "AWSCB",
+        "azuredevops",
         "buildheader",
         "Buildps",
         "Buildpwsh",

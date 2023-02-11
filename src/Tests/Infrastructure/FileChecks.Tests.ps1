@@ -23,6 +23,7 @@ Describe 'File Checks' {
         $srcFiles = Get-ChildItem -Path "$resourcePath\Module\*" -Recurse
         $vaultFiles = Get-ChildItem -Path "$resourcePath\Vault\*" -Recurse
         $gitFiles = Get-ChildItem -Path "$resourcePath\GitHubFiles\*" -Recurse
+        $azureRepoFiles = Get-ChildItem -Path "$resourcePath\AzureRepoFiles\*" -Recurse
         $awsFiles = Get-ChildItem -Path "$resourcePath\AWS\*" -Recurse
         $githubFiles = Get-ChildItem -Path "$resourcePath\GitHubActions\*" -Recurse
         $azureFiles = Get-ChildItem -Path "$resourcePath\Azure\*" -Recurse
@@ -100,7 +101,7 @@ Describe 'File Checks' {
         } #it
     } #context_repo
 
-    Context 'Github' {
+    Context 'GitHub Repo' {
         It 'should have a Pull Request Template' {
             $gitFiles.Name.Contains('PULL_REQUEST_TEMPLATE.md') | Should -BeExactly $true
 
@@ -109,7 +110,14 @@ Describe 'File Checks' {
             $gitFiles.Name.Contains('bug-report.md') | Should -BeExactly $true
             $gitFiles.Name.Contains('feature_request.md') | Should -BeExactly $true
         } #it
-    } #context_Github
+    } #context_Github_Repo
+
+    Context 'Azure Repo' {
+        It 'should have a Pull Request Template' {
+            $azureRepoFiles.Name.Contains('pull_request_template.md') | Should -BeExactly $true
+
+        } #it
+    } #context_Azure_Repo
 
     Context 'AWS' {
         It 'should have all build files' {
