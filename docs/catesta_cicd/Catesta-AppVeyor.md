@@ -43,9 +43,9 @@ Scaffolds a new PowerShell module or vault project intended for CI/CD workflow u
 
 ### Test Reports
 
-Catesta automatically configures your Appveyor PowerShell project to generate detailed Tests reports:
+Catesta automatically configures your AppVeyor PowerShell project to generate detailed Tests reports:
 
-![Appveyor PowerShell project Test results](../assets/Appveyor/appveyor_tests_report.PNG)
+![AppVeyor PowerShell project Test results](../assets/AppVeyor/appveyor_tests_report.PNG)
 
 ## Notes
 
