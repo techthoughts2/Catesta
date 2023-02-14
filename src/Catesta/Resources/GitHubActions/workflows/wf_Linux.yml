@@ -6,7 +6,15 @@
 # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-powershell
 # https://github.com/actions/upload-artifact#where-does-the-upload-go
 name: ActionsTest-Linux-Build
-on: [push, pull_request]
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  push:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
 jobs:
   test:
     name: Run Tests

@@ -15,8 +15,8 @@ on:
     paths-ignore:
       - '**.md'
       - 'docs/**'
-    branches:
-      - '!doctesting' # excludes doctesting branch
+    branches-ignore:
+      - doctesting # excludes doctesting branch
 jobs:
   test:
     name: Run Tests
