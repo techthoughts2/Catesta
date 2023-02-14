@@ -39,7 +39,15 @@ Scaffolds a new PowerShell module or vault project intended for CI/CD workflow u
 1. Upload to your desired repository which now has a triggered/monitored build action.
 1. Evaluate results of your build and display your Azure Pipelines badge proudly!
 
-![Azure Pipelines project created by Catesta](../assets/Azure/azure_pipelines_project.PNG "Azure Pipelines project created by Catesta")
+![Azure Pipelines PowerShell project created by Catesta](../assets/Azure/azure_pipelines_project.PNG "Azure Pipelines project created by Catesta")
+
+### Test Reports
+
+Catesta automatically configures your Azure Pipelines PowerShell project to generate detailed Tests and Code Coverage reports:
+
+![Azure Pipelines PowerShell project Test results](../assets/Azure/azure_devops_tests_report.PNG)
+
+![Azure Pipelines PowerShell project Code Coverage results](../assets/Azure/azure_devops_code_coverage.PNG)
 
 ## Notes
 

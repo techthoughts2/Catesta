@@ -37,6 +37,12 @@ Scaffolds a new PowerShell module or vault project intended for CI/CD workflow u
 
 ![GitHub Actions project created by Catesta](../assets/GHActions/github_actions.PNG)
 
+### Test Reports
+
+GitHub Actions does not natively support Test reports. There are many Test Report solutions in the [Actions Marketplace](https://github.com/marketplace?type=actions) that can accomplish this however.
+
+By default, the build file will create a XML test report in `NUnitXml` but these can also be changed to `JUnitXml` if you are using a Test Report in Actions that prefers that format.
+
 ## Notes
 
 Additional Reading:

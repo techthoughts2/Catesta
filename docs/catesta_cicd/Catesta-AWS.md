@@ -50,6 +50,14 @@ Scaffolds a new PowerShell module or vault project intended for CI/CD workflow u
 1. Upload to your desired repository which now has a triggered/monitored build action.
 1. Evaluate results of your build and display your AWS CodeBuild badge proudly!
 
+### Test Reports
+
+Catesta automatically configures your AWS CodeBuild PowerShell project to generate detailed Tests and Code Coverage reports:
+
+![AWS CodeBuild PowerShell project Test results](../assets/AWS/AWSCodeBuild_tests_report.PNG)
+
+![AWS CodeBuild PowerShell project Code Coverage results](../assets/AWS/AWSCodeBuild_code_coverage.PNG)
+
 ### Deploying the CFN (CloudFormation) Template
 
 #### Adding CodeBuild OATH to your Project Repository

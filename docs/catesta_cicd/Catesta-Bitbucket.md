@@ -37,7 +37,23 @@ Scaffolds a new PowerShell module or vault project intended for CI/CD workflow u
 1. Upload to your Bitbucket repository which now has a triggered/monitored build action.
 1. Evaluate results of your build.
 
-![Bitbucket project created by Catesta](../assets/Bitbucket/bitbucket_build_results.PNG)
+![Bitbucket Pipelines PowerShell project created by Catesta](../assets/Bitbucket/bitbucket_build_results.PNG)
+
+### Test Reports
+
+Your Bitbucket Pipelines project is configured to generate test reports in `JUnitXml` format.
+
+#### Passing Report
+
+Bitbucket does not provide a detailed report when all tests are successful. You will only get an overview of the results report:
+
+![Bitbucket Pipelines PowerShell project all tests passing](../assets/Bitbucket/bitbucket_pipelines_tests_report_pass.png)
+
+#### Failed Report
+
+When you project experiences a failed tests Bitbucket will add a `Tests` tab to your pipeline. Here you will be able to see a detailed breakdown of which test(s_ experienced an issue.
+
+![Bitbucket Pipelines PowerShell project failed Tests tab](../assets/Bitbucket/bitbucket_pipelines_tests_report_fail.png)
 
 ## Notes
 
