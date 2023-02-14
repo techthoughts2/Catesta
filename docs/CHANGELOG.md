@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
                 - Added new CFN parameter RepositoryType
                 - CodeBuild projects will now be sourced from BITBUCKET if Bitbucket repo is chosen
     - Added support for Azure Repo choice
+    - Added support for Bitbucket Pipelines CI/CD choice
 - Catesta primary module changes
     - Complete overhaul of Catesta documentation
         - Added support for Read the Docs integration using the Material for MkDocs theme.
@@ -44,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `tasks.json`
         - Added new task: `Infra-Single-Detailed` which is capable of running Infrastructure tests against individual test files
     - Addressed bug in build file where `Build` task was failing if docs folder has not already been created
+    - GitHub actions will now ignore `docs` folder and all `.md` file updates. `doctesting` branch will also now be ignored.
 
 ## [1.3.0] - (Never released)
 
