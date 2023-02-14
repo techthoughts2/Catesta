@@ -37,6 +37,16 @@ Badge examples:
 
 - **Bitbucket Pipeline**: Bitbucket [does not support](https://jira.atlassian.com/browse/BCLOUD-12797) project status / build status badges at this time.
 
+## I'm ready to publish my project
+
+If your builds pass and you are ready to publish your module:
+
+- In your development environment InvokeBuild either the `.`, or `BuildNoInfra` tasks.
+    - This will run all local analysis, unit tests, and prepare your module for merge and publication
+    - *If you selected platyPS to generate help documentation during the build process the comment based help in your functions will be used to generate/update markdown docs for your module in the docs folder.*
+- Once the build is complete your *ready to publish* project can be found in `src/Archive`
+- Move your module files into a location that can be sourced by `$env:PSModulePath` and then run [Publish-Module](https://learn.microsoft.com/powershell/module/powershellget/publish-module)
+
 ## I created a fresh module project and my build process is already showing some  failures
 
 By default a freshly created PowerShell module already violates one best practice:

@@ -11,10 +11,12 @@ on:
     paths-ignore:
       - '**.md'
       - 'docs/**'
+      - '.vscode/**'
   push:
     paths-ignore:
       - '**.md'
       - 'docs/**'
+      - '.vscode/**'
     branches-ignore:
       - doctesting # excludes doctesting branch
 jobs:

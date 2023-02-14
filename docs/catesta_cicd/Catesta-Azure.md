@@ -2,7 +2,7 @@
 
 ## Synopsis
 
-Scaffolds a new PowerShell module project intended for CI/CD workflow using [Azure Pipelines](https://azure.microsoft.com/services/devops/).
+Scaffolds a new PowerShell module or vault project intended for CI/CD workflow using [Azure Pipelines](https://azure.microsoft.com/services/devops/).
 
 ## Getting Started
 
@@ -35,7 +35,6 @@ Scaffolds a new PowerShell module project intended for CI/CD workflow using [Azu
                 * `task Test` - Invokes all Pester Unit Tests
                 * `task Analyze` - Invokes Script Analyzer checks
                 * `task DevCC` - Generates generate xml file to graphically display code coverage in VSCode using [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters)
-1. *The comment based help in your functions will be used to generate/update markdown docs for your module in the docs folder.*
 1. Add any module dependencies to your CI/CD bootstrap file: `actions_bootstrap.ps1`
 1. Upload to your desired repository which now has a triggered/monitored build action.
 1. Evaluate results of your build and display your Azure Pipelines badge proudly!
