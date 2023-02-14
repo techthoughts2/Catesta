@@ -276,7 +276,8 @@
         <!-- _________GitLab CI/CD -->
         <!-- TODO: _____________________________ -->
         <!-- _________Bitbucket Pipelines -->
-        <!-- TODO: _____________________________ -->
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'BITBUCKET'" source='..\Bitbucket\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'BITBUCKET'" source='..\Bitbucket\bitbucket-pipelines.yml' destination='bitbucket-pipelines.yml' />
         <!-- _________Azure Pipelines -->
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'AZURE'" source='..\Azure\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'AZURE'" source='..\Azure\azure-pipelines.yml' destination='azure-pipelines.yml' />

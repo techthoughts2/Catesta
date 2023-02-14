@@ -67,6 +67,7 @@ Selections
     * [GitHub Actions](https://help.github.com/actions)
     * [Azure Pipelines](https://azure.microsoft.com/services/devops/)
     * [AppVeyor](https://www.appveyor.com/)
+    * [Bitbucket Pipelines](https://bitbucket.org/)
 * *[Selection]* Build types for easy cross-platform testing
     * Windows PowerShell
     * Windows pwsh

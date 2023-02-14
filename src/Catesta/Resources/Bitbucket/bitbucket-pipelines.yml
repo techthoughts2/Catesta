@@ -1,0 +1,50 @@
+# https://support.atlassian.com/bitbucket-cloud/docs/configure-your-first-pipeline/
+# https://support.atlassian.com/bitbucket-cloud/docs/bitbucket-pipelines-configuration-reference/
+# https://support.atlassian.com/bitbucket-cloud/docs/use-docker-images-as-build-environments/#Using-public-build-images
+# https://support.atlassian.com/bitbucket-cloud/docs/test-reporting-in-pipelines/
+# https://support.atlassian.com/bitbucket-cloud/docs/step-options/
+# https://support.atlassian.com/bitbucket-cloud/docs/stage-options/
+# https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/
+
+# https://support.atlassian.com/bitbucket-cloud/docs/pipeline-start-conditions/
+# https://support.atlassian.com/bitbucket-cloud/docs/runners/
+
+# https://michielvoo.net/2022/08/22/bitbucket-pipeline-for-powershell-scripts.html
+# https://github.com/jsoliveir/bitbucketcli/blob/master/bitbucket-pipelines.yml
+
+# https://mcr.microsoft.com/en-us/catalog?search=powershell
+# https://mcr.microsoft.com/product/powershell/about
+# https://mcr.microsoft.com/product/powershell/test-deps/about
+# docker pull mcr.microsoft.com/powershell/test-deps:lts-ubuntu-22.04
+
+# 1x (default) steps are allocated 4 GB of memory, and 2x steps are allocated 8 GB memory
+
+options:
+  max-time: 30
+  docker: true
+  size: 1x
+# clone:
+#   Git clone behavior page
+definitions:
+  steps:
+    - step: &test_and_build
+        name: BootStrap Analyze Test and Build
+        script:
+          - pwsh -c '$PSVersionTable'
+          # uncomment the line below to explore what modules/variables/env variables are available in the build image
+          # - pwsh -c 'Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String'
+          - pwsh -File ./actions_bootstrap.ps1
+          - pwsh -c 'Invoke-Build -File ./src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1'
+        after-script:
+          - |
+            pwsh -c '
+                $testFile = Get-ChildItem -Filter "PesterTests.xml" -Recurse
+                New-Item -Path $env:BITBUCKET_CLONE_DIR -Name "test-results" -ItemType Directory -Force
+                Move-Item $testFile.FullName -Destination "$env:BITBUCKET_CLONE_DIR/test-results/PesterTests.xml" -Force'
+        artifacts:
+          - src/Archive/*.zip
+image:
+  name: mcr.microsoft.com/powershell/test-deps:lts-ubuntu-22.04
+pipelines:
+  default:
+    - step: *test_and_build

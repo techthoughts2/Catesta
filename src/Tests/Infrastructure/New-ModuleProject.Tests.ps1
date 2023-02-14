@@ -549,6 +549,43 @@ Describe 'Module Infra Tests' {
 
             } #github_actions
 
+            Context 'Bitbucket Build' {
+
+                It 'should generate a Bitbucket based module stored on Bitbucket with all required elements' {
+                    $moduleParameters = @{
+                        VAULT           = 'text'
+                        ModuleName      = 'modulename'
+                        Description     = 'text'
+                        Version         = '0.0.1'
+                        FN              = 'user full name'
+                        CICD            = 'BITBUCKET'
+                        RepoType        = 'BITBUCKET'
+                        License         = 'None'
+                        Changelog       = 'NOCHANGELOG'
+                        COC             = 'NOCONDUCT'
+                        Contribute      = 'NOCONTRIBUTING'
+                        Security        = 'NOSECURITY'
+                        CodingStyle     = 'Stroustrup'
+                        Help            = 'Yes'
+                        Pester          = '5'
+                        PassThru        = $true
+                        NoLogo          = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $bitbucketModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $bitbucketModuleFiles.Name.Contains('bitbucket-pipelines.yml') | Should -BeExactly $true
+                    $bitbucketModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+
+                    $bitbucketYMLContentPath = [System.IO.Path]::Combine($outPutPath, 'bitbucket-pipelines.yml')
+                    $bitbucketYMLContent = Get-Content -Path $bitbucketYMLContentPath -Raw
+                    $bitbucketYMLContent | Should -BeLike "*modulename*"
+                } #it
+
+            } #bitbucket
+
         } #context_cicd
 
         Context 'Repo Checks' {

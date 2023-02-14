@@ -4,28 +4,28 @@
 
 Badge examples:
 
-- ![AWS CodeBuild Status](https://codebuild.us-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiL2FvTzZsNGFoL1VTTk1UOGE3WXlwSVFRT3BTWngzc1czdVZLTEpNYWJld2xSbS9Ea3R0b3ZETm96Zk5md2ZXMVUwNXZnSnlaRlpuWUJldzdGMENpemRjPSIsIml2UGFyYW1ldGVyU3BlYyI6Ikl3T3VwdU43UUxya0J1SVciLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+- **CodeBuild**: ![AWS CodeBuild Status](https://codebuild.us-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiL2FvTzZsNGFoL1VTTk1UOGE3WXlwSVFRT3BTWngzc1czdVZLTEpNYWJld2xSbS9Ea3R0b3ZETm96Zk5md2ZXMVUwNXZnSnlaRlpuWUJldzdGMENpemRjPSIsIml2UGFyYW1ldGVyU3BlYyI6Ikl3T3VwdU43UUxya0J1SVciLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
     - *There is a Copy badge URL on your Build project page*
 
     ```plain
     ![AWS CodeBuild Status](https://codebuild.us-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiL2FvTzZsNGFoL1VTTk1UOGE3WXlwSVFRT3BTWngzc1czdVZLTEpNYWJld2xSbS9Ea3R0b3ZETm96Zk5md2ZXMVUwNXZnSnlaRlpuWUJldzdGMENpemRjPSIsIml2UGFyYW1ldGVyU3BlYyI6Ikl3T3VwdU43UUxya0J1SVciLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
     ```
 
-- [![GitHub Actions Build Status Windows pwsh Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=master)](https://github.com/techthoughts2/Catesta/actions)
+- **GitHub Actions**: [![GitHub Actions Build Status Windows pwsh Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=master)](https://github.com/techthoughts2/Catesta/actions)
     - *Just replace the link with your repo*
 
     ```plain
     [![GitHub Actions Build Status Windows pwsh Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=master)](https://github.com/techthoughts2/Catesta/actions)
     ```
 
-- [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/kech4dkqsrb9xuet/branch/master?svg=true)](https://ci.appveyor.com/project/techthoughts2/appveyortest/branch/master)
+- **Appveyor**: [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/kech4dkqsrb9xuet/branch/master?svg=true)](https://ci.appveyor.com/project/techthoughts2/appveyortest/branch/master)
     - *Under ProjectName - Settings - Badges*
 
     ```plain
     [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/kech4dkqsrb9xuet/branch/master?svg=true)](https://ci.appveyor.com/project/techthoughts2/appveyortest/branch/master)
     ```
 
-- [![Build Status](https://dev.azure.com/TechThoughts2/AzureTest/_apis/build/status/techthoughts2.AzureTest?branchName=master)](https://dev.azure.com/TechThoughts2/AzureTest/_build/latest?definitionId=1&branchName=master)
+- **Azure Pipelines**: [![Build Status](https://dev.azure.com/TechThoughts2/AzureTest/_apis/build/status/techthoughts2.AzureTest?branchName=master)](https://dev.azure.com/TechThoughts2/AzureTest/_build/latest?definitionId=1&branchName=master)
     - *Found under DevOps Project - Pipelines - Builds - ... - Status Badge*
     - Unfortunately by default badge access is restricted to only authenticated access. This can be disabled at the organization and project level if you wish to display on a GitHub repo:
         - *Organization Settings - Settings - Disable anonymous access to badge*
@@ -34,6 +34,8 @@ Badge examples:
     ```plain
     [![Build Status](https://dev.azure.com/TechThoughts2/AzureTest/_apis/build/status/techthoughts2.AzureTest?branchName=master)](https://dev.azure.com/TechThoughts2/AzureTest/_build/latest?definitionId=1&branchName=master)
     ```
+
+- **Bitbucket Pipeline**: Bitbucket [does not support](https://jira.atlassian.com/browse/BCLOUD-12797) project status / build status badges at this time.
 
 ## I created a fresh module project and my build process is already showing some  failures
 

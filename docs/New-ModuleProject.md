@@ -183,6 +183,32 @@ New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPa
 Scaffolds a PowerShell module project for integration with Appveyor with the project code stored in GitHub.
 No repository supporting files are included.
 
+### EXAMPLE 9
+```
+$moduleParameters = @{
+    ModuleName  = 'ModuleName'
+    Description = 'My awesome module is awesome'
+    Version         = '0.0.1'
+    FN              = 'user full name'
+    CICD            = 'BITBUCKET'
+    RepoType        = 'BITBUCKET'
+    License         = 'None'
+    Changelog       = 'CHANGELOG'
+    COC             = 'CONDUCT'
+    Contribute      = 'CONTRIBUTING'
+    Security        = 'SECURITY'
+    CodingStyle     = 'Stroustrup'
+    Help            = 'Yes'
+    Pester          = '5'
+    PassThru        = $true
+    NoLogo          = $true
+}
+New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+```
+
+Scaffolds a PowerShell module project for integration with Bitbucket Pipelines with the project code stored on Bitbucket.
+A full set of repository supporting files are included.
+
 ## PARAMETERS
 
 ### -DestinationPath

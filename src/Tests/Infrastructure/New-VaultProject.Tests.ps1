@@ -31,7 +31,7 @@ Describe 'Vault Infra Tests' {
 
         BeforeEach {
             Remove-Item -Path $outPutPathStar -Recurse -Force
-            # $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+            # $codeBuildVaultFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
         } #beforeEach
         # BeforeAll {
         #     Remove-Item -Path $outPutPathStar -Recurse -Force
@@ -59,65 +59,65 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $moduleOnlyFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+                    $vaultOnlyFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
-                    $moduleOnlyFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $false
 
                     # VAULT
-                    $moduleOnlyFiles.Name.Contains('SecretManagement.MyVault.psd1') | Should -BeExactly $true
-                    $moduleOnlyFiles.Name.Contains('SecretManagement.MyVault.psm1') | Should -BeExactly $true
-                    $moduleOnlyFiles.Name.Contains('SecretManagement.MyVault.Extension.psd1') | Should -BeExactly $true
-                    $moduleOnlyFiles.Name.Contains('SecretManagement.MyVault.Extension.psm1') | Should -BeExactly $true
-                    $moduleOnlyFiles.Name.Contains('SecretManagement.MyVault.build.ps1') | Should -BeExactly $true
-                    $moduleOnlyFiles.Name.Contains('SecretManagement.MyVault.Settings.ps1') | Should -BeExactly $true
-                    $moduleOnlyFiles.Name.Contains('PSScriptAnalyzerSettings.psd1') | Should -BeExactly $true
+                    $vaultOnlyFiles.Name.Contains('SecretManagement.MyVault.psd1') | Should -BeExactly $true
+                    $vaultOnlyFiles.Name.Contains('SecretManagement.MyVault.psm1') | Should -BeExactly $true
+                    $vaultOnlyFiles.Name.Contains('SecretManagement.MyVault.Extension.psd1') | Should -BeExactly $true
+                    $vaultOnlyFiles.Name.Contains('SecretManagement.MyVault.Extension.psm1') | Should -BeExactly $true
+                    $vaultOnlyFiles.Name.Contains('SecretManagement.MyVault.build.ps1') | Should -BeExactly $true
+                    $vaultOnlyFiles.Name.Contains('SecretManagement.MyVault.Settings.ps1') | Should -BeExactly $true
+                    $vaultOnlyFiles.Name.Contains('PSScriptAnalyzerSettings.psd1') | Should -BeExactly $true
 
                     # Module - not present
-                    $moduleOnlyFiles.Name.Contains('Get-HelloWorld.ps1') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('Get-Day.ps1') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('Imports.ps1') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('Get-HelloWorld.ps1') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('Get-Day.ps1') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('Imports.ps1') | Should -BeExactly $false
 
                     # Tests
-                    $moduleOnlyFiles.Name.Contains('ExportedFunctions.Tests.ps1') | Should -BeExactly $true
-                    $moduleOnlyFiles.Name.Contains('SecretManagement.MyVault-Module.Tests.ps1') | Should -BeExactly $true
-                    $moduleOnlyFiles.Name.Contains('SecretManagement.MyVault-Function.Tests.ps1') | Should -BeExactly $true
+                    $vaultOnlyFiles.Name.Contains('ExportedFunctions.Tests.ps1') | Should -BeExactly $true
+                    $vaultOnlyFiles.Name.Contains('SecretManagement.MyVault-Module.Tests.ps1') | Should -BeExactly $true
+                    $vaultOnlyFiles.Name.Contains('SecretManagement.MyVault-Function.Tests.ps1') | Should -BeExactly $true
 
                     # LICENSE
-                    $moduleOnlyFiles.Name.Contains('GNULICENSE') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('ISCLICENSE') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('MITLICENSE') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('APACHELICENSE') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('GNULICENSE') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('ISCLICENSE') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('MITLICENSE') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('APACHELICENSE') | Should -BeExactly $false
 
                     # REPO
-                    $moduleOnlyFiles.Name.Contains('CHANGELOG.md') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('CODE_OF_CONDUCT.md') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('CONTRIBUTING.md') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('SECURITY.md') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('.gitignore') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('PULL_REQUEST_TEMPLATE.md') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('bug-report.md') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('feature_request.md') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('CHANGELOG.md') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('CODE_OF_CONDUCT.md') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('CONTRIBUTING.md') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('SECURITY.md') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('.gitignore') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('PULL_REQUEST_TEMPLATE.md') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('bug-report.md') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('feature_request.md') | Should -BeExactly $false
 
                     # AWS
-                    $moduleOnlyFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $false
 
-                    $moduleOnlyFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $false
 
                     # GitHub
-                    $moduleOnlyFiles.Name.Contains('wf_Linux.yml') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('wf_MacOS.yml') | Should -BeExactly $false
-                    $moduleOnlyFiles.Name.Contains('wf_Windows.yml') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('wf_Linux.yml') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('wf_MacOS.yml') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('wf_Windows.yml') | Should -BeExactly $false
 
                     # Azure
-                    $moduleOnlyFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $false
 
                     # AppVeyor
-                    $moduleOnlyFiles.Name.Contains('appveyor.yml') | Should -BeExactly $false
+                    $vaultOnlyFiles.Name.Contains('appveyor.yml') | Should -BeExactly $false
 
                     $buildContent = Get-Content -Path $buildFile -Raw
 
@@ -160,11 +160,11 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+                    $codeBuildVaultFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
-                    $codeBuildModuleFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
-                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
-                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $true
                     $powershellContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_powershell_windows.yml')
                     $powershellContent = Get-Content -Path $powershellContentPath -Raw
                     $powershellContent | Should -BeLike '*SecretManagement.MyVault*'
@@ -175,16 +175,16 @@ Describe 'Vault Infra Tests' {
                     $pwshContent = Get-Content -Path $pwshContentPath -Raw
                     $pwshContent | Should -BeLike '*SecretManagement.MyVault*'
 
-                    $codeBuildModuleFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $true
 
-                    $codeBuildModuleFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $true
                     $installContentPath = [System.IO.Path]::Combine($outPutPath, 'install_modules.ps1')
                     $installContent = Get-Content -Path $installContentPath -Raw
                     $installContent | Should -BeLike '*$galleryDownload = $true*'
                     $installContent | Should -BeLike '*Microsoft.PowerShell.SecretManagement*'
 
-                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
-                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
+                    $codeBuildVaultFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $true
 
                     $cfnContentPath = [System.IO.Path]::Combine($outPutPath, 'CloudFormation', 'PowerShellCodeBuildGit.yml')
                     $cfnContent = Get-Content -Path $cfnContentPath -Raw
@@ -218,11 +218,11 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+                    $codeBuildVaultFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
-                    $codeBuildModuleFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
-                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
-                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $true
                     $powershellContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_powershell_windows.yml')
                     $powershellContent = Get-Content -Path $powershellContentPath -Raw
                     $powershellContent | Should -BeLike '*SecretManagement.MyVault*'
@@ -233,16 +233,16 @@ Describe 'Vault Infra Tests' {
                     $pwshContent = Get-Content -Path $pwshContentPath -Raw
                     $pwshContent | Should -BeLike '*SecretManagement.MyVault*'
 
-                    $codeBuildModuleFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $true
 
-                    $codeBuildModuleFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $true
                     $installContentPath = [System.IO.Path]::Combine($outPutPath, 'install_modules.ps1')
                     $installContent = Get-Content -Path $installContentPath -Raw
                     $installContent | Should -BeLike '*$galleryDownload = $true*'
                     $installContent | Should -BeLike '*Microsoft.PowerShell.SecretManagement*'
 
-                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
-                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
+                    $codeBuildVaultFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $true
 
                     $cfnContentPath = [System.IO.Path]::Combine($outPutPath, 'CloudFormation', 'PowerShellCodeBuildGit.yml')
                     $cfnContent = Get-Content -Path $cfnContentPath -Raw
@@ -276,22 +276,22 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+                    $codeBuildVaultFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
-                    $codeBuildModuleFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
-                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
-                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $true
 
-                    $codeBuildModuleFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $true
 
-                    $codeBuildModuleFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $true
                     $installContentPath = [System.IO.Path]::Combine($outPutPath, 'install_modules.ps1')
                     $installContent = Get-Content -Path $installContentPath -Raw
                     $installContent | Should -BeLike '*$galleryDownload = $true*'
                     $installContent | Should -BeLike '*Microsoft.PowerShell.SecretManagement*'
 
-                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $true
-                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $false
+                    $codeBuildVaultFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $false
 
                     $cfnContentPath = [System.IO.Path]::Combine($outPutPath, 'CloudFormation', 'PowerShellCodeBuildCC.yml')
                     $cfnContent = Get-Content -Path $cfnContentPath -Raw
@@ -324,21 +324,21 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+                    $codeBuildVaultFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
-                    $codeBuildModuleFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
-                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
-                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
+                    $codeBuildVaultFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $true
 
-                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
-                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $false
+                    $codeBuildVaultFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
+                    $codeBuildVaultFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $false
                 } #it
 
             } #aws_codeBuild
 
             Context 'Azure Pipelines' {
 
-                It 'should generate an Azure Pipelines based module stored on GitHub with all required elements' {
+                It 'should generate an Azure Pipelines based vault project stored on GitHub with all required elements' {
                     $vaultParameters = @{
                         VAULT        = 'text'
                         ModuleName   = 'SecretManagement.MyVault'
@@ -361,11 +361,11 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $azureModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+                    $azureVaultFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
-                    $azureModuleFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $true
-                    $azureModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
-                    $azureModuleFiles.Name.Contains('pull_request_template.md') | Should -BeExactly $false
+                    $azureVaultFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $true
+                    $azureVaultFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+                    $azureVaultFiles.Name.Contains('pull_request_template.md') | Should -BeExactly $false
 
                     $installContentPath = [System.IO.Path]::Combine($outPutPath, 'actions_bootstrap.ps1')
                     $installContent = Get-Content -Path $installContentPath -Raw
@@ -379,7 +379,7 @@ Describe 'Vault Infra Tests' {
                     $azureYMLContent | Should -BeLike "*build_pwsh_macOSLatest*"
                 } #it
 
-                It 'should generate an Azure Pipelines based module stored on Azure Repos with all required elements' {
+                It 'should generate an Azure Pipelines based vault project stored on Azure Repos with all required elements' {
                     $vaultParameters = @{
                         VAULT        = 'text'
                         ModuleName   = 'SecretManagement.MyVault'
@@ -402,11 +402,11 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $azureModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+                    $azureVaultFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
-                    $azureModuleFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $true
-                    $azureModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
-                    $azureModuleFiles.Name.Contains('pull_request_template.md') | Should -BeExactly $true
+                    $azureVaultFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $true
+                    $azureVaultFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+                    $azureVaultFiles.Name.Contains('pull_request_template.md') | Should -BeExactly $true
 
                     $installContentPath = [System.IO.Path]::Combine($outPutPath, 'actions_bootstrap.ps1')
                     $installContent = Get-Content -Path $installContentPath -Raw
@@ -420,7 +420,7 @@ Describe 'Vault Infra Tests' {
                     $azureYMLContent | Should -BeLike "*build_pwsh_macOSLatest*"
                 } #it
 
-                It 'should generate an Azure Pipelines based module stored on Bitbucket with all required elements' {
+                It 'should generate an Azure Pipelines based vault project stored on Bitbucket with all required elements' {
                     $vaultParameters = @{
                         VAULT        = 'text'
                         ModuleName   = 'SecretManagement.MyVault'
@@ -443,11 +443,11 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $azureModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+                    $azureVaultFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
-                    $azureModuleFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $true
-                    $azureModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
-                    $azureModuleFiles.Name.Contains('pull_request_template.md') | Should -BeExactly $false
+                    $azureVaultFiles.Name.Contains('azure-pipelines.yml') | Should -BeExactly $true
+                    $azureVaultFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+                    $azureVaultFiles.Name.Contains('pull_request_template.md') | Should -BeExactly $false
 
                     $installContentPath = [System.IO.Path]::Combine($outPutPath, 'actions_bootstrap.ps1')
                     $installContent = Get-Content -Path $installContentPath -Raw
@@ -465,7 +465,7 @@ Describe 'Vault Infra Tests' {
 
             Context 'Appveyor Build' {
 
-                It 'should generate an Appveyor based module stored on GitHub with all required elements' {
+                It 'should generate an Appveyor based vault project stored on GitHub with all required elements' {
                     $vaultParameters = @{
                         VAULT           = 'text'
                         ModuleName      = 'SecretManagement.MyVault'
@@ -488,10 +488,10 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $appveyorModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+                    $appveyorVaultFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
-                    $appveyorModuleFiles.Name.Contains('appveyor.yml') | Should -BeExactly $true
-                    $appveyorModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+                    $appveyorVaultFiles.Name.Contains('appveyor.yml') | Should -BeExactly $true
+                    $appveyorVaultFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
 
                     $installContentPath = [System.IO.Path]::Combine($outPutPath, 'actions_bootstrap.ps1')
                     $installContent = Get-Content -Path $installContentPath -Raw
@@ -509,7 +509,7 @@ Describe 'Vault Infra Tests' {
 
             Context 'GitHub Actions' {
 
-                It 'should generate a GitHub Actions based module stored on GitHub with all required elements' {
+                It 'should generate a GitHub Actions based vault project stored on GitHub with all required elements' {
                     $vaultParameters = @{
                         VAULT          = 'text'
                         ModuleName     = 'SecretManagement.MyVault'
@@ -532,12 +532,12 @@ Describe 'Vault Infra Tests' {
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
 
-                    $ghaModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+                    $ghaVaultFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
 
-                    $ghaModuleFiles.Name.Contains('wf_Linux.yml') | Should -BeExactly $true
-                    $ghaModuleFiles.Name.Contains('wf_MacOS.yml') | Should -BeExactly $true
-                    $ghaModuleFiles.Name.Contains('wf_Windows_Core.yml') | Should -BeExactly $true
-                    $ghaModuleFiles.Name.Contains('wf_Windows.yml') | Should -BeExactly $true
+                    $ghaVaultFiles.Name.Contains('wf_Linux.yml') | Should -BeExactly $true
+                    $ghaVaultFiles.Name.Contains('wf_MacOS.yml') | Should -BeExactly $true
+                    $ghaVaultFiles.Name.Contains('wf_Windows_Core.yml') | Should -BeExactly $true
+                    $ghaVaultFiles.Name.Contains('wf_Windows.yml') | Should -BeExactly $true
 
                     $installContentPath = [System.IO.Path]::Combine($outPutPath, 'actions_bootstrap.ps1')
                     $installContent = Get-Content -Path $installContentPath -Raw
@@ -562,6 +562,46 @@ Describe 'Vault Infra Tests' {
                 } #it
 
             } #github_actions
+
+            Context 'Bitbucket Build' {
+
+                It 'should generate a Bitbucket based vault project stored on Bitbucket with all required elements' {
+                    $vaultParameters = @{
+                        VAULT           = 'text'
+                        ModuleName      = 'SecretManagement.MyVault'
+                        Description     = 'text'
+                        Version         = '0.0.1'
+                        FN              = 'user full name'
+                        CICD            = 'BITBUCKET'
+                        RepoType        = 'BITBUCKET'
+                        License         = 'None'
+                        Changelog       = 'NOCHANGELOG'
+                        COC             = 'NOCONDUCT'
+                        Contribute      = 'NOCONTRIBUTING'
+                        Security        = 'NOSECURITY'
+                        CodingStyle     = 'Stroustrup'
+                        Pester          = '5'
+                        PassThru        = $true
+                        NoLogo          = $true
+                    }
+                    $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $bitbucketVaultFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $bitbucketVaultFiles.Name.Contains('bitbucket-pipelines.yml') | Should -BeExactly $true
+                    $bitbucketVaultFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+
+                    $installContentPath = [System.IO.Path]::Combine($outPutPath, 'actions_bootstrap.ps1')
+                    $installContent = Get-Content -Path $installContentPath -Raw
+                    $installContent | Should -BeLike '*Microsoft.PowerShell.SecretManagement*'
+
+                    $bitbucketYMLContentPath = [System.IO.Path]::Combine($outPutPath, 'bitbucket-pipelines.yml')
+                    $bitbucketYMLContent = Get-Content -Path $bitbucketYMLContentPath -Raw
+                    $bitbucketYMLContent | Should -BeLike "*SecretManagement.MyVault*"
+                } #it
+
+            } #bitbucket
 
         } #context_cicd
 
@@ -698,7 +738,7 @@ Describe 'Vault Infra Tests' {
 
         Context 'Help Examples' {
 
-            It 'should have a working example for vanilla module' {
+            It 'should have a working example for vanilla vault project' {
                 $vaultParameters = @{
                     ModuleName  = 'SecretManagement.VaultName'
                     Description = 'My awesome vault is awesome'
@@ -717,7 +757,7 @@ Describe 'Vault Infra Tests' {
                 $manifestContent | Should -BeLike '*My awesome vault is awesome*'
             } #it
 
-            It 'should have a working example for GitHub Actions module' {
+            It 'should have a working example for GitHub Actions vault project' {
                 $vaultParameters = @{
                     ModuleName     = 'SecretManagement.VaultName'
                     Description    = 'My awesome vault is awesome'
@@ -743,7 +783,7 @@ Describe 'Vault Infra Tests' {
                 $manifestContent | Should -BeLike '*My awesome vault is awesome*'
             } #it
 
-            It 'should have a working example for AWS module' {
+            It 'should have a working example for AWS vault project' {
                 $vaultParameters = @{
                     ModuleName  = 'SecretManagement.VaultName'
                     Description = 'My awesome vault is awesome'
@@ -769,7 +809,7 @@ Describe 'Vault Infra Tests' {
                 $manifestContent | Should -BeLike '*My awesome vault is awesome*'
             } #it
 
-            It 'should have a working example for Azure module' {
+            It 'should have a working example for Azure vault project' {
                 $vaultParameters = @{
                     ModuleName   = 'SecretManagement.VaultName'
                     Description  = 'My awesome vault is awesome'
@@ -794,7 +834,7 @@ Describe 'Vault Infra Tests' {
                 $manifestContent | Should -BeLike '*My awesome vault is awesome*'
             } #it
 
-            It 'should have a working example for Appveyor module' {
+            It 'should have a working example for Appveyor vault project' {
                 $vaultParameters = @{
                     ModuleName      = 'SecretManagement.VaultName'
                     Description     = 'My awesome vault is awesome'
@@ -821,6 +861,6 @@ Describe 'Vault Infra Tests' {
             } #it
         }
 
-    } #context_module_checks
+    } #context_vault_checks
 
-} #describe_module_tests
+} #describe_vault_tests
