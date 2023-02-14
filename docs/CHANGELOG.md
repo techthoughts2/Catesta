@@ -33,6 +33,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
             - Added support for Bitbucket repo source
                 - Added new CFN parameter RepositoryType
                 - CodeBuild projects will now be sourced from BITBUCKET if Bitbucket repo is chosen
+    - Appveyor CI/CD changes:
+        - Added Tests reports capabilities. Tests reports are now viewable from Appveyor builds.
     - GitHub Actions CI/CD changes:
         - Build will now ignore `docs` folder and all `.md` file updates. Builds will not be triggered if only these are updated.
     - Added support for Bitbucket Pipelines CI/CD choice

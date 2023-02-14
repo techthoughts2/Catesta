@@ -4,6 +4,7 @@ version: 1.0.{build}
 # https://www.appveyor.com/docs/build-environment/
 # https://www.appveyor.com/docs/build-configuration/#specializing-matrix-job-configuration
 # https://www.appveyor.com/docs/appveyor-yml/
+# https://www.appveyor.com/docs/running-tests/#uploading-xml-test-results
 
 image:
 <%
@@ -77,6 +78,8 @@ install:
   - pwsh: . .\actions_bootstrap.ps1
 build_script:
   - pwsh: Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1
+after_build:
+  - pwsh: $wc = New-Object 'System.Net.WebClient';$wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path src/Artifacts/testOutput/PesterTests.xml))
 '@
 }
 %>
