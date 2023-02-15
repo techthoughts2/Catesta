@@ -38,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
             - Added Tests reports capabilities. Tests reports are now viewable from Appveyor builds.
         - GitHub Actions CI/CD changes:
             - Build will now ignore `docs` folder and all `.md` file updates. Builds will not be triggered if only these are updated.
+            - Updated `checkout@v2` to `checkout@v3`
+            - Updated `upload-artifact@v2` to `upload-artifact@v3`
         - Added support for Bitbucket Pipelines CI/CD choice
         - Added support for Azure Repo choice
     - Minor updates and improvements to both vault and module `*.build.ps1` files
