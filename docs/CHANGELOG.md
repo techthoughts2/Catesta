@@ -21,24 +21,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - Previous behavior was that this was only supported for GitHub repo selection and generated to the `.github` directory.
     - `tasks.json`
         - Added new task: `Infra-Single-Detailed` which is capable of running Infrastructure tests against individual test files
-    - AWS CodeBuild CI/CD changes:
-        - Significant improvements to `PowerShellCodeBuildCC.yml`
-            - Added new parameter to allow primary branch name to be specified. Defaults to `main`
-            - Merged S3 artifact buckets into template
-            - Updated to use `${AWS::Partition}` where appropriate
-            - Added more robust tagging of project resources
-            - Added `AWS::Logs::LogGroup` for each trigger lambda with a 60 day retention so that logs don't persist forever
-        - Removed `S3BucketsForPowerShellDevelopment.yml` as it is now combined with `PowerShellCodeBuildCC.yml`
-        - Significant improvements to `PowerShellCodeBuildGit.yml`
-            - Added support for Bitbucket repo source
-                - Added new CFN parameter RepositoryType
-                - CodeBuild projects will now be sourced from BITBUCKET if Bitbucket repo is chosen
-    - Appveyor CI/CD changes:
-        - Added Tests reports capabilities. Tests reports are now viewable from Appveyor builds.
-    - GitHub Actions CI/CD changes:
-        - Build will now ignore `docs` folder and all `.md` file updates. Builds will not be triggered if only these are updated.
-    - Added support for Bitbucket Pipelines CI/CD choice
-    - Added support for Azure Repo choice
+    - CI/CD Changes:
+        - AWS CodeBuild:
+            - Significant improvements to `PowerShellCodeBuildCC.yml`
+                - Added new parameter to allow primary branch name to be specified. Defaults to `main`
+                - Merged S3 artifact buckets into template
+                - Updated to use `${AWS::Partition}` where appropriate
+                - Added more robust tagging of project resources
+                - Added `AWS::Logs::LogGroup` for each trigger lambda with a 60 day retention so that logs don't persist forever
+            - Removed `S3BucketsForPowerShellDevelopment.yml` as it is now combined with `PowerShellCodeBuildCC.yml`
+            - Significant improvements to `PowerShellCodeBuildGit.yml`
+                - Added support for Bitbucket repo source
+                    - Added new CFN parameter RepositoryType
+                    - CodeBuild projects will now be sourced from BITBUCKET if Bitbucket repo is chosen
+        - Appveyor CI/CD changes:
+            - Added Tests reports capabilities. Tests reports are now viewable from Appveyor builds.
+        - GitHub Actions CI/CD changes:
+            - Build will now ignore `docs` folder and all `.md` file updates. Builds will not be triggered if only these are updated.
+        - Added support for Bitbucket Pipelines CI/CD choice
+        - Added support for Azure Repo choice
+    - Minor updates and improvements to both vault and module `*.build.ps1` files
 - Catesta primary module changes
     - Complete overhaul of Catesta documentation
         - Added support for Read the Docs integration using the Material for MkDocs theme.

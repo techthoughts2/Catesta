@@ -55,11 +55,16 @@ $str += 'FormattingCheck'
 }
 %>
 $str += 'Analyze', 'Test'
+$str2 = $str
+$str2 += 'Build', 'Archive'
 $str += 'Build', 'InfraTest', 'Archive'
 Add-BuildTask -Name . -Jobs $str
 
 #Local testing build process
 Add-BuildTask TestLocal Clean, ImportModuleManifest, Analyze, Test
+
+#Full build sans infra tests
+Add-BuildTask BuildNoInfra -Jobs $str2
 
 # Pre-build variables to be used by other portions of the script
 Enter-Build {
@@ -89,16 +94,28 @@ Enter-Build {
     $script:coverageThreshold = 0
 
 <%
-if ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester -eq '4') {
         @'
     [version]$script:MinPesterVersion = '4.0.0'
     [version]$script:MaxPesterVersion = '4.99.99'
 '@
 }
-elseif ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester -eq '5') {
         @'
     [version]$script:MinPesterVersion = '5.2.2'
     [version]$script:MaxPesterVersion = '5.99.99'
+'@
+}
+%>
+<%
+if ($PLASTER_PARAM_CICD -eq 'BITBUCKET') {
+        @'
+    $script:testOutputFormat = 'JUnitXml'
+'@
+}
+else {
+        @'
+    $script:testOutputFormat = 'NUnitXML'
 '@
 }
 %>
@@ -130,7 +147,7 @@ Set-BuildFooter {
 Add-BuildTask ValidateRequirements {
     # this setting comes from the *.Settings.ps1
     Write-Build White "      Verifying at least PowerShell $script:requiredPSVersion..."
-    Assert-Build ($PSVersionTable.PSVersion.Major.ToString() -ge $script:requiredPSVersion) "At least Powershell $script:requiredPSVersion is required for this build to function properly"
+    Assert-Build ($PSVersionTable.PSVersion -ge $script:requiredPSVersion) "At least Powershell $script:requiredPSVersion is required for this build to function properly"
     Write-Build Green '      ...Verification Complete!'
 } #ValidateRequirements
 
@@ -193,7 +210,7 @@ Add-BuildTask AnalyzeTests -After Analyze {
     if (Test-Path -Path $script:TestsPath) {
 
 <%
-if ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester -eq '4') {
             @'
         $scriptAnalyzerParams = @{
             Path    = $script:TestsPath
@@ -203,7 +220,7 @@ if ($PLASTER_PARAM_Pester-eq '4') {
         }
 '@
 }
-elseif ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester -eq '5') {
             @'
         $scriptAnalyzerParams = @{
             Path        = $script:TestsPath
@@ -298,10 +315,10 @@ Add-BuildTask Test {
     }
     if (Test-Path -Path $script:UnitTestsPath) {
 <%
-if ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester -eq '4') {
             @'
         $invokePesterParams = @{
-            Path                         = 'Tests\Unit'
+            Path                         = $script:UnitTestsPath
             Strict                       = $true
             PassThru                     = $true
             Verbose                      = $false
@@ -310,18 +327,18 @@ if ($PLASTER_PARAM_Pester-eq '4') {
             CodeCoverageOutputFile       = "$codeCovPath\CodeCoverage.xml"
             CodeCoverageOutputFileFormat = 'JaCoCo'
             OutputFile                   = "$testOutPutPath\PesterTests.xml"
-            OutputFormat                 = 'NUnitXML'
+            OutputFormat                 = $script:testOutputFormat
         }
 
         Write-Build White '      Performing Pester Unit Tests...'
-        # Publish Test Results as NUnitXml
+        # Publish Test Results
         $testResults = Invoke-Pester @invokePesterParams
 '@
 }
-elseif ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester -eq '5') {
             @'
         $pesterConfiguration = New-PesterConfiguration
-        $pesterConfiguration.run.Path = $script:TestsPath
+        $pesterConfiguration.run.Path = $script:UnitTestsPath
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
         $pesterConfiguration.CodeCoverage.Enabled = $true
@@ -331,11 +348,11 @@ elseif ($PLASTER_PARAM_Pester-eq '5') {
         $pesterConfiguration.CodeCoverage.OutputFormat = 'JaCoCo'
         $pesterConfiguration.TestResult.Enabled = $true
         $pesterConfiguration.TestResult.OutputPath = "$testOutPutPath\PesterTests.xml"
-        $pesterConfiguration.TestResult.OutputFormat = 'NUnitXml'
+        $pesterConfiguration.TestResult.OutputFormat = $script:testOutputFormat
         $pesterConfiguration.Output.Verbosity = 'Detailed'
 
         Write-Build White '      Performing Pester Unit Tests...'
-        # Publish Test Results as NUnitXml
+        # Publish Test Results
         $testResults = Invoke-Pester -Configuration $pesterConfiguration
 '@
 }
@@ -354,7 +371,7 @@ elseif ($PLASTER_PARAM_Pester-eq '5') {
         Assert-Build($numberFails -eq 0) ('Failed "{0}" unit tests.' -f $numberFails)
 
 <%
-if ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester -eq '4') {
             @'
         Write-Build Gray ('      ...CODE COVERAGE - NumberOfCommandsExecuted: {0}' -f $testResults.CodeCoverage.NumberOfCommandsExecuted)
         Write-Build Gray ('      ...CODE COVERAGE - NumberOfCommandsAnalyzed: {0}' -f $testResults.CodeCoverage.NumberOfCommandsAnalyzed)
@@ -382,7 +399,7 @@ if ($PLASTER_PARAM_Pester-eq '4') {
         }
 '@
 }
-elseif ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester -eq '5') {
             @'
         Write-Build Gray ('      ...CODE COVERAGE - CommandsExecutedCount: {0}' -f $testResults.CodeCoverage.CommandsExecutedCount)
         Write-Build Gray ('      ...CODE COVERAGE - CommandsAnalyzedCount: {0}' -f $testResults.CodeCoverage.CommandsAnalyzedCount)
@@ -422,10 +439,10 @@ Add-BuildTask DevCC {
     Remove-Module -Name Pester -Force -ErrorAction SilentlyContinue # there are instances where some containers have Pester already in the session
     Import-Module -Name Pester -MinimumVersion $script:MinPesterVersion -MaximumVersion $script:MaxPesterVersion -ErrorAction 'Stop'
 <%
-if ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester -eq '4') {
         @'
     $invokePesterParams = @{
-        Path                   = 'Tests\Unit'
+        Path                   = $script:UnitTestsPath
         CodeCoverage           = "$ModuleName\*\*.ps1"
         CodeCoverageOutputFile = '..\..\..\cov.xml'
     }
@@ -435,7 +452,7 @@ if ($PLASTER_PARAM_Pester-eq '4') {
 elseif ($PLASTER_PARAM_Pester-eq '5') {
         @'
     $pesterConfiguration = New-PesterConfiguration
-    $pesterConfiguration.run.Path = 'Tests\Unit'
+    $pesterConfiguration.run.Path = $script:UnitTestsPath
     $pesterConfiguration.CodeCoverage.Enabled = $true
     $pesterConfiguration.CodeCoverage.Path = "$PSScriptRoot\$ModuleName\*\*.ps1"
     $pesterConfiguration.CodeCoverage.CoveragePercentTarget = $script:coverageThreshold
@@ -479,10 +496,10 @@ Add-BuildTask InfraTest {
         Write-Build White "      Performing Pester Infrastructure Tests in $($invokePesterParams.path)"
 
 <%
-if ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester -eq '4') {
             @'
         $invokePesterParams = @{
-            Path       = 'Tests\Infrastructure'
+            Path       = $script:InfraTestsPath
             Strict     = $true
             PassThru   = $true
             Verbose    = $false
@@ -490,14 +507,14 @@ if ($PLASTER_PARAM_Pester-eq '4') {
         }
 
 
-        # Publish Test Results as NUnitXml
+        # Publish Test Results
         $testResults = Invoke-Pester @invokePesterParams
 '@
 }
-elseif ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester -eq '5') {
             @'
         $pesterConfiguration = New-PesterConfiguration
-        $pesterConfiguration.run.Path = 'Tests\Infrastructure'
+        $pesterConfiguration.run.Path = $script:InfraTestsPath
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
         $pesterConfiguration.CodeCoverage.Enabled = $false
