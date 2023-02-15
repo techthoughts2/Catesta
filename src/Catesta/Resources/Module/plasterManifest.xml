@@ -227,7 +227,7 @@
         <!-- ________________________Contribute -->
         <templateFile condition="$PLASTER_PARAM_RepoType -eq 'AZURE' -and $PLASTER_PARAM_Contribute -eq 'CONTRIBUTING'" source='..\RepoFiles\CONTRIBUTING.md' destination='CONTRIBUTING.md' />
         <!-- ________________________Security -->
-        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'AZURE' -and $PLASTER_PARAM_Contribute -eq 'SECURITY'" source='..\RepoFiles\SECURITY.md' destination='SECURITY.md' />
+        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'AZURE' -and $PLASTER_PARAM_Security -eq 'SECURITY'" source='..\RepoFiles\SECURITY.md' destination='SECURITY.md' />
         <!-- ________________________Templates -->
         <file condition="$PLASTER_PARAM_RepoType -eq 'AZURE'" source='..\AzureRepoFiles\pull_request_template.md' destination='.azuredevops\pull_request_template.md' />
 
@@ -237,7 +237,7 @@
         <!-- ________________________Contribute -->
         <templateFile condition="$PLASTER_PARAM_RepoType -eq 'BITBUCKET' -and $PLASTER_PARAM_Contribute -eq 'CONTRIBUTING'" source='..\RepoFiles\CONTRIBUTING.md' destination='CONTRIBUTING.md' />
         <!-- ________________________Security -->
-        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'BITBUCKET' -and $PLASTER_PARAM_Contribute -eq 'SECURITY'" source='..\RepoFiles\SECURITY.md' destination='SECURITY.md' />
+        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'BITBUCKET' -and $PLASTER_PARAM_Security -eq 'SECURITY'" source='..\RepoFiles\SECURITY.md' destination='SECURITY.md' />
         <!-- ________________________Templates -->
         <!-- //N/A _______________________________ -->
 
@@ -247,7 +247,7 @@
         <!-- ________________________Contribute -->
         <templateFile condition="$PLASTER_PARAM_RepoType -eq 'GITLAB' -and $PLASTER_PARAM_Contribute -eq 'CONTRIBUTING'" source='..\RepoFiles\CONTRIBUTING.md' destination='CONTRIBUTING.md' />
         <!-- ________________________Security -->
-        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'GITLAB' -and $PLASTER_PARAM_Contribute -eq 'SECURITY'" source='..\RepoFiles\SECURITY.md' destination='SECURITY.md' />
+        <templateFile condition="$PLASTER_PARAM_RepoType -eq 'GITLAB' -and $PLASTER_PARAM_Security -eq 'SECURITY'" source='..\RepoFiles\SECURITY.md' destination='SECURITY.md' />
         <!-- ________________________Templates -->
         <!-- TODO: ___________________________merge_request_templates -->
         <!-- TODO: ___________________________issue_template -->
