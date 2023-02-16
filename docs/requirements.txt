@@ -2,6 +2,6 @@
 # requirements.txt
 jinja2==3.0.3
 mkdocs>=1.4.2
-mkdocs-material==9.0.6  #https://github.com/squidfunk/mkdocs-material
+mkdocs-material==9.0.12  #https://github.com/squidfunk/mkdocs-material
 pygments>=2.14.0
 # mdx_truly_sane_lists
