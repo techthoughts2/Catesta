@@ -829,7 +829,6 @@ Describe 'Vault Infra Tests' {
                     $repoFiles.Name.Contains('Default.md') | Should -BeExactly $true
                     $repoFiles.Name.Contains('bug-report.md') | Should -BeExactly $true
                     $repoFiles.Name.Contains('feature-request.md') | Should -BeExactly $true
-                    $repoFiles.Name.Contains('insights.yml') | Should -BeExactly $true
 
                     $dotGitLabFiles = @(
                         'Default.md'

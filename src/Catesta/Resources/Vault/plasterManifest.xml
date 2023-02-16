@@ -231,7 +231,6 @@
         <file condition="$PLASTER_PARAM_RepoType -eq 'GITLAB'" source='..\GitLabFiles\issue_templates\bug-report.md' destination='.gitlab\issue_templates\bug-report.md'/>
         <file condition="$PLASTER_PARAM_RepoType -eq 'GITLAB'" source='..\GitLabFiles\issue_templates\feature-request.md' destination='.gitlab\issue_templates\feature-request.md'/>
         <file condition="$PLASTER_PARAM_RepoType -eq 'GITLAB'" source='..\GitLabFiles\merge_request_templates\Default.md' destination='.gitlab\merge_request_templates\Default.md'/>
-        <file condition="$PLASTER_PARAM_RepoType -eq 'GITLAB'" source='..\GitLabFiles\insights.yml' destination='.gitlab\insights.yml'/>
 
 
         <!-- CI\CD -->

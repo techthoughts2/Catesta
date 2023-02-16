@@ -130,9 +130,6 @@ Describe 'File Checks' {
             $gitlabRepoFiles.Name.Contains('bug-report.md') | Should -BeExactly $true
             $gitlabRepoFiles.Name.Contains('feature-request.md') | Should -BeExactly $true
         } #it
-        It 'should have an insights file' {
-            $gitlabRepoFiles.Name.Contains('insights.yml') | Should -BeExactly $true
-        } #it
     } #context_Azure_Repo
 
     Context 'AWS' {
