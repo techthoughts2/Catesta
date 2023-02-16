@@ -29,7 +29,7 @@ Describe 'File Checks' {
         $azureFiles = Get-ChildItem -Path "$resourcePath\Azure\*" -Recurse
         $appVeyorFiles = Get-ChildItem -Path "$resourcePath\AppVeyor\*" -Recurse
         $bitbucketFiles = Get-ChildItem -Path "$resourcePath\Bitbucket\*" -Recurse
-        $gitlabFiles = Get-ChildItem -Path "$resourcePath\GitLab\*" -Recurse
+        $gitlabFiles = Get-ChildItem -Path "$resourcePath\GitLab\*" -Recurse -Hidden
 
         $docsPath = [System.IO.Path]::Combine( '..', '..', '..', 'docs')
         $docFiles = Get-ChildItem -Path $docsPath -Recurse
