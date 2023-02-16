@@ -817,7 +817,6 @@ Describe 'Module Infra Tests' {
                         'Default.md'
                         'bug-report.md'
                         'feature-request.md'
-                        'insights.yml'
                     )
                     $docFiles = @(
                         'CHANGELOG.md'
