@@ -43,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - Added support for Bitbucket Pipelines CI/CD choice
         - Added support for GitLab CI/CD Pipelines choice
     - Added support for Azure Repo choice
+    - Added support for GitLab Repo choice
     - Minor updates and improvements to both vault and module `*.build.ps1` files
 - Catesta primary module changes
     - Complete overhaul of Catesta documentation

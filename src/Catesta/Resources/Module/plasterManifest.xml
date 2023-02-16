@@ -45,7 +45,6 @@
             <choice label='&amp;Azure Pipelines' help='CI/CD using Azure Pipelines' value='AZURE'/>
         </parameter>
         <!-- _________ CI/CD Sub-choices -->
-        <!-- !$PLASTER_PARAM_OPTIONS THIS IS A PROBLEM -->
         <!-- ___________________________GitHub Actions -->
         <parameter condition="$PLASTER_PARAM_CICD -eq 'GITHUB'" name='GitHubAOptions' type='multichoice' default='0' store='text' prompt='Select desired workflow action options? (If your module is cross-platform you should select multiple)'>
             <choice label='&amp;Windows - PowerShell' help="Adds a Windows PowerShell based Workflow action." value="windows"/>
@@ -253,10 +252,10 @@
         <!-- ________________________Security -->
         <templateFile condition="$PLASTER_PARAM_RepoType -eq 'GITLAB' -and $PLASTER_PARAM_Security -eq 'SECURITY'" source='..\RepoFiles\SECURITY.md' destination='SECURITY.md' />
         <!-- ________________________Templates -->
-        <!-- TODO: ___________________________merge_request_templates -->
-        <!-- TODO: ___________________________issue_template -->
-        <!-- TODO: ___________________________insights.yml -->
-
+        <file condition="$PLASTER_PARAM_RepoType -eq 'GITLAB'" source='..\GitLabFiles\issue_templates\bug-report.md' destination='.gitlab\issue_templates\bug-report.md'/>
+        <file condition="$PLASTER_PARAM_RepoType -eq 'GITLAB'" source='..\GitLabFiles\issue_templates\feature-request.md' destination='.gitlab\issue_templates\feature-request.md'/>
+        <file condition="$PLASTER_PARAM_RepoType -eq 'GITLAB'" source='..\GitLabFiles\merge_request_templates\Default.md' destination='.gitlab\merge_request_templates\Default.md'/>
+        <file condition="$PLASTER_PARAM_RepoType -eq 'GITLAB'" source='..\GitLabFiles\insights.yml' destination='.gitlab\insights.yml'/>
 
         <!-- CI\CD -->
         <!-- _________GitHub Actions -->

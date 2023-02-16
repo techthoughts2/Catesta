@@ -30,6 +30,7 @@ Describe 'File Checks' {
         $appVeyorFiles = Get-ChildItem -Path "$resourcePath\AppVeyor\*" -Recurse
         $bitbucketFiles = Get-ChildItem -Path "$resourcePath\Bitbucket\*" -Recurse
         $gitlabFiles = Get-ChildItem -Path "$resourcePath\GitLab\*" -Recurse -Force
+        $gitlabRepoFiles = Get-ChildItem -Path "$resourcePath\GitLabFiles\*" -Recurse
 
         $docsPath = [System.IO.Path]::Combine( '..', '..', '..', 'docs')
         $docFiles = Get-ChildItem -Path $docsPath -Recurse
@@ -118,6 +119,19 @@ Describe 'File Checks' {
         It 'should have a Pull Request Template' {
             $azureRepoFiles.Name.Contains('pull_request_template.md') | Should -BeExactly $true
 
+        } #it
+    } #context_Azure_Repo
+
+    Context 'GitLab Repo' {
+        It 'should have a Merge Request Template' {
+            $gitlabRepoFiles.Name.Contains('Default.md') | Should -BeExactly $true
+        } #it
+        It 'should have issue templates' {
+            $gitlabRepoFiles.Name.Contains('bug-report.md') | Should -BeExactly $true
+            $gitlabRepoFiles.Name.Contains('feature-request.md') | Should -BeExactly $true
+        } #it
+        It 'should have an insights file' {
+            $gitlabRepoFiles.Name.Contains('insights.yml') | Should -BeExactly $true
         } #it
     } #context_Azure_Repo
 
@@ -247,6 +261,10 @@ Describe 'File Checks' {
                                 ) {
                                     if ($line -like "*$dir.*" -or $line -like '*azure-pipelines.yml*') {
                                         # skip if referencing a filename
+                                        continue
+                                    }
+                                    # special case for similar github/gitlab dir names
+                                    if ($dir -like '*ISSUE_TEMPLATE*' -and $line -like '*gitlab*') {
                                         continue
                                     }
                                     # evaluate case sensitivity

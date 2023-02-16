@@ -760,6 +760,80 @@ Describe 'Module Infra Tests' {
 
             } #context_github
 
+            Context 'GitLab' {
+
+                It 'should generate the appropriate repo files for GitLab' {
+                    $moduleParameters = @{
+                        VAULT       = 'text'
+                        ModuleName  = 'modulename'
+                        Description = 'text'
+                        Version     = '0.0.1'
+                        FN          = 'user full name'
+                        CICD        = 'NONE'
+                        RepoType    = 'GITLAB'
+                        License     = 'MIT'
+                        Changelog   = 'CHANGELOG'
+                        COC         = 'CONDUCT'
+                        Contribute  = 'CONTRIBUTING'
+                        Security    = 'SECURITY'
+                        CodingStyle = 'Stroustrup'
+                        Help        = 'Yes'
+                        Pester      = '5'
+                        S3Bucket    = 'PSGallery'
+                        PassThru    = $true
+                        NoLogo      = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $repoFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    # LICENSE
+                    $repoFiles.Name.Contains('LICENSE') | Should -BeExactly $true
+                    $licenseContentPath = [System.IO.Path]::Combine($outPutPath, 'LICENSE')
+                    $licenseContent = Get-Content -Path $licenseContentPath -Raw
+                    $licenseContent | Should -BeLike '*mit*'
+
+                    # REPO
+                    $repoFiles.Name.Contains('CHANGELOG.md') | Should -BeExactly $true
+                    $changelogContentPath = [System.IO.Path]::Combine($outPutPath, 'docs', 'CHANGELOG.md')
+                    $changelogContent = Get-Content -Path $changelogContentPath -Raw
+                    $changelogContent | Should -BeLike '*0.0.1*'
+                    $repoFiles.Name.Contains('CODE_OF_CONDUCT.md') | Should -BeExactly $true
+                    $repoFiles.Name.Contains('CONTRIBUTING.md') | Should -BeExactly $true
+                    $contributingContentPath = [System.IO.Path]::Combine($outPutPath, 'CONTRIBUTING.md')
+                    $contributingContent = Get-Content -Path $contributingContentPath -Raw
+                    $contributingContent | Should -BeLike '*modulename*'
+                    $repoFiles.Name.Contains('SECURITY.md') | Should -BeExactly $true
+                    $securityContentPath = [System.IO.Path]::Combine($outPutPath, 'SECURITY.md')
+                    $securityContent = Get-Content -Path $securityContentPath -Raw
+                    $securityContent | Should -BeLike '*modulename*'
+                    $repoFiles.Name.Contains('.gitignore') | Should -BeExactly $true
+                    $repoFiles.Name.Contains('Default.md') | Should -BeExactly $true
+                    $repoFiles.Name.Contains('bug-report.md') | Should -BeExactly $true
+                    $repoFiles.Name.Contains('feature-request.md') | Should -BeExactly $true
+                    $repoFiles.Name.Contains('insights.yml') | Should -BeExactly $true
+
+                    $dotGitLabFiles = @(
+                        'Default.md'
+                        'bug-report.md'
+                        'feature-request.md'
+                        'insights.yml'
+                    )
+                    $docFiles = @(
+                        'CHANGELOG.md'
+                    )
+                    foreach ($file in $dotGitLabFiles) {
+                    ($repoFiles | Where-Object { $_.name -eq $file }).Directory | Should -BeLike '*.gitlab*'
+                    }
+                    foreach ($file in $docFiles) {
+                    ($repoFiles | Where-Object { $_.name -eq $file }).Directory | Should -BeLike '*docs*'
+                    }
+
+                } #it
+
+            } #context_gitlab
+
         } #context_repo
 
         Context 'Help Examples' {
