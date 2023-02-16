@@ -51,7 +51,7 @@ GitLab Supported Builds:
 
 Catesta automatically configures your GitLab PowerShell project to generate detailed Tests reports:
 
-![GitLab PowerShell project Test results](../assets/GitLab/gitlab_powershell_test_report.PNG)
+![GitLab PowerShell project Test results](../assets/GitLab/gitlab_powershell_test_report.png)
 
 Code Coverage reports are not currently possible as GitLab expects Cobertura format which [Pester does not currently support](https://github.com/pester/Pester/issues/2203).
 

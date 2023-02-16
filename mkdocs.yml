@@ -95,7 +95,7 @@ nav:
   - Detailed Integrations:
     - AppVeyor: catesta_cicd/Catesta-AppVeyor.md
     - CodeBuild: catesta_cicd/Catesta-AWS.md
-    - Azure: catesta_cicd/Catesta-Azure.md
+    - Azure Pipelines: catesta_cicd/Catesta-Azure.md
     - GitHub Actions: catesta_cicd/Catesta-GHActions.md
     - Bitbucket Pipelines: catesta_cicd/Catesta-Bitbucket.md
     - GitLab CICD Pipelines: catesta_cicd/Catesta-GitLab.md
