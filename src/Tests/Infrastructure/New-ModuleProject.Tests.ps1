@@ -531,19 +531,19 @@ Describe 'Module Infra Tests' {
 
                     $wfLinuxContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Linux.yml')
                     $wfLinuxContent = Get-Content -Path $wfLinuxContentPath -Raw
-                    $wfLinuxContent | Should -BeLike "*modulename*"
+                    $wfLinuxContent | Should -BeLike '*modulename*'
 
                     $wfMacOSContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_MacOS.yml')
                     $wfMacOSContent = Get-Content -Path $wfMacOSContentPath -Raw
-                    $wfMacOSContent | Should -BeLike "*modulename*"
+                    $wfMacOSContent | Should -BeLike '*modulename*'
 
                     $wfWindowsCoreContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Windows_Core.yml')
                     $wfWindowsCoreContent = Get-Content -Path $wfWindowsCoreContentPath -Raw
-                    $wfWindowsCoreContent | Should -BeLike "*modulename*"
+                    $wfWindowsCoreContent | Should -BeLike '*modulename*'
 
                     $wfWindowsContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Windows.yml')
                     $wfWindowsContent = Get-Content -Path $wfWindowsContentPath -Raw
-                    $wfWindowsContent | Should -BeLike "*modulename*"
+                    $wfWindowsContent | Should -BeLike '*modulename*'
 
                 } #it
 
@@ -553,23 +553,23 @@ Describe 'Module Infra Tests' {
 
                 It 'should generate a Bitbucket based module stored on Bitbucket with all required elements' {
                     $moduleParameters = @{
-                        VAULT           = 'text'
-                        ModuleName      = 'modulename'
-                        Description     = 'text'
-                        Version         = '0.0.1'
-                        FN              = 'user full name'
-                        CICD            = 'BITBUCKET'
-                        RepoType        = 'BITBUCKET'
-                        License         = 'None'
-                        Changelog       = 'NOCHANGELOG'
-                        COC             = 'NOCONDUCT'
-                        Contribute      = 'NOCONTRIBUTING'
-                        Security        = 'NOSECURITY'
-                        CodingStyle     = 'Stroustrup'
-                        Help            = 'Yes'
-                        Pester          = '5'
-                        PassThru        = $true
-                        NoLogo          = $true
+                        VAULT       = 'text'
+                        ModuleName  = 'modulename'
+                        Description = 'text'
+                        Version     = '0.0.1'
+                        FN          = 'user full name'
+                        CICD        = 'BITBUCKET'
+                        RepoType    = 'BITBUCKET'
+                        License     = 'None'
+                        Changelog   = 'NOCHANGELOG'
+                        COC         = 'NOCONDUCT'
+                        Contribute  = 'NOCONTRIBUTING'
+                        Security    = 'NOSECURITY'
+                        CodingStyle = 'Stroustrup'
+                        Help        = 'Yes'
+                        Pester      = '5'
+                        PassThru    = $true
+                        NoLogo      = $true
                     }
                     $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
@@ -581,10 +581,51 @@ Describe 'Module Infra Tests' {
 
                     $bitbucketYMLContentPath = [System.IO.Path]::Combine($outPutPath, 'bitbucket-pipelines.yml')
                     $bitbucketYMLContent = Get-Content -Path $bitbucketYMLContentPath -Raw
-                    $bitbucketYMLContent | Should -BeLike "*modulename*"
+                    $bitbucketYMLContent | Should -BeLike '*modulename*'
                 } #it
 
             } #bitbucket
+
+            Context 'GitLab Build' {
+
+                It 'should generate a GitLab based module stored on GitLab with all required elements' {
+                    $moduleParameters = @{
+                        VAULT         = 'text'
+                        ModuleName    = 'modulename'
+                        Description   = 'text'
+                        Version       = '0.0.1'
+                        FN            = 'user full name'
+                        CICD          = 'GITLAB'
+                        GitLabOptions = 'windows', 'pwshcore', 'linux'
+                        RepoType      = 'GITLAB'
+                        License       = 'None'
+                        Changelog     = 'NOCHANGELOG'
+                        COC           = 'NOCONDUCT'
+                        Contribute    = 'NOCONTRIBUTING'
+                        Security      = 'NOSECURITY'
+                        CodingStyle   = 'Stroustrup'
+                        Help          = 'Yes'
+                        Pester        = '5'
+                        PassThru      = $true
+                        NoLogo        = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $gitlabModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $gitlabModuleFiles.Name.Contains('.gitlab-ci.yml') | Should -BeExactly $true
+                    $gitlabModuleFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+
+                    $gitlabYMLContentPath = [System.IO.Path]::Combine($outPutPath, '.gitlab-ci.yml')
+                    $gitlabYMLContent = Get-Content -Path $gitlabYMLContentPath -Raw
+                    $gitlabYMLContent | Should -BeLike '*modulename*'
+                    $gitlabYMLContent | Should -BeLike '*windows_powershell_job*'
+                    $gitlabYMLContent | Should -BeLike '*windows_pwsh_job*'
+                    $gitlabYMLContent | Should -BeLike '*linux_pwsh_job*'
+                } #it
+
+            } #gitlab
 
         } #context_cicd
 

@@ -90,6 +90,17 @@ choices:
     value : macos
     help : Adds a pwsh focused build for a MacOS image.
 
+name : GitLabOptions
+type : multichoice
+condition : $PLASTER_PARAM_CICD -eq 'GITLAB'
+choices:
+    value : windows
+    help : Adds a Windows PowerShell focused build on a Windows image.
+    value : pwshcore
+    help : Adds a pwsh focused build on a Windows image.
+    value : linux
+    help : Adds a pwsh focused build for a Linux image.
+
 name : AzureOptions
 type : multichoice
 condition : $PLASTER_PARAM_CICD -eq 'AZURE'
@@ -208,6 +219,7 @@ CICD            = 'GITHUB'
 GitHubAOptions  = 'windows','pwshcore','linux','macos'
 AWSOptions      = 'ps','pwshcore','pwsh'
 AppveyorOptions = 'windows','pwshcore','linux','macos'
+GitLabOptions   = 'windows','pwshcore','linux'
 AzureOptions    = 'windows','pwshcore','linux','macos'
 RepoType        = 'GITHUB'
 License         = 'MIT'

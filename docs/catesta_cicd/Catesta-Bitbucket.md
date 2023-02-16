@@ -8,7 +8,7 @@ Scaffolds a new PowerShell module or vault project intended for CI/CD workflow u
 
 -------------------
 
-*Note: It's important to understand your project's requirements before choosing a CI/CD solution with Catesta. Bitbucket only natively supports Linux containers for builds, limiting your module to be built and tested on Linux using PowerShell. However, Bitbucket [recently announced](https://support.atlassian.com/bitbucket-cloud/docs/set-up-runners-for-windows/) support for [Windows runners](https://bitbucket.org/blog/windows-runners), allowing you to run builds on your own Windows infrastructure. Although Catesta can't scaffold for this scenario, there's nothing preventing a user from setting up their own Windows runner for their Catesta project.*
+*Note: It's important to understand your project's requirements before choosing a CI/CD solution with Catesta. Bitbucket only natively supports Linux containers for builds, limiting your module to be built and tested on Linux using PowerShell. However, Bitbucket [recently announced](https://support.atlassian.com/bitbucket-cloud/docs/set-up-runners-for-windows/) support for [Windows runners](https://bitbucket.org/blog/windows-runners), allowing you to run builds on your own Windows infrastructure. Although Catesta can't scaffold for this scenario, there's nothing preventing a user from setting up their own Windows runner for their Catesta scaffolded project.*
 
 ![Cross Platform](https://img.shields.io/badge/Builds-Linux-lightgrey)
 

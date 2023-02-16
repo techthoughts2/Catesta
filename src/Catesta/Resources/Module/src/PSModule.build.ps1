@@ -119,7 +119,7 @@ elseif ($PLASTER_PARAM_Pester -eq '5') {
 }
 %>
 <%
-if ($PLASTER_PARAM_CICD -eq 'BITBUCKET') {
+if ($PLASTER_PARAM_CICD -eq 'BITBUCKET' -or $PLASTER_PARAM_CICD -eq 'GITLAB') {
         @'
     $script:testOutputFormat = 'JUnitXml'
 '@

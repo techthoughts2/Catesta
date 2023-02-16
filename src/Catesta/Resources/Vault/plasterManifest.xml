@@ -57,9 +57,13 @@
             <choice label='&amp;MacOS - pwsh' help='Adds a pwsh focused build for a MacOS image.' value='macos'/>
         </parameter>
         <!-- ___________________________GitLab CI/CD-->
-        <!-- TODO: _____________________________ -->
+        <parameter condition="$PLASTER_PARAM_CICD -eq 'GITLAB'" name='GitLabOptions' type='multichoice' default='0' store='text' prompt='Select desired GitLab build environment options? (If your project is cross-platform you should select multiple)'>
+            <choice label='&amp;Windows - PowerShell' help='Adds a Windows PowerShell focused build on a Windows image.' value='windows'/>
+            <choice label='&amp;Core (Windows)- pwsh' help='Adds a pwsh focused build on a Windows image.' value='pwshcore'/>
+            <choice label='&amp;Linux - pwsh' help='Adds a pwsh focused build for a Linux image.' value='linux'/>
+        </parameter>
         <!-- ___________________________BitBucket Pipelines -->
-        <!-- TODO: _____________________________ -->
+        <!-- Linux Only - no options for BitBucket -->
         <!-- ___________________________Azure Pipelines -->
         <parameter condition="$PLASTER_PARAM_CICD -eq 'AZURE'" name='AzureOptions' type='multichoice' default='0' store='text' prompt='Select desired Azure pipeline job options?'>
             <choice label='&amp;Windows - PowerShell' help='Adds a Windows PowerShell focused job on a Windows image.' value='windows'/>
@@ -249,7 +253,8 @@
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'APPVEYOR'" source='..\AppVeyor\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'APPVEYOR'" source='..\AppVeyor\appveyor.yml' destination='appveyor.yml' />
         <!-- _________GitLab CI/CD -->
-        <!-- TODO: _____________________________ -->
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'GITLAB'" source='..\GitLab\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'GITLAB'" source='..\GitLab\.gitlab-ci.yml' destination='.gitlab-ci.yml' />
         <!-- _________Bitbucket Pipelines -->
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'BITBUCKET'" source='..\Bitbucket\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'BITBUCKET'" source='..\Bitbucket\bitbucket-pipelines.yml' destination='bitbucket-pipelines.yml' />

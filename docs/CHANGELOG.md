@@ -41,7 +41,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
             - Updated `checkout@v2` to `checkout@v3`
             - Updated `upload-artifact@v2` to `upload-artifact@v3`
         - Added support for Bitbucket Pipelines CI/CD choice
-        - Added support for Azure Repo choice
+        - Added support for GitLab CI/CD Pipelines choice
+    - Added support for Azure Repo choice
     - Minor updates and improvements to both vault and module `*.build.ps1` files
 - Catesta primary module changes
     - Complete overhaul of Catesta documentation

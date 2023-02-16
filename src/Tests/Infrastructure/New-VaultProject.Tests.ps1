@@ -545,19 +545,19 @@ Describe 'Vault Infra Tests' {
 
                     $wfLinuxContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Linux.yml')
                     $wfLinuxContent = Get-Content -Path $wfLinuxContentPath -Raw
-                    $wfLinuxContent | Should -BeLike "*SecretManagement.MyVault*"
+                    $wfLinuxContent | Should -BeLike '*SecretManagement.MyVault*'
 
                     $wfMacOSContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_MacOS.yml')
                     $wfMacOSContent = Get-Content -Path $wfMacOSContentPath -Raw
-                    $wfMacOSContent | Should -BeLike "*SecretManagement.MyVault*"
+                    $wfMacOSContent | Should -BeLike '*SecretManagement.MyVault*'
 
                     $wfWindowsCoreContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Windows_Core.yml')
                     $wfWindowsCoreContent = Get-Content -Path $wfWindowsCoreContentPath -Raw
-                    $wfWindowsCoreContent | Should -BeLike "*SecretManagement.MyVault*"
+                    $wfWindowsCoreContent | Should -BeLike '*SecretManagement.MyVault*'
 
                     $wfWindowsContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Windows.yml')
                     $wfWindowsContent = Get-Content -Path $wfWindowsContentPath -Raw
-                    $wfWindowsContent | Should -BeLike "*SecretManagement.MyVault*"
+                    $wfWindowsContent | Should -BeLike '*SecretManagement.MyVault*'
 
                 } #it
 
@@ -567,22 +567,22 @@ Describe 'Vault Infra Tests' {
 
                 It 'should generate a Bitbucket based vault project stored on Bitbucket with all required elements' {
                     $vaultParameters = @{
-                        VAULT           = 'text'
-                        ModuleName      = 'SecretManagement.MyVault'
-                        Description     = 'text'
-                        Version         = '0.0.1'
-                        FN              = 'user full name'
-                        CICD            = 'BITBUCKET'
-                        RepoType        = 'BITBUCKET'
-                        License         = 'None'
-                        Changelog       = 'NOCHANGELOG'
-                        COC             = 'NOCONDUCT'
-                        Contribute      = 'NOCONTRIBUTING'
-                        Security        = 'NOSECURITY'
-                        CodingStyle     = 'Stroustrup'
-                        Pester          = '5'
-                        PassThru        = $true
-                        NoLogo          = $true
+                        VAULT       = 'text'
+                        ModuleName  = 'SecretManagement.MyVault'
+                        Description = 'text'
+                        Version     = '0.0.1'
+                        FN          = 'user full name'
+                        CICD        = 'BITBUCKET'
+                        RepoType    = 'BITBUCKET'
+                        License     = 'None'
+                        Changelog   = 'NOCHANGELOG'
+                        COC         = 'NOCONDUCT'
+                        Contribute  = 'NOCONTRIBUTING'
+                        Security    = 'NOSECURITY'
+                        CodingStyle = 'Stroustrup'
+                        Pester      = '5'
+                        PassThru    = $true
+                        NoLogo      = $true
                     }
                     $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
                     $eval | Should -Not -BeNullOrEmpty
@@ -598,10 +598,54 @@ Describe 'Vault Infra Tests' {
 
                     $bitbucketYMLContentPath = [System.IO.Path]::Combine($outPutPath, 'bitbucket-pipelines.yml')
                     $bitbucketYMLContent = Get-Content -Path $bitbucketYMLContentPath -Raw
-                    $bitbucketYMLContent | Should -BeLike "*SecretManagement.MyVault*"
+                    $bitbucketYMLContent | Should -BeLike '*SecretManagement.MyVault*'
                 } #it
 
             } #bitbucket
+
+            Context 'GitLab Build' {
+
+                It 'should generate a GitLab based vault project stored on GitLab with all required elements' {
+                    $vaultParameters = @{
+                        VAULT         = 'text'
+                        ModuleName    = 'SecretManagement.MyVault'
+                        Description   = 'text'
+                        Version       = '0.0.1'
+                        FN            = 'user full name'
+                        CICD          = 'GITLAB'
+                        GitLabOptions = 'windows', 'pwshcore', 'linux'
+                        RepoType      = 'GITLAB'
+                        License       = 'None'
+                        Changelog     = 'NOCHANGELOG'
+                        COC           = 'NOCONDUCT'
+                        Contribute    = 'NOCONTRIBUTING'
+                        Security      = 'NOSECURITY'
+                        CodingStyle   = 'Stroustrup'
+                        Pester        = '5'
+                        PassThru      = $true
+                        NoLogo        = $true
+                    }
+                    $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $gitlabVaultFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $gitlabVaultFiles.Name.Contains('.gitlab-ci.yml') | Should -BeExactly $true
+                    $gitlabVaultFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+
+                    $installContentPath = [System.IO.Path]::Combine($outPutPath, 'actions_bootstrap.ps1')
+                    $installContent = Get-Content -Path $installContentPath -Raw
+                    $installContent | Should -BeLike '*Microsoft.PowerShell.SecretManagement*'
+
+                    $gitlabYMLContentPath = [System.IO.Path]::Combine($outPutPath, '.gitlab-ci.yml')
+                    $gitlabYMLContent = Get-Content -Path $gitlabYMLContentPath -Raw
+                    $gitlabYMLContent | Should -BeLike '*SecretManagement.MyVault*'
+                    $gitlabYMLContent | Should -BeLike '*windows_powershell_job*'
+                    $gitlabYMLContent | Should -BeLike '*windows_pwsh_job*'
+                    $gitlabYMLContent | Should -BeLike '*linux_pwsh_job*'
+                } #it
+
+            } #gitlab
 
         } #context_cicd
 

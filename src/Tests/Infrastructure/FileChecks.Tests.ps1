@@ -29,6 +29,7 @@ Describe 'File Checks' {
         $azureFiles = Get-ChildItem -Path "$resourcePath\Azure\*" -Recurse
         $appVeyorFiles = Get-ChildItem -Path "$resourcePath\AppVeyor\*" -Recurse
         $bitbucketFiles = Get-ChildItem -Path "$resourcePath\Bitbucket\*" -Recurse
+        $gitlabFiles = Get-ChildItem -Path "$resourcePath\GitLab\*" -Recurse
 
         $docsPath = [System.IO.Path]::Combine( '..', '..', '..', 'docs')
         $docFiles = Get-ChildItem -Path $docsPath -Recurse
@@ -175,6 +176,16 @@ Describe 'File Checks' {
         } #it
         It 'should have a actions bootstrap file' {
             $bitbucketFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+        } #it
+    } #bitbucket
+
+    Context 'GitLab' {
+        It 'should have a GitLab pipeline yaml' {
+            $gitlabFiles.Name.Contains('.gitlab-ci.yml') | Should -BeExactly $true
+
+        } #it
+        It 'should have a actions bootstrap file' {
+            $gitlabFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
         } #it
     } #bitbucket
 

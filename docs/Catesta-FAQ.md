@@ -25,17 +25,27 @@ Badge examples:
     [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/kech4dkqsrb9xuet/branch/master?svg=true)](https://ci.appveyor.com/project/techthoughts2/appveyortest/branch/master)
     ```
 
-- **Azure Pipelines**: [![Build Status](https://dev.azure.com/TechThoughts2/AzureTest/_apis/build/status/techthoughts2.AzureTest?branchName=master)](https://dev.azure.com/TechThoughts2/AzureTest/_build/latest?definitionId=1&branchName=master)
+- **Azure Pipelines**: [![Azure Pipelines Build Status](https://dev.azure.com/TechThoughts2/AzureTest/_apis/build/status/techthoughts2.AzureTest?branchName=master)](https://dev.azure.com/TechThoughts2/AzureTest/_build/latest?definitionId=1&branchName=master)
     - *Found under DevOps Project - Pipelines - Builds - ... - Status Badge*
     - Unfortunately by default badge access is restricted to only authenticated access. This can be disabled at the organization and project level if you wish to display on a GitHub repo:
         - *Organization Settings - Settings - Disable anonymous access to badge*
         - *Project Settings - Settings - Disable anonymous access to badge*
 
     ```plain
-    [![Build Status](https://dev.azure.com/TechThoughts2/AzureTest/_apis/build/status/techthoughts2.AzureTest?branchName=master)](https://dev.azure.com/TechThoughts2/AzureTest/_build/latest?definitionId=1&branchName=master)
+    [![Azure Pipelines Build Status](https://dev.azure.com/TechThoughts2/AzureTest/_apis/build/status/techthoughts2.AzureTest?branchName=master)](https://dev.azure.com/TechThoughts2/AzureTest/_build/latest?definitionId=1&branchName=master)
     ```
 
 - **Bitbucket Pipeline**: Bitbucket [does not support](https://jira.atlassian.com/browse/BCLOUD-12797) project status / build status badges at this time.
+- **GitLab CICD Pipeline**: [![GitLab Pipeline Build Status](https://gitlab.com/techthoughts2/gitlabgl/badges/main/pipeline.svg)](https://gitlab.com/techthoughts2/gitlabgl/commits/main)
+    - *Under ProjectName - Settings - General - Badges*
+    - Create a new badge by following the [GitLab Badges](https://docs.gitlab.com/ee/user/project/badges.html) documentation.
+    - Once your badge is created you can replace the variables with actual paths to your repository as shown below.
+    - If your repo is private, your badge will not display on other sites or embeds
+    - *Note: You don't technically need to add your badge to your README as GitLab allows you to place badges directly into the project*
+
+    ```plain
+    [![GitLab Pipeline Build Status](https://gitlab.com/techthoughts2/gitlabgl/badges/main/pipeline.svg)](https://gitlab.com/techthoughts2/gitlabgl/commits/main)
+    ```
 
 ## I'm ready to publish my project
 
