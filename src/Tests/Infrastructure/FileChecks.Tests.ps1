@@ -103,6 +103,9 @@ Describe 'File Checks' {
         It 'should have a gitignore file' {
             $repoFiles.Name.Contains('agitignore') | Should -BeExactly $true
         } #it
+        It 'should have a README file' {
+            $repoFiles.Name.Contains('README.md') | Should -BeExactly $true
+        } #it
     } #context_repo
 
     Context 'GitHub Repo' {

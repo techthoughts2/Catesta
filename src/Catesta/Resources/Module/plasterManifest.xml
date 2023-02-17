@@ -201,6 +201,8 @@
         <!-- Repo -->
         <!-- _________gitignore -->
         <file condition="$PLASTER_PARAM_RepoType -ne 'NONE'" source='..\RepoFiles\agitignore' destination='.gitignore' />
+        <!-- _________README -->
+        <templateFile condition="$PLASTER_PARAM_RepoType -ne 'NONE'" source='..\RepoFiles\README.md' destination='README.md' />
 
         <!-- _________LICENSE -->
         <templateFile condition="$PLASTER_PARAM_License -eq 'MIT'" source='..\RepoFiles\Licences\MITLICENSE' destination='LICENSE' />

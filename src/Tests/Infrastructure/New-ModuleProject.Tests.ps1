@@ -96,6 +96,7 @@ Describe 'Module Infra Tests' {
                     $moduleOnlyFiles.Name.Contains('PULL_REQUEST_TEMPLATE.md') | Should -BeExactly $false
                     $moduleOnlyFiles.Name.Contains('bug-report.md') | Should -BeExactly $false
                     $moduleOnlyFiles.Name.Contains('feature_request.md') | Should -BeExactly $false
+                    $moduleOnlyFiles.Name.Contains('README.md') | Should -BeExactly $false
 
                     # ReadtheDocs
                     $moduleOnlyFiles.Name.Contains('mkdocs.yml') | Should -BeExactly $false
@@ -680,6 +681,10 @@ Describe 'Module Infra Tests' {
 
                     # REPO
                     $repoFiles.Name.Contains('.gitignore') | Should -BeExactly $true
+                    $repoFiles.Name.Contains('README.md') | Should -BeExactly $true
+                    $readmeContentPath = [System.IO.Path]::Combine($outPutPath, 'README.md')
+                    $readmeContent = Get-Content -Path $readmeContentPath -Raw
+                    $readmeContent | Should -BeLike '*modulename*'
 
                     $repoFiles.Name.Contains('PULL_REQUEST_TEMPLATE.md') | Should -BeExactly $false
                     $repoFiles.Name.Contains('bug-report.md') | Should -BeExactly $false
@@ -754,6 +759,10 @@ Describe 'Module Infra Tests' {
                     $securityContent = Get-Content -Path $securityContentPath -Raw
                     $securityContent | Should -BeLike '*modulename*'
                     $repoFiles.Name.Contains('.gitignore') | Should -BeExactly $true
+                    $repoFiles.Name.Contains('README.md') | Should -BeExactly $true
+                    $readmeContentPath = [System.IO.Path]::Combine($outPutPath, 'README.md')
+                    $readmeContent = Get-Content -Path $readmeContentPath -Raw
+                    $readmeContent | Should -BeLike '*modulename*'
                     $repoFiles.Name.Contains('PULL_REQUEST_TEMPLATE.md') | Should -BeExactly $true
                     $repoFiles.Name.Contains('bug-report.md') | Should -BeExactly $true
                     $repoFiles.Name.Contains('feature_request.md') | Should -BeExactly $true
@@ -830,6 +839,10 @@ Describe 'Module Infra Tests' {
                     $securityContent = Get-Content -Path $securityContentPath -Raw
                     $securityContent | Should -BeLike '*modulename*'
                     $repoFiles.Name.Contains('.gitignore') | Should -BeExactly $true
+                    $repoFiles.Name.Contains('README.md') | Should -BeExactly $true
+                    $readmeContentPath = [System.IO.Path]::Combine($outPutPath, 'README.md')
+                    $readmeContent = Get-Content -Path $readmeContentPath -Raw
+                    $readmeContent | Should -BeLike '*modulename*'
                     $repoFiles.Name.Contains('Default.md') | Should -BeExactly $true
                     $repoFiles.Name.Contains('bug-report.md') | Should -BeExactly $true
                     $repoFiles.Name.Contains('feature-request.md') | Should -BeExactly $true
