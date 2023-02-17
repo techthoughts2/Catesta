@@ -135,6 +135,14 @@ Dependent upon previous selections you may be presented with a series of questio
 
 Community files, such as licenses, changelogs, code of conduct, contributing guidelines, and security policies, can greatly enhance the maturity and professionalism of a project. These files provide important information about how the project can be used, who is responsible for its development and maintenance, and what kind of contributions are welcome. Having these files in place can also help attract and retain contributors, and demonstrate a commitment to quality and security.
 
+#### Understanding Read the Docs Selections
+
+If you chose to host your project on a repository, Catesta will prompt you to decide if you'd like to integrate your project with Read the Docs. If you're not familiar with Read the Docs, it's a widely used documentation hosting platform that allows you to create and host documentation for your projects.
+
+When you choose to integrate your project with Read the Docs using Catesta, it will automatically generate all the necessary components, such as a configuration file (mkdocs.yml) and basic documentation setup, to help you quickly get started. You'll also have the option to choose between two different themes: the default theme, called "readthedocs," or the material theme, which provides a modern, responsive design that's popular among Read the Docs users.
+
+Integrating your project with Read the Docs can be a great way to create professional-looking documentation that's easily accessible to your users. It's a powerful tool that can help you streamline your documentation process and make your project more user-friendly.
+
 #### Understanding Project Coding Style Selection
 
 The purpose of specifying a coding style in Catesta is to ensure consistency and standardization throughout the project. By choosing one of the options (Stroustrup, OTBS, Allman, or None), Catesta will scaffold InvokeBuild tasks that validate and enforce the selected coding style, keeping the project's code neat and well-organized. Having a clear and consistent coding style can make the project easier to read, understand, and maintain, leading to a more mature and professional codebase.

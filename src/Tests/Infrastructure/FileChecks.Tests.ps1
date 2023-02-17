@@ -31,6 +31,7 @@ Describe 'File Checks' {
         $bitbucketFiles = Get-ChildItem -Path "$resourcePath\Bitbucket\*" -Recurse
         $gitlabFiles = Get-ChildItem -Path "$resourcePath\GitLab\*" -Recurse -Force
         $gitlabRepoFiles = Get-ChildItem -Path "$resourcePath\GitLabFiles\*" -Recurse
+        $readthedocsFiles = Get-ChildItem -Path "$resourcePath\Read_the_Docs\*" -Recurse -Force
 
         $docsPath = [System.IO.Path]::Combine( '..', '..', '..', 'docs')
         $docFiles = Get-ChildItem -Path $docsPath -Recurse
@@ -168,7 +169,7 @@ Describe 'File Checks' {
         It 'should have a actions bootstrap file' {
             $azureFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
         } #it
-    } ##context_azure_pipelines
+    } #context_azure_pipelines
 
     Context 'AppVeyor' {
         It 'should have an appVeyor file' {
@@ -178,7 +179,7 @@ Describe 'File Checks' {
         It 'should have a actions bootstrap file' {
             $appVeyorFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
         } #it
-    } #appVeyor
+    } #context_appVeyor
 
     Context 'Bitbucket' {
         It 'should have a Bitbucket pipeline yaml' {
@@ -188,7 +189,7 @@ Describe 'File Checks' {
         It 'should have a actions bootstrap file' {
             $bitbucketFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
         } #it
-    } #bitbucket
+    } #context_bitbucket
 
     Context 'GitLab' {
         It 'should have a GitLab pipeline yaml' {
@@ -198,11 +199,11 @@ Describe 'File Checks' {
         It 'should have a actions bootstrap file' {
             $gitlabFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
         } #it
-    } #bitbucket
+    } #context_gitlab
 
     # Context 'ModuleOnly' {
 
-    # } ##context_moduleOnly
+    # } #context_moduleOnly
 
     Context 'Templates' {
         It 'should have the correct number of templates' {
@@ -311,5 +312,18 @@ Describe 'File Checks' {
             $docFiles.Name.Contains('New-VaultProject.md') | Should -BeExactly $true
         }
     } #context_docs
+
+    Context 'Read the Docs' {
+        It 'should have an index schema file' {
+            $readthedocsFiles.Name.Contains('index.md') | Should -BeExactly $true
+        } #it
+        It 'should have a .readthedocs yaml' {
+            $readthedocsFiles.Name.Contains('.readthedocs.yaml') | Should -BeExactly $true
+        } #it
+        It 'should have the expected core Read the Docs files' {
+            $readthedocsFiles.Name | Where-Object { $_ -match 'mkdocs.yml' } | Measure-Object | Select-Object -ExpandProperty Count | Should -BeExactly 2
+            $readthedocsFiles.Name | Where-Object { $_ -match 'requirements.txt' } | Measure-Object | Select-Object -ExpandProperty Count | Should -BeExactly 2
+        } #it
+    } #context_readthedocs
 
 } #describe_File_Checks

@@ -146,6 +146,7 @@ Describe 'Vault Infra Tests' {
                         CICD        = 'CODEBUILD'
                         AWSOptions  = 'ps', 'pwshcore', 'pwsh'
                         RepoType    = 'GITHUB'
+                        ReadtheDocs = 'None'
                         License     = 'MIT'
                         Changelog   = 'CHANGELOG'
                         COC         = 'CONDUCT'
@@ -204,6 +205,7 @@ Describe 'Vault Infra Tests' {
                         CICD        = 'CODEBUILD'
                         AWSOptions  = 'ps', 'pwshcore', 'pwsh'
                         RepoType    = 'BITBUCKET'
+                        ReadtheDocs = 'None'
                         License     = 'MIT'
                         Changelog   = 'CHANGELOG'
                         COC         = 'CONDUCT'
@@ -262,6 +264,7 @@ Describe 'Vault Infra Tests' {
                         CICD        = 'CODEBUILD'
                         AWSOptions  = 'ps', 'pwshcore', 'pwsh'
                         RepoType    = 'CodeCommit'
+                        ReadtheDocs = 'None'
                         License     = 'MIT'
                         Changelog   = 'CHANGELOG'
                         COC         = 'CONDUCT'
@@ -310,6 +313,7 @@ Describe 'Vault Infra Tests' {
                         CICD        = 'CODEBUILD'
                         AWSOptions  = 'ps', 'pwshcore', 'pwsh'
                         RepoType    = 'AZURE'
+                        ReadtheDocs = 'None'
                         License     = 'MIT'
                         Changelog   = 'CHANGELOG'
                         COC         = 'CONDUCT'
@@ -348,6 +352,7 @@ Describe 'Vault Infra Tests' {
                         CICD         = 'AZURE'
                         AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
                         RepoType     = 'GITHUB'
+                        ReadtheDocs  = 'None'
                         License      = 'None'
                         Changelog    = 'NOCHANGELOG'
                         COC          = 'NOCONDUCT'
@@ -389,6 +394,7 @@ Describe 'Vault Infra Tests' {
                         CICD         = 'AZURE'
                         AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
                         RepoType     = 'AZURE'
+                        ReadtheDocs  = 'None'
                         License      = 'None'
                         Changelog    = 'NOCHANGELOG'
                         COC          = 'NOCONDUCT'
@@ -430,6 +436,7 @@ Describe 'Vault Infra Tests' {
                         CICD         = 'AZURE'
                         AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
                         RepoType     = 'BITBUCKET'
+                        ReadtheDocs  = 'None'
                         License      = 'None'
                         Changelog    = 'NOCHANGELOG'
                         COC          = 'NOCONDUCT'
@@ -475,6 +482,7 @@ Describe 'Vault Infra Tests' {
                         CICD            = 'APPVEYOR'
                         AppveyorOptions = 'windows', 'pwshcore', 'linux', 'macos'
                         RepoType        = 'GITHUB'
+                        ReadtheDocs     = 'None'
                         License         = 'None'
                         Changelog       = 'NOCHANGELOG'
                         COC             = 'NOCONDUCT'
@@ -519,6 +527,7 @@ Describe 'Vault Infra Tests' {
                         CICD           = 'GITHUB'
                         GitHubAOptions = 'windows', 'pwshcore', 'linux', 'macos'
                         RepoType       = 'GITHUB'
+                        ReadtheDocs    = 'None'
                         License        = 'None'
                         Changelog      = 'NOCHANGELOG'
                         COC            = 'NOCONDUCT'
@@ -574,6 +583,7 @@ Describe 'Vault Infra Tests' {
                         FN          = 'user full name'
                         CICD        = 'BITBUCKET'
                         RepoType    = 'BITBUCKET'
+                        ReadtheDocs = 'None'
                         License     = 'None'
                         Changelog   = 'NOCHANGELOG'
                         COC         = 'NOCONDUCT'
@@ -615,6 +625,7 @@ Describe 'Vault Infra Tests' {
                         CICD          = 'GITLAB'
                         GitLabOptions = 'windows', 'pwshcore', 'linux'
                         RepoType      = 'GITLAB'
+                        ReadtheDocs   = 'None'
                         License       = 'None'
                         Changelog     = 'NOCHANGELOG'
                         COC           = 'NOCONDUCT'
@@ -662,6 +673,7 @@ Describe 'Vault Infra Tests' {
                         FN          = 'user full name'
                         CICD        = 'NONE'
                         RepoType    = 'CODECOMMIT'
+                        ReadtheDocs = 'None'
                         License     = 'MIT'
                         Changelog   = 'CHANGELOG'
                         COC         = 'CONDUCT'
@@ -715,6 +727,7 @@ Describe 'Vault Infra Tests' {
                         FN          = 'user full name'
                         CICD        = 'NONE'
                         RepoType    = 'GITHUB'
+                        ReadtheDocs = 'None'
                         License     = 'MIT'
                         Changelog   = 'CHANGELOG'
                         COC         = 'CONDUCT'
@@ -789,6 +802,7 @@ Describe 'Vault Infra Tests' {
                         FN          = 'user full name'
                         CICD        = 'NONE'
                         RepoType    = 'GITLAB'
+                        ReadtheDocs = 'None'
                         License     = 'MIT'
                         Changelog   = 'CHANGELOG'
                         COC         = 'CONDUCT'
@@ -851,6 +865,98 @@ Describe 'Vault Infra Tests' {
 
         } #context_repo
 
+        Context 'Read the Docs' {
+
+            It 'should generate the appropriate files for the standard readthedocs theme' {
+                $vaultParameters = @{
+                    VAULT       = 'text'
+                    ModuleName  = 'SecretManagement.MyVault'
+                    Description = 'text'
+                    Version     = '0.0.1'
+                    FN          = 'user full name'
+                    CICD        = 'NONE'
+                    RepoType    = 'GITHUB'
+                    ReadtheDocs = 'READTHEDOCS'
+                    RTDTheme    = 'READTHEDOCSTHEME'
+                    License     = 'None'
+                    Changelog   = 'NOCHANGELOG'
+                    COC         = 'NOCONDUCT'
+                    Contribute  = 'NOCONTRIBUTING'
+                    Security    = 'NOSECURITY'
+                    CodingStyle = 'Stroustrup'
+                    Pester      = '5'
+                    S3Bucket    = 'PSGallery'
+                    PassThru    = $true
+                    NoLogo      = $true
+                }
+                $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+                $eval | Should -Not -BeNullOrEmpty
+
+                $rtdFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                # read the docs
+                $rtdFiles.Name.Contains('mkdocs.yml') | Should -BeExactly $true
+                $rtdFiles.Name.Contains('requirements.txt') | Should -BeExactly $true
+                $rtdFiles.Name.Contains('.readthedocs.yaml') | Should -BeExactly $true
+                $rtdFiles.Name.Contains('index.md') | Should -BeExactly $true
+
+                $mkdocsContentPath = [System.IO.Path]::Combine($outPutPath, 'mkdocs.yml')
+                $mkdocsContent = Get-Content -Path $mkdocsContentPath -Raw
+                $mkdocsContent | Should -Not -BeLike '*material*'
+                $mkdocsContent | Should -BeLike '*SecretManagement.MyVault*'
+
+                $reqContentPath = [System.IO.Path]::Combine($outPutPath, 'docs', 'requirements.txt')
+                $reqContent = Get-Content -Path $reqContentPath -Raw
+                $reqContent | Should -Not -BeLike '*material*'
+
+            } #it
+
+            It 'should generate the appropriate files for the material theme' {
+                $vaultParameters = @{
+                    VAULT       = 'text'
+                    ModuleName  = 'SecretManagement.MyVault'
+                    Description = 'text'
+                    Version     = '0.0.1'
+                    FN          = 'user full name'
+                    CICD        = 'NONE'
+                    RepoType    = 'GITHUB'
+                    ReadtheDocs = 'READTHEDOCS'
+                    RTDTheme    = 'MATERIALTHEME'
+                    License     = 'None'
+                    Changelog   = 'NOCHANGELOG'
+                    COC         = 'NOCONDUCT'
+                    Contribute  = 'NOCONTRIBUTING'
+                    Security    = 'NOSECURITY'
+                    CodingStyle = 'Stroustrup'
+                    Pester      = '5'
+                    S3Bucket    = 'PSGallery'
+                    PassThru    = $true
+                    NoLogo      = $true
+                }
+                $eval = New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+                $eval | Should -Not -BeNullOrEmpty
+
+                $rtdFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                # read the docs
+                $rtdFiles.Name.Contains('mkdocs.yml') | Should -BeExactly $true
+                $rtdFiles.Name.Contains('requirements.txt') | Should -BeExactly $true
+                $rtdFiles.Name.Contains('.readthedocs.yaml') | Should -BeExactly $true
+                $rtdFiles.Name.Contains('index.md') | Should -BeExactly $true
+
+                $mkdocsContentPath = [System.IO.Path]::Combine($outPutPath, 'mkdocs.yml')
+                $mkdocsContent = Get-Content -Path $mkdocsContentPath -Raw
+                $mkdocsContent | Should -BeLike '*material*'
+                $mkdocsContent | Should -BeLike '*SecretManagement.MyVault*'
+
+                $reqContentPath = [System.IO.Path]::Combine($outPutPath, 'docs', 'requirements.txt')
+                $reqContent = Get-Content -Path $reqContentPath -Raw
+                $reqContent | Should -BeLike '*material*'
+
+            } #it
+
+        } #context_readthedocs
+
         Context 'Help Examples' {
 
             It 'should have a working example for vanilla vault project' {
@@ -881,6 +987,7 @@ Describe 'Vault Infra Tests' {
                     CICD           = 'GITHUB'
                     GitHubAOptions = 'windows', 'pwshcore', 'linux', 'macos'
                     RepoType       = 'GITHUB'
+                    ReadtheDocs    = 'None'
                     License        = 'MIT'
                     Changelog      = 'CHANGELOG'
                     COC            = 'CONDUCT'
@@ -907,6 +1014,7 @@ Describe 'Vault Infra Tests' {
                     CICD        = 'CODEBUILD'
                     AWSOptions  = 'ps', 'pwshcore', 'pwsh'
                     RepoType    = 'GITHUB'
+                    ReadtheDocs = 'None'
                     License     = 'MIT'
                     Changelog   = 'CHANGELOG'
                     COC         = 'CONDUCT'
@@ -933,6 +1041,7 @@ Describe 'Vault Infra Tests' {
                     CICD         = 'AZURE'
                     AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
                     RepoType     = 'GITHUB'
+                    ReadtheDocs  = 'None'
                     License      = 'None'
                     Changelog    = 'NOCHANGELOG'
                     COC          = 'NOCONDUCT'
@@ -958,6 +1067,7 @@ Describe 'Vault Infra Tests' {
                     CICD            = 'APPVEYOR'
                     AppveyorOptions = 'windows', 'pwshcore', 'linux', 'macos'
                     RepoType        = 'GITHUB'
+                    ReadtheDocs     = 'None'
                     License         = 'None'
                     Changelog       = 'NOCHANGELOG'
                     COC             = 'NOCONDUCT'
@@ -974,7 +1084,7 @@ Describe 'Vault Infra Tests' {
                 $manifestContent = Get-Content -Path $manifestContentPath -Raw
                 $manifestContent | Should -BeLike '*My awesome vault is awesome*'
             } #it
-        }
+        } #context_help_examples
 
     } #context_vault_checks
 

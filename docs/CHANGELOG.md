@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Added support for Azure Repo choice
     - Added support for GitLab Repo choice
     - Minor updates and improvements to both vault and module `*.build.ps1` files
+    - Added integration for Read the Docs using two different themes: readthedocs & material
 - Catesta primary module changes
     - Complete overhaul of Catesta documentation
         - Added support for Read the Docs integration using the Material for MkDocs theme.

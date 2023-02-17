@@ -34,7 +34,6 @@
             <choice label='&amp;Azure Pipelines' help='CI/CD using Azure Pipelines' value='AZURE'/>
         </parameter>
         <!-- _________ CI/CD Sub-choices -->
-        <!-- !$PLASTER_PARAM_OPTIONS THIS IS A PROBLEM -->
         <!-- ___________________________GitHub Actions -->
         <parameter condition="$PLASTER_PARAM_CICD -eq 'GITHUB'" name='GitHubAOptions' type='multichoice' default='0' store='text' prompt='Select desired workflow action options? (If your project is cross-platform you should select multiple)'>
             <choice label='&amp;Windows - PowerShell' help="Adds a Windows PowerShell based Workflow action." value="windows"/>
@@ -104,6 +103,15 @@
         <parameter condition="$PLASTER_PARAM_RepoType -ne 'NONE'" name='Security' type='choice' default='0' store='text' prompt='Would you like to generate a Security policy file?'>
             <choice label='&amp;Security' help='Adds a Security policy file.' value='SECURITY'/>
             <choice label='&amp;None' help='Does not add a Security policy file.' value='NOSECURITY'/>
+        </parameter>
+        <!-- _________ Read the Docs integration -->
+        <parameter condition="$PLASTER_PARAM_RepoType -ne 'NONE'" name='ReadtheDocs' type='choice' default='0' store='text' prompt='Would you like to generate files to integrate with Read the Docs?'>
+            <choice label='&amp;Read the Docs' help='Adds files for integrating your project with Read the Docs.' value='READTHEDOCS'/>
+            <choice label='&amp;None' help='Does not add Read the Docs integration files.' value='None'/>
+        </parameter>
+        <parameter condition="$PLASTER_PARAM_ReadtheDocs -eq 'READTHEDOCS'" name='RTDTheme' type='choice' default='0' store='text' prompt='Which theme would you like to use for Read the Docs?'>
+            <choice label='&amp;Default readthedocs theme' help='Creates Read the Docs integration with default readthedocs theme.' value='READTHEDOCSTHEME'/>
+            <choice label='&amp;Material theme' help='Creates Read the Docs integration with the material theme.' value='MATERIALTHEME'/>
         </parameter>
         <!-- Coding Style -->
         <parameter name='CodingStyle' type='choice' default='0' store='text' prompt='Would you like to specify a coding style for the project?'>
@@ -232,6 +240,15 @@
         <file condition="$PLASTER_PARAM_RepoType -eq 'GITLAB'" source='..\GitLabFiles\issue_templates\feature-request.md' destination='.gitlab\issue_templates\feature-request.md'/>
         <file condition="$PLASTER_PARAM_RepoType -eq 'GITLAB'" source='..\GitLabFiles\merge_request_templates\Default.md' destination='.gitlab\merge_request_templates\Default.md'/>
 
+        <!-- _________Read the Docs -->
+        <templateFile condition="$PLASTER_PARAM_ReadtheDocs -eq 'READTHEDOCS'" source='..\Read_the_Docs\index.md' destination='docs\index.md' />
+        <file condition="$PLASTER_PARAM_ReadtheDocs -eq 'READTHEDOCS'" source='..\Read_the_Docs\.readthedocs.yaml' destination='.readthedocs.yaml' />
+
+        <file condition="$PLASTER_PARAM_RTDTheme -eq 'READTHEDOCSTHEME'" source='..\Read_the_Docs\readthedocs\requirements.txt' destination='docs\requirements.txt' />
+        <templateFile condition="$PLASTER_PARAM_RTDTheme -eq 'READTHEDOCSTHEME'" source='..\Read_the_Docs\readthedocs\mkdocs.yml' destination='mkdocs.yml' />
+
+        <file condition="$PLASTER_PARAM_RTDTheme -eq 'MATERIALTHEME'" source='..\Read_the_Docs\material\requirements.txt' destination='docs\requirements.txt' />
+        <templateFile condition="$PLASTER_PARAM_RTDTheme -eq 'MATERIALTHEME'" source='..\Read_the_Docs\material\mkdocs.yml' destination='mkdocs.yml' />
 
         <!-- CI\CD -->
         <!-- _________GitHub Actions -->

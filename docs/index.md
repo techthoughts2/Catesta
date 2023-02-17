@@ -96,4 +96,5 @@ Selections
             * Issue Bug Report
             * Issue Feature Request
             * Pull Request
+    * [Read the Docs](https://readthedocs.org/) integration
 * *[Selection]* [Pester](https://github.com/pester/Pester) version selection. Choose between Pester version 5 or Pester version 4 for testing your project.

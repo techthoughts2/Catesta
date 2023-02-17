@@ -181,6 +181,24 @@ choices:
     value : NOSECURITY
     help : Does not add a Security policy file.
 
+name : ReadtheDocs
+type : choice
+condition : $PLASTER_PARAM_RepoType -ne 'NONE'
+choices:
+    value : READTHEDOCS
+    help : Adds files for integrating your project with Read the Docs.
+    value : None
+    help : Does not add Read the Docs integration files.
+
+name : RTDTheme
+type : choice
+condition : $PLASTER_PARAM_ReadtheDocs -eq 'READTHEDOCS'
+choices:
+    value : READTHEDOCSTHEME
+    help : Creates Read the Docs integration with default readthedocs theme.
+    value : MATERIALTHEME
+    help : Creates Read the Docs integration with the material theme.
+
 name : CodingStyle
 type : choice
 choices:
@@ -235,6 +253,8 @@ Changelog       = 'CHANGELOG'
 COC             = 'CONDUCT'
 Contribute      = 'CONTRIBUTING'
 Security        = 'SECURITY'
+ReadtheDocs     = 'READTHEDOCS'
+RTDTheme        = 'READTHEDOCSTHEME'
 CodingStyle     = 'Stroustrup'
 Help            = 'Yes'
 Pester          = '5'
