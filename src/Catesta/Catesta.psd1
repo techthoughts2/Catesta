@@ -125,13 +125,25 @@
                 'AWS',
                 'AWS-CodeBuild',
                 'Azure',
+                'AzureDevOps',
                 'Azure-DevOps',
+                'AzureRepos',
+                'Bitbucket',
+                'BitbucketPipelines',
+                'CI',
                 'CICD',
+                'CICDPipeline',
                 'CodeBuild',
+                'CodeCommit',
                 'Cross-Platform',
                 'CrossPlatform',
+                'CrossPlatformDevelopment',
                 'GitHub',
                 'GitHub-Actions',
+                'GitHubWorkflow',
+                'GitLab',
+                'GitLabPipeline',
+                'GitLab-Runner',
                 'Extension'
                 'Linux',
                 'MacOS',
@@ -140,8 +152,10 @@
                 'MultiCloud',
                 'Plaster',
                 'PowerShell',
+                'PowerShellModule',
                 'Project',
                 'pwsh',
+                'ReadtheDocs',
                 'Scaffold',
                 'Secret',
                 'SecretVault',
@@ -179,16 +193,8 @@
                     MinimumVersion = '1.1.3'
                     Details        = @{
                         TemplatePaths = @(
-                            'Resources\AWS',
-                            'Resources\AWS\Vault',
-                            'Resources\GitHubActions',
-                            'Resources\GitHubActions\Vault',
-                            'Resources\Azure',
-                            'Resources\Azure\Vault',
-                            'Resources\AppVeyor',
-                            'Resources\AppVeyor\Vault',
-                            'Resources\Vanilla',
-                            'Resources\Vanilla\Vault'
+                            'Resources\Module',
+                            'Resources\Vault'
                         )
                     }
                 }
