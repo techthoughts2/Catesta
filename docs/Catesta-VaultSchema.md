@@ -142,7 +142,7 @@ choices:
     help : Adds a GNU GENERAL PUBLIC LICENSE file.
     value : ISC
     help : Adds an ISC License file.
-    value : None
+    value : NONE
     help : Does not add a License file.
 
 name : Changelog
@@ -151,7 +151,7 @@ condition : $PLASTER_PARAM_RepoType -ne 'NONE'
 choices:
     value : CHANGELOG
     help : Adds a Changelog file.
-    value : NOCHANGELOG
+    value : NONE
     help : Does not add a Changelog file.
 
 name : COC
@@ -160,7 +160,7 @@ condition : $PLASTER_PARAM_RepoType -ne 'NONE'
 choices:
     value : CONDUCT
     help : Adds a Code of Conduct file.
-    value : NOCONDUCT
+    value : NONE
     help : Does not add a Conduct file.
 
 name : Contribute
@@ -169,7 +169,7 @@ condition : $PLASTER_PARAM_RepoType -ne 'NONE'
 choices:
     value : CONTRIBUTING
     help : Adds a Contributing file.
-    value : NOCONTRIBUTING
+    value : NONE
     help : Does not add a Contributing file.
 
 name : Security
@@ -178,7 +178,7 @@ condition : $PLASTER_PARAM_RepoType -ne 'NONE'
 choices:
     value : SECURITY
     help : Adds a Security policy file.
-    value : NOSECURITY
+    value : NONE
     help : Does not add a Security policy file.
 
 name : ReadtheDocs
@@ -187,7 +187,7 @@ condition : $PLASTER_PARAM_RepoType -ne 'NONE'
 choices:
     value : READTHEDOCS
     help : Adds files for integrating your project with Read the Docs.
-    value : None
+    value : NONE
     help : Does not add Read the Docs integration files.
 
 name : RTDTheme
@@ -208,7 +208,7 @@ choices:
     help : Sets OTBS as the preferred coding style.
     value : Allman
     help : Sets Allman as the preferred coding style.
-    value : None
+    value : NONE
     help : No coding style is set for the project.
 
 name : Pester

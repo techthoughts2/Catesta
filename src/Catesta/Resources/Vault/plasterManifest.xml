@@ -86,28 +86,28 @@
             <choice label='&amp;Apache' help='Adds an Apache License file.' value='Apache'/>
             <choice label='&amp;GNU' help='Adds a GNU GENERAL PUBLIC LICENSE file.' value='GNU'/>
             <choice label='&amp;ISC' help='Adds an ISC License file.' value='ISC'/>
-            <choice label='&amp;None' help='Does not add a License file.' value='None'/>
+            <choice label='&amp;None' help='Does not add a License file.' value='NONE'/>
         </parameter>
         <parameter condition="$PLASTER_PARAM_RepoType -ne 'NONE'" name='Changelog' type='choice' default='0' store='text' prompt='Would you like to generate a Changelog file?'>
             <choice label='&amp;Changelog' help='Adds a Changelog file.' value='CHANGELOG'/>
-            <choice label='&amp;None' help='Does not add a Changelog file.' value='NOCHANGELOG'/>
+            <choice label='&amp;None' help='Does not add a Changelog file.' value='NONE'/>
         </parameter>
         <parameter condition="$PLASTER_PARAM_RepoType -ne 'NONE'" name='COC' type='choice' default='0' store='text' prompt='Would you like to generate a Code of Conduct file?'>
             <choice label='&amp;Conduct' help='Adds a Code of Conduct file.' value='CONDUCT'/>
-            <choice label='&amp;None' help='Does not add a Conduct file.' value='NOCONDUCT'/>
+            <choice label='&amp;None' help='Does not add a Conduct file.' value='NONE'/>
         </parameter>
         <parameter condition="$PLASTER_PARAM_RepoType -ne 'NONE'" name='Contribute' type='choice' default='0' store='text' prompt='Would you like to generate a Contributing guidelines file?'>
             <choice label='&amp;Contribute' help='Adds a Contributing file.' value='CONTRIBUTING'/>
-            <choice label='&amp;None' help='Does not add a Contributing file.' value='NOCONTRIBUTING'/>
+            <choice label='&amp;None' help='Does not add a Contributing file.' value='NONE'/>
         </parameter>
         <parameter condition="$PLASTER_PARAM_RepoType -ne 'NONE'" name='Security' type='choice' default='0' store='text' prompt='Would you like to generate a Security policy file?'>
             <choice label='&amp;Security' help='Adds a Security policy file.' value='SECURITY'/>
-            <choice label='&amp;None' help='Does not add a Security policy file.' value='NOSECURITY'/>
+            <choice label='&amp;None' help='Does not add a Security policy file.' value='NONE'/>
         </parameter>
         <!-- _________ Read the Docs integration -->
         <parameter condition="$PLASTER_PARAM_RepoType -ne 'NONE'" name='ReadtheDocs' type='choice' default='0' store='text' prompt='Would you like to generate files to integrate with Read the Docs?'>
             <choice label='&amp;Read the Docs' help='Adds files for integrating your project with Read the Docs.' value='READTHEDOCS'/>
-            <choice label='&amp;None' help='Does not add Read the Docs integration files.' value='None'/>
+            <choice label='&amp;None' help='Does not add Read the Docs integration files.' value='NONE'/>
         </parameter>
         <parameter condition="$PLASTER_PARAM_ReadtheDocs -eq 'READTHEDOCS'" name='RTDTheme' type='choice' default='0' store='text' prompt='Which theme would you like to use for Read the Docs?'>
             <choice label='&amp;Default readthedocs theme' help='Creates Read the Docs integration with default readthedocs theme.' value='READTHEDOCSTHEME'/>
@@ -118,7 +118,7 @@
             <choice label='&amp;Stroustrup' help='Sets Stroustrup as the preferred coding style.' value='Stroustrup'/>
             <choice label='&amp;OTBS' help='Sets OTBS as the preferred coding style.' value='OTBS'/>
             <choice label='&amp;Allman' help='Sets Allman as the preferred coding style.' value='Allman'/>
-            <choice label='&amp;None' help='No coding style is set for the project.' value='None'/>
+            <choice label='&amp;None' help='No coding style is set for the project.' value='NONE'/>
         </parameter>
         <!-- Pester -->
         <parameter name='Pester' type='choice' default='0' store='text' prompt='Which version of Pester would you like to use?'>

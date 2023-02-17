@@ -47,7 +47,7 @@
     # Minimum version of the common language runtime (CLR) required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
     # CLRVersion = ''
 
-    # Processor architecture (None, X86, Amd64) required by this module
+    # Processor architecture (NONE, X86, Amd64) required by this module
     # ProcessorArchitecture = ''
 
     # Modules that must be imported into the global environment prior to importing this module

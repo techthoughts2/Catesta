@@ -90,11 +90,11 @@
         CICD             = 'AZURE'
         AzureOptions     = 'windows', 'pwshcore', 'linux', 'macos'
         RepoType         = 'GITHUB'
-        License          = 'None'
-        Changelog        = 'NOCHANGELOG'
-        COC              = 'NOCONDUCT'
-        Contribute       = 'NOCONTRIBUTING'
-        Security         = 'NOSECURITY'
+        License          = 'NONE'
+        Changelog        = 'NONE'
+        COC              = 'NONE'
+        Contribute       = 'NONE'
+        Security         = 'NONE'
         CodingStyle      = 'Stroustrup'
         Pester           = '5'
         NoLogo           = $true
@@ -111,11 +111,11 @@
         CICD             = 'APPVEYOR'
         AppveyorOptions  = 'windows', 'pwshcore', 'linux', 'macos'
         RepoType         = 'GITHUB'
-        License          = 'None'
-        Changelog        = 'NOCHANGELOG'
-        COC              = 'NOCONDUCT'
-        Contribute       = 'NOCONTRIBUTING'
-        Security         = 'NOSECURITY'
+        License          = 'NONE'
+        Changelog        = 'NONE'
+        COC              = 'NONE'
+        Contribute       = 'NONE'
+        Security         = 'NONE'
         CodingStyle      = 'Stroustrup'
         Pester           = '5'
         PassThru         = $true
@@ -132,7 +132,7 @@
         FN              = 'user full name'
         CICD            = 'BITBUCKET'
         RepoType        = 'BITBUCKET'
-        License         = 'None'
+        License         = 'NONE'
         Changelog       = 'CHANGELOG'
         COC             = 'CONDUCT'
         Contribute      = 'CONTRIBUTING'
@@ -270,7 +270,7 @@ function New-VaultProject {
 
             # Save current value of $ConfirmPreference
             $originalConfirmPreference = $ConfirmPreference
-            # Set $ConfirmPreference to 'None'
+            # Set $ConfirmPreference to 'NONE'
             $ConfirmPreference = 'None'
 
             Write-Verbose -Message 'Deploying template...'

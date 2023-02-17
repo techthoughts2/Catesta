@@ -23,7 +23,7 @@
 
     This will perform only the Analyze and Test Add-BuildTasks.
 .NOTES
-    This build will pull in configurations from the "<module>.Settings.ps1" file as well, where users can more easily customize the build process if required.
+    This build file by Catesta will pull in configurations from the "<module>.Settings.ps1" file as well, where users can more easily customize the build process if required.
     https://github.com/nightroman/Invoke-Build
     https://github.com/nightroman/Invoke-Build/wiki/Build-Scripts-Guidelines
     If using VSCode you can use the generated tasks.json to execute the various tasks in this build file.
@@ -168,7 +168,7 @@ Add-BuildTask TestModuleManifest -Before ImportModuleManifest {
     Assert-Build (Test-Path $script:ModuleManifestFile) 'Unable to locate the module manifest file.'
     Assert-Build (Test-ManifestBool -Path $script:ModuleManifestFile) 'Module Manifest test did not pass verification.'
     Write-Build Green '      ...Module Manifest Verification Complete!'
-}
+} #f5b33218-bde4-4028-b2a1-9c206f089503
 
 # Synopsis: Load the module project
 Add-BuildTask ImportModuleManifest {
