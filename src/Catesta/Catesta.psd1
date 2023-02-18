@@ -12,7 +12,7 @@
     RootModule        = 'Catesta.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.2.6'
+    ModuleVersion     = '2.0.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -47,7 +47,7 @@
     # Minimum version of the common language runtime (CLR) required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
     # CLRVersion = ''
 
-    # Processor architecture (None, X86, Amd64) required by this module
+    # Processor architecture (NONE, X86, Amd64) required by this module
     # ProcessorArchitecture = ''
 
     # Modules that must be imported into the global environment prior to importing this module
@@ -91,7 +91,7 @@
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
-        'New-PowerShellProject',
+        'New-ModuleProject'
         'New-VaultProject'
     )
 
@@ -125,13 +125,25 @@
                 'AWS',
                 'AWS-CodeBuild',
                 'Azure',
+                'AzureDevOps',
                 'Azure-DevOps',
+                'AzureRepos',
+                'Bitbucket',
+                'BitbucketPipelines',
+                'CI',
                 'CICD',
+                'CICDPipeline',
                 'CodeBuild',
+                'CodeCommit',
                 'Cross-Platform',
                 'CrossPlatform',
+                'CrossPlatformDevelopment',
                 'GitHub',
                 'GitHub-Actions',
+                'GitHubWorkflow',
+                'GitLab',
+                'GitLabPipeline',
+                'GitLab-Runner',
                 'Extension'
                 'Linux',
                 'MacOS',
@@ -140,8 +152,10 @@
                 'MultiCloud',
                 'Plaster',
                 'PowerShell',
+                'PowerShellModule',
                 'Project',
                 'pwsh',
+                'ReadtheDocs',
                 'Scaffold',
                 'Secret',
                 'SecretVault',
@@ -161,7 +175,7 @@
             IconUri                  = 'https://github.com/techthoughts2/Catesta/raw/main/media/CatestaIcon.png'
 
             # ReleaseNotes of this module
-            ReleaseNotes             = 'https://github.com/techthoughts2/Catesta/blob/main/.github/CHANGELOG.md'
+            ReleaseNotes             = 'https://github.com/techthoughts2/Catesta/blob/main/docs/CHANGELOG.md'
 
             # Prerelease string of this module
             # Prerelease = ''
@@ -179,16 +193,8 @@
                     MinimumVersion = '1.1.3'
                     Details        = @{
                         TemplatePaths = @(
-                            'Resources\AWS',
-                            'Resources\AWS\Vault',
-                            'Resources\GitHubActions',
-                            'Resources\GitHubActions\Vault',
-                            'Resources\Azure',
-                            'Resources\Azure\Vault',
-                            'Resources\AppVeyor',
-                            'Resources\AppVeyor\Vault',
-                            'Resources\Vanilla',
-                            'Resources\Vanilla\Vault'
+                            'Resources\Module',
+                            'Resources\Vault'
                         )
                     }
                 }

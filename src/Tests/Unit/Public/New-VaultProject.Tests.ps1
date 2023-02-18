@@ -15,50 +15,20 @@ InModuleScope $ModuleName {
         BeforeAll {
             $WarningPreference = 'SilentlyContinue'
             $ErrorActionPreference = 'SilentlyContinue'
+            $path = '{0}\{1}' -f $env:TEMP, 'testVault'
         } #beforeAll
+
         # Mock -CommandName Write-Error { }
         # Mock -CommandName Write-Warning { }
-        Context 'ShouldProcess' {
-            BeforeEach {
-                Mock -CommandName Invoke-Plaster { }
-                Mock -CommandName Import-Module { }
-                Mock -CommandName New-VaultProject -MockWith { } #endMock
-                Mock New-VaultProject {}
-            }
-            It 'Should process by default' {
-                New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path
-                Should -Invoke -CommandName New-VaultProject -Exactly -Times 1 -Scope It
-            } #it
-            It 'Should not process on explicit request for confirmation (-Confirm)' {
-                { New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path -Confirm }
-                Should -Invoke -CommandName New-VaultProject -Exactly -Times 0 -Scope It
-            } #it
-            It 'Should not process on implicit request for confirmation (ConfirmPreference)' {
-                {
-                    $ConfirmPreference = 'Low'
-                    New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path
-                }
-                Should -Invoke -CommandName New-VaultProject -Exactly -Times 0 -Scope It
-            } #it
-            It 'Should not process on explicit request for validation (-WhatIf)' {
-                { New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path -WhatIf }
-                Should -Invoke -CommandName New-VaultProject -Exactly -Times 0 -Scope It
-            } #it
-            It 'Should not process on implicit request for validation (WhatIfPreference)' {
-                {
-                    $WhatIfPreference = $true
-                    New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path
-                }
-                Should -Invoke -CommandName New-VaultProject -Exactly -Times 0 -Scope It
-            } #it
-            It 'Should process on force' {
-                $ConfirmPreference = 'Medium'
-                New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path -Force
-                Should -Invoke -CommandName New-VaultProject -Exactly -Times 1 -Scope It
-            } #it
-        }
+
         BeforeEach {
             Mock -CommandName Import-Module { }
+            function Invoke-Plaster {
+                param(
+                    $VAULT,
+                    $PassThru
+                )
+            }
             Mock -CommandName Invoke-Plaster -MockWith {
                 [PSCustomObject]@{
                     TemplatePath    = 'C:\Users\jake\Desktop\Project\0_CodeProject\Catesta\src\Catesta\Resources\AWS'
@@ -72,28 +42,127 @@ InModuleScope $ModuleName {
                 }
             } #endMock
         } #beforeEach
-        Context 'Error' {
-            It 'should return success status false if Plaster module can not be imported' {
-                Mock -CommandName Import-Module -MockWith {
-                    throw 'Fake Error'
-                } #endMock
-                { New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path } | Should -Throw
+
+        Context 'ShouldProcess' {
+
+            BeforeEach {
+                Mock -CommandName Invoke-Plaster { }
+                Mock -CommandName Import-Module { }
+                Mock -CommandName New-VaultProject -MockWith { } #endMock
+                Mock New-VaultProject {}
+            }
+            It 'Should process by default' {
+                New-VaultProject -DestinationPath $path
+                Should -Invoke -CommandName New-VaultProject -Exactly -Times 1 -Scope It
             } #it
-            It 'should return success status false if an error is encountered' {
-                Mock -CommandName Invoke-Plaster -MockWith {
-                    throw 'Fake Error'
+            It 'Should not process on explicit request for confirmation (-Confirm)' {
+                { New-VaultProject -DestinationPath $path -Confirm }
+                Should -Invoke -CommandName New-VaultProject -Exactly -Times 0 -Scope It
+            } #it
+            It 'Should not process on implicit request for confirmation (ConfirmPreference)' {
+                {
+                    $ConfirmPreference = 'Low'
+                    New-VaultProject -DestinationPath $path
                 }
-                (New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path).Success | Should -BeExactly $false
+                Should -Invoke -CommandName New-VaultProject -Exactly -Times 0 -Scope It
             } #it
-        } #context_Error
-        Context 'Success' {
-            It 'should return success status true if no issues are encountered' {
-                (New-VaultProject -CICDChoice 'AWS' -DestinationPath c:\path\AWSProject).Success | Should -BeExactly $true
-                (New-VaultProject -CICDChoice 'GitHubActions' -DestinationPath c:\path\GitHubActions).Success | Should -BeExactly $true
-                (New-VaultProject -CICDChoice 'Azure' -DestinationPath c:\path\AzurePipeline).Success | Should -BeExactly $true
-                (New-VaultProject -CICDChoice 'AppVeyor' -DestinationPath c:\path\AppVeyor).Success | Should -BeExactly $true
-                (New-VaultProject -CICDChoice 'ModuleOnly' -DestinationPath c:\path\ModuleOnly).Success | Should -BeExactly $true
+            It 'Should not process on explicit request for validation (-WhatIf)' {
+                { New-VaultProject -DestinationPath $path -WhatIf }
+                Should -Invoke -CommandName New-VaultProject -Exactly -Times 0 -Scope It
             } #it
+            It 'Should not process on implicit request for validation (WhatIfPreference)' {
+                {
+                    $WhatIfPreference = $true
+                    New-VaultProject -DestinationPath $path
+                }
+                Should -Invoke -CommandName New-VaultProject -Exactly -Times 0 -Scope It
+            } #it
+            It 'Should process on force' {
+                $ConfirmPreference = 'Medium'
+                New-VaultProject -DestinationPath $path -Force
+                Should -Invoke -CommandName New-VaultProject -Exactly -Times 1 -Scope It
+            } #it
+
+        } #context_shouldprocess
+
+        Context 'Error' {
+
+            It 'should not throw if no issues are encountered' {
+                { New-VaultProject -DestinationPath $path } | Should -Not -Throw
+            } #it
+
+            It 'should return an InvokePlasterInfo object if PassThru switch provided' {
+                New-VaultProject -DestinationPath $path -PassThru | Should -Not -BeNullOrEmpty
+            } #it
+
+            It 'should return null if PassThru switch not provided' {
+                New-VaultProject -DestinationPath $path | Should -BeNullOrEmpty
+            } #it
+
+            It 'should have the VAULT parameter set to VAULT even if a custom value is passed in' {
+                New-VaultProject -DestinationPath $path -VaultParameters @{
+                    VAULT = 'NOTVAULT'
+                }
+                Should -Invoke -CommandName Invoke-Plaster -Times 1 -ParameterFilter {
+                    $VAULT -eq 'VAULT'
+                }
+            } #it
+
+            It 'should have the PassThru parameter set properly if PassThru switch specified' {
+                New-VaultProject -DestinationPath $path -PassThru -VaultParameters @{
+                    VAULT = 'VAULT'
+                }
+                Should -Invoke -CommandName Invoke-Plaster -Times 1 -ParameterFilter {
+                    $PassThru -eq $true
+                }
+            } #it
+
+            It 'should pass on the expected parameters when VaultParameters are supplied' {
+                $VaultParameters = @{
+                    VAULT       = 'text'
+                    ModuleName  = 'text'
+                    Description = 'text'
+                    Version     = '0.0.1'
+                    FN          = 'user full name'
+                    CICD        = 'GITHUB'
+                    AWSOptions  = 'ps'
+                    RepoType    = 'GITHUB'
+                    License     = 'MIT'
+                    Changelog   = 'CHANGELOG'
+                    COC         = 'CONDUCT'
+                    Contribute  = 'CONTRIBUTING'
+                    Security    = 'SECURITY'
+                    CodingStyle = 'Stroustrup'
+                    Help        = 'Yes'
+                    Pester      = '5'
+                    PassThru    = $true
+                }
+                New-VaultProject -VaultParameters $VaultParameters -DestinationPath .
+                Should -Invoke -CommandName Invoke-Plaster -Times 1 -ParameterFilter {
+                    $VAULT -eq 'VAULT'
+                    $ModuleName -eq 'text'
+                    $Description -eq 'text'
+                    $Version -eq '0.0.1'
+                    $FN -eq 'user full name'
+                    $CICD -eq 'GITHUB'
+                    $AWSOptions -eq 'ps'
+                    $RepoType -eq 'GITHUB'
+                    $License -eq 'MIT'
+                    $Changelog -eq 'CHANGELOG'
+                    $COC -eq 'CONDUCT'
+                    $Contribute -eq 'CONTRIBUTING'
+                    $Security -eq 'SECURITY'
+                    $CodingStyle -eq 'Stroustrup'
+                    $Help -eq 'Yes'
+                    $Pester -eq '5'
+                    $PassThru -eq $true
+                    $ErrorAction -eq 'Stop'
+                    $TemplatePath -ne $null
+                    $DestinationPath -eq '.'
+                }
+            } #it
+
         } #context_Success
+
     } #describe
 } #inModule

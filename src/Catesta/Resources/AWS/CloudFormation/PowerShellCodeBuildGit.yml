@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "PS CodeBuild Stack: <%=$PLASTER_PARAM_ModuleName%>"
+Description: 'PS CodeBuild Stack: <%=$PLASTER_PARAM_ModuleName%>'
 
 Parameters:
 
@@ -13,22 +13,54 @@ Parameters:
     Description: short description of your PS module project.
     Type: String
 
+  RepositoryType:
+    Description: The type of repository that contains the source code to be built.
+    Type: String
+    AllowedValues:
+      - BITBUCKET
+      - GITHUB
+<%
+    if ($PLASTER_PARAM_RepoType -eq 'GitHub') {
+@'
+    Default: GITHUB
+'@
+}
+elseif ($PLASTER_PARAM_RepoType -eq 'BitBucket') {
+@'
+    Default: BITBUCKET
+'@
+}
+%>
+
   RepositoryUrl:
+<%
+    if ($PLASTER_PARAM_RepoType -eq 'GitHub') {
+@'
     Description: "HTTPS Clone URL of the repository in GitHub. Example: 'https://github.com/owner/repo.git'"
+'@
+}
+elseif ($PLASTER_PARAM_RepoType -eq 'BitBucket') {
+@'
+    Description: "HTTPS Clone URL of the repository in Bitbucket. Example: 'https://owner@bitbucket.org/owner/repo.git'"
+'@
+}
+%>
     Type: String
 
   BranchName:
     Default: main
-    Description: the GitHub branch that will be monitored for builds (CASE SENSITIVE).
+    Description: the branch that will be monitored for builds (CASE SENSITIVE).
     Type: String
 
   CodeBuildBadgeEnabled:
     Type: String
-    Default: "true"
+    Default: 'true'
     Description: Selects whether to enable CodeBuild Build Badges.
     AllowedValues:
-      - "true"
-      - "false"
+      - 'true'
+      - 'false'
+
+
 
   CodeBuildTimeoutInMinutes:
     Type: Number
@@ -75,11 +107,11 @@ Parameters:
 
   DeployEmailNotifications:
     Type: String
-    Default: "no"
+    Default: 'no'
     Description: "CodeBuild will send email notifications of state changes."
     AllowedValues:
-      - "yes"
-      - "no"
+      - 'yes'
+      - 'no'
 
   EmailForNotifications:
     Type: String
@@ -96,8 +128,9 @@ Metadata:
           - ProjectName
           - ProjectDescription
       - Label:
-          default: Specify GitHub Repository information
+          default: Specify Repository information
         Parameters:
+          - RepositoryType
           - RepositoryUrl
           - BranchName
       - Label:
@@ -118,8 +151,10 @@ Metadata:
         default: Module Name
       ProjectDescription:
         default: Module Description
+      RepositoryType:
+        default: Repository Type
       RepositoryUrl:
-        default: GitHub Repository URL
+        default: Repository URL
       BranchName:
         default: Branch Name
       CodeBuildBadgeEnabled:
@@ -142,15 +177,15 @@ Metadata:
 Conditions:
 
   DeployEmailNotificationsCondition:
-    !Equals [!Ref DeployEmailNotifications, "yes"]
-  # PSWindows: !Equals [!Ref BuildSpecFile, "buildspec_powershell_windows.yml"]
-  # PWSHWindows: !Equals [!Ref BuildSpecFile, "buildspec_pwsh_windows.yml"]
+    !Equals [!Ref DeployEmailNotifications, 'yes']
+  # PSWindows: !Equals [!Ref BuildSpecFile, 'buildspec_powershell_windows.yml']
+  # PWSHWindows: !Equals [!Ref BuildSpecFile, 'buildspec_pwsh_windows.yml']
   # WindowsImage:
   #   Fn::Or:
   #   - Condition: PSWindows
   #   - Condition: PWSHWindows
-  #LinuxImage: !Equals [!Ref BuildSpecFile, "buildspec_pwsh_linux.yml"]
-  #WindowsImage: !Equals [!Ref CodeBuildEnvironment, "WINDOWS_CONTAINER"]
+  #LinuxImage: !Equals [!Ref BuildSpecFile, 'buildspec_pwsh_linux.yml']
+  #WindowsImage: !Equals [!Ref CodeBuildEnvironment, 'WINDOWS_CONTAINER']
 
 Resources:
 
@@ -209,13 +244,14 @@ Resources:
                   - !Sub "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:report-group/<%=$PLASTER_PARAM_ModuleName%>*"
 
 <%
-    if ($PLASTER_PARAM_Options -eq 'ps') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
   # The CodeBuild Project configuration
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html
   # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html
   CodeBuildpsProject:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -226,18 +262,18 @@ Resources:
       Environment:
         #ComputeType: !Ref CodeBuildComputeType
         ComputeType: BUILD_GENERAL1_MEDIUM
-        Image: "aws/codebuild/windows-base:2019-2.0"
+        Image: aws/codebuild/windows-base:2019-2.0
         # Type: !Ref CodeBuildEnvironment
         Type: WINDOWS_SERVER_2019_CONTAINER
         # Type: WINDOWS_CONTAINER
       Name: !Join
-        - "-"
+        - '-'
         - - !Ref ProjectName
           - powershell_windows
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
         # SourceAuth is for use by the CodeBuild console only. Do not get or set it directly.
-        Type: GITHUB
+        Type: !Ref RepositoryType
         Auth:
           Type: OAUTH
         Location: !Ref RepositoryUrl
@@ -259,13 +295,14 @@ Resources:
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
   # The CodeBuild Project configuration
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html
   # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html
   CodeBuildpwshcoreProject:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -276,18 +313,18 @@ Resources:
       Environment:
         #ComputeType: !Ref CodeBuildComputeType
         ComputeType: BUILD_GENERAL1_MEDIUM
-        Image: "aws/codebuild/windows-base:2019-2.0"
+        Image: aws/codebuild/windows-base:2019-2.0
         Type: WINDOWS_SERVER_2019_CONTAINER
         # Type: !Ref CodeBuildEnvironment
         # Type: WINDOWS_CONTAINER
       Name: !Join
-        - "-"
+        - '-'
         - - !Ref ProjectName
           - pwsh_windows
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
         # SourceAuth is for use by the CodeBuild console only. Do not get or set it directly.
-        Type: GITHUB
+        Type: !Ref RepositoryType
         Auth:
           Type: OAUTH
         Location: !Ref RepositoryUrl
@@ -309,13 +346,14 @@ Resources:
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwsh') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
   # The CodeBuild Project configuration
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html
   # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html
   CodeBuildpwshProject:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -326,17 +364,17 @@ Resources:
       Environment:
         #ComputeType: !Ref CodeBuildComputeType
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: "aws/codebuild/standard:6.0"
+        Image: aws/codebuild/standard:6.0
         #Type: !Ref CodeBuildEnvironment
         Type: LINUX_CONTAINER
       Name: !Join
-        - "-"
+        - '-'
         - - !Ref ProjectName
           - pwsh_linux
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
         # SourceAuth is for use by the CodeBuild console only. Do not get or set it directly.
-        Type: GITHUB
+        Type: !Ref RepositoryType
         Auth:
           Type: OAUTH
         Location: !Ref RepositoryUrl
@@ -362,6 +400,10 @@ Resources:
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
   SNSTopicForCodeBuildUpdates:
     Type: AWS::SNS::Topic
+    Properties:
+      Tags:
+        - Key: Service
+          Value: !Ref ProjectName
 
   # The SNS Topic Policy
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-policy.html
@@ -370,7 +412,7 @@ Resources:
     Properties:
       PolicyDocument:
         Id: SNSTopicPolicy
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           - Sid: AllowEvents
             Effect: Allow
@@ -411,21 +453,21 @@ Resources:
             - STOPPED
           project-name:
 <%
-    if ($PLASTER_PARAM_Options -eq 'ps') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
             - !Ref CodeBuildpsProject
 '@
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
             - !Ref CodeBuildpwshcoreProject
 '@
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwsh') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
             - !Ref CodeBuildpwshProject
 '@
@@ -449,7 +491,7 @@ Outputs:
     Description: The SNS Topic used for CodeBuild status updates
     Value: !Ref SNSTopicForCodeBuildUpdates
 <%
-    if ($PLASTER_PARAM_Options -eq 'ps') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
   CodeBuildpsProject:
     Description: The name of the CodeBuild Project.
@@ -468,7 +510,7 @@ Outputs:
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
   CodeBuildpwshcoreProject:
     Description: The name of the CodeBuild Project.
@@ -487,7 +529,7 @@ Outputs:
     }
 %>
 <%
-    if ($PLASTER_PARAM_Options -eq 'pwsh') {
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
   CodeBuildpwshProject:
     Description: The name of the CodeBuild Project.

@@ -12,7 +12,7 @@
         - DevCC
         - CreateHelpStart
         - Build
-        - InfraTest
+        - IntegrationTest
         - Archive
 .EXAMPLE
     Invoke-Build
@@ -53,7 +53,7 @@ $str += 'Analyze', 'Test'
 $str += 'CreateHelpStart'
 $str2 = $str
 $str2 += 'Build', 'Archive'
-$str += 'Build', 'InfraTest', 'Archive'
+$str += 'Build', 'IntegrationTest', 'Archive'
 Add-BuildTask -Name . -Jobs $str
 
 #Local testing build process
@@ -62,8 +62,8 @@ Add-BuildTask TestLocal Clean, ImportModuleManifest, Analyze, Test
 #Local help file creation process
 Add-BuildTask HelpLocal Clean, ImportModuleManifest, CreateHelpStart
 
-#Full build sans infra tests
-Add-BuildTask BuildNoInfra -Jobs $str2
+#Full build sans integration tests
+Add-BuildTask BuildNoIntegration -Jobs $str2
 
 # Pre-build variables to be used by other portions of the script
 Enter-Build {
@@ -82,7 +82,7 @@ Enter-Build {
 
     $script:TestsPath = Join-Path -Path $BuildRoot -ChildPath 'Tests'
     $script:UnitTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Unit'
-    $script:InfraTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Infrastructure'
+    $script:IntegrationTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Integration'
 
     # $script:ArtifactsPath = Join-Path -Path $BuildRoot -ChildPath "$script:ModuleName\Artifacts"
     # $script:ArchivePath = Join-Path -Path $BuildRoot -ChildPath "$script:ModuleName\Archive"
@@ -195,7 +195,10 @@ Add-BuildTask AnalyzeTests -After Analyze {
         $scriptAnalyzerParams = @{
             Path        = $script:TestsPath
             Setting     = 'PSScriptAnalyzerSettings.psd1'
-            ExcludeRule = 'PSUseDeclaredVarsMoreThanAssignments'
+            ExcludeRule = @(
+                'PSUseDeclaredVarsMoreThanAssignments',
+                'PSReviewUnusedParameter'
+            )
             Recurse     = $true
             Verbose     = $false
         }
@@ -491,10 +494,18 @@ Add-BuildTask Build {
     Write-Build Gray '        ...Module creation complete.'
 
     #here we update the parent level docs. If you would prefer not to update them, comment out this section.
-    Write-Build Gray '        Overwriting docs output...'
-    Move-Item "$script:ArtifactsPath\docs\*.md" -Destination "..\docs\" -Force
-    Remove-Item "$script:ArtifactsPath\docs" -Recurse -Force -ErrorAction Stop
-    Write-Build Gray '        ...Docs output completed.'
+    if (Test-Path "$script:ArtifactsPath\docs") {
+        Write-Build Gray '        Overwriting docs output...'
+        Move-Item "$script:ArtifactsPath\docs\*.md" -Destination "..\docs\" -Force
+        Remove-Item "$script:ArtifactsPath\docs" -Recurse -Force -ErrorAction Stop
+        Write-Build Gray '        ...Docs output completed.'
+    }
+
+    # custom step where we will generate the module and vault schema docs
+    Write-Build Gray '        Generating schema docs...'
+    . "$BuildRoot\..\util\module_schema_generator.ps1"
+    . "$BuildRoot\..\util\vault_schema_generator.ps1"
+    Write-Build Gray '        ...schema docs completed...'
 
     Write-Build Gray '        Cleaning up leftover artifacts...'
     #cleanup artifacts that are no longer required
@@ -504,21 +515,23 @@ Add-BuildTask Build {
     Write-Build Green '        ...Build Complete!'
 } #Build
 
-#Synopsis: Invokes all Pester Infrastructure Tests in the Tests\Infrastructure folder (if it exists)
-Add-BuildTask InfraTest {
-    if (Test-Path -Path $script:InfraTestsPath) {
+# TODO: schema generator step
+
+#Synopsis: Invokes all Pester Integration Tests in the Tests\Integration folder (if it exists)
+Add-BuildTask IntegrationTest {
+    if (Test-Path -Path $script:IntegrationTestsPath) {
 
         Remove-Module -Name Pester -Force -ErrorAction 'SilentlyContinue'# there are instances where some containers have Pester already in the session
         Import-Module -Name Pester -MinimumVersion $script:MinPesterVersion -MaximumVersion $script:MaxPesterVersion -ErrorAction 'Stop'
 
         $pesterConfiguration = New-PesterConfiguration
-        $pesterConfiguration.run.Path = $script:InfraTestsPath
+        $pesterConfiguration.run.Path = $script:IntegrationTestsPath
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
         $pesterConfiguration.CodeCoverage.Enabled = $false
         $pesterConfiguration.Output.Verbosity = 'Detailed'
 
-        Write-Build White "      Performing Pester Infrastructure Tests in $($invokePesterParams.path)"
+        Write-Build White "      Performing Pester Integration Tests in $($invokePesterParams.path)"
         # Publish Test Results as NUnitXml
         $testResults = Invoke-Pester -Configuration $pesterConfiguration
 
@@ -533,9 +546,9 @@ Add-BuildTask InfraTest {
 
         $numberFails = $testResults.FailedCount
         Assert-Build($numberFails -eq 0) ('Failed "{0}" unit tests.' -f $numberFails)
-        Write-Build Green '      ...Pester Infrastructure Tests Complete!'
+        Write-Build Green '      ...Pester Integration Tests Complete!'
     }
-} #InfraTest
+} #IntegrationTest
 
 #Synopsis: Creates an archive of the built Module
 Add-BuildTask Archive {

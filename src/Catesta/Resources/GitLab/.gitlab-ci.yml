@@ -1,0 +1,123 @@
+# https://docs.gitlab.com/ee/ci/
+# https://docs.gitlab.com/ee/ci/yaml/gitlab_ci_yaml.html
+# https://docs.gitlab.com/ee/ci/yaml/index.html
+# https://docs.gitlab.com/ee/ci/runners/saas/windows_saas_runner.html
+
+# https://docs.gitlab.com/ee/ci/yaml/artifacts_reports.html
+# https://docs.gitlab.com/ee/ci/testing/unit_test_reports.html
+
+# https://docs.gitlab.com/runner/
+# https://docs.gitlab.com/runner/shells/
+
+# https://docs.gitlab.com/ee/ci/lint.html
+
+# https://gitlab.com/guided-explorations/microsoft/powershell/powershell-pipelines-on-gitlab-ci
+
+# https://about.gitlab.com/blog/2020/01/21/windows-shared-runner-beta/
+
+# https://gitlab.com/guided-explorations/microsoft/powershell/powershell-pipelines-on-gitlab-ci/-/blob/master/.gitlab-ci.yml
+
+# No code coverage report: https://github.com/pester/Pester/issues/2203
+# No macOS support out of premium beta: https://docs.gitlab.com/ee/ci/runners/saas/macos_saas_runner.html
+
+.shared_windows_runners:
+  tags:
+  - shared-windows
+  - windows
+  - windows-1809
+
+stages:
+<%
+if ($PLASTER_PARAM_GitLabOptions -eq 'windows') {
+@'
+  - windows_powershell
+'@
+}
+%>
+<%
+if ($PLASTER_PARAM_GitLabOptions -eq 'pwshcore') {
+@'
+  - windows_pwsh
+'@
+}
+%>
+<%
+if ($PLASTER_PARAM_GitLabOptions -eq 'linux') {
+@'
+  - linux_pwsh
+'@
+}
+%>
+
+<%
+if ($PLASTER_PARAM_GitLabOptions -eq 'windows') {
+@'
+# it can take up to 5 minutes to provision a shared windows machine on GitLab
+windows_powershell_job:
+  extends:
+    - .shared_windows_runners
+  stage: windows_powershell
+  script:
+    - powershell -c "Get-Host"
+    # uncomment the line below to explore what modules/variables/env variables are available in the build image
+    # - powershell -c "Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String"
+    - powershell -File .\actions_bootstrap.ps1
+    - powershell -c "Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1"
+  artifacts:
+    when: always
+    paths:
+      - src\Archive\*.zip
+    reports:
+      junit: src\Artifacts\testOutput\PesterTests.xml
+'@
+}
+%>
+
+<%
+if ($PLASTER_PARAM_GitLabOptions -eq 'pwshcore') {
+@'
+# it can take up to 5 minutes to provision a shared windows machine on GitLab
+windows_pwsh_job:
+  extends:
+    - .shared_windows_runners
+  stage: windows_pwsh
+  script:
+    - powershell -c "Get-Host"
+    - chocolatey install -y powershell-core
+    - $env:Path = [System.Environment]::ExpandEnvironmentVariables([System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User"))
+    # uncomment the line below to explore what modules/variables/env variables are available in the build image
+    - pwsh -c "Get-Host"
+    - pwsh -c "Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String"
+    - pwsh -File .\actions_bootstrap.ps1
+    - pwsh -c "Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1"
+  artifacts:
+    when: always
+    paths:
+      - src\Archive\*.zip
+    reports:
+      junit: src\Artifacts\testOutput\PesterTests.xml
+'@
+}
+%>
+
+<%
+if ($PLASTER_PARAM_GitLabOptions -eq 'linux') {
+@'
+linux_pwsh_job:
+  stage: linux_pwsh
+  image: mcr.microsoft.com/powershell/test-deps:lts-ubuntu-22.04
+  script:
+    - pwsh -c "Get-Host"
+    # uncomment the line below to explore what modules/variables/env variables are available in the build image
+    # - pwsh -c "Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String"
+    - pwsh -File ./actions_bootstrap.ps1
+    - pwsh -c "Invoke-Build -File ./src/<%=$PLASTER_PARAM_ModuleName%>.build.ps1"
+  artifacts:
+    when: always
+    paths:
+      - src/Archive/*.zip
+    reports:
+      junit: src/Artifacts/testOutput/PesterTests.xml
+'@
+}
+%>

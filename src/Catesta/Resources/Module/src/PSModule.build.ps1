@@ -12,7 +12,7 @@
         - DevCC
         - CreateHelpStart
         - Build
-        - InfraTest
+        - IntegrationTest
         - Archive
 .EXAMPLE
     Invoke-Build
@@ -23,7 +23,7 @@
 
     This will perform only the Analyze and Test Add-BuildTasks.
 .NOTES
-    This build will pull in configurations from the "<module>.Settings.ps1" file as well, where users can more easily customize the build process if required.
+    This build file by Catesta will pull in configurations from the "<module>.Settings.ps1" file as well, where users can more easily customize the build process if required.
     https://github.com/nightroman/Invoke-Build
     https://github.com/nightroman/Invoke-Build/wiki/Build-Scripts-Guidelines
     If using VSCode you can use the generated tasks.json to execute the various tasks in this build file.
@@ -65,7 +65,7 @@ $str += 'CreateHelpStart'
 %>
 $str2 = $str
 $str2 += 'Build', 'Archive'
-$str += 'Build', 'InfraTest', 'Archive'
+$str += 'Build', 'IntegrationTest', 'Archive'
 Add-BuildTask -Name . -Jobs $str
 
 #Local testing build process
@@ -74,8 +74,8 @@ Add-BuildTask TestLocal Clean, ImportModuleManifest, Analyze, Test
 #Local help file creation process
 Add-BuildTask HelpLocal Clean, ImportModuleManifest, CreateHelpStart
 
-#Full build sans infra tests
-Add-BuildTask BuildNoInfra -Jobs $str2
+#Full build sans integration tests
+Add-BuildTask BuildNoIntegration -Jobs $str2
 
 # Pre-build variables to be used by other portions of the script
 Enter-Build {
@@ -94,7 +94,7 @@ Enter-Build {
 
     $script:TestsPath = Join-Path -Path $BuildRoot -ChildPath 'Tests'
     $script:UnitTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Unit'
-    $script:InfraTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Infrastructure'
+    $script:IntegrationTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Integration'
 
     $script:ArtifactsPath = Join-Path -Path $BuildRoot -ChildPath 'Artifacts'
     $script:ArchivePath = Join-Path -Path $BuildRoot -ChildPath 'Archive'
@@ -105,16 +105,28 @@ Enter-Build {
     $script:coverageThreshold = 30
 
 <%
-if ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester -eq '4') {
         @'
     [version]$script:MinPesterVersion = '4.0.0'
     [version]$script:MaxPesterVersion = '4.99.99'
 '@
 }
-elseif ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester -eq '5') {
         @'
     [version]$script:MinPesterVersion = '5.2.2'
     [version]$script:MaxPesterVersion = '5.99.99'
+'@
+}
+%>
+<%
+if ($PLASTER_PARAM_CICD -eq 'BITBUCKET' -or $PLASTER_PARAM_CICD -eq 'GITLAB') {
+        @'
+    $script:testOutputFormat = 'JUnitXml'
+'@
+}
+else {
+        @'
+    $script:testOutputFormat = 'NUnitXML'
 '@
 }
 %>
@@ -156,7 +168,7 @@ Add-BuildTask TestModuleManifest -Before ImportModuleManifest {
     Assert-Build (Test-Path $script:ModuleManifestFile) 'Unable to locate the module manifest file.'
     Assert-Build (Test-ManifestBool -Path $script:ModuleManifestFile) 'Module Manifest test did not pass verification.'
     Write-Build Green '      ...Module Manifest Verification Complete!'
-}
+} #f5b33218-bde4-4028-b2a1-9c206f089503
 
 # Synopsis: Load the module project
 Add-BuildTask ImportModuleManifest {
@@ -209,7 +221,7 @@ Add-BuildTask AnalyzeTests -After Analyze {
     if (Test-Path -Path $script:TestsPath) {
 
 <%
-if ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester -eq '4') {
             @'
         $scriptAnalyzerParams = @{
             Path    = $script:TestsPath
@@ -219,7 +231,7 @@ if ($PLASTER_PARAM_Pester-eq '4') {
         }
 '@
 }
-elseif ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester -eq '5') {
             @'
         $scriptAnalyzerParams = @{
             Path        = $script:TestsPath
@@ -314,7 +326,7 @@ Add-BuildTask Test {
     }
     if (Test-Path -Path $script:UnitTestsPath) {
 <%
-if ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester -eq '4') {
             @'
         $invokePesterParams = @{
             Path                         = $script:UnitTestsPath
@@ -326,15 +338,15 @@ if ($PLASTER_PARAM_Pester-eq '4') {
             CodeCoverageOutputFile       = "$codeCovPath\CodeCoverage.xml"
             CodeCoverageOutputFileFormat = 'JaCoCo'
             OutputFile                   = "$testOutPutPath\PesterTests.xml"
-            OutputFormat                 = 'NUnitXML'
+            OutputFormat                 = $script:testOutputFormat
         }
 
         Write-Build White '      Performing Pester Unit Tests...'
-        # Publish Test Results as NUnitXml
+        # Publish Test Results
         $testResults = Invoke-Pester @invokePesterParams
 '@
 }
-elseif ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester -eq '5') {
             @'
         $pesterConfiguration = New-PesterConfiguration
         $pesterConfiguration.run.Path = $script:UnitTestsPath
@@ -347,11 +359,11 @@ elseif ($PLASTER_PARAM_Pester-eq '5') {
         $pesterConfiguration.CodeCoverage.OutputFormat = 'JaCoCo'
         $pesterConfiguration.TestResult.Enabled = $true
         $pesterConfiguration.TestResult.OutputPath = "$testOutPutPath\PesterTests.xml"
-        $pesterConfiguration.TestResult.OutputFormat = 'NUnitXml'
+        $pesterConfiguration.TestResult.OutputFormat = $script:testOutputFormat
         $pesterConfiguration.Output.Verbosity = 'Detailed'
 
         Write-Build White '      Performing Pester Unit Tests...'
-        # Publish Test Results as NUnitXml
+        # Publish Test Results
         $testResults = Invoke-Pester -Configuration $pesterConfiguration
 '@
 }
@@ -370,7 +382,7 @@ elseif ($PLASTER_PARAM_Pester-eq '5') {
         Assert-Build($numberFails -eq 0) ('Failed "{0}" unit tests.' -f $numberFails)
 
 <%
-if ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester -eq '4') {
             @'
         Write-Build Gray ('      ...CODE COVERAGE - NumberOfCommandsExecuted: {0}' -f $testResults.CodeCoverage.NumberOfCommandsExecuted)
         Write-Build Gray ('      ...CODE COVERAGE - NumberOfCommandsAnalyzed: {0}' -f $testResults.CodeCoverage.NumberOfCommandsAnalyzed)
@@ -398,7 +410,7 @@ if ($PLASTER_PARAM_Pester-eq '4') {
         }
 '@
 }
-elseif ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester -eq '5') {
             @'
         Write-Build Gray ('      ...CODE COVERAGE - CommandsExecutedCount: {0}' -f $testResults.CodeCoverage.CommandsExecutedCount)
         Write-Build Gray ('      ...CODE COVERAGE - CommandsAnalyzedCount: {0}' -f $testResults.CodeCoverage.CommandsAnalyzedCount)
@@ -438,7 +450,7 @@ Add-BuildTask DevCC {
     Remove-Module -Name Pester -Force -ErrorAction SilentlyContinue # there are instances where some containers have Pester already in the session
     Import-Module -Name Pester -MinimumVersion $script:MinPesterVersion -MaximumVersion $script:MaxPesterVersion -ErrorAction 'Stop'
 <%
-if ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester -eq '4') {
         @'
     $invokePesterParams = @{
         Path                   = $script:UnitTestsPath
@@ -448,7 +460,7 @@ if ($PLASTER_PARAM_Pester-eq '4') {
     Invoke-Pester @invokePesterParams
 '@
 }
-elseif ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester -eq '5') {
         @'
     $pesterConfiguration = New-PesterConfiguration
     $pesterConfiguration.run.Path = $script:UnitTestsPath
@@ -641,20 +653,20 @@ Add-BuildTask Build {
     Write-Build Green '      ...Build Complete!'
 } #Build
 
-#Synopsis: Invokes all Pester Infrastructure Tests in the Tests\Infrastructure folder (if it exists)
-Add-BuildTask InfraTest {
-    if (Test-Path -Path $script:InfraTestsPath) {
+#Synopsis: Invokes all Pester Integration Tests in the Tests\Integration folder (if it exists)
+Add-BuildTask IntegrationTest {
+    if (Test-Path -Path $script:IntegrationTestsPath) {
         Write-Build White "      Importing desired Pester version. Min: $script:MinPesterVersion Max: $script:MaxPesterVersion"
         Remove-Module -Name Pester -Force -ErrorAction SilentlyContinue # there are instances where some containers have Pester already in the session
         Import-Module -Name Pester -MinimumVersion $script:MinPesterVersion -MaximumVersion $script:MaxPesterVersion -ErrorAction 'Stop'
 
-        Write-Build White "      Performing Pester Infrastructure Tests in $($invokePesterParams.path)"
+        Write-Build White "      Performing Pester Integration Tests in $($invokePesterParams.path)"
 
 <%
-if ($PLASTER_PARAM_Pester-eq '4') {
+if ($PLASTER_PARAM_Pester -eq '4') {
             @'
         $invokePesterParams = @{
-            Path       = $script:InfraTestsPath
+            Path       = $script:IntegrationTestsPath
             Strict     = $true
             PassThru   = $true
             Verbose    = $false
@@ -662,14 +674,14 @@ if ($PLASTER_PARAM_Pester-eq '4') {
         }
 
 
-        # Publish Test Results as NUnitXml
+        # Publish Test Results
         $testResults = Invoke-Pester @invokePesterParams
 '@
 }
-elseif ($PLASTER_PARAM_Pester-eq '5') {
+elseif ($PLASTER_PARAM_Pester -eq '5') {
             @'
         $pesterConfiguration = New-PesterConfiguration
-        $pesterConfiguration.run.Path = $script:InfraTestsPath
+        $pesterConfiguration.run.Path = $script:IntegrationTestsPath
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
         $pesterConfiguration.CodeCoverage.Enabled = $false
@@ -691,9 +703,9 @@ elseif ($PLASTER_PARAM_Pester-eq '5') {
 
         $numberFails = $testResults.FailedCount
         Assert-Build($numberFails -eq 0) ('Failed "{0}" unit tests.' -f $numberFails)
-        Write-Build Green '      ...Pester Infrastructure Tests Complete!'
+        Write-Build Green '      ...Pester Integration Tests Complete!'
     }
-} #InfraTest
+} #IntegrationTest
 
 #Synopsis: Creates an archive of the built Module
 Add-BuildTask Archive {

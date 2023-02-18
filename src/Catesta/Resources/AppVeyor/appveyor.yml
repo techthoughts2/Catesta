@@ -4,10 +4,11 @@ version: 1.0.{build}
 # https://www.appveyor.com/docs/build-environment/
 # https://www.appveyor.com/docs/build-configuration/#specializing-matrix-job-configuration
 # https://www.appveyor.com/docs/appveyor-yml/
+# https://www.appveyor.com/docs/running-tests/#uploading-xml-test-results
 
 image:
 <%
-if ($PLASTER_PARAM_Options -eq 'windows') {
+if ($PLASTER_PARAM_AppveyorOptions -eq 'windows') {
 @'
   - Visual Studio 2019
 '@
@@ -15,7 +16,7 @@ if ($PLASTER_PARAM_Options -eq 'windows') {
 %>
 
 <%
-if ($PLASTER_PARAM_Options -eq 'pwshcore') {
+if ($PLASTER_PARAM_AppveyorOptions -eq 'pwshcore') {
 @'
   - Visual Studio 2022
 '@
@@ -23,7 +24,7 @@ if ($PLASTER_PARAM_Options -eq 'pwshcore') {
 %>
 
 <%
-if ($PLASTER_PARAM_Options -eq 'linux') {
+if ($PLASTER_PARAM_AppveyorOptions -eq 'linux') {
 @'
   - Ubuntu2004
 '@
@@ -31,7 +32,7 @@ if ($PLASTER_PARAM_Options -eq 'linux') {
 %>
 
 <%
-if ($PLASTER_PARAM_Options -eq 'macos') {
+if ($PLASTER_PARAM_AppveyorOptions -eq 'macos') {
 @'
   - macOS
 '@
@@ -45,7 +46,7 @@ skip_commits:
 build: off
 
 <%
-if ($PLASTER_PARAM_Options -eq 'windows') {
+if ($PLASTER_PARAM_AppveyorOptions -eq 'windows') {
 @'
 for:
 -
@@ -67,7 +68,7 @@ for:
 %>
 
 <%
-if ($PLASTER_PARAM_Options -eq 'macos' -or $PLASTER_PARAM_Options -eq 'linux' -or $PLASTER_PARAM_Options -eq 'pwshcore') {
+if ($PLASTER_PARAM_AppveyorOptions -eq 'macos' -or $PLASTER_PARAM_AppveyorOptions -eq 'linux' -or $PLASTER_PARAM_AppveyorOptions -eq 'pwshcore') {
 @'
 init:
   - pwsh: $PSVersionTable
@@ -77,6 +78,8 @@ install:
   - pwsh: . .\actions_bootstrap.ps1
 build_script:
   - pwsh: Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1
+after_build:
+  - pwsh: $wc = New-Object 'System.Net.WebClient';$wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path src/Artifacts/testOutput/PesterTests.xml))
 '@
 }
 %>

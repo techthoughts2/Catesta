@@ -183,9 +183,9 @@
             "group": "none"
         },
         {
-            "label": "BuildNoInfra",
+            "label": "BuildNoIntegration",
             "type": "shell",
-            "command": "Invoke-Build -Task BuildNoInfra -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
+            "command": "Invoke-Build -Task BuildNoIntegration -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -194,9 +194,9 @@
             "group": "build"
         },
         {
-            "label": "InfraTest",
+            "label": "IntegrationTest",
             "type": "shell",
-            "command": "Invoke-Build -Task InfraTest -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
+            "command": "Invoke-Build -Task IntegrationTest -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -273,6 +273,26 @@ if ($PLASTER_PARAM_Pester-eq '4') {
 elseif ($PLASTER_PARAM_Pester-eq '5') {
         @'
             "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';$pesterConfig = New-PesterConfiguration;$pesterConfig.run.Path = '${workspaceFolder}/src/Tests/Unit/*/${input:functionName}.Tests.ps1';$pesterConfig.CodeCoverage.Enabled = $true;$pesterConfig.CodeCoverage.Path = '${workspaceFolder}/src/${workspaceFolderBasename}/*/${input:functionName}.ps1';$pesterConfig.CodeCoverage.OutputPath = '${workspaceFolder}/cov.xml';$pesterConfig.CodeCoverage.OutputFormat = 'CoverageGutters';Invoke-Pester -Configuration $pesterConfig",
+'@ }
+%>
+            "problemMatcher": "$pester",
+            "presentation": {
+                "echo": false,
+                "showReuseMessage": false
+            },
+            "group": "test"
+        },
+        {
+            "label": "Integration-Single-Detailed",
+            "type": "shell",
+<%
+if ($PLASTER_PARAM_Pester-eq '4') {
+        @'
+            "command": "Import-Module -Name Pester -MaximumVersion 4.99.99;Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Integration/*/${input:functionName}.Tests.ps1'",
+'@
+}
+elseif ($PLASTER_PARAM_Pester-eq '5') { @'
+            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Integration/*/${input:functionName}.Tests.ps1' -Output Detailed",
 '@ }
 %>
             "problemMatcher": "$pester",
