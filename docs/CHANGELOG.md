@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `CHANGELOG` now generates to the `docs` folder for all repository choices
         - Previous behavior was that this was only supported for GitHub repo selection and generated to the `.github` directory.
     - `tasks.json`
-        - Added new task: `Infra-Single-Detailed` which is capable of running Infrastructure tests against individual test files
+        - Added new task: `Infra-Single-Detailed` which is capable of running Integration tests against individual test files
     - CI/CD Changes:
         - AWS CodeBuild:
             - Significant improvements to `PowerShellCodeBuildCC.yml`
@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Minor updates and improvements to both vault and module `*.build.ps1` files
     - Added integration for Read the Docs using two different themes: readthedocs & material
     - Pester bumped from `5.4.0` to `5.4.0`
+    - After community feedback around the interchangeable use of Infrastructure/Integration test references - all references now utilize Integration - *potential breaking change*
 - Catesta primary module changes
     - Complete overhaul of Catesta documentation
         - Added support for Read the Docs integration using the Material for MkDocs theme.
@@ -56,7 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Moved `CHANGELOG.md` from `.github` directory to `docs` directory
         - Updated `.psd1` to link to new CHANGELOG url
     - `tasks.json`
-        - Added new task: `Infra-Single-Detailed` which is capable of running Infrastructure tests against individual test files
+        - Added new task: `Infra-Single-Detailed` which is capable of running Integration tests against individual test files
     - Addressed bug in build file where `Build` task was failing if docs folder has not already been created
     - GitHub actions will now ignore `docs` folder and all `.md` file updates. `doctesting` branch will also now be ignored and will not trigger builds.
     - Pester bumped from `5.4.0` to `5.4.0`
@@ -358,7 +359,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - AWS:
     - buildspec_pwsh_windows.yml now uses PowerShell 7 instead of PowerShell 6.3
 - Minor build updates:
-    - Updated tasks.json for better integration with InvokeBuild
+    - Updated tasks.json for better Infrastructure with InvokeBuild
 
 ## [0.8.10]
 

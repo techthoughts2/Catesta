@@ -82,7 +82,7 @@ Enter-Build {
 
     $script:TestsPath = Join-Path -Path $BuildRoot -ChildPath 'Tests'
     $script:UnitTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Unit'
-    $script:InfraTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Infrastructure'
+    $script:InfraTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Integration'
 
     # $script:ArtifactsPath = Join-Path -Path $BuildRoot -ChildPath "$script:ModuleName\Artifacts"
     # $script:ArchivePath = Join-Path -Path $BuildRoot -ChildPath "$script:ModuleName\Archive"
@@ -517,7 +517,7 @@ Add-BuildTask Build {
 
 # TODO: schema generator step
 
-#Synopsis: Invokes all Pester Infrastructure Tests in the Tests\Infrastructure folder (if it exists)
+#Synopsis: Invokes all Pester Integration Tests in the Tests\Integration folder (if it exists)
 Add-BuildTask InfraTest {
     if (Test-Path -Path $script:InfraTestsPath) {
 
@@ -531,7 +531,7 @@ Add-BuildTask InfraTest {
         $pesterConfiguration.CodeCoverage.Enabled = $false
         $pesterConfiguration.Output.Verbosity = 'Detailed'
 
-        Write-Build White "      Performing Pester Infrastructure Tests in $($invokePesterParams.path)"
+        Write-Build White "      Performing Pester Integration Tests in $($invokePesterParams.path)"
         # Publish Test Results as NUnitXml
         $testResults = Invoke-Pester -Configuration $pesterConfiguration
 
@@ -546,7 +546,7 @@ Add-BuildTask InfraTest {
 
         $numberFails = $testResults.FailedCount
         Assert-Build($numberFails -eq 0) ('Failed "{0}" unit tests.' -f $numberFails)
-        Write-Build Green '      ...Pester Infrastructure Tests Complete!'
+        Write-Build Green '      ...Pester Integration Tests Complete!'
     }
 } #InfraTest
 

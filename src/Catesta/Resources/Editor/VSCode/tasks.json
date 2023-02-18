@@ -288,11 +288,11 @@ elseif ($PLASTER_PARAM_Pester-eq '5') {
 <%
 if ($PLASTER_PARAM_Pester-eq '4') {
         @'
-            "command": "Import-Module -Name Pester -MaximumVersion 4.99.99;Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Infrastructure/*/${input:functionName}.Tests.ps1'",
+            "command": "Import-Module -Name Pester -MaximumVersion 4.99.99;Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Integration/*/${input:functionName}.Tests.ps1'",
 '@
 }
 elseif ($PLASTER_PARAM_Pester-eq '5') { @'
-            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Infrastructure/*/${input:functionName}.Tests.ps1' -Output Detailed",
+            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Integration/*/${input:functionName}.Tests.ps1' -Output Detailed",
 '@ }
 %>
             "problemMatcher": "$pester",

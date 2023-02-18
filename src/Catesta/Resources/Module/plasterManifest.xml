@@ -163,7 +163,7 @@
         <file source='' destination='src\Archive'/>
         <file source='' destination='src\Artifacts'/>
         <file source='' destination='src\Tests'/>
-        <file source='' destination='src\Tests\Infrastructure'/>
+        <file source='' destination='src\Tests\Integration'/>
         <file source='' destination='src\Tests\Unit'/>
         <file source='' destination='src\Tests\Unit\Public'/>
         <file source='' destination='src\Tests\Unit\Private'/>
@@ -190,13 +190,13 @@
         <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Unit\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />
         <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Unit\Private\Private-Function.Tests.ps1' destination='src\Tests\Unit\Private\Get-Day.Tests.ps1' />
         <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Unit\Public\Public-Function.Tests.ps1' destination='src\Tests\Unit\Public\Get-HelloWorld.Tests.ps1' />
-        <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Infrastructure\SampleInfraTest.Tests.ps1' destination='src\Tests\Infrastructure\SampleInfraTest.Tests.ps1' />
+        <templateFile condition="$PLASTER_PARAM_Pester -eq '4'" source='..\Module\src\Tests\v4\Integration\SampleInfraTest.Tests.ps1' destination='src\Tests\Integration\SampleInfraTest.Tests.ps1' />
 
         <templateFile condition="$PLASTER_PARAM_Pester -eq '5'" source='..\Module\src\Tests\v5\Unit\PSModule-Module.Tests.ps1' destination='src\Tests\Unit\${PLASTER_PARAM_ModuleName}-Module.Tests.ps1' />
         <templateFile condition="$PLASTER_PARAM_Pester -eq '5'" source='..\Module\src\Tests\v5\Unit\ExportedFunctions.Tests.ps1' destination='src\Tests\Unit\ExportedFunctions.Tests.ps1' />
         <templateFile condition="$PLASTER_PARAM_Pester -eq '5'" source='..\Module\src\Tests\v5\Unit\Private\Private-Function.Tests.ps1' destination='src\Tests\Unit\Private\Get-Day.Tests.ps1' />
         <templateFile condition="$PLASTER_PARAM_Pester -eq '5'" source='..\Module\src\Tests\v5\Unit\Public\Public-Function.Tests.ps1' destination='src\Tests\Unit\Public\Get-HelloWorld.Tests.ps1' />
-        <templateFile condition="$PLASTER_PARAM_Pester -eq '5'" source='..\Module\src\Tests\v5\Infrastructure\SampleInfraTest.Tests.ps1' destination='src\Tests\Infrastructure\SampleInfraTest.Tests.ps1' />
+        <templateFile condition="$PLASTER_PARAM_Pester -eq '5'" source='..\Module\src\Tests\v5\Integration\SampleInfraTest.Tests.ps1' destination='src\Tests\Integration\SampleInfraTest.Tests.ps1' />
 
         <!-- Repo -->
         <!-- _________gitignore -->

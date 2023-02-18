@@ -142,7 +142,7 @@ To transplant an existing PowerShell module into Catesta, follow these steps:
 1. Move any unit tests for your private functions to `src/Tests/Unit/Private`
    a. *Note: all tests are expected to end in `.Tests.ps1`*
 1. Move any unit tests for your public functions to `src/Tests/Unit/Public`
-1. Move any integration/infrastructure tests to `src/Tests/Infrastructure`
+1. Move any integration/infrastructure tests to `src/Tests/Integration`
 1. Update the new module's `.psd1` file to match the details of your old `.psd1` file.
    a. Pay special attention to ensure the GUID matches!
 

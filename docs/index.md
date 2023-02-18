@@ -77,7 +77,7 @@ Selections
     * [PSScriptAnalyzer](https://github.com/PowerShell/PSScriptAnalyzer) code checks
         * *[Optional]* Code Style Enforcement (Stroustrup, OTBS, Allman)
     * [Pester](https://github.com/pester/Pester) Tests
-        * Will run Unit / Infrastructure Tests if available
+        * Will run Unit / Integration Tests if available
         * Generates Code Coverage Report
         * [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters) support
     * *[Optional]* Create Help using [platyPS](https://github.com/PowerShell/platyPS)

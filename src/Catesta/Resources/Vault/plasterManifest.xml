@@ -145,7 +145,7 @@
         <file source='' destination='src\Archive'/>
         <file source='' destination='src\Artifacts'/>
         <file source='' destination='src\Tests'/>
-        <file source='' destination='src\Tests\Infrastructure'/>
+        <file source='' destination='src\Tests\Integration'/>
         <file source='' destination='src\Tests\Unit'/>
         <file source='' destination='src\${PLASTER_PARAM_ModuleName}'/>
 

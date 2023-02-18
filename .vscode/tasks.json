@@ -247,7 +247,7 @@
         {
             "label": "Infra-Single-Detailed",
             "type": "shell",
-            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Infrastructure/*/${input:functionName}.Tests.ps1' -Output Detailed",
+            "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Integration/*/${input:functionName}.Tests.ps1' -Output Detailed",
             "problemMatcher": "$pester",
             "presentation": {
                 "echo": false,

@@ -83,7 +83,7 @@ Enter-Build {
 
     $script:TestsPath = Join-Path -Path $BuildRoot -ChildPath 'Tests'
     $script:UnitTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Unit'
-    $script:InfraTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Infrastructure'
+    $script:InfraTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Integration'
 
     $script:ArtifactsPath = Join-Path -Path $BuildRoot -ChildPath 'Artifacts'
     $script:ArchivePath = Join-Path -Path $BuildRoot -ChildPath 'Archive'
@@ -486,14 +486,14 @@ Add-BuildTask Build {
     Write-Build Green '      ...Build Complete!'
 } #Build
 
-#Synopsis: Invokes all Pester Infrastructure Tests in the Tests\Infrastructure folder (if it exists)
+#Synopsis: Invokes all Pester Integration Tests in the Tests\Integration folder (if it exists)
 Add-BuildTask InfraTest {
     if (Get-ChildItem -Path $script:InfraTestsPath -Filter "*.Tests.ps1" -Recurse) {
         Write-Build White "      Importing desired Pester version. Min: $script:MinPesterVersion Max: $script:MaxPesterVersion"
         Remove-Module -Name Pester -Force -ErrorAction SilentlyContinue # there are instances where some containers have Pester already in the session
         Import-Module -Name Pester -MinimumVersion $script:MinPesterVersion -MaximumVersion $script:MaxPesterVersion -ErrorAction 'Stop'
 
-        Write-Build White "      Performing Pester Infrastructure Tests in $($invokePesterParams.path)"
+        Write-Build White "      Performing Pester Integration Tests in $($invokePesterParams.path)"
 
 <%
 if ($PLASTER_PARAM_Pester -eq '4') {
@@ -536,7 +536,7 @@ elseif ($PLASTER_PARAM_Pester -eq '5') {
 
         $numberFails = $testResults.FailedCount
         Assert-Build($numberFails -eq 0) ('Failed "{0}" unit tests.' -f $numberFails)
-        Write-Build Green '      ...Pester Infrastructure Tests Complete!'
+        Write-Build Green '      ...Pester Integration Tests Complete!'
     }
 } #InfraTest
 
