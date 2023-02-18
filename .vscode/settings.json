@@ -22,6 +22,7 @@
         "autocompleters",
         "AWSCB",
         "azuredevops",
+        "boto",
         "buildheader",
         "Buildps",
         "Buildpwsh",
