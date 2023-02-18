@@ -64,7 +64,7 @@ New-VaultProject -DestinationPath $outPutPath
 
 ## Contributing
 
-If you'd like to contribute to Catesta, please see the [contribution guidelines](.github/CHANGELOG.md).
+If you'd like to contribute to Catesta, please see the [contribution guidelines](docs/CHANGELOG.md).
 
 ## License
 
