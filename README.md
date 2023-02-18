@@ -17,95 +17,55 @@ Enhancements | ![Build Status Windows PowerShell Enhancements](https://github.co
 
 ## Synopsis
 
-Catesta is a PowerShell module project generator. It uses templates to rapidly scaffold test and build integration for a variety of CI/CD platforms.
+Catesta is a PowerShell module and vault project generator. It uses templates to rapidly scaffold test and build integration for a variety of CI/CD platforms.
 
 ## Description
 
 Catesta enables you to quickly scaffold a [PowerShell module](https://docs.microsoft.com/powershell/scripting/developer/module/how-to-write-a-powershell-script-module?view=powershell-7) or [Vault extension](https://github.com/PowerShell/SecretManagement) project with proper formatting, test + build automation, CI/CD integration, with just one line of code.
 
-* Catesta scaffolds an empty PowerShell/Vault extension module project that adheres to PowerShell community guidelines.
-* It generates a few [Pester](https://github.com/pester/Pester) tests to get you started.
-* It makes a [build file](https://github.com/nightroman/Invoke-Build) that analyzes your code for best practices and styling, runs Pester tests, creates PowerShell help, and combines your functions together to build your project for publication.
-* It will create resources you need to trigger CI/CD builds for your module.
-* When you commit your code to your chosen repository, the build(s) will run, and you can view the results.
+### Features
 
-[Catesta](docs/Catesta.md) provides the following functions:
+* Quickly scaffold a new PowerShell module or SecretManagement vault project that adheres to best practices and community guidelines.
+* Easily integrate your project with a variety of CI/CD platforms, including AWS, Azure, GitHub, AppVeyor, Bitbucket, and GitLab.
+* Cross-platform testing to ensure functionality across different environments.
+* Generate [Pester](https://github.com/pester/Pester) tests to help you get started with unit testing.
+* Automatically create a build file to analyze your code for best practices and styling, run Pester tests, create PowerShell help, and combine your functions together to build your project for publication.
+* Generate resources you need to trigger CI/CD builds for your module and configure it with your preferred platform.
+* Scaffold your project for hosting on your preferred platform and provide easy integration with Read the Docs for professional-looking documentation.
 
-* [New-PowerShellProject](docs/New-PowerShellProject.md)
-* [New-VaultProject](docs/New-VaultProject.md)
+## Getting Started
 
-## Why
+### Documentation
 
-Simplify the process of structuring your module so that you can focus on building a great PowerShell module instead of the layout and build requirements.
+Documentation for Catesta is available at: [https://catesta.dev](https://catesta.dev)
 
-## Documentation
-
-To learn more about Catesta go to the complete documentation.
-
-## Installation
+### Installation
 
 ```powershell
 # Install Catesta from the PowerShell Gallery
 Install-Module -Name Catesta -Repository PSGallery -Scope CurrentUser
 ```
 
-## Quick start
+### Quick start
 
 ### PowerShell Module
 
 ```powershell
-# Scaffolds a PowerShell module project for integration with AWS CodeBuild.
-New-PowerShellProject -CICDChoice 'AWS' -DestinationPath C:\path\AWSProject
-
-# Scaffolds a PowerShell module project for integration with GitHub Actions Workflows.
-New-PowerShellProject -CICDChoice 'GitHubActions' -DestinationPath C:\path\GitHubActions
-
-# Scaffolds a PowerShell module project for integration with Azure DevOps Pipelines.
-New-PowerShellProject -CICDChoice 'Azure' -DestinationPath C:\path\AzurePipeline
-
-# Scaffolds a PowerShell module project for integration with AppVeyor Projects.
-New-PowerShellProject -CICDChoice 'AppVeyor' -DestinationPath C:\path\AppVeyor
-
-# Scaffolds a basic PowerShell module project with no additional extras. You just get a basic PowerShell module construct.
-New-PowerShellProject -CICDChoice 'ModuleOnly' -DestinationPath C:\path\ModuleOnly
+# Scaffolds a PowerShell module project with customizable CI/CD integration options
+New-ModuleProject -DestinationPath $outPutPath
 ```
 
 ### SecretManagement Vault Extension Module
 
 ```powershell
-# Scaffolds a PowerShell SecretManagement vault module project for integration with AWS CodeBuild.
-New-VaultProject -CICDChoice 'AWS' -DestinationPath C:\path\AWSProject
-
-# Scaffolds a PowerShell SecretManagement vault module project for integration with GitHub Actions Workflows.
-New-VaultProject -CICDChoice 'GitHubActions' -DestinationPath C:\path\GitHubActions
-
-# Scaffolds a PowerShell SecretManagement vault module project for integration with Azure DevOps Pipelines.
-New-VaultProject -CICDChoice 'Azure' -DestinationPath C:\path\AzurePipeline
-
-# Scaffolds a PowerShell SecretManagement vault module project for integration with AppVeyor Projects.
-New-VaultProject -CICDChoice 'AppVeyor' -DestinationPath C:\path\AppVeyor
-
-# Scaffolds a basic PowerShell SecretManagement vault module project with no additional extras. You just get a basic module construct.
-New-VaultProject -CICDChoice 'ModuleOnly' -DestinationPath C:\path\ModuleOnly
+# Scaffolds a PowerShell SecretManagement vault project with customizable CI/CD integration options
+New-VaultProject -DestinationPath $outPutPath
 ```
 
-## Author
+## Contributing
 
-[Jake Morrison](https://twitter.com/JakeMorrison) - [https://www.techthoughts.info/](https://www.techthoughts.info/)
+If you'd like to contribute to Catesta, please see the [contribution guidelines](.github/CHANGELOG.md).
 
-## Contributors
+## License
 
-* [Andrew Pearce](https://twitter.com/austoonz)
-* [Dave Kaylor](https://twitter.com/KaylorDave)
-
-## Notes
-
-To learn more about Catesta go to the complete documentation.
-
-Additional Catesta documentation that covers PowerShell Vault Extension module projects more in depth:
-
-* [Catesta - Vault Extension](docs/Catesta-Vault-Extension.md)
-
-## Changelog
-
-Reference the [Changelog](.github/CHANGELOG.md)
+Catesta is licensed under the [MIT license](LICENSE).
