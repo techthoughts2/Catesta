@@ -87,7 +87,8 @@ If you need help with the options or are unsure which to choose, you can review 
 * [Catesta - AWS Doc](catesta_cicd/Catesta-AWS.md)
 * [Catesta - GitHub Actions Doc](catesta_cicd/Catesta-GHActions.md)
 * [Catesta - Azure Pipelines Doc](catesta_cicd/Catesta-Azure.md)
-* [Catesta - AppVeyor Doc](catesta_cicd/Catesta-AppVeyor.md)
+* [Catesta - Bitbucket Doc](catesta_cicd/Catesta-Bitbucket.md)
+* [Catesta - GitLab Doc](catesta_cicd/Catesta-GitLab.md)
 
 #### Understanding Build Configuration Selection
 
