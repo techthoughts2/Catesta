@@ -53,6 +53,9 @@ Catesta uses customized Plaster templates to enable you to quickly scaffold a [P
 * It will create resources you need to trigger CI/CD builds for your project.
 * When you commit your code to your chosen repository, the build(s) will run, and you can view the results.
 
+![Catesta Repository and CICD Integrations](assets/catesta_cicd_integrations.png)
+*Note: The links above only show natively supported integrations between repositories and CI/CD platforms. It is possible to establish a connection to remote Git repositories for source control, and to replicate repositories from source to another location, which can expand the range of integration scenarios.*
+
 ## Features
 
 Catesta can build two types of projects:
