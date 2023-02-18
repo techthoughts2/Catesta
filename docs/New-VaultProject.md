@@ -1,7 +1,7 @@
 ---
 external help file: Catesta-help.xml
 Module Name: Catesta
-online version: https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Extension.md
+online version: https://www.catesta.dev
 schema: 2.0.0
 ---
 
@@ -362,17 +362,11 @@ Author: Jake Morrison - @jakemorrison - https://www.techthoughts.info/
 
 ## RELATED LINKS
 
-[https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Extension.md](https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Extension.md)
+[https://www.catesta.dev](https://www.catesta.dev)
 
-[https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Manifest-Schema.md](https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Manifest-Schema.md)
+[https://www.catesta.dev/en/latest/New-VaultProject/](https://www.catesta.dev/en/latest/New-VaultProject/)
+
+[https://www.catesta.dev/en/latest/Catesta-Vault-Extension/](https://www.catesta.dev/en/latest/Catesta-Vault-Extension/)
 
 [https://github.com/PowerShell/SecretManagement](https://github.com/PowerShell/SecretManagement)
-
-[https://aws.amazon.com/codebuild/](https://aws.amazon.com/codebuild/)
-
-[https://help.github.com/actions](https://help.github.com/actions)
-
-[https://azure.microsoft.com/services/devops/](https://azure.microsoft.com/services/devops/)
-
-[https://www.appveyor.com/](https://www.appveyor.com/)
 

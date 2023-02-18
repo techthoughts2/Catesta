@@ -1,7 +1,7 @@
 ---
 external help file: Catesta-help.xml
 Module Name: Catesta
-online version: https://github.com/techthoughts2/Catesta/blob/main/docs/New-ModuleProject.md
+online version: https://www.catesta.dev
 schema: 2.0.0
 ---
 
@@ -377,17 +377,9 @@ Read the manifest schemas to understand how to properly craft a ModuleParameters
 
 ## RELATED LINKS
 
-[https://github.com/techthoughts2/Catesta/blob/main/docs/New-ModuleProject.md](https://github.com/techthoughts2/Catesta/blob/main/docs/New-ModuleProject.md)
+[https://www.catesta.dev](https://www.catesta.dev)
 
-[https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Module-Manifest-Schema.md](https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Module-Manifest-Schema.md)
+[https://www.catesta.dev/en/latest/New-ModuleProject/](https://www.catesta.dev/en/latest/New-ModuleProject/)
 
 [https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module](https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module)
-
-[https://aws.amazon.com/codebuild/](https://aws.amazon.com/codebuild/)
-
-[https://help.github.com/actions](https://help.github.com/actions)
-
-[https://azure.microsoft.com/services/devops/](https://azure.microsoft.com/services/devops/)
-
-[https://www.appveyor.com/](https://www.appveyor.com/)
 

@@ -190,19 +190,14 @@
 .NOTES
     Author: Jake Morrison - @jakemorrison - https://www.techthoughts.info/
 .LINK
-    https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Extension.md
+    https://www.catesta.dev
 .LINK
-    https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Vault-Manifest-Schema.md
+    https://www.catesta.dev/en/latest/New-VaultProject/
+.LINK
+    https://www.catesta.dev/en/latest/Catesta-Vault-Extension/
 .LINK
     https://github.com/PowerShell/SecretManagement
-.LINK
-    https://aws.amazon.com/codebuild/
-.LINK
-    https://help.github.com/actions
-.LINK
-    https://azure.microsoft.com/services/devops/
-.LINK
-    https://www.appveyor.com/
+
 .COMPONENT
     Catesta
 #>
