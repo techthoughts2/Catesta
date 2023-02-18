@@ -47,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - All scaffold projects using a repository now get a basic `README.md` generated for the project
     - Minor updates and improvements to both vault and module `*.build.ps1` files
     - Added integration for Read the Docs using two different themes: readthedocs & material
+    - Pester bumped from `5.4.0` to `5.4.0`
 - Catesta primary module changes
     - Complete overhaul of Catesta documentation
         - Added support for Read the Docs integration using the Material for MkDocs theme.
@@ -58,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - Added new task: `Infra-Single-Detailed` which is capable of running Infrastructure tests against individual test files
     - Addressed bug in build file where `Build` task was failing if docs folder has not already been created
     - GitHub actions will now ignore `docs` folder and all `.md` file updates. `doctesting` branch will also now be ignored and will not trigger builds.
+    - Pester bumped from `5.4.0` to `5.4.0`
 
 ## [1.3.0] - (Never released)
 
@@ -73,11 +75,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Catesta template module changes
     - Fixed casing issue in all templates that caused Catesta to have an issue on certain Linux distros
     - Fixed bug where vault templates were referencing an incorrect version of Microsoft.PowerShell.SecretManagement
-    - InvokeBuild bumped from `5.9.11` to `5.10.1`
+    - InvokeBuild bumped from `5.9.11` to `5.10.2`
     - PSScriptAnalyzer bumped from `1.20.0` to `1.21.0`
 - Catesta primary module changes
     - Added infrastructure tests to check for casing violations
-    - InvokeBuild bumped from `5.9.11` to `5.10.1`
+    - InvokeBuild bumped from `5.9.11` to `5.10.2`
     - PSScriptAnalyzer bumped from `1.20.0` to `1.21.0`
 
 ## [1.2.3]
@@ -99,7 +101,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
             - `PesterTest`, `Pester-Single-Coverage`, `Pester-Single-Detailed`, `DevCC-Single` tasks no longer use legacy parameters for Pester 5
             - Updated to no longer reference the Module name directly. Instead `${workspaceFolderBasename}` is used throughout the tasks file now.
     - All bootstrap files:
-        - Pester bumped from `5.3.1` to `5.3.3`
+        - Pester bumped from `5.3.1` to `5.4.0`
         - InvokeBuild bumped from `5.8.8` to `5.9.11`
         - Microsoft.PowerShell.SecretManagement bumped from `1.1.1` to `1.1.2`
     - AWS CodeBuild CI/CD changes:
@@ -120,7 +122,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Catesta primary module changes
     - `tasks.json`
         - `PesterTest`, `Pester-Single-Coverage`, `Pester-Single-Detailed`, `DevCC-Single` tasks no longer use legacy parameters for Pester 5
-    - Pester bumped from `5.3.1` to `5.3.3`
+    - Pester bumped from `5.3.1` to `5.4.0`
     - InvokeBuild bumped from `5.8.8` to `5.9.11`
 
 ## [1.0.0]
@@ -160,7 +162,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Catesta primary module changes
     - **Updated primary branch name from master to main**
         - Updated references from master to main throughout repository
-    - Pester bumped from `5.2.2` to `5.3.3`
+    - Pester bumped from `5.2.2` to `5.4.0`
     - InvokeBuild bumped from `5.8.0` to `5.9.11`
     - PSScriptAnalyzer bumped from `1.19.1` to `1.20.0`
     - `tasks.json`
