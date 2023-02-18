@@ -9,7 +9,7 @@
 # mkdocs.yml
 
 site_name: Catesta - a PowerShell module and vault project generator.
-# site_url:
+site_url: https://www.catesta.dev
 repo_url: https://github.com/techthoughts2/Catesta
 # repo_name:
 # edit_uri: edit/main/docs/
@@ -38,7 +38,11 @@ markdown_extensions:
   - pymdownx.superfences
 
 # extra_templates:
-# extra:
+# https://squidfunk.github.io/mkdocs-material/setup/setting-up-site-analytics/
+extra:
+  analytics:
+    provider: google
+    property: G-VJFG9PQH3M
 # theme: readthedocs
 theme:
   name: material

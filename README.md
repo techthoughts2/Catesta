@@ -37,7 +37,7 @@ Catesta enables you to quickly scaffold a [PowerShell module](https://docs.micro
 
 ### Documentation
 
-Documentation for Catesta is available at: [https://catesta.dev](https://catesta.dev)
+Documentation for Catesta is available at: [https://www.catesta.dev](https://www.catesta.dev)
 
 ### Installation
 
