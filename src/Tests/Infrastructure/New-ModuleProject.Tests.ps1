@@ -992,7 +992,8 @@ Describe 'Module Infra Tests' {
                     CICD           = 'GITHUB'
                     GitHubAOptions = 'windows', 'pwshcore', 'linux', 'macos'
                     RepoType       = 'GITHUB'
-                    ReadtheDocs    = 'NONE'
+                    ReadtheDocs    = 'READTHEDOCS'
+                    RTDTheme       = 'READTHEDOCSTHEME'
                     License        = 'MIT'
                     Changelog      = 'CHANGELOG'
                     COC            = 'CONDUCT'
@@ -1086,6 +1087,62 @@ Describe 'Module Infra Tests' {
                     Pester          = '5'
                     PassThru        = $true
                     NoLogo          = $true
+                }
+                New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+
+                $manifestContentPath = [System.IO.Path]::Combine($outPutPath, 'src', 'ModuleName', 'ModuleName.psd1')
+                $manifestContent = Get-Content -Path $manifestContentPath -Raw
+                $manifestContent | Should -BeLike '*My awesome module is awesome*'
+            } #it
+
+            It 'should have a working example for Bitbucket module' {
+                $moduleParameters = @{
+                    ModuleName  = 'ModuleName'
+                    Description = 'My awesome module is awesome'
+                    Version     = '0.0.1'
+                    FN          = 'user full name'
+                    CICD        = 'BITBUCKET'
+                    RepoType    = 'BITBUCKET'
+                    ReadtheDocs = 'NONE'
+                    License     = 'NONE'
+                    Changelog   = 'CHANGELOG'
+                    COC         = 'CONDUCT'
+                    Contribute  = 'CONTRIBUTING'
+                    Security    = 'SECURITY'
+                    CodingStyle = 'Stroustrup'
+                    Help        = 'Yes'
+                    Pester      = '5'
+                    PassThru    = $true
+                    NoLogo      = $true
+                }
+                New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+
+                $manifestContentPath = [System.IO.Path]::Combine($outPutPath, 'src', 'ModuleName', 'ModuleName.psd1')
+                $manifestContent = Get-Content -Path $manifestContentPath -Raw
+                $manifestContent | Should -BeLike '*My awesome module is awesome*'
+            } #it
+
+            It 'should have a working example for GitLab module' {
+                $moduleParameters = @{
+                    ModuleName    = 'ModuleName'
+                    Description   = 'My awesome module is awesome'
+                    Version       = '0.0.1'
+                    FN            = 'user full name'
+                    CICD          = 'GITLAB'
+                    RepoType      = 'GITLAB'
+                    ReadtheDocs   = 'READTHEDOCS'
+                    RTDTheme      = 'READTHEDOCSTHEME'
+                    GitLabOptions = 'windows', 'pwshcore', 'linux'
+                    License       = 'MIT'
+                    Changelog     = 'CHANGELOG'
+                    COC           = 'CONDUCT'
+                    Contribute    = 'CONTRIBUTING'
+                    Security      = 'SECURITY'
+                    CodingStyle   = 'Stroustrup'
+                    Help          = 'Yes'
+                    Pester        = '5'
+                    PassThru      = $true
+                    NoLogo        = $true
                 }
                 New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
 

@@ -39,113 +39,142 @@
     Scaffolds a basic PowerShell SecretManagement vault project with no additional extras. You just get a basic PowerShell SecretManagement vault construct.
 .EXAMPLE
     $vaultParameters = @{
-        ModuleName       = 'SecretManagement.VaultName'
-        Description      = 'My awesome vault is awesome'
-        Version          = '0.0.1'
-        FN               = 'user full name'
-        CICD             = 'GITHUB'
-        GitHubAOptions   = 'windows', 'pwshcore', 'linux', 'macos'
-        RepoType         = 'GITHUB'
-        License          = 'MIT'
-        Changelog        = 'CHANGELOG'
-        COC              = 'CONDUCT'
-        Contribute       = 'CONTRIBUTING'
-        Security         = 'SECURITY'
-        CodingStyle      = 'Stroustrup'
-        Pester           = '5'
-        S3Bucket         = 'PSGallery'
-        NoLogo           = $true
+        ModuleName     = 'SecretManagement.VaultName'
+        Description    = 'My awesome vault is awesome'
+        Version        = '0.0.1'
+        FN             = 'user full name'
+        CICD           = 'GITHUB'
+        GitHubAOptions = 'windows', 'pwshcore', 'linux', 'macos'
+        RepoType       = 'GITHUB'
+        ReadtheDocs    = 'READTHEDOCS'
+        RTDTheme       = 'READTHEDOCSTHEME'
+        License        = 'MIT'
+        Changelog      = 'CHANGELOG'
+        COC            = 'CONDUCT'
+        Contribute     = 'CONTRIBUTING'
+        Security       = 'SECURITY'
+        CodingStyle    = 'Stroustrup'
+        Pester         = '5'
+        S3Bucket       = 'PSGallery'
+        NoLogo         = $true
     }
     New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
 
-    Scaffolds a PowerShell SecretManagement vault project for integration with GitHub Actions with the project code stored in GitHub. A full set of GitHub project supporting files is provided.
+    Scaffolds a PowerShell SecretManagement vault project for integration with GitHub Actions with the project code stored in GitHub. A full set of GitHub project supporting files is provided. The project is set up for integration with Read the Docs.
 .EXAMPLE
     $vaultParameters = @{
-        ModuleName       = 'SecretManagement.VaultName'
-        Description      = 'My awesome vault is awesome'
-        Version          = '0.0.1'
-        FN               = 'user full name'
-        CICD             = 'CODEBUILD'
-        AWSOptions       = 'ps', 'pwshcore', 'pwsh'
-        RepoType         = 'GITHUB'
-        License          = 'MIT'
-        Changelog        = 'CHANGELOG'
-        COC              = 'CONDUCT'
-        Contribute       = 'CONTRIBUTING'
-        Security         = 'SECURITY'
-        CodingStyle      = 'Stroustrup'
-        Pester           = '5'
-        S3Bucket         = 'PSGallery'
-        NoLogo           = $true
+        ModuleName  = 'SecretManagement.VaultName'
+        Description = 'My awesome vault is awesome'
+        Version     = '0.0.1'
+        FN          = 'user full name'
+        CICD        = 'CODEBUILD'
+        AWSOptions  = 'ps', 'pwshcore', 'pwsh'
+        RepoType    = 'GITHUB'
+        ReadtheDocs = 'NONE'
+        License     = 'MIT'
+        Changelog   = 'CHANGELOG'
+        COC         = 'CONDUCT'
+        Contribute  = 'CONTRIBUTING'
+        Security    = 'SECURITY'
+        CodingStyle = 'Stroustrup'
+        Pester      = '5'
+        S3Bucket    = 'PSGallery'
+        NoLogo      = $true
     }
     New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
 
     Scaffolds a PowerShell SecretManagement vault project for integration with AWS CodeBuild with the project code stored in GitHub. A full set of GitHub project supporting files is provided.
 .EXAMPLE
     $vaultParameters = @{
-        ModuleName       = 'SecretManagement.VaultName'
-        Description      = 'My awesome vault is awesome'
-        Version          = '0.0.1'
-        FN               = 'user full name'
-        CICD             = 'AZURE'
-        AzureOptions     = 'windows', 'pwshcore', 'linux', 'macos'
-        RepoType         = 'GITHUB'
-        License          = 'NONE'
-        Changelog        = 'NONE'
-        COC              = 'NONE'
-        Contribute       = 'NONE'
-        Security         = 'NONE'
-        CodingStyle      = 'Stroustrup'
-        Pester           = '5'
-        NoLogo           = $true
+        ModuleName   = 'SecretManagement.VaultName'
+        Description  = 'My awesome vault is awesome'
+        Version      = '0.0.1'
+        FN           = 'user full name'
+        CICD         = 'AZURE'
+        AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
+        RepoType     = 'GITHUB'
+        ReadtheDocs  = 'NONE'
+        License      = 'NONE'
+        Changelog    = 'NONE'
+        COC          = 'NONE'
+        Contribute   = 'NONE'
+        Security     = 'NONE'
+        CodingStyle  = 'Stroustrup'
+        Pester       = '5'
+        NoLogo       = $true
     }
     New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
 
     Scaffolds a PowerShell SecretManagement vault project for integration with Azure Pipelines with the project code stored in GitHub. No repository supporting files are included.
 .EXAMPLE
     $vaultParameters = @{
-        ModuleName       = 'SecretManagement.VaultName'
-        Description      = 'My awesome vault is awesome'
-        Version          = '0.0.1'
-        FN               = 'user full name'
-        CICD             = 'APPVEYOR'
-        AppveyorOptions  = 'windows', 'pwshcore', 'linux', 'macos'
-        RepoType         = 'GITHUB'
-        License          = 'NONE'
-        Changelog        = 'NONE'
-        COC              = 'NONE'
-        Contribute       = 'NONE'
-        Security         = 'NONE'
-        CodingStyle      = 'Stroustrup'
-        Pester           = '5'
-        PassThru         = $true
-        NoLogo           = $true
+        ModuleName      = 'SecretManagement.VaultName'
+        Description     = 'My awesome vault is awesome'
+        Version         = '0.0.1'
+        FN              = 'user full name'
+        CICD            = 'APPVEYOR'
+        AppveyorOptions = 'windows', 'pwshcore', 'linux', 'macos'
+        RepoType        = 'GITHUB'
+        ReadtheDocs     = 'NONE'
+        License         = 'NONE'
+        Changelog       = 'NONE'
+        COC             = 'NONE'
+        Contribute      = 'NONE'
+        Security        = 'NONE'
+        CodingStyle     = 'Stroustrup'
+        Pester          = '5'
+        PassThru        = $true
+        NoLogo          = $true
     }
     New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
 
     Scaffolds a PowerShell SecretManagement vault project for integration with Appveyor with the project code stored in GitHub. No repository supporting files are included.
 .EXAMPLE
     $vaultParameters = @{
-        ModuleName      = 'SecretManagement.VaultName'
-        Description     = 'My awesome vault is awesome'
-        Version         = '0.0.1'
-        FN              = 'user full name'
-        CICD            = 'BITBUCKET'
-        RepoType        = 'BITBUCKET'
-        License         = 'NONE'
-        Changelog       = 'CHANGELOG'
-        COC             = 'CONDUCT'
-        Contribute      = 'CONTRIBUTING'
-        Security        = 'SECURITY'
-        CodingStyle     = 'Stroustrup'
-        Help            = 'Yes'
-        Pester          = '5'
-        PassThru        = $true
-        NoLogo          = $true
+        ModuleName  = 'SecretManagement.VaultName'
+        Description = 'My awesome vault is awesome'
+        Version     = '0.0.1'
+        FN          = 'user full name'
+        CICD        = 'BITBUCKET'
+        RepoType    = 'BITBUCKET'
+        ReadtheDocs = 'NONE'
+        License     = 'NONE'
+        Changelog   = 'CHANGELOG'
+        COC         = 'CONDUCT'
+        Contribute  = 'CONTRIBUTING'
+        Security    = 'SECURITY'
+        CodingStyle = 'Stroustrup'
+        Pester      = '5'
+        PassThru    = $true
+        NoLogo      = $true
     }
-    New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+    New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
 
     Scaffolds a PowerShell SecretManagement vault project for integration with Bitbucket pipelines with the project code stored on Bitbucket. A full set of repository supporting files are included.
+.EXAMPLE
+    $vaultParameters = @{
+        ModuleName    = 'SecretManagement.VaultName'
+        Description   = 'My awesome vault is awesome'
+        Version       = '0.0.1'
+        FN            = 'user full name'
+        CICD          = 'GITLAB'
+        GitLabOptions = 'windows', 'pwshcore', 'linux'
+        RepoType      = 'GITLAB'
+        ReadtheDocs   = 'READTHEDOCS'
+        RTDTheme      = 'READTHEDOCSTHEME'
+        License       = 'NONE'
+        Changelog     = 'CHANGELOG'
+        COC           = 'CONDUCT'
+        Contribute    = 'CONTRIBUTING'
+        Security      = 'SECURITY'
+        CodingStyle   = 'Stroustrup'
+        Pester        = '5'
+        PassThru      = $true
+        NoLogo        = $true
+    }
+    New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+
+    Scaffolds a PowerShell SecretManagement vault project for integration with GitLab pipelines with the project code stored on GitLab. A full set of repository supporting files are included. The project is set up for integration with Read the Docs.
 .PARAMETER DestinationPath
     File path where PowerShell SecretManagement vault project will be created
 .PARAMETER VaultParameters

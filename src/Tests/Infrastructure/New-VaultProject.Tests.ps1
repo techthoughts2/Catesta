@@ -1007,7 +1007,8 @@ Describe 'Vault Infra Tests' {
                     CICD           = 'GITHUB'
                     GitHubAOptions = 'windows', 'pwshcore', 'linux', 'macos'
                     RepoType       = 'GITHUB'
-                    ReadtheDocs    = 'NONE'
+                    ReadtheDocs    = 'READTHEDOCS'
+                    RTDTheme       = 'READTHEDOCSTHEME'
                     License        = 'MIT'
                     Changelog      = 'CHANGELOG'
                     COC            = 'CONDUCT'
@@ -1104,6 +1105,61 @@ Describe 'Vault Infra Tests' {
                 $manifestContent = Get-Content -Path $manifestContentPath -Raw
                 $manifestContent | Should -BeLike '*My awesome vault is awesome*'
             } #it
+
+            It 'should have a working example for Bitbucket vault project' {
+                $vaultParameters = @{
+                    ModuleName  = 'SecretManagement.VaultName'
+                    Description = 'My awesome vault is awesome'
+                    Version     = '0.0.1'
+                    FN          = 'user full name'
+                    CICD        = 'BITBUCKET'
+                    RepoType    = 'BITBUCKET'
+                    ReadtheDocs = 'NONE'
+                    License     = 'NONE'
+                    Changelog   = 'CHANGELOG'
+                    COC         = 'CONDUCT'
+                    Contribute  = 'CONTRIBUTING'
+                    Security    = 'SECURITY'
+                    CodingStyle = 'Stroustrup'
+                    Pester      = '5'
+                    PassThru    = $true
+                    NoLogo      = $true
+                }
+                New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+
+                $manifestContentPath = [System.IO.Path]::Combine($outPutPath, 'src', 'SecretManagement.VaultName', 'SecretManagement.VaultName.psd1')
+                $manifestContent = Get-Content -Path $manifestContentPath -Raw
+                $manifestContent | Should -BeLike '*My awesome vault is awesome*'
+            } #it
+
+            It 'should have a working example for GitLab vault project' {
+                $vaultParameters = @{
+                    ModuleName    = 'SecretManagement.VaultName'
+                    Description   = 'My awesome vault is awesome'
+                    Version       = '0.0.1'
+                    FN            = 'user full name'
+                    CICD          = 'GITLAB'
+                    GitLabOptions = 'windows', 'pwshcore', 'linux'
+                    RepoType      = 'GITLAB'
+                    ReadtheDocs   = 'READTHEDOCS'
+                    RTDTheme      = 'READTHEDOCSTHEME'
+                    License       = 'NONE'
+                    Changelog     = 'CHANGELOG'
+                    COC           = 'CONDUCT'
+                    Contribute    = 'CONTRIBUTING'
+                    Security      = 'SECURITY'
+                    CodingStyle   = 'Stroustrup'
+                    Pester        = '5'
+                    PassThru      = $true
+                    NoLogo        = $true
+                }
+                New-VaultProject -VaultParameters $vaultParameters -DestinationPath $outPutPath
+
+                $manifestContentPath = [System.IO.Path]::Combine($outPutPath, 'src', 'SecretManagement.VaultName', 'SecretManagement.VaultName.psd1')
+                $manifestContent = Get-Content -Path $manifestContentPath -Raw
+                $manifestContent | Should -BeLike '*My awesome vault is awesome*'
+            } #it
+
         } #context_help_examples
 
     } #context_vault_checks

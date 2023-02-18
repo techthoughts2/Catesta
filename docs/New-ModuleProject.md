@@ -86,6 +86,8 @@ $moduleParameters = @{
     CICD           = 'GITHUB'
     GitHubAOptions = 'windows', 'pwshcore', 'linux', 'macos'
     RepoType       = 'GITHUB'
+    ReadtheDocs    = 'READTHEDOCS'
+    RTDTheme       = 'READTHEDOCSTHEME'
     License        = 'MIT'
     Changelog      = 'CHANGELOG'
     COC            = 'CONDUCT'
@@ -102,6 +104,7 @@ New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPa
 
 Scaffolds a PowerShell module project for integration with GitHub Actions with the project code stored in GitHub.
 A full set of GitHub project supporting files is provided.
+The project is set up for integration with Read the Docs.
 
 ### EXAMPLE 6
 ```
@@ -113,6 +116,7 @@ $moduleParameters = @{
     CICD        = 'CODEBUILD'
     AWSOptions  = 'ps', 'pwshcore', 'pwsh'
     RepoType    = 'GITHUB'
+    ReadtheDocs = 'NONE'
     License     = 'MIT'
     Changelog   = 'CHANGELOG'
     COC         = 'CONDUCT'
@@ -133,13 +137,14 @@ A full set of GitHub project supporting files is provided.
 ### EXAMPLE 7
 ```
 $moduleParameters = @{
-    ModuleName  = 'ModuleName'
-    Description = 'My awesome module is awesome'
+    ModuleName   = 'ModuleName'
+    Description  = 'My awesome module is awesome'
     Version      = '0.0.1'
     FN           = 'user full name'
     CICD         = 'AZURE'
     AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
     RepoType     = 'GITHUB'
+    ReadtheDocs  = 'NONE'
     License      = 'NONE'
     Changelog    = 'NONE'
     COC          = 'NONE'
@@ -159,13 +164,14 @@ No repository supporting files are included.
 ### EXAMPLE 8
 ```
 $moduleParameters = @{
-    ModuleName  = 'ModuleName'
-    Description = 'My awesome module is awesome'
+    ModuleName      = 'ModuleName'
+    Description     = 'My awesome module is awesome'
     Version         = '0.0.1'
     FN              = 'user full name'
     CICD            = 'APPVEYOR'
     AppveyorOptions = 'windows', 'pwshcore', 'linux', 'macos'
     RepoType        = 'GITHUB'
+    ReadtheDocs     = 'NONE'
     License         = 'NONE'
     Changelog       = 'NONE'
     COC             = 'NONE'
@@ -188,26 +194,57 @@ No repository supporting files are included.
 $moduleParameters = @{
     ModuleName  = 'ModuleName'
     Description = 'My awesome module is awesome'
-    Version         = '0.0.1'
-    FN              = 'user full name'
-    CICD            = 'BITBUCKET'
-    RepoType        = 'BITBUCKET'
-    License         = 'NONE'
-    Changelog       = 'CHANGELOG'
-    COC             = 'CONDUCT'
-    Contribute      = 'CONTRIBUTING'
-    Security        = 'SECURITY'
-    CodingStyle     = 'Stroustrup'
-    Help            = 'Yes'
-    Pester          = '5'
-    PassThru        = $true
-    NoLogo          = $true
+    Version     = '0.0.1'
+    FN          = 'user full name'
+    CICD        = 'BITBUCKET'
+    RepoType    = 'BITBUCKET'
+    ReadtheDocs = 'NONE'
+    License     = 'NONE'
+    Changelog   = 'CHANGELOG'
+    COC         = 'CONDUCT'
+    Contribute  = 'CONTRIBUTING'
+    Security    = 'SECURITY'
+    CodingStyle = 'Stroustrup'
+    Help        = 'Yes'
+    Pester      = '5'
+    PassThru    = $true
+    NoLogo      = $true
 }
 New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
 ```
 
 Scaffolds a PowerShell module project for integration with Bitbucket Pipelines with the project code stored on Bitbucket.
 A full set of repository supporting files are included.
+
+### EXAMPLE 10
+```
+$moduleParameters = @{
+    ModuleName    = 'ModuleName'
+    Description   = 'My awesome module is awesome'
+    Version       = '0.0.1'
+    FN            = 'user full name'
+    CICD          = 'GITLAB'
+    RepoType      = 'GITLAB'
+    ReadtheDocs   = 'READTHEDOCS'
+    RTDTheme      = 'READTHEDOCSTHEME'
+    GitLabOptions = 'windows', 'pwshcore', 'linux'
+    License       = 'MIT'
+    Changelog     = 'CHANGELOG'
+    COC           = 'CONDUCT'
+    Contribute    = 'CONTRIBUTING'
+    Security      = 'SECURITY'
+    CodingStyle   = 'Stroustrup'
+    Help          = 'Yes'
+    Pester        = '5'
+    PassThru      = $true
+    NoLogo        = $true
+}
+New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+```
+
+Scaffolds a PowerShell module project for integration with GitLab CI/CD Pipelines with the project code stored on GitLab.
+A full set of repository supporting files are included. 
+The project is set up for integration with Read the Docs.
 
 ## PARAMETERS
 
