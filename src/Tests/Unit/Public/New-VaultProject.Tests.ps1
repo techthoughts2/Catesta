@@ -44,6 +44,7 @@ InModuleScope $ModuleName {
         } #beforeEach
 
         Context 'ShouldProcess' {
+
             BeforeEach {
                 Mock -CommandName Invoke-Plaster { }
                 Mock -CommandName Import-Module { }
@@ -81,6 +82,7 @@ InModuleScope $ModuleName {
                 New-VaultProject -DestinationPath $path -Force
                 Should -Invoke -CommandName New-VaultProject -Exactly -Times 1 -Scope It
             } #it
+
         } #context_shouldprocess
 
         Context 'Error' {
@@ -161,5 +163,6 @@ InModuleScope $ModuleName {
             } #it
 
         } #context_Success
+
     } #describe
 } #inModule
