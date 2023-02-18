@@ -11,7 +11,7 @@
         - Test
         - DevCC
         - Build
-        - InfraTest
+        - IntegrationTest
         - Archive
 .EXAMPLE
     Invoke-Build
@@ -57,14 +57,14 @@ $str += 'FormattingCheck'
 $str += 'Analyze', 'Test'
 $str2 = $str
 $str2 += 'Build', 'Archive'
-$str += 'Build', 'InfraTest', 'Archive'
+$str += 'Build', 'IntegrationTest', 'Archive'
 Add-BuildTask -Name . -Jobs $str
 
 #Local testing build process
 Add-BuildTask TestLocal Clean, ImportModuleManifest, Analyze, Test
 
-#Full build sans infra tests
-Add-BuildTask BuildNoInfra -Jobs $str2
+#Full build sans integration tests
+Add-BuildTask BuildNoIntegration -Jobs $str2
 
 # Pre-build variables to be used by other portions of the script
 Enter-Build {
@@ -83,7 +83,7 @@ Enter-Build {
 
     $script:TestsPath = Join-Path -Path $BuildRoot -ChildPath 'Tests'
     $script:UnitTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Unit'
-    $script:InfraTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Integration'
+    $script:IntegrationTestsPath = Join-Path -Path $script:TestsPath -ChildPath 'Integration'
 
     $script:ArtifactsPath = Join-Path -Path $BuildRoot -ChildPath 'Artifacts'
     $script:ArchivePath = Join-Path -Path $BuildRoot -ChildPath 'Archive'
@@ -487,8 +487,8 @@ Add-BuildTask Build {
 } #Build
 
 #Synopsis: Invokes all Pester Integration Tests in the Tests\Integration folder (if it exists)
-Add-BuildTask InfraTest {
-    if (Get-ChildItem -Path $script:InfraTestsPath -Filter "*.Tests.ps1" -Recurse) {
+Add-BuildTask IntegrationTest {
+    if (Get-ChildItem -Path $script:IntegrationTestsPath -Filter "*.Tests.ps1" -Recurse) {
         Write-Build White "      Importing desired Pester version. Min: $script:MinPesterVersion Max: $script:MaxPesterVersion"
         Remove-Module -Name Pester -Force -ErrorAction SilentlyContinue # there are instances where some containers have Pester already in the session
         Import-Module -Name Pester -MinimumVersion $script:MinPesterVersion -MaximumVersion $script:MaxPesterVersion -ErrorAction 'Stop'
@@ -499,7 +499,7 @@ Add-BuildTask InfraTest {
 if ($PLASTER_PARAM_Pester -eq '4') {
             @'
         $invokePesterParams = @{
-            Path       = $script:InfraTestsPath
+            Path       = $script:IntegrationTestsPath
             Strict     = $true
             PassThru   = $true
             Verbose    = $false
@@ -514,7 +514,7 @@ if ($PLASTER_PARAM_Pester -eq '4') {
 elseif ($PLASTER_PARAM_Pester -eq '5') {
             @'
         $pesterConfiguration = New-PesterConfiguration
-        $pesterConfiguration.run.Path = $script:InfraTestsPath
+        $pesterConfiguration.run.Path = $script:IntegrationTestsPath
         $pesterConfiguration.Run.PassThru = $true
         $pesterConfiguration.Run.Exit = $false
         $pesterConfiguration.CodeCoverage.Enabled = $false
@@ -538,7 +538,7 @@ elseif ($PLASTER_PARAM_Pester -eq '5') {
         Assert-Build($numberFails -eq 0) ('Failed "{0}" unit tests.' -f $numberFails)
         Write-Build Green '      ...Pester Integration Tests Complete!'
     }
-} #InfraTest
+} #IntegrationTest
 
 #Synopsis: Creates an archive of the built Module
 Add-BuildTask Archive {

@@ -183,9 +183,9 @@
             "group": "none"
         },
         {
-            "label": "BuildNoInfra",
+            "label": "BuildNoIntegration",
             "type": "shell",
-            "command": "Invoke-Build -Task BuildNoInfra -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
+            "command": "Invoke-Build -Task BuildNoIntegration -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -194,9 +194,9 @@
             "group": "build"
         },
         {
-            "label": "InfraTest",
+            "label": "IntegrationTest",
             "type": "shell",
-            "command": "Invoke-Build -Task InfraTest -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
+            "command": "Invoke-Build -Task IntegrationTest -File '${workspaceFolder}/src/${workspaceFolderBasename}.build.ps1'",
             "problemMatcher": "$msCompile",
             "presentation": {
                 "echo": false,
@@ -245,7 +245,7 @@
             "group": "test"
         },
         {
-            "label": "Infra-Single-Detailed",
+            "label": "Integration-Single-Detailed",
             "type": "shell",
             "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Integration/*/${input:functionName}.Tests.ps1' -Output Detailed",
             "problemMatcher": "$pester",

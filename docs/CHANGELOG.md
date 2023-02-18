@@ -61,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Addressed bug in build file where `Build` task was failing if docs folder has not already been created
     - GitHub actions will now ignore `docs` folder and all `.md` file updates. `doctesting` branch will also now be ignored and will not trigger builds.
     - Pester bumped from `5.4.0` to `5.4.0`
+    - All Infra/Infrastructure references changed to Integration
 
 ## [1.3.0] - (Never released)
 

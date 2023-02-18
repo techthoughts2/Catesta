@@ -12,7 +12,7 @@ Import-Module $PathToManifest -Force
 $resourcePath1 = [System.IO.Path]::Combine( '..', '..', $ModuleName, 'Resources')
 # $manifests = Get-ChildItem -Path $resourcePath1 -Include '*.xml' -Recurse -Force
 #-------------------------------------------------------------------------
-Describe 'Vault Infra Tests' {
+Describe 'Vault Integration Tests' {
 
     BeforeAll {
         $WarningPreference = 'Continue'
@@ -21,7 +21,7 @@ Describe 'Vault Infra Tests' {
         # $resourcePath = [System.IO.Path]::Combine( '..', '..', $ModuleName, 'Resources')
         # $PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
         # $srcRoot = [System.IO.Path]::Combine( '..', '..')
-        $outPutPath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), 'catesta_infra_testing')
+        $outPutPath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), 'catesta_integration_testing')
         $outPutPathStar = "$outPutPath$([System.IO.Path]::DirectorySeparatorChar)*"
         $buildFile = [System.IO.Path]::Combine($outPutPath, 'src', 'SecretManagement.MyVault.build.ps1')
         New-Item -Path $outPutPath -ItemType Directory  -ErrorAction SilentlyContinue
