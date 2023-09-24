@@ -24,7 +24,7 @@ if ($PLASTER_PARAM_AzureOptions -eq 'windows') {
       displayName: 'Build and Test - Windows PowerShell'
     - task: PublishTestResults@2
       inputs:
-        testRunner: 'NUnit'
+        testResultsFormat: 'NUnit'
         testResultsFiles: '**\Artifacts\testOutput\PesterTests.xml'
         testRunTitle: 'ps_winLatest'
         failTaskOnFailedTests: true
@@ -60,7 +60,7 @@ if ($PLASTER_PARAM_AzureOptions -eq 'pwshcore') {
       displayName: 'Build and Test - Windows pwsh'
     - task: PublishTestResults@2
       inputs:
-        testRunner: 'NUnit'
+        testResultsFormat: 'NUnit'
         testResultsFiles: '**\Artifacts\testOutput\PesterTests.xml'
         testRunTitle: 'pwsh_winLatest'
         failTaskOnFailedTests: true
@@ -96,7 +96,7 @@ if ($PLASTER_PARAM_AzureOptions -eq 'linux') {
       displayName: 'Build and Test - Linux'
     - task: PublishTestResults@2
       inputs:
-        testRunner: 'NUnit'
+        testResultsFormat: 'NUnit'
         testResultsFiles: '**/Artifacts/testOutput/PesterTests.xml'
         testRunTitle: 'pwsh_ubuntuLatest'
         failTaskOnFailedTests: true
@@ -132,7 +132,7 @@ if ($PLASTER_PARAM_AzureOptions -eq 'macos') {
       displayName: 'Build and Test - macOS'
     - task: PublishTestResults@2
       inputs:
-        testRunner: 'NUnit'
+        testResultsFormat: 'NUnit'
         testResultsFiles: '**/Artifacts/testOutput/PesterTests.xml'
         testRunTitle: 'pwsh_macOSLatest'
         failTaskOnFailedTests: true
