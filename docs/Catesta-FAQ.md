@@ -11,11 +11,11 @@ Badge examples:
     ![AWS CodeBuild Status](https://codebuild.us-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiL2FvTzZsNGFoL1VTTk1UOGE3WXlwSVFRT3BTWngzc1czdVZLTEpNYWJld2xSbS9Ea3R0b3ZETm96Zk5md2ZXMVUwNXZnSnlaRlpuWUJldzdGMENpemRjPSIsIml2UGFyYW1ldGVyU3BlYyI6Ikl3T3VwdU43UUxya0J1SVciLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
     ```
 
-- **GitHub Actions**: [![GitHub Actions Build Status Windows pwsh Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=master)](https://github.com/techthoughts2/Catesta/actions)
+- **GitHub Actions**: [![GitHub Actions Build Status Windows pwsh Main](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=main)](https://github.com/techthoughts2/Catesta/actions)
     - *Just replace the link with your repo*
 
     ```plain
-    [![GitHub Actions Build Status Windows pwsh Master](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=master)](https://github.com/techthoughts2/Catesta/actions)
+    [![GitHub Actions Build Status Windows pwsh Main](https://github.com/techthoughts2/Catesta/workflows/Catesta-Windows-pwsh/badge.svg?branch=main)](https://github.com/techthoughts2/Catesta/actions)
     ```
 
 - **Appveyor**: [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/kech4dkqsrb9xuet/branch/master?svg=true)](https://ci.appveyor.com/project/techthoughts2/appveyortest/branch/master)
