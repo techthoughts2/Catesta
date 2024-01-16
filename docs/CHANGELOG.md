@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2]
+
+- Catesta template module changes
+    - CI/CD Changes:
+        - Azure:
+            - Updated `testRunner` alias reference to `testResultsFormat`
+        - Plaster bumped from `1.1.3` to `1.1.4`
+        - Pester bumped from `5.4.0` to `5.5.0`
+        - InvokeBuild bumped from `5.10.2` to `5.10.4`
+- Catesta primary module changes
+    - Plaster bumped from `1.1.3` to `1.1.4`
+    - Pester bumped from `5.4.0` to `5.5.0`
+    - InvokeBuild bumped from `5.10.2` to `5.10.4`
+
 ## [2.0.0] - *breaking changes introduced*
 
 - Catesta template module changes

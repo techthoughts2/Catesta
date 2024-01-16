@@ -12,7 +12,7 @@
     RootModule        = 'Catesta.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '2.0.0'
+    ModuleVersion     = '2.0.2'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -54,7 +54,7 @@
     RequiredModules   = @(
         @{
             ModuleName    = 'Plaster'
-            ModuleVersion = '1.1.3'
+            ModuleVersion = '1.1.4'
         },
         @{
             ModuleName    = 'Pester'
@@ -190,7 +190,7 @@
             Extensions               = @(
                 @{
                     Module         = 'Plaster'
-                    MinimumVersion = '1.1.3'
+                    MinimumVersion = '1.1.4'
                     Details        = @{
                         TemplatePaths = @(
                             'Resources\Module',
