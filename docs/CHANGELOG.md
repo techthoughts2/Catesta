@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - InvokeBuild bumped from `5.10.2` to `5.10.5`
 - Catesta primary module changes
     - Added `MarkdownRepair.ps1` and added Markdown repair logic to InvokeBuild script.
+    - Updated `LicenseUri` and `IconUri` link in `psd1` manifest.
     - Plaster bumped from `1.1.3` to `1.1.4`
     - Pester bumped from `5.4.0` to `5.5.0`
     - InvokeBuild bumped from `5.10.2` to `5.10.5`
