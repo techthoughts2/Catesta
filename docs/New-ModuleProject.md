@@ -1,7 +1,7 @@
 ---
 external help file: Catesta-help.xml
 Module Name: Catesta
-online version: https://www.catesta.dev
+online version: https://www.catesta.dev/en/latest/New-ModuleProject/
 schema: 2.0.0
 ---
 
@@ -376,8 +376,6 @@ in ModuleParameters that are not supported.
 Read the manifest schemas to understand how to properly craft a ModuleParameters table.
 
 ## RELATED LINKS
-
-[https://www.catesta.dev](https://www.catesta.dev)
 
 [https://www.catesta.dev/en/latest/New-ModuleProject/](https://www.catesta.dev/en/latest/New-ModuleProject/)
 

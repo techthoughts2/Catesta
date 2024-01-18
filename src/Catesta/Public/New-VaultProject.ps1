@@ -190,8 +190,6 @@
 .NOTES
     Author: Jake Morrison - @jakemorrison - https://www.techthoughts.info/
 .LINK
-    https://www.catesta.dev
-.LINK
     https://www.catesta.dev/en/latest/New-VaultProject/
 .LINK
     https://www.catesta.dev/en/latest/Catesta-Vault-Extension/

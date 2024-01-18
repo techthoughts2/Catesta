@@ -1,7 +1,7 @@
 ---
 external help file: Catesta-help.xml
 Module Name: Catesta
-online version: https://www.catesta.dev
+online version: https://www.catesta.dev/en/latest/New-VaultProject/
 schema: 2.0.0
 ---
 
@@ -361,8 +361,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 Author: Jake Morrison - @jakemorrison - https://www.techthoughts.info/
 
 ## RELATED LINKS
-
-[https://www.catesta.dev](https://www.catesta.dev)
 
 [https://www.catesta.dev/en/latest/New-VaultProject/](https://www.catesta.dev/en/latest/New-VaultProject/)
 
