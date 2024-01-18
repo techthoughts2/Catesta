@@ -203,19 +203,11 @@
     Due to the nature of the lower level Plaster engagement, this means it is possible to pass hashtable choices
     in ModuleParameters that are not supported. Read the manifest schemas to understand how to properly craft a ModuleParameters table.
 .LINK
-    https://github.com/techthoughts2/Catesta/blob/main/docs/New-ModuleProject.md
+    https://www.catesta.dev
 .LINK
-    https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-Module-Manifest-Schema.md
+    https://www.catesta.dev/en/latest/New-ModuleProject/
 .LINK
     https://docs.microsoft.com/powershell/scripting/developer/module/writing-a-windows-powershell-module
-.LINK
-    https://aws.amazon.com/codebuild/
-.LINK
-    https://help.github.com/actions
-.LINK
-    https://azure.microsoft.com/services/devops/
-.LINK
-    https://www.appveyor.com/
 .COMPONENT
     Catesta
 #>
