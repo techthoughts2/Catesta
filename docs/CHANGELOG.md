@@ -13,9 +13,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - CI/CD Changes:
         - Azure:
             - Updated `testRunner` alias reference to `testResultsFormat`
+        - AWS CodeBuild CI/CD changes:
+            - `PowerShellCodeBuildCC.yml`
+                - `aws/codebuild/standard:6.0` to `aws/codebuild/standard:7.0`
+            - `PowerShellCodeBuildGit.yml`
+                - `aws/codebuild/standard:6.0` to `aws/codebuild/standard:7.0`
         - Plaster bumped from `1.1.3` to `1.1.4`
         - Pester bumped from `5.4.0` to `5.5.0`
         - InvokeBuild bumped from `5.10.2` to `5.10.5`
+
 - Catesta primary module changes
     - Added `MarkdownRepair.ps1` and added Markdown repair logic to InvokeBuild script.
     - Updated `LicenseUri` and `IconUri` link in `psd1` manifest.
@@ -125,7 +131,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - InvokeBuild bumped from `5.8.8` to `5.9.11`
         - Microsoft.PowerShell.SecretManagement bumped from `1.1.1` to `1.1.2`
     - AWS CodeBuild CI/CD changes:
-        - `PowerShellCodeBuildGit.yml`
+        - `PowerShellCodeBuildCC.yml`
             - `aws/codebuild/windows-base:2019-1.0` to  `aws/codebuild/windows-base:2019-2.0`
             - `aws/codebuild/standard:5.0` to `aws/codebuild/standard:6.0`
             - All Lambdas updated from `Runtime: python3.6` to `Runtime: python3.9`
