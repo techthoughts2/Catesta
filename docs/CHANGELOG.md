@@ -15,12 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
             - Updated `testRunner` alias reference to `testResultsFormat`
         - Plaster bumped from `1.1.3` to `1.1.4`
         - Pester bumped from `5.4.0` to `5.5.0`
-        - InvokeBuild bumped from `5.10.2` to `5.10.4`
+        - InvokeBuild bumped from `5.10.2` to `5.10.5`
 - Catesta primary module changes
     - Added `MarkdownRepair.ps1` and added Markdown repair logic to InvokeBuild script.
     - Plaster bumped from `1.1.3` to `1.1.4`
     - Pester bumped from `5.4.0` to `5.5.0`
-    - InvokeBuild bumped from `5.10.2` to `5.10.4`
+    - InvokeBuild bumped from `5.10.2` to `5.10.5`
 
 ## [2.0.0] - *breaking changes introduced*
 
