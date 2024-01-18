@@ -70,6 +70,7 @@ Describe 'Module Integration Tests' {
                     $moduleOnlyFiles.Name.Contains('Imports.ps1') | Should -BeExactly $true
                     $moduleOnlyFiles.Name.Contains('modulename.build.ps1') | Should -BeExactly $true
                     $moduleOnlyFiles.Name.Contains('modulename.Settings.ps1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('MarkdownRepair.ps1') | Should -BeExactly $true
                     $moduleOnlyFiles.Name.Contains('PSScriptAnalyzerSettings.psd1') | Should -BeExactly $true
                     $moduleOnlyFiles.Name.Contains('Get-HelloWorld.ps1') | Should -BeExactly $true
                     $moduleOnlyFiles.Name.Contains('Get-Day.ps1') | Should -BeExactly $true
@@ -136,6 +137,31 @@ Describe 'Module Integration Tests' {
 
                     # Help
                     $buildContent | Should -BeLike '*CreateHelpStart*'
+
+                } #it
+
+                It 'should generate a module only scaffold with base elements with no MarkdownRepair if help is not selected' {
+                    $moduleParameters = @{
+                        VAULT       = 'text'
+                        ModuleName  = 'modulename'
+                        Description = 'text'
+                        Version     = '0.0.1'
+                        FN          = 'user full name'
+                        CICD        = 'NONE'
+                        RepoType    = 'NONE'
+                        CodingStyle = 'Stroustrup'
+                        Help        = 'No'
+                        Pester      = '5'
+                        S3Bucket    = 'PSGallery'
+                        PassThru    = $true
+                        NoLogo      = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $moduleOnlyFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $moduleOnlyFiles.Name.Contains('MarkdownRepair.ps1') | Should -BeExactly $false
 
                 } #it
 

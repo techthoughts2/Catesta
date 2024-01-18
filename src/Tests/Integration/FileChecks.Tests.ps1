@@ -58,6 +58,10 @@ Describe 'File Checks' {
             $srcFiles.Name.Contains('PSModule.Settings.ps1') | Should -BeExactly $true
         } #it
 
+        It 'should have markdown repair file' {
+            $srcFiles.Name.Contains('MarkdownRepair.ps1') | Should -BeExactly $true
+        } #it
+
         It 'should have a PSScriptAnalyzerSettings file' {
             $srcFiles.Name.Contains('PSScriptAnalyzerSettings.psd1') | Should -BeExactly $true
         } #it

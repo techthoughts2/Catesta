@@ -260,7 +260,6 @@ Help            = 'Yes'
 Pester          = '5'
 
 
-
 }
 New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath .
 ```
