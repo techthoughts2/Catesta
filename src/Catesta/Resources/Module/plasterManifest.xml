@@ -18,7 +18,7 @@
     <metadata>
         <name>Catesta</name>
         <id>258a61ba-566b-4c3a-8230-c2b6861a1a8d</id>
-        <version>2.0.0</version>
+        <version>2.2.0</version>
         <title>Catesta</title>
         <description>Scaffolds a new PowerShell module project</description>
         <author>Jake Morrison</author>
@@ -179,6 +179,7 @@
         <templateFile source='..\Module\src\PSModule.build.ps1' destination='src\${PLASTER_PARAM_ModuleName}.build.ps1'/>
         <file source='..\Module\src\PSModule.Settings.ps1' destination='src\${PLASTER_PARAM_ModuleName}.Settings.ps1'/>
         <file source='..\Module\src\PSScriptAnalyzerSettings.psd1' destination='src\PSScriptAnalyzerSettings.psd1'/>
+        <file condition="$PLASTER_PARAM_Help -eq 'Yes'" source='..\Module\src\MarkdownRepair.ps1' destination='src\MarkdownRepair.ps1' />
 
         <!-- VSCode files -->
         <templateFile source='..\Editor\VSCode\tasks.json' destination='.vscode\tasks.json' />

@@ -1,7 +1,7 @@
 ---
 external help file: Catesta-help.xml
 Module Name: Catesta
-online version: https://www.catesta.dev
+online version: https://www.catesta.dev/en/latest/New-VaultProject/
 schema: 2.0.0
 ---
 
@@ -349,7 +349,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutBuffer, -OutVariable, -PipelineVariable, -Verbose, -WarningAction, -WarningVariable, and -ProgressAction. 
 For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
@@ -362,11 +362,8 @@ Author: Jake Morrison - @jakemorrison - https://www.techthoughts.info/
 
 ## RELATED LINKS
 
-[https://www.catesta.dev](https://www.catesta.dev)
-
 [https://www.catesta.dev/en/latest/New-VaultProject/](https://www.catesta.dev/en/latest/New-VaultProject/)
 
 [https://www.catesta.dev/en/latest/Catesta-Vault-Extension/](https://www.catesta.dev/en/latest/Catesta-Vault-Extension/)
 
 [https://github.com/PowerShell/SecretManagement](https://github.com/PowerShell/SecretManagement)
-

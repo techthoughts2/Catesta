@@ -12,7 +12,7 @@
     RootModule        = 'Catesta.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '2.0.0'
+    ModuleVersion     = '2.2.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -54,7 +54,7 @@
     RequiredModules   = @(
         @{
             ModuleName    = 'Plaster'
-            ModuleVersion = '1.1.3'
+            ModuleVersion = '1.1.4'
         },
         @{
             ModuleName    = 'Pester'
@@ -166,13 +166,13 @@
             )
 
             # A URL to the license for this module.
-            # LicenseUri = 'https://github.com/techthoughts2/Catesta/blob/main/LICENSE'
+            LicenseUri               = 'https://github.com/techthoughts2/Catesta/blob/main/LICENSE'
 
             # A URL to the main website for this project.
             ProjectUri               = 'https://github.com/techthoughts2/Catesta'
 
             # A URL to an icon representing this module.
-            IconUri                  = 'https://github.com/techthoughts2/Catesta/raw/main/media/CatestaIcon.png'
+            IconUri                  = 'https://github.com/techthoughts2/Catesta/raw/main/docs/assets/CatestaIcon.png'
 
             # ReleaseNotes of this module
             ReleaseNotes             = 'https://github.com/techthoughts2/Catesta/blob/main/docs/CHANGELOG.md'
@@ -190,7 +190,7 @@
             Extensions               = @(
                 @{
                     Module         = 'Plaster'
-                    MinimumVersion = '1.1.3'
+                    MinimumVersion = '1.1.4'
                     Details        = @{
                         TemplatePaths = @(
                             'Resources\Module',

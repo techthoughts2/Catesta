@@ -535,6 +535,17 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
         throw 'Missing GUID. Please review and rebuild.'
     }
 
+    Write-Build Gray '           Evaluating if running 7.4.0 or higher...'
+    # https://github.com/PowerShell/platyPS/issues/595
+    if ($PSVersionTable.PSVersion -ge [version]'7.4.0') {
+        Write-Build Gray '               Performing Markdown repair'
+        # dot source markdown repair
+        . $BuildRoot\MarkdownRepair.ps1
+        $OutputDir | Get-ChildItem -File | ForEach-Object {
+            Repair-PlatyPSMarkdown -Path $_.FullName
+        }
+    }
+
     Write-Build Gray '           Checking for missing documentation in md files...'
     $MissingDocumentation = Select-String -Path "$script:ArtifactsPath\docs\*.md" -Pattern "({{.*}})"
     if ($MissingDocumentation.Count -gt 0) {

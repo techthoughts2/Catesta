@@ -41,12 +41,12 @@ $VerbosePreference = 'SilentlyContinue'
 
 # List of PowerShell Modules required for the build
 # The AWS PowerShell Modules are added below, based on the $PSEdition
-$modulesToInstall = [System.Collections.ArrayList]::new()
+$modulesToInstall = New-Object System.Collections.Generic.List[object]
 <%
 if ($PLASTER_PARAM_Pester-eq '4') {
 @'
 # https://github.com/pester/Pester
-$null = $modulesToInstall.Add(([PSCustomObject]@{
+[void]$modulesToInstall.Add(([PSCustomObject]@{
     ModuleName    = 'Pester'
     ModuleVersion = '4.10.1'
     BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
@@ -57,34 +57,34 @@ $null = $modulesToInstall.Add(([PSCustomObject]@{
 elseif ($PLASTER_PARAM_Pester-eq '5') {
 @'
 # https://github.com/pester/Pester
-$null = $modulesToInstall.Add(([PSCustomObject]@{
+[void]$modulesToInstall.Add(([PSCustomObject]@{
     ModuleName    = 'Pester'
-    ModuleVersion = '5.4.0'
+    ModuleVersion = '5.5.0'
     BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
     KeyPrefix     = ''
 }))
 '@
 }
 %>
-$null = $modulesToInstall.Add(([PSCustomObject]@{
+[void]$modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.10.2'
+            ModuleVersion = '5.10.5'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
             KeyPrefix     = ''
         }))
-$null = $modulesToInstall.Add(([PSCustomObject]@{
+[void]$modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'PSScriptAnalyzer'
             ModuleVersion = '1.21.0'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
             KeyPrefix     = ''
         }))
-$null = $modulesToInstall.Add(([PSCustomObject]@{
+[void]$modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'platyPS'
             ModuleVersion = '0.12.0'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
             KeyPrefix     = ''
         }))
-$null = $modulesToInstall.Add(([PSCustomObject]@{
+[void]$modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'AWS.Tools.Common'
             ModuleVersion = '4.1.133'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
@@ -94,7 +94,7 @@ $null = $modulesToInstall.Add(([PSCustomObject]@{
 <%
 if ($PLASTER_PARAM_VAULT -eq 'VAULT') {
     @'
-$null = $modulesToInstall.Add(([PSCustomObject]@{
+[void]$modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'Microsoft.PowerShell.SecretManagement'
             ModuleVersion = '1.1.2'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
@@ -113,7 +113,7 @@ if ($galleryDownload -eq $false) {
         if ($PSEdition -eq 'Core') {
             $moduleInstallPath = [System.IO.Path]::Combine($env:ProgramFiles, 'PowerShell', 'Modules')
             # Add the AWSPowerShell.NetCore Module
-            # $null = $modulesToInstall.Add(([PSCustomObject]@{
+            # [void]$modulesToInstall.Add(([PSCustomObject]@{
             #     ModuleName    = 'AWSPowerShell.NetCore'
             #     ModuleVersion = '3.3.604.0'
             #     BucketName    = 'ps-invoke-modules'
@@ -123,7 +123,7 @@ if ($galleryDownload -eq $false) {
         else {
             $moduleInstallPath = [System.IO.Path]::Combine($env:ProgramFiles, 'WindowsPowerShell', 'Modules')
             # Add the AWSPowerShell Module
-            # $null = $modulesToInstall.Add(([PSCustomObject]@{
+            # [void]$modulesToInstall.Add(([PSCustomObject]@{
             #     ModuleName    = 'AWSPowerShell'
             #     ModuleVersion = '3.3.604.0'
             #     BucketName    = 'ps-invoke-modules'
@@ -135,7 +135,7 @@ if ($galleryDownload -eq $false) {
         $moduleInstallPath = [System.IO.Path]::Combine('/', 'usr', 'local', 'share', 'powershell', 'Modules')
 
         # Add the AWSPowerShell.NetCore Module
-        # $null = $modulesToInstall.Add(([PSCustomObject]@{
+        # [void]$modulesToInstall.Add(([PSCustomObject]@{
         #     ModuleName    = 'AWSPowerShell.NetCore'
         #     ModuleVersion = '3.3.604.0'
         #     BucketName    = 'ps-invoke-modules'
@@ -145,7 +145,7 @@ if ($galleryDownload -eq $false) {
     elseif ($PSEdition -eq 'Desktop') {
         $moduleInstallPath = [System.IO.Path]::Combine($env:ProgramFiles, 'WindowsPowerShell', 'Modules')
         # Add the AWSPowerShell Module
-        # $null = $modulesToInstall.Add(([PSCustomObject]@{
+        # [void]$modulesToInstall.Add(([PSCustomObject]@{
         #     ModuleName    = 'AWSPowerShell'
         #     ModuleVersion = '3.3.604.0'
         #     BucketName    = 'ps-invoke-modules'

@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0]
+
+- Catesta template module changes
+    - Added `MarkdownRepair.ps1` and added Markdown repair logic to InvokeBuild script. This is to account for an issue in PowerShell `7.4.0`+ where a new parameter was introduced that platyPS can not handle during help creation. Ref: [platyPS issue]([text](https://github.com/PowerShell/platyPS/issues/595)).
+        - If a build is run and the build environment is `7.4.0`+ the Markdown repair will run to account for the new parameter and repair markdown for help creation.
+    - Replaced uses of `System.Collections.ArrayList` with `System.Collections.Generic.List` throughout.
+    - CI/CD Changes:
+        - Azure:
+            - Updated `testRunner` alias reference to `testResultsFormat`
+        - AWS CodeBuild CI/CD changes:
+            - `PowerShellCodeBuildCC.yml`
+                - `aws/codebuild/standard:6.0` to `aws/codebuild/standard:7.0`
+            - `PowerShellCodeBuildGit.yml`
+                - `aws/codebuild/standard:6.0` to `aws/codebuild/standard:7.0`
+        - Plaster bumped from `1.1.3` to `1.1.4`
+        - Pester bumped from `5.4.0` to `5.5.0`
+        - InvokeBuild bumped from `5.10.2` to `5.10.5`
+- Catesta primary module changes
+    - Added `MarkdownRepair.ps1` and added Markdown repair logic to InvokeBuild script.
+    - Updated `LicenseUri` and `IconUri` link in `psd1` manifest.
+    - Updated link references in inline help for both public functions
+    - Replaced uses of `System.Collections.ArrayList` with `System.Collections.Generic.List` throughout.
+    - Plaster bumped from `1.1.3` to `1.1.4`
+    - Pester bumped from `5.4.0` to `5.5.0`
+    - InvokeBuild bumped from `5.10.2` to `5.10.5`
+
 ## [2.0.0] - *breaking changes introduced*
 
 - Catesta template module changes
@@ -107,7 +133,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - InvokeBuild bumped from `5.8.8` to `5.9.11`
         - Microsoft.PowerShell.SecretManagement bumped from `1.1.1` to `1.1.2`
     - AWS CodeBuild CI/CD changes:
-        - `PowerShellCodeBuildGit.yml`
+        - `PowerShellCodeBuildCC.yml`
             - `aws/codebuild/windows-base:2019-1.0` to  `aws/codebuild/windows-base:2019-2.0`
             - `aws/codebuild/standard:5.0` to `aws/codebuild/standard:6.0`
             - All Lambdas updated from `Runtime: python3.6` to `Runtime: python3.9`

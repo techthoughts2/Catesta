@@ -251,7 +251,6 @@ CodingStyle     = 'Stroustrup'
 Pester          = '5'
 
 
-
 }
 New-ModuleProject -ModuleParameters $vaultParameters -DestinationPath .
 ```
