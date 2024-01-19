@@ -121,6 +121,22 @@ By default a freshly created vault extension module already violates several PSS
 
 This is normal, and the build / test validation process is doing it's job. You'll need to correct your manifest to not use wildcards. You will also need to add content to your extension psm1 to actually engage the variables.
 
+## ProgressAction Error During Build Issue When Creating Help
+
+### Issue Overview
+
+In Catesta versions prior to `v2.2.0`, you might encounter an issue during the `CreateMarkDownHelp` step if you're running PowerShell `7.4.0` or higher. This is due to a new parameter, `ProgressAction`, [introduced in PowerShell 7.4.0(https://learn.microsoft.com/en-us/powershell/scripting/whats-new/what-s-new-in-powershell-74?view=powershell-7.4), which platyPS cannot handle during help creation. The error typically displays missing sections in the generated Markdown, prompting you to fill out information in your comment-based help.
+
+platyPS GitHub Issue: [PlatyPS needs to support the new ProgressAction common parameter #595](https://github.com/PowerShell/platyPS/issues/595)
+
+### Resolution
+
+This issue has been addressed in [Catesta v2.2.0](https://github.com/techthoughts2/Catesta/issues/71). To resolve the error, upgrade your Catesta to version `v2.2.0` or later. The fix includes the addition of `MarkdownRepair.ps1` and an update to the `InvokeBuild` script to include markdown repair logic. This repair step accounts for the new parameter and corrects the markdown for help creation.
+
+#### For Existing Projects
+
+If you have an existing module built with an older version of Catesta and are experiencing this issue, you can manually apply the fix. You can either create a new module with Catesta `v2.2.0` or later and copy the generated `MarkdownRepair.ps1` and updated `InvokeBuild` logic, or directly incorporate these changes from the Catesta GitHub repository.
+
 ## Why is it called Catesta
 
 It's a unique and meaningful name, combining two Latin words - "catasta" meaning scaffold, and "testa" meaning shell. This combination perfectly represents the purpose of Catesta, which is to provide a scaffold for PowerShell projects.
