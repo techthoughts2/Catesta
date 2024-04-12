@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0]
+
+- Catesta template module changes
+    - Catesta now supports namespaced modules (ex. `MyModule.Utils` )
+- Catesta primary module changes
+    - Updated build file to use new regex pattern for deriving module name
+    - Added tests for namespaced module creation
+
 ## [2.2.0]
 
 - Catesta template module changes

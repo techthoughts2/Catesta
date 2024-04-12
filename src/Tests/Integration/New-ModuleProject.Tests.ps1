@@ -165,6 +165,46 @@ Describe 'Module Integration Tests' {
 
                 } #it
 
+                It 'should generate a namespaced module only scaffold with base elements' {
+                    $moduleParameters = @{
+                        VAULT       = 'text'
+                        ModuleName  = 'module.name'
+                        Description = 'text'
+                        Version     = '0.0.1'
+                        FN          = 'user full name'
+                        CICD        = 'NONE'
+                        RepoType    = 'NONE'
+                        CodingStyle = 'Stroustrup'
+                        Help        = 'Yes'
+                        Pester      = '5'
+                        S3Bucket    = 'PSGallery'
+                        PassThru    = $true
+                        NoLogo      = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $moduleOnlyFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    # MODULE
+                    $moduleOnlyFiles.Name.Contains('module.name.psd1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('module.name.psm1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('Imports.ps1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('module.name.build.ps1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('module.name.Settings.ps1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('MarkdownRepair.ps1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('PSScriptAnalyzerSettings.psd1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('Get-HelloWorld.ps1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('Get-Day.ps1') | Should -BeExactly $true
+
+                    # Tests
+                    $moduleOnlyFiles.Name.Contains('SampleIntegrationTest.Tests.ps1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('ExportedFunctions.Tests.ps1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('module.name-Module.Tests.ps1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('Get-HelloWorld.Tests.ps1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('Get-Day.Tests.ps1') | Should -BeExactly $true
+                } #it
+
             } #context_module_only
 
             Context 'AWS-CodeBuild' {

@@ -38,7 +38,7 @@
 #>
 
 #Include: Settings
-$ModuleName = (Split-Path -Path $BuildFile -Leaf).Split('.')[0]
+$ModuleName = [regex]::Match((Get-Item $BuildFile).Name, '^(.*)\.build\.ps1$').Groups[1].Value
 . "./$ModuleName.Settings.ps1"
 
 function Test-ManifestBool ($Path) {
@@ -79,7 +79,7 @@ Add-BuildTask BuildNoIntegration -Jobs $str2
 
 # Pre-build variables to be used by other portions of the script
 Enter-Build {
-    $script:ModuleName = (Split-Path -Path $BuildFile -Leaf).Split('.')[0]
+    $script:ModuleName = [regex]::Match((Get-Item $BuildFile).Name, '^(.*)\.build\.ps1$').Groups[1].Value
 
     # Identify other required paths
     $script:ModuleSourcePath = Join-Path -Path $BuildRoot -ChildPath $script:ModuleName
