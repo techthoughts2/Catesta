@@ -29,7 +29,7 @@ if ($PLASTER_PARAM_AzureOptions -eq 'windows') {
         testRunTitle: 'ps_winLatest'
         failTaskOnFailedTests: true
       displayName: "Publish Unit Test Results - Windows PowerShell"
-    - task: PublishCodeCoverageResults@1
+    - task: PublishCodeCoverageResults@2
       inputs:
         summaryFileLocation: '**\Artifacts\ccReport\CodeCoverage.xml'
         pathToSources: '$(System.DefaultWorkingDirectory)\src\Artifacts\ccReport'
@@ -65,7 +65,7 @@ if ($PLASTER_PARAM_AzureOptions -eq 'pwshcore') {
         testRunTitle: 'pwsh_winLatest'
         failTaskOnFailedTests: true
       displayName: "Publish Unit Test Results - Windows pwsh"
-    - task: PublishCodeCoverageResults@1
+    - task: PublishCodeCoverageResults@2
       inputs:
         summaryFileLocation: '**\Artifacts\ccReport\CodeCoverage.xml'
         pathToSources: '$(System.DefaultWorkingDirectory)\src\Artifacts\ccReport'
@@ -101,7 +101,7 @@ if ($PLASTER_PARAM_AzureOptions -eq 'linux') {
         testRunTitle: 'pwsh_ubuntuLatest'
         failTaskOnFailedTests: true
       displayName: "Publish Unit Test Results - Linux"
-    - task: PublishCodeCoverageResults@1
+    - task: PublishCodeCoverageResults@2
       inputs:
         summaryFileLocation: '**/Artifacts/ccReport/CodeCoverage.xml'
         pathToSources: '$(System.DefaultWorkingDirectory)/src/Artifacts/ccReport'
@@ -137,7 +137,7 @@ if ($PLASTER_PARAM_AzureOptions -eq 'macos') {
         testRunTitle: 'pwsh_macOSLatest'
         failTaskOnFailedTests: true
       displayName: "Publish Unit Test Results - macOS"
-    - task: PublishCodeCoverageResults@1
+    - task: PublishCodeCoverageResults@2
       inputs:
         summaryFileLocation: '**/Artifacts/ccReport/CodeCoverage.xml'
         pathToSources: '$(System.DefaultWorkingDirectory)/src/Artifacts/ccReport'
