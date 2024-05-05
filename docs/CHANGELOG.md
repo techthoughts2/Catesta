@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.6.0]
+## [2.7.0]
 
 - Catesta template module changes
     - CI/CD Changes:
@@ -23,8 +23,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
             - Buildspec updates:
                 - `buildspec_pwsh_linux.yml` updated to dot net 8.
                 - `buildspec_pwsh_windows.yml` updated to dot net 8.
+            - AWS.Tools.Common bumped from `4.1.133` to `4.1.572`
+        - InvokeBuild bumped from `5.10.5` to `5.11.1`
+        - PSScriptAnalyzer bumped from `1.21.0` to `1.22.0`
 - Catesta primary module changes
     - Added additional tests for new AWS changes
+    - InvokeBuild bumped from `5.10.5` to `5.11.1`
+    - PSScriptAnalyzer bumped from `1.21.0` to `1.22.0`
 
 ## [2.4.0]
 

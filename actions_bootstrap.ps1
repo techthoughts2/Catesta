@@ -21,12 +21,12 @@ $modulesToInstall = New-Object System.Collections.Generic.List[object]
 # https://github.com/nightroman/Invoke-Build
 [void]$modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.10.5'
+            ModuleVersion = '5.11.1'
         }))
 # https://github.com/PowerShell/PSScriptAnalyzer
 [void]$modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'PSScriptAnalyzer'
-            ModuleVersion = '1.21.0'
+            ModuleVersion = '1.22.0'
         }))
 # https://github.com/PowerShell/platyPS
 # older version used due to: https://github.com/PowerShell/platyPS/issues/457

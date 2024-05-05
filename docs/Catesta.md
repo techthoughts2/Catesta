@@ -2,7 +2,7 @@
 Module Name: Catesta
 Module Guid: 6796b193-9013-468a-b022-837749af2d06
 Download Help Link: NA
-Help Version: 2.6.0
+Help Version: 2.7.0
 Locale: en-US
 ---
 
