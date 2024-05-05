@@ -60,29 +60,41 @@ elseif ($PLASTER_PARAM_RepoType -eq 'BitBucket') {
       - 'true'
       - 'false'
 
-
-
   CodeBuildTimeoutInMinutes:
     Type: Number
     Default: 30
     Description: The number of minutes before a CodeBuild build will timeout.
+
+<%
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+@'
+  # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
+  LinuxCodeBuildImage:
+    Type: String
+    Default : aws/codebuild/standard:7.0
+    Description: CodeBuild image to use for the build.
+    AllowedValues:
+      - aws/codebuild/standard:7.0
+      - aws/codebuild/amazonlinux2-x86_64-standard:5.0
+'@
+}
+%>
 
   LogRetentionInDays:
     Type: Number
     Default: 30
     Description: The number of days to retain the CodeBuild logs.
 
-  # https://docs.aws.amazon.com/codebuild/latest/userguide/create-project.html#create-project-cli
+  # https://docs.aws.amazon.com/codebuild/latest/userguide/create-project-cli.html
   #CodeBuildEnvironment:
   #  Type: String
   #  Default: WINDOWS_CONTAINER
   #  Description: The type of build environment.
   #  AllowedValues:
   #    - WINDOWS_SERVER_2019_CONTAINER
-  #    - WINDOWS_CONTAINER
   #    - LINUX_CONTAINER
 
-  # https://docs.aws.amazon.com/codebuild/latest/userguide/create-project.html#create-project-cli
+  # https://docs.aws.amazon.com/codebuild/latest/userguide/create-project-cli.html
   #CodeBuildComputeType:
   #  Type: String
   #  Default: BUILD_GENERAL1_MEDIUM
@@ -91,15 +103,17 @@ elseif ($PLASTER_PARAM_RepoType -eq 'BitBucket') {
   #    - BUILD_GENERAL1_SMALL
   #    - BUILD_GENERAL1_MEDIUM
   #    - BUILD_GENERAL1_LARGE
+  #    - BUILD_GENERAL1_2XLARGE
 
   # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
   #CodeBuildImage:
   #  Type: String
   #  Default : ws/codebuild/windows-base:2019-2.0
-  #  Description: The size of the CodeBuild instance. (Windows Containers do NOT support small)
+  #  Description: CodeBuild image to use for the build.
   #  AllowedValues:
-  #    - aws/codebuild/windows-base:2019-2.0
-  #    - aws/codebuild/windows-base:2019-1.0
+  #    - aws/codebuild/windows-base:2019-3.0
+  #    - aws/codebuild/amazonlinux2-x86_64-standard:5.0
+  #    - aws/codebuild/standard:7.0
 
   # BuildSpecFile:
   #   Type: String
@@ -143,6 +157,13 @@ Metadata:
         Parameters:
           - CodeBuildBadgeEnabled
           - CodeBuildTimeoutInMinutes
+<%
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+@'
+          - LinuxCodeBuildImage
+'@
+}
+%>
           - LogRetentionInDays
           #- CodeBuildEnvironment
           #- CodeBuildComputeType
@@ -167,6 +188,14 @@ Metadata:
         default: Badge Enabled
       CodeBuildTimeoutInMinutes:
         default: Timeout in Minutes
+<%
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+@'
+      LinuxCodeBuildImage:
+        default: Linux CodeBuild Image
+'@
+}
+%>
       LogRetentionInDays:
         default: Log Retention in Days
       #CodeBuildEnvironment:
@@ -284,6 +313,7 @@ Resources:
     if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
 
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html
   CodeBuildpsProjectLogGroup:
     Type: AWS::Logs::LogGroup
     DeletionPolicy: Delete
@@ -311,10 +341,9 @@ Resources:
       Environment:
         #ComputeType: !Ref CodeBuildComputeType
         ComputeType: BUILD_GENERAL1_MEDIUM
-        Image: aws/codebuild/windows-base:2019-2.0
+        Image: aws/codebuild/windows-base:2019-3.0
         # Type: !Ref CodeBuildEnvironment
         Type: WINDOWS_SERVER_2019_CONTAINER
-        # Type: WINDOWS_CONTAINER
       LogsConfig:
         CloudWatchLogs:
           GroupName:
@@ -352,6 +381,7 @@ Resources:
     if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
 
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html
   CodeBuildpwshcoreProjectLogGroup:
     Type: AWS::Logs::LogGroup
     DeletionPolicy: Delete
@@ -380,10 +410,9 @@ Resources:
       Environment:
         #ComputeType: !Ref CodeBuildComputeType
         ComputeType: BUILD_GENERAL1_MEDIUM
-        Image: aws/codebuild/windows-base:2019-2.0
+        Image: aws/codebuild/windows-base:2019-3.0
         Type: WINDOWS_SERVER_2019_CONTAINER
         # Type: !Ref CodeBuildEnvironment
-        # Type: WINDOWS_CONTAINER
       LogsConfig:
         CloudWatchLogs:
           GroupName:
@@ -421,6 +450,7 @@ Resources:
     if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
 
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html
   CodeBuildpwshProjectLogGroup:
     Type: AWS::Logs::LogGroup
     DeletionPolicy: Delete
@@ -449,7 +479,7 @@ Resources:
       Environment:
         #ComputeType: !Ref CodeBuildComputeType
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/standard:7.0
+        Image: !Ref LinuxCodeBuildImage
         #Type: !Ref CodeBuildEnvironment
         Type: LINUX_CONTAINER
       LogsConfig:

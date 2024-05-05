@@ -5,13 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.5.0]
+## [2.6.0]
 
 - Catesta template module changes
     - CI/CD Changes:
         - AWS:
             - Each CodeBuild project now has its own `AWS::Logs::LogGroup` created with a configurable retention policy.
             - Minor changes to formatting in CFNs to satisfy new `cfn-lint` requirements.
+            - Windows CodeBuild project containers upgraded to latest image:
+                - `aws/codebuild/windows-base:2019-2.0` to `aws/codebuild/windows-base:2019-3.0`
+            - Linux CodeBuild project containers upgraded to latest images:
+                - Previously hard set to: `aws/codebuild/standard:7.0`
+                - Linux CodeBuild project image now parameterized and supports either:
+                    - `aws/codebuild/standard:7.0` (default)
+                    - `aws/codebuild/amazonlinux2-x86_64-standard:5.0`
+            - Updated CodeCommit based builds Lambda triggers from `python3.9` to `python3.12` runtime.
+            - Buildspec updates:
+                - `buildspec_pwsh_linux.yml` updated to dot net 8.
+                - `buildspec_pwsh_windows.yml` updated to dot net 8.
+- Catesta primary module changes
+    - Added additional tests for new AWS changes
 
 ## [2.4.0]
 
