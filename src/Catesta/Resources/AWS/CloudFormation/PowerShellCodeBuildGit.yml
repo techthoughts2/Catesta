@@ -67,6 +67,11 @@ elseif ($PLASTER_PARAM_RepoType -eq 'BitBucket') {
     Default: 30
     Description: The number of minutes before a CodeBuild build will timeout.
 
+  LogRetentionInDays:
+    Type: Number
+    Default: 30
+    Description: The number of days to retain the CodeBuild logs.
+
   # https://docs.aws.amazon.com/codebuild/latest/userguide/create-project.html#create-project-cli
   #CodeBuildEnvironment:
   #  Type: String
@@ -138,6 +143,7 @@ Metadata:
         Parameters:
           - CodeBuildBadgeEnabled
           - CodeBuildTimeoutInMinutes
+          - LogRetentionInDays
           #- CodeBuildEnvironment
           #- CodeBuildComputeType
           # - BuildSpecFile
@@ -161,6 +167,8 @@ Metadata:
         default: Badge Enabled
       CodeBuildTimeoutInMinutes:
         default: Timeout in Minutes
+      LogRetentionInDays:
+        default: Log Retention in Days
       #CodeBuildEnvironment:
       #  default: Container Type
       #CodeBuildComputeType:
@@ -195,7 +203,7 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
@@ -206,7 +214,7 @@ Resources:
       Policies:
         - PolicyName: CBCloudWatchPublishing
           PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
@@ -214,10 +222,39 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource:
-                  - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/<%=$PLASTER_PARAM_ModuleName%>*"
+<%
+    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
+@'
+                  - Fn::GetAtt:
+                    - CodeBuildpsProjectLogGroup
+                    - Arn
+'@
+    }
+%>
+
+<%
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
+@'
+                  - Fn::GetAtt:
+                    - CodeBuildpwshcoreProjectLogGroup
+                    - Arn
+'@
+    }
+%>
+
+<%
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+@'
+                  - Fn::GetAtt:
+                    - CodeBuildpwshProjectLogGroup
+                    - Arn
+'@
+    }
+%>
+
         - PolicyName: CBS3ArtifactAccess
           PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
@@ -225,10 +262,10 @@ Resources:
                   - s3:GetObject
                   - s3:GetObjectVersion
                 Resource:
-                  - !Sub arn:aws:s3:::codepipeline-${AWS::Region}-*
+                  - !Sub arn:${AWS::Partition}:s3:::codepipeline-${AWS::Region}-*
         - PolicyName: CBReportAccess
           PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
@@ -241,11 +278,23 @@ Resources:
                   - codebuild:BatchPutCodeCoverages
                   - codebuild:BatchPutTestCases
                 Resource:
-                  - !Sub "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:report-group/<%=$PLASTER_PARAM_ModuleName%>*"
+                  - !Sub "arn:${AWS::Partition}:codebuild:${AWS::Region}:${AWS::AccountId}:report-group/<%=$PLASTER_PARAM_ModuleName%>*"
 
 <%
     if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
+
+  CodeBuildpsProjectLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      LogGroupName: !Sub ${ProjectName}-windows-powershell
+      RetentionInDays: !Ref LogRetentionInDays
+      Tags:
+      - Key: Service
+        Value: !Ref ProjectName
+
   # The CodeBuild Project configuration
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
@@ -266,6 +315,11 @@ Resources:
         # Type: !Ref CodeBuildEnvironment
         Type: WINDOWS_SERVER_2019_CONTAINER
         # Type: WINDOWS_CONTAINER
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName:
+            Ref: CodeBuildpsProjectLogGroup
+          Status: ENABLED
       Name: !Join
         - '-'
         - - !Ref ProjectName
@@ -297,6 +351,19 @@ Resources:
 <%
     if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
+
+  CodeBuildpwshcoreProjectLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      LogGroupName:
+        Fn::Sub: ${ProjectName}-windows-pwsh
+      RetentionInDays: !Ref LogRetentionInDays
+      Tags:
+      - Key: Service
+        Value: !Ref ProjectName
+
   # The CodeBuild Project configuration
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
@@ -317,6 +384,11 @@ Resources:
         Type: WINDOWS_SERVER_2019_CONTAINER
         # Type: !Ref CodeBuildEnvironment
         # Type: WINDOWS_CONTAINER
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName:
+            Ref: CodeBuildpwshcoreProjectLogGroup
+          Status: ENABLED
       Name: !Join
         - '-'
         - - !Ref ProjectName
@@ -348,6 +420,19 @@ Resources:
 <%
     if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
+
+  CodeBuildpwshProjectLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      LogGroupName:
+        Fn::Sub: ${ProjectName}-linux-pwsh
+      RetentionInDays: !Ref LogRetentionInDays
+      Tags:
+      - Key: Service
+        Value: !Ref ProjectName
+
   # The CodeBuild Project configuration
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
@@ -367,6 +452,11 @@ Resources:
         Image: aws/codebuild/standard:7.0
         #Type: !Ref CodeBuildEnvironment
         Type: LINUX_CONTAINER
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName:
+            Ref: CodeBuildpwshProjectLogGroup
+          Status: ENABLED
       Name: !Join
         - '-'
         - - !Ref ProjectName
@@ -494,18 +584,11 @@ Outputs:
     if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
   CodeBuildpsProject:
-    Description: The name of the CodeBuild Project.
+    Description: The name of the Windows PowerShell CodeBuild Project.
     Value: !Ref CodeBuildpsProject
   CodeBuildpsURL:
-    Description: CodeBuild URL
-    Value:
-      Fn::Join:
-        - ""
-        - - https://console.aws.amazon.com/codebuild/home?region=
-          - Ref: AWS::Region
-          - "#/projects/"
-          - Ref: CodeBuildpsProject
-          - "/view"
+    Description: Windows PowerShell CodeBuild URL
+    Value: !Sub "https://console.aws.amazon.com/codebuild/home?region=${AWS::Region}#/projects/${CodeBuildpsProject}/view"
 '@
     }
 %>
@@ -513,18 +596,11 @@ Outputs:
     if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
   CodeBuildpwshcoreProject:
-    Description: The name of the CodeBuild Project.
+    Description: The name of the Windows pwsh CodeBuild Project.
     Value: !Ref CodeBuildpwshcoreProject
   CodeBuildpwshcoreURL:
-    Description: CodeBuild URL
-    Value:
-      Fn::Join:
-        - ""
-        - - https://console.aws.amazon.com/codebuild/home?region=
-          - Ref: AWS::Region
-          - "#/projects/"
-          - Ref: CodeBuildpwshcoreProject
-          - "/view"
+    Description: Windows pwsh CodeBuild URL
+    Value: !Sub "https://console.aws.amazon.com/codebuild/home?region=${AWS::Region}#/projects/${CodeBuildpwshcoreProject}/view"
 '@
     }
 %>
@@ -532,18 +608,11 @@ Outputs:
     if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
   CodeBuildpwshProject:
-    Description: The name of the CodeBuild Project.
+    Description: The name of the Linux pwsh CodeBuild Project.
     Value: !Ref CodeBuildpwshProject
   CodeBuildpwshURL:
-    Description: CodeBuild URL
-    Value:
-      Fn::Join:
-        - ""
-        - - https://console.aws.amazon.com/codebuild/home?region=
-          - Ref: AWS::Region
-          - "#/projects/"
-          - Ref: CodeBuildpwshProject
-          - "/view"
+    Description: Linux pwsh CodeBuild URL
+    Value: !Sub "https://console.aws.amazon.com/codebuild/home?region=${AWS::Region}#/projects/${CodeBuildpwshProject}/view"
 '@
     }
 %>
