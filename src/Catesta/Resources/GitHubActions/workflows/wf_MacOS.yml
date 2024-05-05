@@ -5,7 +5,7 @@
 # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions
 # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-powershell
 # https://github.com/actions/upload-artifact#where-does-the-upload-go
-name: ActionsTest-MacOS-Build
+name: <%=$PLASTER_PARAM_ModuleName%>-MacOS
 on:
   pull_request:
     paths-ignore:
