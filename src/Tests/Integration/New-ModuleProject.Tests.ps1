@@ -271,6 +271,66 @@ Describe 'Module Integration Tests' {
                     $cfnContent | Should -BeLike "*GITHUB*"
                 } #it
 
+                It 'should generate a CodeBuild based module stored on GitLab with all required elements' {
+                    $moduleParameters = @{
+                        VAULT       = 'text'
+                        ModuleName  = 'modulename'
+                        Description = 'text'
+                        Version     = '0.0.1'
+                        FN          = 'user full name'
+                        CICD        = 'CODEBUILD'
+                        AWSOptions  = 'ps', 'pwshcore', 'pwsh'
+                        RepoType    = 'GITLAB'
+                        ReadtheDocs = 'NONE'
+                        License     = 'MIT'
+                        Changelog   = 'CHANGELOG'
+                        COC         = 'CONDUCT'
+                        Contribute  = 'CONTRIBUTING'
+                        Security    = 'SECURITY'
+                        CodingStyle = 'Stroustrup'
+                        Help        = 'Yes'
+                        Pester      = '5'
+                        S3Bucket    = 'PSGallery'
+                        PassThru    = $true
+                        NoLogo      = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $codeBuildModuleFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
+                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
+                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $true
+                    $powershellContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_powershell_windows.yml')
+                    $powershellContent = Get-Content -Path $powershellContentPath -Raw
+                    $powershellContent | Should -BeLike '*modulename*'
+                    $linuxContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_pwsh_linux.yml')
+                    $linuxContent = Get-Content -Path $linuxContentPath -Raw
+                    $linuxContent | Should -BeLike '*modulename*'
+                    $pwshContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_pwsh_windows.yml')
+                    $pwshContent = Get-Content -Path $pwshContentPath -Raw
+                    $pwshContent | Should -BeLike '*modulename*'
+
+                    $codeBuildModuleFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $true
+
+                    $codeBuildModuleFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $true
+                    $installContentPath = [System.IO.Path]::Combine($outPutPath, 'install_modules.ps1')
+                    $installContent = Get-Content -Path $installContentPath -Raw
+                    $installContent | Should -BeLike '*$galleryDownload = $true*'
+
+                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
+                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $false
+                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGitLab.yml') | Should -BeExactly $true
+
+                    $cfnContentPath = [System.IO.Path]::Combine($outPutPath, 'CloudFormation', 'PowerShellCodeBuildGitLab.yml')
+                    $cfnContent = Get-Content -Path $cfnContentPath -Raw
+                    $cfnContent | Should -BeLike "*CodeBuildpsProject*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshcoreProject*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshProject*"
+                    $cfnContent | Should -BeLike "*GITLAB*"
+                } #it
+
                 It 'should generate a CodeBuild based module stored on Bitbucket with all required elements' {
                     $moduleParameters = @{
                         VAULT       = 'text'

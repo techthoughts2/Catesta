@@ -5,11 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.8.0]
+## [2.9.0]
 
 - Catesta template module changes
     - CI/CD Changes:
         - AWS:
+            - GitLab added as a supported source for CodeBuild projects
             - Each CodeBuild project now has its own `AWS::Logs::LogGroup` created with a configurable retention policy.
             - Minor changes to formatting in CFNs to satisfy new `cfn-lint` requirements.
             - Windows CodeBuild project containers upgraded to latest image:
@@ -34,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - PSScriptAnalyzer bumped from `1.21.0` to `1.22.0`
     - Documentation updates
         - Updated README to use new badge urls for action builds
+        - Updated Catesta - AWS CodeBuild Integration
 
 ## [2.4.0]
 
