@@ -69,8 +69,6 @@ Catesta automatically configures your AWS CodeBuild PowerShell project to genera
 
 #### Adding CodeBuild OATH to your Project Repository
 
-*Note: for GitHub and Bitbucket - [source doc]()*
-
 AWS documentation for [ProjectSource](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_ProjectSource.html) states that OAUTH should be set for GitHub and Bitbucket.
 
 In order to accomplish [source provider access](https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html#access-tokens-github) to your project's repo using OATH, you will first need to configure CodeBuild in the AWS Console.
