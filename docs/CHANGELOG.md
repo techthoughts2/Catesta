@@ -5,32 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.9.0]
+## [2.10.0]
 
 - Catesta template module changes
     - CI/CD Changes:
-        - AWS:
+        - GitHub Actions with CodeBuild (***new***):
+            - Added support for new CI/CD option which leverages GitHub Actions that run on AWS CodeBuild. This option generates both GitHub Action workflows as well as CFN templates for deployment to AWS for creating CodeBuild projects that integrate with the actions of your GitHub project.
+        - AWS CodeBuild:
             - GitLab added as a supported source for CodeBuild projects
             - Each CodeBuild project now has its own `AWS::Logs::LogGroup` created with a configurable retention policy.
             - Minor changes to formatting in CFNs to satisfy new `cfn-lint` requirements.
             - Windows CodeBuild project containers upgraded to latest image:
                 - `aws/codebuild/windows-base:2019-2.0` to `aws/codebuild/windows-base:2019-3.0`
-            - Linux CodeBuild project containers upgraded to latest images:
-                - Previously hard set to: `aws/codebuild/standard:7.0`
-                - Linux CodeBuild project image now parameterized and supports either:
-                    - `aws/codebuild/standard:7.0` (default)
-                    - `aws/codebuild/amazonlinux2-x86_64-standard:5.0`
+            - Linux CodeBuild project image now parameterized (Previously hard set to: `aws/codebuild/standard:7.0`) and supports either:
+                - `aws/codebuild/standard:7.0` (default)
+                - `aws/codebuild/amazonlinux2-x86_64-standard:5.0`
             - Updated CodeCommit based builds Lambda triggers from `python3.9` to `python3.12` runtime.
             - Buildspec updates:
                 - `buildspec_pwsh_linux.yml` updated to dot net 8.
                 - `buildspec_pwsh_windows.yml` updated to dot net 8.
             - AWS.Tools.Common bumped from `4.1.133` to `4.1.572`
-        - GitHub:
+        - GitHub Actions:
             - Workflow actions now include the module name in the action name
         - InvokeBuild bumped from `5.10.5` to `5.11.1`
         - PSScriptAnalyzer bumped from `1.21.0` to `1.22.0`
 - Catesta primary module changes
-    - Added additional tests for new AWS changes
+    - Added additional tests for:
+        - new AWS changes
+        - new GitHub Actions with Codebuild capabilities
     - InvokeBuild bumped from `5.10.5` to `5.11.1`
     - PSScriptAnalyzer bumped from `1.21.0` to `1.22.0`
     - Documentation updates

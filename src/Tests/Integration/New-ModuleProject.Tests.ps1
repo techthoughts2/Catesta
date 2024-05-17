@@ -806,6 +806,72 @@ Describe 'Module Integration Tests' {
 
             } #github_actions
 
+            Context 'GitHub Actions with CodeBuild' {
+
+                It 'should generate a GitHub Actions based module stored on GitHub running on CodeBuild with all required elements' {
+                    $moduleParameters = @{
+                        VAULT            = 'text'
+                        ModuleName       = 'modulename'
+                        Description      = 'text'
+                        Version          = '0.0.1'
+                        FN               = 'user full name'
+                        CICD             = 'GHACODEBUILD'
+                        GitHubACBOptions = 'ps', 'pwshcore', 'pwsh'
+                        RepoType         = 'GITHUB'
+                        ReadtheDocs      = 'NONE'
+                        License          = 'NONE'
+                        Changelog        = 'NONE'
+                        COC              = 'NONE'
+                        Contribute       = 'NONE'
+                        Security         = 'NONE'
+                        CodingStyle      = 'Stroustrup'
+                        Help             = 'Yes'
+                        Pester           = '5'
+                        PassThru         = $true
+                        NoLogo           = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $ghaCBModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $ghaCBModuleFiles.Name.Contains('wf_Linux.yml') | Should -BeExactly $true
+                    $ghaCBModuleFiles.Name.Contains('wf_MacOS.yml') | Should -BeExactly $false
+                    $ghaCBModuleFiles.Name.Contains('wf_Windows_Core.yml') | Should -BeExactly $true
+                    $ghaCBModuleFiles.Name.Contains('wf_Windows.yml') | Should -BeExactly $true
+
+                    $wfLinuxContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Linux.yml')
+                    $wfLinuxContent = Get-Content -Path $wfLinuxContentPath -Raw
+                    $wfLinuxContent | Should -BeLike '*modulename*'
+                    $wfLinuxContent | Should -BeLike '*codebuild-*'
+
+                    $wfWindowsCoreContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Windows_Core.yml')
+                    $wfWindowsCoreContent = Get-Content -Path $wfWindowsCoreContentPath -Raw
+                    $wfWindowsCoreContent | Should -BeLike '*modulename*'
+                    $wfWindowsCoreContent | Should -BeLike '*codebuild-*'
+
+                    $wfWindowsContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Windows.yml')
+                    $wfWindowsContent = Get-Content -Path $wfWindowsContentPath -Raw
+                    $wfWindowsContent | Should -BeLike '*modulename*'
+                    $wfWindowsContent | Should -BeLike '*codebuild-*'
+
+                    $ghaCBModuleFiles.Name.Contains('PowerShellGitHubActionsCodeBuild.yml') | Should -BeExactly $true
+
+                    $cfnContentPath = [System.IO.Path]::Combine($outPutPath, 'CloudFormation', 'PowerShellGitHubActionsCodeBuild.yml')
+                    $cfnContent = Get-Content -Path $cfnContentPath -Raw
+                    $cfnContent | Should -BeLike "*CodeBuildpsProject*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshcoreProject*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshProject*"
+                    $cfnContent | Should -BeLike "*CodeBuildpsProjectLogGroup*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshcoreProjectLogGroup*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshProjectLogGroup*"
+                    $cfnContent | Should -BeLike "*GITHUB*"
+                    $cfnContent | Should -BeLike "*WORKFLOW_JOB_QUEUED*"
+
+                } #it
+
+            } #github_actions_codebuild
+
             Context 'Bitbucket Build' {
 
                 It 'should generate a Bitbucket based module stored on Bitbucket with all required elements' {

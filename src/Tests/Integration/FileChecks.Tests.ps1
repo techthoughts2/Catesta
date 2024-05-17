@@ -25,6 +25,7 @@ Describe 'File Checks' {
         $gitFiles = Get-ChildItem -Path "$resourcePath\GitHubFiles\*" -Recurse
         $azureRepoFiles = Get-ChildItem -Path "$resourcePath\AzureRepoFiles\*" -Recurse
         $awsFiles = Get-ChildItem -Path "$resourcePath\AWS\*" -Recurse
+        $githubActionCodeBuildFiles = Get-ChildItem -Path "$resourcePath\GitHubActionsCodeBuild\*" -Recurse
         $githubFiles = Get-ChildItem -Path "$resourcePath\GitHubActions\*" -Recurse
         $azureFiles = Get-ChildItem -Path "$resourcePath\Azure\*" -Recurse
         $appVeyorFiles = Get-ChildItem -Path "$resourcePath\AppVeyor\*" -Recurse
@@ -192,6 +193,7 @@ Describe 'File Checks' {
         It 'should have all workflow files' {
             $githubFiles.Name.Contains('wf_Linux.yml') | Should -BeExactly $true
             $githubFiles.Name.Contains('wf_MacOS.yml') | Should -BeExactly $true
+            $githubFiles.Name.Contains('wf_Windows_Core.yml') | Should -BeExactly $true
             $githubFiles.Name.Contains('wf_Windows.yml') | Should -BeExactly $true
         } #it
 
@@ -200,6 +202,25 @@ Describe 'File Checks' {
         } #it
 
     } #context_githubactions
+
+    Context 'GitHub Actions with CodeBuild' {
+
+        It 'should have all workflow files' {
+            $githubActionCodeBuildFiles.Name.Contains('wf_Linux.yml') | Should -BeExactly $true
+            $githubActionCodeBuildFiles.Name.Contains('wf_MacOS.yml') | Should -BeExactly $false
+            $githubActionCodeBuildFiles.Name.Contains('wf_Windows_Core.yml') | Should -BeExactly $true
+            $githubActionCodeBuildFiles.Name.Contains('wf_Windows.yml') | Should -BeExactly $true
+        } #it
+
+        It 'should have a actions bootstrap file' {
+            $githubActionCodeBuildFiles.Name.Contains('actions_bootstrap.ps1') | Should -BeExactly $true
+        } #it
+
+        It 'should have all required CloudFormation files' {
+            $githubActionCodeBuildFiles.Name.Contains('PowerShellGitHubActionsCodeBuild.yml') | Should -BeExactly $true
+        } #it
+
+    } #context_githubactionscb
 
     Context 'Azure Pipelines' {
 

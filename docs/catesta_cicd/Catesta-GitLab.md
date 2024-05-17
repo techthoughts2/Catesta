@@ -2,7 +2,7 @@
 
 ## Synopsis
 
-Scaffolds a new PowerShell module or vault project intended for CI/CD workflow using [GitLab](https://gitlab.com/).
+Scaffolds a new PowerShell module or vault project intended for CI/CD workflow using [GitLab](https://docs.gitlab.com/ee/ci/) .
 
 ## Getting Started
 

@@ -37,6 +37,7 @@ New-VaultProject -DestinationPath $outPutPath
     * [M] Module Only
     * [G] GitHub Actions
     * [C] AWS CodeBuild
+    * [S] GitHub Actions on AWS CodeBuild
     * [P] Appveyor
     * [L] GitLab CI/CD
     * [B] BitBucket Pipelines
@@ -70,6 +71,7 @@ The options listed in the prompt represent the different CI/CD tools that Catest
 [M] Module Only
 [G] GitHub Actions
 [C] AWS CodeBuild
+[S] GitHub Actions on AWS CodeBuild
 [P] Appveyor
 [L] GitLab CI/CD
 [B] BitBucket Pipelines
@@ -84,11 +86,13 @@ It's important to note that the choice you make here will impact the setup and c
 
 If you need help with the options or are unsure which to choose, you can review additional Catesta documentation that covers the process of each CI/CD integration in depth:
 
-* [Catesta - AWS Doc](catesta_cicd/Catesta-AWS.md)
 * [Catesta - GitHub Actions Doc](catesta_cicd/Catesta-GHActions.md)
-* [Catesta - Azure Pipelines Doc](catesta_cicd/Catesta-Azure.md)
-* [Catesta - Bitbucket Doc](catesta_cicd/Catesta-Bitbucket.md)
+* [Catesta - AWS CodeBuild Doc](catesta_cicd/Catesta-AWS.md)
+* [Catesta - GitHub Actions on AWS CodeBuild Doc](catesta_cicd/Catesta-GHActionsAWSCodeBuild.md)
+* [Catesta - AppVeyor Doc](catesta_cicd/Catesta-AppVeyor.md)
 * [Catesta - GitLab Doc](catesta_cicd/Catesta-GitLab.md)
+* [Catesta - Bitbucket Doc](catesta_cicd/Catesta-Bitbucket.md)
+* [Catesta - Azure Pipelines Doc](catesta_cicd/Catesta-Azure.md)
 
 #### Understanding Build Configuration Selection
 

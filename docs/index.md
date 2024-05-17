@@ -66,11 +66,13 @@ Catesta can build two types of projects:
 Selections
 
 * *[Selection]* CI/CD build integration:
-    * [AWS](https://aws.amazon.com/codebuild/)
-    * [GitHub Actions](https://help.github.com/actions)
-    * [Azure Pipelines](https://azure.microsoft.com/services/devops/)
-    * [AppVeyor](https://www.appveyor.com/)
-    * [Bitbucket Pipelines](https://bitbucket.org/)
+    * [GitHub Actions](catesta_cicd/Catesta-GHActions.md)
+    * [AWS CodeBuild](catesta_cicd/Catesta-AWS.md)
+    * [GitHub Actions on AWS CodeBuild](catesta_cicd/Catesta-GHActionsAWSCodeBuild.md)
+    * [AppVeyor](catesta_cicd/Catesta-AppVeyor.md)
+    * [GitLab CI/CD](catesta_cicd/Catesta-GitLab.md)
+    * [Bitbucket Pipelines](catesta_cicd/Catesta-Bitbucket.md)
+    * [Azure Pipelines](catesta_cicd/Catesta-Azure.md)
 * *[Selection]* Build types for easy cross-platform testing
     * Windows PowerShell
     * Windows pwsh
