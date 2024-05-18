@@ -5,7 +5,9 @@
 # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions
 # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-powershell
 # https://github.com/actions/upload-artifact#where-does-the-upload-go
-name: <%=$PLASTER_PARAM_ModuleName%>-Linux
+# * NOTE: Make sure that your <project-name> matches the name of the CB project that you created in your AWS account.
+# * If you used the generated CFN template, the project name will be handled for you.
+name: <%=$PLASTER_PARAM_ModuleName%>-Windows-pwsh
 on:
   pull_request:
     paths-ignore:
@@ -18,7 +20,7 @@ on:
 jobs:
   test:
     name: Run Tests
-    runs-on: ubuntu-latest
+    runs-on: codebuild-<%=$PLASTER_PARAM_ModuleName%>-pwsh_gha_cb_windows-${{ github.run_id }}-${{ github.run_attempt }}
     strategy:
       fail-fast: false
     steps:
@@ -44,11 +46,11 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: pester-results
-        path: ./src/Artifacts/testOutput
+        path: .\src\Artifacts\testOutput
         if-no-files-found: warn
     - name: Upload zip module archive build
       uses: actions/upload-artifact@v3
       with:
         name: zip-archive
-        path: ./src/Archive
+        path: .\src\Archive
         if-no-files-found: warn

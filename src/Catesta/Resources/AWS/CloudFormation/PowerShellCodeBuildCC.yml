@@ -31,22 +31,41 @@ Parameters:
     Default: 30
     Description: The number of minutes before a CodeBuild build will timeout.
 
+<%
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+@'
+  # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
+  LinuxCodeBuildImage:
+    Type: String
+    Default : aws/codebuild/standard:7.0
+    Description: CodeBuild image to use for the build.
+    AllowedValues:
+      - aws/codebuild/standard:7.0
+      - aws/codebuild/amazonlinux2-x86_64-standard:5.0
+'@
+}
+%>
+
+  LogRetentionInDays:
+    Type: Number
+    Default: 30
+    Description: The number of days to retain the CodeBuild logs.
+
   PrimaryBranchName:
     Type: String
     Default: main
     Description: The (case sensitive) branch name that represents your primary branch
 
-  # https://docs.aws.amazon.com/codebuild/latest/userguide/create-project.html#create-project-cli
+  # https://docs.aws.amazon.com/codebuild/latest/userguide/create-project-cli.html
   # CodeBuildEnvironment:
   #   Type: String
   #   Default: WINDOWS_CONTAINER
   #   Description: The type of build environment.
   #   AllowedValues:
   #     - WINDOWS_SERVER_2019_CONTAINER
-  #     - WINDOWS_CONTAINER
   #     - LINUX_CONTAINER
 
-  # https://docs.aws.amazon.com/codebuild/latest/userguide/create-project.html#create-project-cli
+  # https://docs.aws.amazon.com/codebuild/latest/userguide/create-project-cli.html
   # CodeBuildComputeType:
   #   Type: String
   #   Default: BUILD_GENERAL1_MEDIUM
@@ -55,15 +74,17 @@ Parameters:
   #     - BUILD_GENERAL1_SMALL
   #     - BUILD_GENERAL1_MEDIUM
   #     - BUILD_GENERAL1_LARGE
+  #     - BUILD_GENERAL1_2XLARGE
 
   # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
   #CodeBuildImage:
   #  Type: String
   #  Default : ws/codebuild/windows-base:2019-2.0
-  #  Description: The size of the CodeBuild instance. (Windows Containers do NOT support small)
+  #  Description: CodeBuild image to use for the build.
   #  AllowedValues:
-  #    - aws/codebuild/windows-base:2019-2.0
-  #    - aws/codebuild/windows-base:2019-1.0
+  #    - aws/codebuild/windows-base:2019-3.0
+  #    - aws/codebuild/amazonlinux2-x86_64-standard:5.0
+  #    - aws/codebuild/standard:7.0
 
   # BuildSpecFile:
   #   Type: String
@@ -102,6 +123,14 @@ Metadata:
         Parameters:
           - CodeBuildBadgeEnabled
           - CodeBuildTimeoutInMinutes
+<%
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+@'
+          - LinuxCodeBuildImage
+'@
+}
+%>
+          - LogRetentionInDays
           # - CodeBuildEnvironment
           # - CodeBuildComputeType
           # - BuildSpecFile
@@ -119,6 +148,16 @@ Metadata:
         default: Badge Enabled
       CodeBuildTimeoutInMinutes:
         default: Timeout in Minutes
+<%
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+@'
+      LinuxCodeBuildImage:
+        default: Linux CodeBuild Image
+'@
+}
+%>
+      LogRetentionInDays:
+        default: Log Retention in Days
       PrimaryBranchName:
         default: Primary Branch Name
       # CodeBuildEnvironment:
@@ -165,7 +204,7 @@ Resources:
         IgnorePublicAcls: true
         RestrictPublicBuckets: true
       Tags:
-        - Key: Purpose
+        - Key: Service
           Value: CodeCommitRepositoryName
 
   S3BucketDevelopmentBuilds:
@@ -194,7 +233,7 @@ Resources:
         IgnorePublicAcls: true
         RestrictPublicBuckets: true
       Tags:
-        - Key: Purpose
+        - Key: Service
           Value: CodeCommitRepositoryName
 
   # The IAM Role CodeBuild will run the container as
@@ -222,7 +261,35 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource:
-                  - '*'
+<%
+    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
+@'
+                  - Fn::GetAtt:
+                    - CodeBuildpsProjectLogGroup
+                    - Arn
+'@
+    }
+%>
+
+<%
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
+@'
+                  - Fn::GetAtt:
+                    - CodeBuildpwshcoreProjectLogGroup
+                    - Arn
+'@
+    }
+%>
+
+<%
+    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+@'
+                  - Fn::GetAtt:
+                    - CodeBuildpwshProjectLogGroup
+                    - Arn
+'@
+    }
+%>
         - PolicyName: CodePipelineS3
           PolicyDocument:
             Version: '2012-10-17'
@@ -292,8 +359,8 @@ Resources:
               - sts:AssumeRole
       Path: /
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-        - arn:aws:iam::aws:policy/AWSCodeBuildDeveloperAccess
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AWSCodeBuildDeveloperAccess
 
   # An SNS Topic used for CodeBuild status updates
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topic.html
@@ -301,7 +368,7 @@ Resources:
     Type: AWS::SNS::Topic
     Properties:
       Tags:
-        - Key: Purpose
+        - Key: Service
           Value: CodeCommitRepositoryName
 
   # The SNS Topic Policy
@@ -354,7 +421,7 @@ Resources:
       RepositoryDescription: !Ref CodeCommitRepositoryDescription
       RepositoryName: !Ref CodeCommitRepositoryName
       Tags:
-        - Key: Purpose
+        - Key: Service
           Value: CodeCommitRepositoryName
       Triggers:
 <%
@@ -398,8 +465,26 @@ Resources:
 <%
     if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
 @'
+
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html
+  CodeBuildpsProjectLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      LogGroupName:
+        Fn::Sub: ${CodeCommitRepositoryName}-windows-powershell
+      RetentionInDays: !Ref LogRetentionInDays
+      Tags:
+      - Key: Service
+        Value: !Ref CodeCommitRepositoryName
+
   # Windows PowerShell CodeBuild
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html
+  # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html
   CodeBuildProjectWPS:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -409,7 +494,7 @@ Resources:
       Description: !Ref CodeCommitRepositoryDescription
       Environment:
         ComputeType: BUILD_GENERAL1_MEDIUM
-        Image: aws/codebuild/windows-base:2019-2.0
+        Image: aws/codebuild/windows-base:2019-3.0
         Type: WINDOWS_SERVER_2019_CONTAINER
         EnvironmentVariables:
           - Name: main_bucket
@@ -418,6 +503,11 @@ Resources:
           - Name: s3_prefix
             Value: placeholder
             Type: PLAINTEXT
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName:
+            Ref: CodeBuildpsProjectLogGroup
+          Status: ENABLED
       Name:
         !Join
         - '-'
@@ -429,10 +519,8 @@ Resources:
         Location: !Sub 'https://git-codecommit.${AWS::Region}.amazonaws.com/v1/repos/${CodeCommitRepositoryName}'
         BuildSpec: buildspec_powershell_windows.yml
       Tags:
-        - Key: Purpose
-          Value: CodeCommitRepositoryName
         - Key: Service
-          Value: PowerShellBuildPipeline
+          Value: CodeCommitRepositoryName
       TimeoutInMinutes: !Ref CodeBuildTimeoutInMinutes
 '@
     }
@@ -441,8 +529,26 @@ Resources:
 <%
     if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
 @'
+
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html
+  CodeBuildpwshcoreProjectLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      LogGroupName:
+        Fn::Sub: ${CodeCommitRepositoryName}-windows-pwsh
+      RetentionInDays: !Ref LogRetentionInDays
+      Tags:
+      - Key: Service
+        Value: !Ref CodeCommitRepositoryName
+
   # Windows Pwsh CodeBuild
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html
+  # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html
   CodeBuildProjectWPwsh:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -452,7 +558,7 @@ Resources:
       Description: !Ref CodeCommitRepositoryDescription
       Environment:
         ComputeType: BUILD_GENERAL1_MEDIUM
-        Image: aws/codebuild/windows-base:2019-2.0
+        Image: aws/codebuild/windows-base:2019-3.0
         Type: WINDOWS_SERVER_2019_CONTAINER
         EnvironmentVariables:
           - Name: main_bucket
@@ -461,6 +567,11 @@ Resources:
           - Name: s3_prefix
             Value: placeholder
             Type: PLAINTEXT
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName:
+            Ref: CodeBuildpwshcoreProjectLogGroup
+          Status: ENABLED
       Name:
         !Join
         - '-'
@@ -472,10 +583,8 @@ Resources:
         Location: !Sub 'https://git-codecommit.${AWS::Region}.amazonaws.com/v1/repos/${CodeCommitRepositoryName}'
         BuildSpec: buildspec_pwsh_windows.yml
       Tags:
-        - Key: Purpose
-          Value: CodeCommitRepositoryName
         - Key: Service
-          Value: PowerShellBuildPipeline
+          Value: CodeCommitRepositoryName
       TimeoutInMinutes: !Ref CodeBuildTimeoutInMinutes
 '@
     }
@@ -484,9 +593,26 @@ Resources:
 <%
     if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
 @'
+
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html
+  CodeBuildpwshProjectLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      LogGroupName:
+        Fn::Sub: ${CodeCommitRepositoryName}-linux-pwsh
+      RetentionInDays: !Ref LogRetentionInDays
+      Tags:
+      - Key: Service
+        Value: !Ref CodeCommitRepositoryName
+
   # Linux Pwsh CodeBuild
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-webhookfilter.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html
   # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html
   CodeBuildProjectLPwsh:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -496,7 +622,7 @@ Resources:
       Description: !Ref CodeCommitRepositoryDescription
       Environment:
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/standard:7.0
+        Image: !Ref LinuxCodeBuildImage
         Type: LINUX_CONTAINER
         EnvironmentVariables:
           - Name: main_bucket
@@ -505,6 +631,11 @@ Resources:
           - Name: s3_prefix
             Value: placeholder
             Type: PLAINTEXT
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName:
+            Ref: CodeBuildpwshProjectLogGroup
+          Status: ENABLED
       Name:
         !Join
         - '-'
@@ -516,10 +647,8 @@ Resources:
         Location: !Sub 'https://git-codecommit.${AWS::Region}.amazonaws.com/v1/repos/${CodeCommitRepositoryName}'
         BuildSpec: buildspec_pwsh_linux.yml
       Tags:
-        - Key: Purpose
-          Value: CodeCommitRepositoryName
         - Key: Service
-          Value: PowerShellBuildPipeline
+          Value: CodeCommitRepositoryName
       TimeoutInMinutes: !Ref CodeBuildTimeoutInMinutes
 '@
     }
@@ -589,7 +718,7 @@ Resources:
       FunctionName: !Sub '${CodeCommitRepositoryName}-TriggerWPS'
       Description: Trigger Windows PowerShell CodeBuild from CodeCommit commit triggers.
       Handler: index.lambda_handler
-      Runtime: python3.9
+      Runtime: python3.12
       MemorySize: 128
       Timeout: 5
       Environment:
@@ -599,7 +728,7 @@ Resources:
           PrimaryBranchName: !Ref PrimaryBranchName
       Role: !GetAtt CodeCommitTriggeredLambdaFunctionIAMRole.Arn
       Tags:
-        - Key: Purpose
+        - Key: Service
           Value: CodeCommitRepositoryName
       Code:
         ZipFile: |
@@ -676,7 +805,7 @@ Resources:
       LogGroupName: !Sub '/aws/lambda/${CodeCommitTriggeredLambdaWPS}'
       RetentionInDays: 60
       Tags:
-        - Key: Purpose
+        - Key: Service
           Value: CodeCommitRepositoryName
 '@
     }
@@ -694,7 +823,7 @@ Resources:
       FunctionName: !Sub '${CodeCommitRepositoryName}-TriggerWPwsh'
       Description: Trigger pwsh CodeBuild from CodeCommit commit triggers.
       Handler: index.lambda_handler
-      Runtime: python3.9
+      Runtime: python3.12
       MemorySize: 128
       Timeout: 5
       Environment:
@@ -704,7 +833,7 @@ Resources:
           PrimaryBranchName: !Ref PrimaryBranchName
       Role: !GetAtt CodeCommitTriggeredLambdaFunctionIAMRole.Arn
       Tags:
-        - Key: Purpose
+        - Key: Service
           Value: CodeCommitRepositoryName
       Code:
         ZipFile: |
@@ -781,7 +910,7 @@ Resources:
       LogGroupName: !Sub '/aws/lambda/${CodeCommitTriggeredLambdaWPwsh}'
       RetentionInDays: 60
       Tags:
-        - Key: Purpose
+        - Key: Service
           Value: CodeCommitRepositoryName
 '@
     }
@@ -799,7 +928,7 @@ Resources:
       FunctionName: !Sub '${CodeCommitRepositoryName}-TriggerL'
       Description: Trigger Linux pwsh CodeBuild from CodeCommit commit triggers.
       Handler: index.lambda_handler
-      Runtime: python3.9
+      Runtime: python3.12
       MemorySize: 128
       Timeout: 5
       Environment:
@@ -809,7 +938,7 @@ Resources:
           PrimaryBranchName: !Ref PrimaryBranchName
       Role: !GetAtt CodeCommitTriggeredLambdaFunctionIAMRole.Arn
       Tags:
-        - Key: Purpose
+        - Key: Service
           Value: CodeCommitRepositoryName
       Code:
         ZipFile: |
@@ -886,7 +1015,7 @@ Resources:
       LogGroupName: !Sub '/aws/lambda/${CodeCommitTriggeredLambdaL}'
       RetentionInDays: 60
       Tags:
-        - Key: Purpose
+        - Key: Service
           Value: CodeCommitRepositoryName
 '@
     }
@@ -962,6 +1091,10 @@ Outputs:
   CodeBuildProjectWPS:
     Description: The name of the PS Windows CodeBuild Project.
     Value: !Ref CodeBuildProjectWPS
+
+  CodeBuildProjectWPSURL:
+    Description: PS Windows CodeBuild URL
+    Value: !Sub "https://console.aws.amazon.com/codebuild/home?region=${AWS::Region}#/projects/${CodeBuildProjectWPS}/view"
 '@
     }
 %>
@@ -971,6 +1104,10 @@ Outputs:
   CodeBuildProjectWPwsh:
     Description: The name of the pwsh Windows CodeBuild Project.
     Value: !Ref CodeBuildProjectWPwsh
+
+  CodeBuildProjectWPwshURL:
+    Description: pwsh Windows CodeBuild URL
+    Value: !Sub "https://console.aws.amazon.com/codebuild/home?region=${AWS::Region}#/projects/${CodeBuildProjectWPwsh}/view"
 '@
     }
 %>
@@ -980,6 +1117,10 @@ Outputs:
   CodeBuildProjectLPwsh:
     Description: The name of the PS Linux CodeBuild Project.
     Value: !Ref CodeBuildProjectLPwsh
+
+  CodeBuildProjectLPwshURL:
+    Description: PS Linux CodeBuild URL
+    Value: !Sub "https://console.aws.amazon.com/codebuild/home?region=${AWS::Region}#/projects/${CodeBuildProjectLPwsh}/view"
 '@
     }
 %>

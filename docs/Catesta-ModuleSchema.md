@@ -40,6 +40,8 @@ choices:
     help : CI/CD using GitHub Actions.
     value : CODEBUILD
     help : CI/CD using AWS CodeBuild
+    value : GHACODEBUILD
+    help : CI/CD using GitHub Actions running on AWS CodeBuild.
     value : APPVEYOR
     help : CI/CD using AWS Appveyor
     value : GITLAB
@@ -56,7 +58,7 @@ choices:
     value : windows
     help : Adds a Windows PowerShell based Workflow action.
     value : pwshcore
-    help : Adds a Windows pwsh based pipeline job.
+    help : Adds a Windows pwsh based Workflow action.
     value : linux
     help : Adds a Linux based Workflow action.
     value : macos
@@ -76,6 +78,17 @@ choices:
 name : S3Bucket
 type : text
 default : PSGallery
+
+name : GitHubACBOptions
+type : multichoice
+condition : $PLASTER_PARAM_CICD -eq 'GHACODEBUILD'
+choices:
+    value : ps
+    help : Adds a Windows PowerShell based Workflow action powered by CodeBuild
+    value : pwshcore
+    help : Adds a Windows pwsh based Workflow action powered by CodeBuild.
+    value : pwsh
+    help : Adds a Linux based Workflow action powered by CodeBuild.
 
 name : AppveyorOptions
 type : multichoice
@@ -236,28 +249,29 @@ The example below showcases all the available options for the `New-ModuleProject
 ```powershell
 $moduleParameters = @{
     
-VAULT           = 'text'
-ModuleName      = 'text'
-Description     = 'text'
-Version         = '0.0.1'
-FN              = 'user full name'
-CICD            = 'GITHUB'
-GitHubAOptions  = 'windows','pwshcore','linux','macos'
-AWSOptions      = 'ps','pwshcore','pwsh'
-AppveyorOptions = 'windows','pwshcore','linux','macos'
-GitLabOptions   = 'windows','pwshcore','linux'
-AzureOptions    = 'windows','pwshcore','linux','macos'
-RepoType        = 'GITHUB'
-License         = 'MIT'
-Changelog       = 'CHANGELOG'
-COC             = 'CONDUCT'
-Contribute      = 'CONTRIBUTING'
-Security        = 'SECURITY'
-ReadtheDocs     = 'READTHEDOCS'
-RTDTheme        = 'READTHEDOCSTHEME'
-CodingStyle     = 'Stroustrup'
-Help            = 'Yes'
-Pester          = '5'
+VAULT            = 'text'
+ModuleName       = 'text'
+Description      = 'text'
+Version          = '0.0.1'
+FN               = 'user full name'
+CICD             = 'GITHUB'
+GitHubAOptions   = 'windows','pwshcore','linux','macos'
+AWSOptions       = 'ps','pwshcore','pwsh'
+GitHubACBOptions = 'ps','pwshcore','pwsh'
+AppveyorOptions  = 'windows','pwshcore','linux','macos'
+GitLabOptions    = 'windows','pwshcore','linux'
+AzureOptions     = 'windows','pwshcore','linux','macos'
+RepoType         = 'GITHUB'
+License          = 'MIT'
+Changelog        = 'CHANGELOG'
+COC              = 'CONDUCT'
+Contribute       = 'CONTRIBUTING'
+Security         = 'SECURITY'
+ReadtheDocs      = 'READTHEDOCS'
+RTDTheme         = 'READTHEDOCSTHEME'
+CodingStyle      = 'Stroustrup'
+Help             = 'Yes'
+Pester           = '5'
 
 
 }

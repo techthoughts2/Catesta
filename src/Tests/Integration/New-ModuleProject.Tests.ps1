@@ -265,7 +265,70 @@ Describe 'Module Integration Tests' {
                     $cfnContent | Should -BeLike "*CodeBuildpsProject*"
                     $cfnContent | Should -BeLike "*CodeBuildpwshcoreProject*"
                     $cfnContent | Should -BeLike "*CodeBuildpwshProject*"
+                    $cfnContent | Should -BeLike "*CodeBuildpsProjectLogGroup*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshcoreProjectLogGroup*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshProjectLogGroup*"
                     $cfnContent | Should -BeLike "*GITHUB*"
+                } #it
+
+                It 'should generate a CodeBuild based module stored on GitLab with all required elements' {
+                    $moduleParameters = @{
+                        VAULT       = 'text'
+                        ModuleName  = 'modulename'
+                        Description = 'text'
+                        Version     = '0.0.1'
+                        FN          = 'user full name'
+                        CICD        = 'CODEBUILD'
+                        AWSOptions  = 'ps', 'pwshcore', 'pwsh'
+                        RepoType    = 'GITLAB'
+                        ReadtheDocs = 'NONE'
+                        License     = 'MIT'
+                        Changelog   = 'CHANGELOG'
+                        COC         = 'CONDUCT'
+                        Contribute  = 'CONTRIBUTING'
+                        Security    = 'SECURITY'
+                        CodingStyle = 'Stroustrup'
+                        Help        = 'Yes'
+                        Pester      = '5'
+                        S3Bucket    = 'PSGallery'
+                        PassThru    = $true
+                        NoLogo      = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $codeBuildModuleFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
+                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $true
+                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $true
+                    $powershellContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_powershell_windows.yml')
+                    $powershellContent = Get-Content -Path $powershellContentPath -Raw
+                    $powershellContent | Should -BeLike '*modulename*'
+                    $linuxContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_pwsh_linux.yml')
+                    $linuxContent = Get-Content -Path $linuxContentPath -Raw
+                    $linuxContent | Should -BeLike '*modulename*'
+                    $pwshContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_pwsh_windows.yml')
+                    $pwshContent = Get-Content -Path $pwshContentPath -Raw
+                    $pwshContent | Should -BeLike '*modulename*'
+
+                    $codeBuildModuleFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $true
+
+                    $codeBuildModuleFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $true
+                    $installContentPath = [System.IO.Path]::Combine($outPutPath, 'install_modules.ps1')
+                    $installContent = Get-Content -Path $installContentPath -Raw
+                    $installContent | Should -BeLike '*$galleryDownload = $true*'
+
+                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
+                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $false
+                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGitLab.yml') | Should -BeExactly $true
+
+                    $cfnContentPath = [System.IO.Path]::Combine($outPutPath, 'CloudFormation', 'PowerShellCodeBuildGitLab.yml')
+                    $cfnContent = Get-Content -Path $cfnContentPath -Raw
+                    $cfnContent | Should -BeLike "*CodeBuildpsProject*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshcoreProject*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshProject*"
+                    $cfnContent | Should -BeLike "*GITLAB*"
                 } #it
 
                 It 'should generate a CodeBuild based module stored on Bitbucket with all required elements' {
@@ -374,6 +437,9 @@ Describe 'Module Integration Tests' {
                     $cfnContent | Should -BeLike "*CodeBuildProjectWPS*"
                     $cfnContent | Should -BeLike "*CodeBuildProjectWPwsh*"
                     $cfnContent | Should -BeLike "*CodeBuildProjectLPwsh*"
+                    $cfnContent | Should -BeLike "*CodeBuildpsProjectLogGroup*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshcoreProjectLogGroup*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshProjectLogGroup*"
                 } #it
 
                 It 'should not generate CFN if a non-supported repo type is chosen' {
@@ -411,6 +477,114 @@ Describe 'Module Integration Tests' {
                     $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
                     $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $false
 
+                } #it
+
+                It 'should only generate CodeBuild projects for the project type specified for a GitHub based module' {
+                    $moduleParameters = @{
+                        VAULT       = 'text'
+                        ModuleName  = 'modulename'
+                        Description = 'text'
+                        Version     = '0.0.1'
+                        FN          = 'user full name'
+                        CICD        = 'CODEBUILD'
+                        AWSOptions  = 'ps'
+                        RepoType    = 'GITHUB'
+                        ReadtheDocs = 'NONE'
+                        License     = 'MIT'
+                        Changelog   = 'CHANGELOG'
+                        COC         = 'CONDUCT'
+                        Contribute  = 'CONTRIBUTING'
+                        Security    = 'SECURITY'
+                        CodingStyle = 'Stroustrup'
+                        Help        = 'Yes'
+                        Pester      = '5'
+                        S3Bucket    = 'PSGallery'
+                        PassThru    = $true
+                        NoLogo      = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $codeBuildModuleFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
+                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $false
+                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $false
+                    $powershellContentPath = [System.IO.Path]::Combine($outPutPath, 'buildspec_powershell_windows.yml')
+                    $powershellContent = Get-Content -Path $powershellContentPath -Raw
+                    $powershellContent | Should -BeLike '*modulename*'
+
+                    $codeBuildModuleFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $true
+
+                    $codeBuildModuleFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $true
+                    $installContentPath = [System.IO.Path]::Combine($outPutPath, 'install_modules.ps1')
+                    $installContent = Get-Content -Path $installContentPath -Raw
+                    $installContent | Should -BeLike '*$galleryDownload = $true*'
+
+                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $false
+                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $true
+
+                    $cfnContentPath = [System.IO.Path]::Combine($outPutPath, 'CloudFormation', 'PowerShellCodeBuildGit.yml')
+                    $cfnContent = Get-Content -Path $cfnContentPath -Raw
+                    $cfnContent | Should -BeLike "*CodeBuildpsProject*"
+                    $cfnContent | Should -Not -BeLike "*CodeBuildpwshcoreProject*"
+                    $cfnContent | Should -Not -BeLike "*CodeBuildpwshProject*"
+                    $cfnContent | Should -BeLike "*CodeBuildpsProjectLogGroup*"
+                    $cfnContent | Should -Not -BeLike "*CodeBuildpwshcoreProjectLogGroup*"
+                    $cfnContent | Should -Not -BeLike "*CodeBuildpwshProjectLogGroup*"
+                    $cfnContent | Should -BeLike "*GITHUB*"
+                } #it
+
+                It 'should only generate CodeBuild projects for the project type specified for a CodeCommit based module' {
+                    $moduleParameters = @{
+                        VAULT       = 'text'
+                        ModuleName  = 'modulename'
+                        Description = 'text'
+                        Version     = '0.0.1'
+                        FN          = 'user full name'
+                        CICD        = 'CODEBUILD'
+                        AWSOptions  = 'ps'
+                        RepoType    = 'CodeCommit'
+                        ReadtheDocs = 'NONE'
+                        License     = 'MIT'
+                        Changelog   = 'CHANGELOG'
+                        COC         = 'CONDUCT'
+                        Contribute  = 'CONTRIBUTING'
+                        Security    = 'SECURITY'
+                        CodingStyle = 'Stroustrup'
+                        Help        = 'Yes'
+                        Pester      = '5'
+                        S3Bucket    = 'PSGallery'
+                        PassThru    = $true
+                        NoLogo      = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $codeBuildModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $codeBuildModuleFiles.Name.Contains('buildspec_powershell_windows.yml') | Should -BeExactly $true
+                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_linux.yml') | Should -BeExactly $false
+                    $codeBuildModuleFiles.Name.Contains('buildspec_pwsh_windows.yml') | Should -BeExactly $false
+
+                    $codeBuildModuleFiles.Name.Contains('configure_aws_credential.ps1') | Should -BeExactly $true
+
+                    $codeBuildModuleFiles.Name.Contains('install_modules.ps1') | Should -BeExactly $true
+                    $installContentPath = [System.IO.Path]::Combine($outPutPath, 'install_modules.ps1')
+                    $installContent = Get-Content -Path $installContentPath -Raw
+                    $installContent | Should -BeLike '*$galleryDownload = $true*'
+
+                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildCC.yml') | Should -BeExactly $true
+                    $codeBuildModuleFiles.Name.Contains('PowerShellCodeBuildGit.yml') | Should -BeExactly $false
+
+                    $cfnContentPath = [System.IO.Path]::Combine($outPutPath, 'CloudFormation', 'PowerShellCodeBuildCC.yml')
+                    $cfnContent = Get-Content -Path $cfnContentPath -Raw
+                    $cfnContent | Should -BeLike "*CodeBuildProjectWPS*"
+                    $cfnContent | Should -Not -BeLike "*CodeBuildProjectWPwsh*"
+                    $cfnContent | Should -Not -BeLike "*CodeBuildProjectLPwsh*"
+                    $cfnContent | Should -BeLike "*CodeBuildpsProjectLogGroup*"
+                    $cfnContent | Should -Not -BeLike "*CodeBuildpwshcoreProjectLogGroup*"
+                    $cfnContent | Should -Not -BeLike "*CodeBuildpwshProjectLogGroup*"
                 } #it
 
             } #aws_codeBuild
@@ -631,6 +805,72 @@ Describe 'Module Integration Tests' {
                 } #it
 
             } #github_actions
+
+            Context 'GitHub Actions with CodeBuild' {
+
+                It 'should generate a GitHub Actions based module stored on GitHub running on CodeBuild with all required elements' {
+                    $moduleParameters = @{
+                        VAULT            = 'text'
+                        ModuleName       = 'modulename'
+                        Description      = 'text'
+                        Version          = '0.0.1'
+                        FN               = 'user full name'
+                        CICD             = 'GHACODEBUILD'
+                        GitHubACBOptions = 'ps', 'pwshcore', 'pwsh'
+                        RepoType         = 'GITHUB'
+                        ReadtheDocs      = 'NONE'
+                        License          = 'NONE'
+                        Changelog        = 'NONE'
+                        COC              = 'NONE'
+                        Contribute       = 'NONE'
+                        Security         = 'NONE'
+                        CodingStyle      = 'Stroustrup'
+                        Help             = 'Yes'
+                        Pester           = '5'
+                        PassThru         = $true
+                        NoLogo           = $true
+                    }
+                    $eval = New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPath
+                    $eval | Should -Not -BeNullOrEmpty
+
+                    $ghaCBModuleFiles = Get-ChildItem -Path $outPutPathStar -Recurse -Force
+
+                    $ghaCBModuleFiles.Name.Contains('wf_Linux.yml') | Should -BeExactly $true
+                    $ghaCBModuleFiles.Name.Contains('wf_MacOS.yml') | Should -BeExactly $false
+                    $ghaCBModuleFiles.Name.Contains('wf_Windows_Core.yml') | Should -BeExactly $true
+                    $ghaCBModuleFiles.Name.Contains('wf_Windows.yml') | Should -BeExactly $true
+
+                    $wfLinuxContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Linux.yml')
+                    $wfLinuxContent = Get-Content -Path $wfLinuxContentPath -Raw
+                    $wfLinuxContent | Should -BeLike '*modulename*'
+                    $wfLinuxContent | Should -BeLike '*codebuild-*'
+
+                    $wfWindowsCoreContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Windows_Core.yml')
+                    $wfWindowsCoreContent = Get-Content -Path $wfWindowsCoreContentPath -Raw
+                    $wfWindowsCoreContent | Should -BeLike '*modulename*'
+                    $wfWindowsCoreContent | Should -BeLike '*codebuild-*'
+
+                    $wfWindowsContentPath = [System.IO.Path]::Combine($outPutPath, '.github', 'workflows', 'wf_Windows.yml')
+                    $wfWindowsContent = Get-Content -Path $wfWindowsContentPath -Raw
+                    $wfWindowsContent | Should -BeLike '*modulename*'
+                    $wfWindowsContent | Should -BeLike '*codebuild-*'
+
+                    $ghaCBModuleFiles.Name.Contains('PowerShellGitHubActionsCodeBuild.yml') | Should -BeExactly $true
+
+                    $cfnContentPath = [System.IO.Path]::Combine($outPutPath, 'CloudFormation', 'PowerShellGitHubActionsCodeBuild.yml')
+                    $cfnContent = Get-Content -Path $cfnContentPath -Raw
+                    $cfnContent | Should -BeLike "*CodeBuildpsProject*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshcoreProject*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshProject*"
+                    $cfnContent | Should -BeLike "*CodeBuildpsProjectLogGroup*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshcoreProjectLogGroup*"
+                    $cfnContent | Should -BeLike "*CodeBuildpwshProjectLogGroup*"
+                    $cfnContent | Should -BeLike "*GITHUB*"
+                    $cfnContent | Should -BeLike "*WORKFLOW_JOB_QUEUED*"
+
+                } #it
+
+            } #github_actions_codebuild
 
             Context 'Bitbucket Build' {
 

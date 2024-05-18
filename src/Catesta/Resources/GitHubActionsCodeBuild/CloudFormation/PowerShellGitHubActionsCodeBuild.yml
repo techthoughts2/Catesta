@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: "2010-09-09"
-Description: 'PS CodeBuild Stack: <%=$PLASTER_PARAM_ModuleName%>'
+Description: 'PS CodeBuild for GitHub Actions Stack: <%=$PLASTER_PARAM_ModuleName%>'
 
 Parameters:
 
@@ -13,52 +13,9 @@ Parameters:
     Description: short description of your PS module project.
     Type: String
 
-  RepositoryType:
-    Description: The type of repository that contains the source code to be built.
-    Type: String
-    AllowedValues:
-      - BITBUCKET
-      - GITHUB
-<%
-    if ($PLASTER_PARAM_RepoType -eq 'GitHub') {
-@'
-    Default: GITHUB
-'@
-}
-elseif ($PLASTER_PARAM_RepoType -eq 'BitBucket') {
-@'
-    Default: BITBUCKET
-'@
-}
-%>
-
   RepositoryUrl:
-<%
-    if ($PLASTER_PARAM_RepoType -eq 'GitHub') {
-@'
     Description: "HTTPS Clone URL of the repository in GitHub. Example: 'https://github.com/owner/repo.git'"
-'@
-}
-elseif ($PLASTER_PARAM_RepoType -eq 'BitBucket') {
-@'
-    Description: "HTTPS Clone URL of the repository in Bitbucket. Example: 'https://owner@bitbucket.org/owner/repo.git'"
-'@
-}
-%>
     Type: String
-
-  BranchName:
-    Default: main
-    Description: the branch that will be monitored for builds (CASE SENSITIVE).
-    Type: String
-
-  CodeBuildBadgeEnabled:
-    Type: String
-    Default: 'true'
-    Description: Selects whether to enable CodeBuild Build Badges.
-    AllowedValues:
-      - 'true'
-      - 'false'
 
   CodeBuildTimeoutInMinutes:
     Type: Number
@@ -66,7 +23,7 @@ elseif ($PLASTER_PARAM_RepoType -eq 'BitBucket') {
     Description: The number of minutes before a CodeBuild build will timeout.
 
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'pwsh') {
 @'
   # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
   LinuxCodeBuildImage:
@@ -149,16 +106,13 @@ Metadata:
       - Label:
           default: Specify Repository information
         Parameters:
-          - RepositoryType
           - RepositoryUrl
-          - BranchName
       - Label:
           default: CodeBuild
         Parameters:
-          - CodeBuildBadgeEnabled
           - CodeBuildTimeoutInMinutes
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'pwsh') {
 @'
           - LinuxCodeBuildImage
 '@
@@ -178,18 +132,12 @@ Metadata:
         default: Module Name
       ProjectDescription:
         default: Module Description
-      RepositoryType:
-        default: Repository Type
       RepositoryUrl:
         default: Repository URL
-      BranchName:
-        default: Branch Name
-      CodeBuildBadgeEnabled:
-        default: Badge Enabled
       CodeBuildTimeoutInMinutes:
         default: Timeout in Minutes
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'pwsh') {
 @'
       LinuxCodeBuildImage:
         default: Linux CodeBuild Image
@@ -252,7 +200,7 @@ Resources:
                   - logs:PutLogEvents
                 Resource:
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'ps') {
 @'
                   - Fn::GetAtt:
                     - CodeBuildpsProjectLogGroup
@@ -262,7 +210,7 @@ Resources:
 %>
 
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'pwshcore') {
 @'
                   - Fn::GetAtt:
                     - CodeBuildpwshcoreProjectLogGroup
@@ -272,7 +220,7 @@ Resources:
 %>
 
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'pwsh') {
 @'
                   - Fn::GetAtt:
                     - CodeBuildpwshProjectLogGroup
@@ -310,7 +258,7 @@ Resources:
                   - !Sub "arn:${AWS::Partition}:codebuild:${AWS::Region}:${AWS::AccountId}:report-group/<%=$PLASTER_PARAM_ModuleName%>*"
 
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'ps') {
 @'
 
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html
@@ -336,7 +284,7 @@ Resources:
     Properties:
       Artifacts:
         Type: NO_ARTIFACTS
-      BadgeEnabled: !Ref CodeBuildBadgeEnabled
+      # BadgeEnabled: !Ref CodeBuildBadgeEnabled
       Description: !Ref ProjectDescription
       Environment:
         #ComputeType: !Ref CodeBuildComputeType
@@ -352,11 +300,11 @@ Resources:
       Name: !Join
         - '-'
         - - !Ref ProjectName
-          - powershell_windows
+          - powershell_gha_cb_windows
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
         # SourceAuth is for use by the CodeBuild console only. Do not get or set it directly.
-        Type: !Ref RepositoryType
+        Type: GITHUB
         Auth:
           Type: OAUTH
         Location: !Ref RepositoryUrl
@@ -369,16 +317,12 @@ Resources:
         Webhook: true
         FilterGroups:
           - - Type: EVENT
-              Pattern: PUSH
-          - - Type: BASE_REF
-              Pattern: !Sub ^refs/heads/${BranchName}$
-            - Type: EVENT
-              Pattern: PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED
+              Pattern: WORKFLOW_JOB_QUEUED
 '@
     }
 %>
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'pwshcore') {
 @'
 
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html
@@ -405,7 +349,7 @@ Resources:
     Properties:
       Artifacts:
         Type: NO_ARTIFACTS
-      BadgeEnabled: !Ref CodeBuildBadgeEnabled
+      # BadgeEnabled: !Ref CodeBuildBadgeEnabled
       Description: !Ref ProjectDescription
       Environment:
         #ComputeType: !Ref CodeBuildComputeType
@@ -421,11 +365,11 @@ Resources:
       Name: !Join
         - '-'
         - - !Ref ProjectName
-          - pwsh_windows
+          - pwsh_gha_cb_windows
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
         # SourceAuth is for use by the CodeBuild console only. Do not get or set it directly.
-        Type: !Ref RepositoryType
+        Type: GITHUB
         Auth:
           Type: OAUTH
         Location: !Ref RepositoryUrl
@@ -438,16 +382,12 @@ Resources:
         Webhook: true
         FilterGroups:
           - - Type: EVENT
-              Pattern: PUSH
-          - - Type: BASE_REF
-              Pattern: !Sub ^refs/heads/${BranchName}$
-            - Type: EVENT
-              Pattern: PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED
+              Pattern: WORKFLOW_JOB_QUEUED
 '@
     }
 %>
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'pwsh') {
 @'
 
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html
@@ -474,7 +414,7 @@ Resources:
     Properties:
       Artifacts:
         Type: NO_ARTIFACTS
-      BadgeEnabled: !Ref CodeBuildBadgeEnabled
+      # BadgeEnabled: !Ref CodeBuildBadgeEnabled
       Description: !Ref ProjectDescription
       Environment:
         #ComputeType: !Ref CodeBuildComputeType
@@ -490,11 +430,11 @@ Resources:
       Name: !Join
         - '-'
         - - !Ref ProjectName
-          - pwsh_linux
+          - pwsh_gha_cb_linux
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
         # SourceAuth is for use by the CodeBuild console only. Do not get or set it directly.
-        Type: !Ref RepositoryType
+        Type: GITHUB
         Auth:
           Type: OAUTH
         Location: !Ref RepositoryUrl
@@ -507,11 +447,7 @@ Resources:
         Webhook: true
         FilterGroups:
           - - Type: EVENT
-              Pattern: PUSH
-          - - Type: BASE_REF
-              Pattern: !Sub ^refs/heads/${BranchName}$
-            - Type: EVENT
-              Pattern: PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED
+              Pattern: WORKFLOW_JOB_QUEUED
 '@
     }
 %>
@@ -573,21 +509,21 @@ Resources:
             - STOPPED
           project-name:
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'ps') {
 @'
             - !Ref CodeBuildpsProject
 '@
     }
 %>
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'pwshcore') {
 @'
             - !Ref CodeBuildpwshcoreProject
 '@
     }
 %>
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'pwsh') {
 @'
             - !Ref CodeBuildpwshProject
 '@
@@ -611,7 +547,7 @@ Outputs:
     Description: The SNS Topic used for CodeBuild status updates
     Value: !Ref SNSTopicForCodeBuildUpdates
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'ps') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'ps') {
 @'
   CodeBuildpsProject:
     Description: The name of the Windows PowerShell CodeBuild Project.
@@ -623,7 +559,7 @@ Outputs:
     }
 %>
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'pwshcore') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'pwshcore') {
 @'
   CodeBuildpwshcoreProject:
     Description: The name of the Windows pwsh CodeBuild Project.
@@ -635,7 +571,7 @@ Outputs:
     }
 %>
 <%
-    if ($PLASTER_PARAM_AWSOptions -eq 'pwsh') {
+    if ($PLASTER_PARAM_GitHubACBOptions -eq 'pwsh') {
 @'
   CodeBuildpwshProject:
     Description: The name of the Linux pwsh CodeBuild Project.

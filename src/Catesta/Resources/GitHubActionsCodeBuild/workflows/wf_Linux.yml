@@ -5,6 +5,10 @@
 # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions
 # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-powershell
 # https://github.com/actions/upload-artifact#where-does-the-upload-go
+# https://docs.aws.amazon.com/codebuild/latest/userguide/action-runner.html
+# https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+# * NOTE: Make sure that your <project-name> matches the name of the CB project that you created in your AWS account.
+# * If you used the generated CFN template, the project name will be handled for you.
 name: <%=$PLASTER_PARAM_ModuleName%>-Linux
 on:
   pull_request:
@@ -18,7 +22,7 @@ on:
 jobs:
   test:
     name: Run Tests
-    runs-on: ubuntu-latest
+    runs-on: codebuild-<%=$PLASTER_PARAM_ModuleName%>-pwsh_gha_cb_linux-${{ github.run_id }}-${{ github.run_attempt }}
     strategy:
       fail-fast: false
     steps:

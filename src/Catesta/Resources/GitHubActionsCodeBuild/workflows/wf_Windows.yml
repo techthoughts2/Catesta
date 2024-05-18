@@ -5,7 +5,9 @@
 # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions
 # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-powershell
 # https://github.com/actions/upload-artifact#where-does-the-upload-go
-name: <%=$PLASTER_PARAM_ModuleName%>-Linux
+# * NOTE: Make sure that your <project-name> matches the name of the CB project that you created in your AWS account.
+# * If you used the generated CFN template, the project name will be handled for you.
+name: <%=$PLASTER_PARAM_ModuleName%>-Windows-PowerShell
 on:
   pull_request:
     paths-ignore:
@@ -18,37 +20,43 @@ on:
 jobs:
   test:
     name: Run Tests
-    runs-on: ubuntu-latest
+    runs-on: codebuild-<%=$PLASTER_PARAM_ModuleName%>-powershell_gha_cb_windows-${{ github.run_id }}-${{ github.run_attempt }}
     strategy:
       fail-fast: false
     steps:
     - name: Check out repository
       uses: actions/checkout@v3
     - name: Display the path
-      shell: pwsh
+      shell: powershell
       run: echo ${env:PATH}
     - name: Version Display
-      shell: pwsh
+      shell: powershell
       run: $PSVersionTable
     # uncomment below to explore what modules/variables/env variables are available in the build image
     # - name: Modules and Variables Display
-    #   shell: pwsh
+    #   shell: powershell
     #   run: Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String
+    - name: NuGet Latest
+      shell: powershell
+      run: Install-PackageProvider -Name "NuGet" -Confirm:$false -Force -Verbose
+    - name: PowerShellGet Latest
+      shell: powershell
+      run: Install-Module -Name PowerShellGet -Repository PSGallery -Force
     - name: Bootstrap
-      shell: pwsh
+      shell: powershell
       run: ./actions_bootstrap.ps1
     - name: Test and Build
-      shell: pwsh
+      shell: powershell
       run: Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1
     - name: Upload pester results
       uses: actions/upload-artifact@v3
       with:
         name: pester-results
-        path: ./src/Artifacts/testOutput
+        path: .\src\Artifacts\testOutput
         if-no-files-found: warn
     - name: Upload zip module archive build
       uses: actions/upload-artifact@v3
       with:
         name: zip-archive
-        path: ./src/Archive
+        path: .\src\Archive
         if-no-files-found: warn

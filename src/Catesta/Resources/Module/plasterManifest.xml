@@ -18,7 +18,7 @@
     <metadata>
         <name>Catesta</name>
         <id>258a61ba-566b-4c3a-8230-c2b6861a1a8d</id>
-        <version>2.4.0</version>
+        <version>2.11.0</version>
         <title>Catesta</title>
         <description>Scaffolds a new PowerShell module project</description>
         <author>Jake Morrison</author>
@@ -39,6 +39,7 @@
             <choice label='&amp;Module Only' help='Does not add CI/CD process files. Module scaffolding only.' value='NONE'/>
             <choice label='&amp;GitHub Actions' help='CI/CD using GitHub Actions.' value='GITHUB'/>
             <choice label='AWS &amp;CodeBuild' help='CI/CD using AWS CodeBuild' value='CODEBUILD'/>
+            <choice label='GitHub Action&amp;s on AWS CodeBuild' help='CI/CD using GitHub Actions running on AWS CodeBuild.' value='GHACODEBUILD'/>
             <choice label='Ap&amp;pveyor' help='CI/CD using AWS Appveyor' value='APPVEYOR'/>
             <choice label='Git&amp;Lab CI/CD' help='CI/CD using GitLab CI/CD' value='GITLAB'/>
             <choice label='&amp;BitBucket Pipelines' help='CI/CD using BitBucket Pipelines' value='BITBUCKET'/>
@@ -48,7 +49,7 @@
         <!-- ___________________________GitHub Actions -->
         <parameter condition="$PLASTER_PARAM_CICD -eq 'GITHUB'" name='GitHubAOptions' type='multichoice' default='0' store='text' prompt='Select desired workflow action options? (If your module is cross-platform you should select multiple)'>
             <choice label='&amp;Windows - PowerShell' help="Adds a Windows PowerShell based Workflow action." value="windows"/>
-            <choice label='&amp;Core (Windows)- pwsh' help="Adds a Windows pwsh based pipeline job." value="pwshcore"/>
+            <choice label='&amp;Core (Windows)- pwsh' help="Adds a Windows pwsh based Workflow action." value="pwshcore"/>
             <choice label='&amp;Linux' help="Adds a Linux based Workflow action." value="linux"/>
             <choice label='&amp;MacOS' help="Adds a MacOS based Workflow action." value="macos"/>
         </parameter>
@@ -59,6 +60,12 @@
             <choice label='&amp;Linux - pwsh' help='Adds a pwsh focused buildspec.yml for Linux CodeBuild.' value='pwsh'/>
         </parameter>
         <parameter condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" name='S3Bucket' type='text' prompt='Enter S3 bucket name to download needed PS modules from S3 location. Leave blank to default to PSGallery.' default='PSGallery'/>
+        <!-- ___________________________GitHub Actions and AWS CodeBuild-->
+        <parameter condition="$PLASTER_PARAM_CICD -eq 'GHACODEBUILD'" name='GitHubACBOptions' type='multichoice' default='0' store='text' prompt='Select desired buildspec file options? (If your module is cross-platform you should select multiple)' >
+            <choice label='&amp;Windows - PowerShell' help='Adds a Windows PowerShell based Workflow action powered by CodeBuild' value='ps'/>
+            <choice label='&amp;Core (Windows)- pwsh' help='Adds a Windows pwsh based Workflow action powered by CodeBuild.' value='pwshcore'/>
+            <choice label='&amp;Linux - pwsh' help='Adds a Linux based Workflow action powered by CodeBuild.' value='pwsh'/>
+        </parameter>
         <!-- ___________________________Appveyor -->
         <parameter condition="$PLASTER_PARAM_CICD -eq 'APPVEYOR'" name='AppveyorOptions' type='multichoice' default='0' store='text' prompt='Select desired Appveyor build environment options? (If your module is cross-platform you should select multiple)'>
             <choice label='&amp;Windows - PowerShell' help='Adds a Windows PowerShell focused build on a Windows image.' value='windows'/>
@@ -293,8 +300,15 @@
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_AWSOptions -eq 'pwsh'" source='..\AWS\buildspec_pwsh_linux.yml' destination='buildspec_pwsh_linux.yml' />
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'" source='..\AWS\install_modules.ps1' destination='install_modules.ps1'/>
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\AWS\CloudFormation\PowerShellCodeBuildGit.yml' destination='CloudFormation\PowerShellCodeBuildGit.yml'/>
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_RepoType -eq 'GITLAB'" source='..\AWS\CloudFormation\PowerShellCodeBuildGitLab.yml' destination='CloudFormation\PowerShellCodeBuildGitLab.yml'/>
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_RepoType -eq 'BITBUCKET'" source='..\AWS\CloudFormation\PowerShellCodeBuildGit.yml' destination='CloudFormation\PowerShellCodeBuildGit.yml'/>
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -and $PLASTER_PARAM_RepoType -eq 'CODECOMMIT'" source='..\AWS\CloudFormation\PowerShellCodeBuildCC.yml' destination='CloudFormation\PowerShellCodeBuildCC.yml'/>
+        <!-- _________GitHub Actions and AWS CodeBuild -->
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'GHACODEBUILD' -and $PLASTER_PARAM_GitHubACBOptions -eq 'ps'" source='..\GitHubActionsCodeBuild\workflows\wf_Windows.yml' destination='.github\workflows\wf_Windows.yml' />
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'GHACODEBUILD' -and $PLASTER_PARAM_GitHubACBOptions -eq 'pwshcore'" source='..\GitHubActionsCodeBuild\workflows\wf_Windows_Core.yml' destination='.github\workflows\wf_Windows_Core.yml' />
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'GHACODEBUILD' -and $PLASTER_PARAM_GitHubACBOptions -eq 'pwsh'" source='..\GitHubActionsCodeBuild\workflows\wf_Linux.yml' destination='.github\workflows\wf_Linux.yml' />
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'GHACODEBUILD'" source='..\GitHubActionsCodeBuild\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
+        <templateFile condition="$PLASTER_PARAM_CICD -eq 'GHACODEBUILD' -and $PLASTER_PARAM_RepoType -eq 'GITHUB'" source='..\GitHubActionsCodeBuild\CloudFormation\PowerShellGitHubActionsCodeBuild.yml' destination='CloudFormation\PowerShellGitHubActionsCodeBuild.yml'/>
         <!-- _________Appveyor -->
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'APPVEYOR'" source='..\AppVeyor\actions_bootstrap.ps1' destination='actions_bootstrap.ps1'/>
         <templateFile condition="$PLASTER_PARAM_CICD -eq 'APPVEYOR'" source='..\AppVeyor\appveyor.yml' destination='appveyor.yml' />
@@ -323,11 +337,17 @@
         <!-- Outro Messages -->
         <message>
             &#10;Your new PowerShell module project '$PLASTER_PARAM_ModuleName' has been created.
+            &#13;Additional Catesta documentation can be found at https://www.catesta.dev/en/latest/
         </message>
-        <message condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'">
+        <message condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD' -or $PLASTER_PARAM_CICD -eq 'GHACODEBUILD'">
             &#10;CloudFormation files have been generated for this project. You can find these in the CloudFormation folder.
             &#13;You can login to your AWS account and utilize these file to quickly create a stack for your project build.
-            &#13;More information: https://github.com/techthoughts2/Catesta/blob/main/docs/Catesta-AWS.md
+        </message>
+        <message condition="$PLASTER_PARAM_CICD -eq 'CODEBUILD'">
+            &#13;More information: https://www.catesta.dev/en/latest/catesta_cicd/Catesta-AWS/
+        </message>
+        <message condition="$PLASTER_PARAM_CICD -eq 'GHACODEBUILD'">
+            &#13;More information: https://www.catesta.dev/en/latest/catesta_cicd/Catesta-GHActionsAWSCodeBuild
         </message>
     </content>
 </plasterManifest>

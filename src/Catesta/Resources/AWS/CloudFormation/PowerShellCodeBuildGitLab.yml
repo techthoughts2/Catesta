@@ -17,40 +17,30 @@ Parameters:
     Description: The type of repository that contains the source code to be built.
     Type: String
     AllowedValues:
-      - BITBUCKET
-      - GITHUB
-<%
-    if ($PLASTER_PARAM_RepoType -eq 'GitHub') {
-@'
-    Default: GITHUB
-'@
-}
-elseif ($PLASTER_PARAM_RepoType -eq 'BitBucket') {
-@'
-    Default: BITBUCKET
-'@
-}
-%>
+      - GITLAB
+    Default: GITLAB
+
+  CodeConnectionsArn:
+    Description: The ARN of the CodeConnection to use for the repository.
+    Type: String
+    AllowedPattern: arn:aws:codestar-connections:([a-z]{2}-[a-z]+-\d{1}):(\d{12}):connection/[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}
 
   RepositoryUrl:
-<%
-    if ($PLASTER_PARAM_RepoType -eq 'GitHub') {
-@'
-    Description: "HTTPS Clone URL of the repository in GitHub. Example: 'https://github.com/owner/repo.git'"
-'@
-}
-elseif ($PLASTER_PARAM_RepoType -eq 'BitBucket') {
-@'
-    Description: "HTTPS Clone URL of the repository in Bitbucket. Example: 'https://owner@bitbucket.org/owner/repo.git'"
-'@
-}
-%>
+    Description: "HTTPS Clone URL of the repository in Bitbucket. Example: 'https://gitlab.com/owner/repo.git'"
     Type: String
 
   BranchName:
     Default: main
     Description: the branch that will be monitored for builds (CASE SENSITIVE).
     Type: String
+
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-sourceauth.html
+  RepoAuthType:
+    Description: The type of authentication to use with the repository.
+    Type: String
+    Default: CODECONNECTIONS
+    AllowedValues:
+      - CODECONNECTIONS
 
   CodeBuildBadgeEnabled:
     Type: String
@@ -150,6 +140,7 @@ Metadata:
           default: Specify Repository information
         Parameters:
           - RepositoryType
+          - CodeConnectionsArn
           - RepositoryUrl
           - BranchName
       - Label:
@@ -180,6 +171,8 @@ Metadata:
         default: Module Description
       RepositoryType:
         default: Repository Type
+      CodeConnectionsArn:
+        default: CodeConnection ARN to GitLab
       RepositoryUrl:
         default: Repository URL
       BranchName:
@@ -280,6 +273,16 @@ Resources:
 '@
     }
 %>
+              - Effect: Allow
+                Action:
+                  - codestar-connections:GetConnection
+                  - codestar-connections:ListConnections
+                  - codestar-connections:GetInstallationUrl
+                  - codestar-connections:GetIndividualAccessToken
+                  - codestar-connections:ListInstallationTargets
+                  - codestar-connections:StartOAuthHandshake
+                  - codestar-connections:UseConnection
+                Resource: !Ref CodeConnectionsArn
 
         - PolicyName: CBS3ArtifactAccess
           PolicyDocument:
@@ -358,7 +361,8 @@ Resources:
         # SourceAuth is for use by the CodeBuild console only. Do not get or set it directly.
         Type: !Ref RepositoryType
         Auth:
-          Type: OAUTH
+          Resource: !Ref CodeConnectionsArn
+          Type: !Ref RepoAuthType
         Location: !Ref RepositoryUrl
         BuildSpec: buildspec_powershell_windows.yml
       Tags:
@@ -427,7 +431,8 @@ Resources:
         # SourceAuth is for use by the CodeBuild console only. Do not get or set it directly.
         Type: !Ref RepositoryType
         Auth:
-          Type: OAUTH
+          Resource: !Ref CodeConnectionsArn
+          Type: !Ref RepoAuthType
         Location: !Ref RepositoryUrl
         BuildSpec: buildspec_pwsh_windows.yml
       Tags:
@@ -496,7 +501,8 @@ Resources:
         # SourceAuth is for use by the CodeBuild console only. Do not get or set it directly.
         Type: !Ref RepositoryType
         Auth:
-          Type: OAUTH
+          Resource: !Ref CodeConnectionsArn
+          Type: !Ref RepoAuthType
         Location: !Ref RepositoryUrl
         BuildSpec: buildspec_pwsh_linux.yml
       Tags:

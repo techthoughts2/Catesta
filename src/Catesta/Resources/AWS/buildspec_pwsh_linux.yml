@@ -10,7 +10,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      dotnet: 6.0
+      dotnet: 8.0
     commands:
       - pwsh -command './configure_aws_credential.ps1'
       - pwsh -command './install_modules.ps1'
