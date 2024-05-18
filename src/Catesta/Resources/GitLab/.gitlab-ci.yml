@@ -20,11 +20,9 @@
 # No code coverage report: https://github.com/pester/Pester/issues/2203
 # No macOS support out of premium beta: https://docs.gitlab.com/ee/ci/runners/saas/macos_saas_runner.html
 
-.shared_windows_runners:
+.windows-2022:
   tags:
-  - shared-windows
-  - windows
-  - windows-1809
+  - saas-windows-medium-amd64
 
 stages:
 <%
@@ -55,7 +53,7 @@ if ($PLASTER_PARAM_GitLabOptions -eq 'windows') {
 # it can take up to 5 minutes to provision a shared windows machine on GitLab
 windows_powershell_job:
   extends:
-    - .shared_windows_runners
+    - .windows-2022
   stage: windows_powershell
   script:
     - powershell -c "Get-Host"
@@ -79,15 +77,17 @@ if ($PLASTER_PARAM_GitLabOptions -eq 'pwshcore') {
 # it can take up to 5 minutes to provision a shared windows machine on GitLab
 windows_pwsh_job:
   extends:
-    - .shared_windows_runners
+    - .windows-2022
   stage: windows_pwsh
   script:
     - powershell -c "Get-Host"
-    - chocolatey install -y powershell-core
+    # The GitLab 2022 Windows shared runner image usually has an older version of PowerShell installed.
+    # uncomment the line below if you want to install the latest version of PowerShell
+    # - choco install -y powershell-core
     - $env:Path = [System.Environment]::ExpandEnvironmentVariables([System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User"))
-    # uncomment the line below to explore what modules/variables/env variables are available in the build image
     - pwsh -c "Get-Host"
-    - pwsh -c "Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String"
+    # uncomment the line below to explore what modules/variables/env variables are available in the build image
+    # - pwsh -c "Get-Module -ListAvailable; (Get-Variable).GetEnumerator() | Sort-Object Name | Out-String; (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name | Out-String"
     - pwsh -File .\actions_bootstrap.ps1
     - pwsh -c "Invoke-Build -File .\src\<%=$PLASTER_PARAM_ModuleName%>.build.ps1"
   artifacts:

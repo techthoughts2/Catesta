@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.10.0]
+## [2.11.0]
 
 - Catesta template module changes
     - CI/CD Changes:
@@ -27,6 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
             - AWS.Tools.Common bumped from `4.1.133` to `4.1.572`
         - GitHub Actions:
             - Workflow actions now include the module name in the action name
+        - GitLab CI/CD:
+            - Updated from `shared-windows` and `windows-1809` tagged shared runners to `saas-windows-medium-amd64` and `windows-2022` to support GitLab 17.
+                - pwsh is now pre-installed on the 2022 runner (albeit an older version) so the `choco` install for `pwsh` has been commented out. *Note: if you want the latest version of pwsh, uncomment the `choco` command*
         - InvokeBuild bumped from `5.10.5` to `5.11.1`
         - PSScriptAnalyzer bumped from `1.21.0` to `1.22.0`
 - Catesta primary module changes
