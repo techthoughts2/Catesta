@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.12.0]
+
+- Catesta template module changes
+    - readthedocs updates:
+        - Updated `requirements.txt`
+            - `jinja2 3.0.3`  to `jinja2 3.1.4`
+            - `mkdocs 1.4.2` to `mkdocs 1.6.0`
+            - `mkdocs-material 9.0.12` to `mkdocs-material 9.5.25`
+            - `pygments 2.14.0` to `pygments 2.18.0`
+        - Updated `.readthedocs.yaml`
+            - `python 3.11` to `python 3.12`
+- Catesta primary module changes
+    - readthedocs updates:
+        - Updated `requirements.txt`
+            - `jinja2 3.0.3`  to `jinja2 3.1.4`
+            - `mkdocs 1.4.2` to `mkdocs 1.6.0`
+            - `mkdocs-material 9.0.12` to `mkdocs-material 9.5.25`
+            - `pygments 2.14.0` to `pygments 2.18.0`
+        - Updated `.readthedocs.yaml`
+            - `python 3.11` to `python 3.12`
+
 ## [2.11.0]
 
 - Catesta template module changes
