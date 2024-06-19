@@ -12,7 +12,7 @@ Import-Module $PathToManifest -Force
 #-------------------------------------------------------------------------
 
 InModuleScope '<%=$PLASTER_PARAM_ModuleName%>' {
-    Describe 'Get-HellowWorld Public Function Tests' -Tag Unit {
+    Describe 'Get-HelloWorld Public Function Tests' -Tag Unit {
         BeforeAll {
             $WarningPreference = 'SilentlyContinue'
             $ErrorActionPreference = 'SilentlyContinue'
@@ -37,5 +37,5 @@ InModuleScope '<%=$PLASTER_PARAM_ModuleName%>' {
             } #it
 
         } #context_Success
-    } #describe_Get-HellowWorld
+    } #describe_Get-HelloWorld
 } #inModule
