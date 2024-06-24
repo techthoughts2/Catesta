@@ -59,5 +59,5 @@ InModuleScope '<%=$PLASTER_PARAM_ModuleName%>' {
             } #it
 
         } #context_Success
-    } #describe_Get-HellowWorld
+    } #describe_Get-HelloWorld
 } #inModule
