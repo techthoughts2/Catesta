@@ -158,7 +158,10 @@
                 "echo": false,
                 "showReuseMessage": false
             },
-            "group": "test"
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
         },
         {
             "label": "DevCC",
@@ -212,11 +215,12 @@ if ($PLASTER_PARAM_Pester-eq '4') {
         @'
             "command": "Import-Module -Name Pester -MaximumVersion 4.99.99;Invoke-Pester '${workspaceFolder}/src/Tests/Unit' -PesterOption @{IncludeVSCodeMarker=$true}",
 '@
-}
+            }
 elseif ($PLASTER_PARAM_Pester-eq '5') {
         @'
             "command": "Invoke-Pester '${workspaceFolder}/src/Tests/Unit' -Output Detailed",
-'@ }
+'@
+            }
 %>
             "problemMatcher": "$pester",
             "group": "test"
@@ -229,10 +233,11 @@ if ($PLASTER_PARAM_Pester-eq '4') {
         @'
             "command": "Import-Module -Name Pester -MaximumVersion 4.99.99;Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/*/${input:functionName}.Tests.ps1' -CodeCoverage '${workspaceFolder}/src/${workspaceFolderBasename}/*/${input:functionName}.ps1'",
 '@
-}
+            }
 elseif ($PLASTER_PARAM_Pester-eq '5') { @'
             "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';$pesterConfig = New-PesterConfiguration;$pesterConfig.run.Path = '${workspaceFolder}/src/Tests/Unit/*/${input:functionName}.Tests.ps1';$pesterConfig.CodeCoverage.Enabled = $true;$pesterConfig.CodeCoverage.Path = '${workspaceFolder}/src/${workspaceFolderBasename}/*/${input:functionName}.ps1';Invoke-Pester -Configuration $pesterConfig",
-'@ }
+'@
+            }
 %>
             "problemMatcher": "$pester",
             "presentation": {
@@ -249,10 +254,11 @@ if ($PLASTER_PARAM_Pester-eq '4') {
         @'
             "command": "Import-Module -Name Pester -MaximumVersion 4.99.99;Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/*/${input:functionName}.Tests.ps1'",
 '@
-}
+            }
 elseif ($PLASTER_PARAM_Pester-eq '5') { @'
             "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Unit/*/${input:functionName}.Tests.ps1' -Output Detailed",
-'@ }
+'@
+            }
 %>
             "problemMatcher": "$pester",
             "presentation": {
@@ -269,11 +275,12 @@ if ($PLASTER_PARAM_Pester-eq '4') {
         @'
             "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Import-Module -Name Pester -MaximumVersion 4.99.99;Invoke-Pester '${workspaceFolder}/src/Tests/Unit/*/${input:functionName}.Tests.ps1' -CodeCoverage '${workspaceFolder}/src/${workspaceFolderBasename}/*/${input:functionName}.ps1' -CodeCoverageOutputFile '${workspaceFolder}/cov.xml'",
 '@
-}
+            }
 elseif ($PLASTER_PARAM_Pester-eq '5') {
         @'
             "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';$pesterConfig = New-PesterConfiguration;$pesterConfig.run.Path = '${workspaceFolder}/src/Tests/Unit/*/${input:functionName}.Tests.ps1';$pesterConfig.CodeCoverage.Enabled = $true;$pesterConfig.CodeCoverage.Path = '${workspaceFolder}/src/${workspaceFolderBasename}/*/${input:functionName}.ps1';$pesterConfig.CodeCoverage.OutputPath = '${workspaceFolder}/cov.xml';$pesterConfig.CodeCoverage.OutputFormat = 'CoverageGutters';Invoke-Pester -Configuration $pesterConfig",
-'@ }
+'@
+            }
 %>
             "problemMatcher": "$pester",
             "presentation": {
@@ -290,10 +297,11 @@ if ($PLASTER_PARAM_Pester-eq '4') {
         @'
             "command": "Import-Module -Name Pester -MaximumVersion 4.99.99;Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Integration/*/${input:functionName}.Tests.ps1'",
 '@
-}
+            }
 elseif ($PLASTER_PARAM_Pester-eq '5') { @'
             "command": "Import-Module -Name '${workspaceFolder}/src/${workspaceFolderBasename}/${workspaceFolderBasename}.psm1';Invoke-Pester '${workspaceFolder}/src/Tests/Integration/*/${input:functionName}.Tests.ps1' -Output Detailed",
-'@ }
+'@
+            }
 %>
             "problemMatcher": "$pester",
             "presentation": {
