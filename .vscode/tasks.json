@@ -158,7 +158,10 @@
                 "echo": false,
                 "showReuseMessage": false
             },
-            "group": "test"
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
         },
         {
             "label": "DevCC",

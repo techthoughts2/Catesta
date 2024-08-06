@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.12.2]
+
+- Catesta template module changes
+    - Minor spelling correction in sample Pester tests
+    - `tasks.json`
+        - `Test` task is now explicitly set as default test task
+- Catesta primary module changes
+    - `tasks.json`
+        - `Test` task is now explicitly set as default test task
+
 ## [2.12.0]
 
 - Catesta template module changes
