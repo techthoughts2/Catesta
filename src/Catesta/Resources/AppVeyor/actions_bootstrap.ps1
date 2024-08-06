@@ -23,7 +23,7 @@ elseif ($PLASTER_PARAM_Pester-eq '5') {
 # https://github.com/pester/Pester
 [void]$modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'Pester'
-            ModuleVersion = '5.5.0'
+            ModuleVersion = '5.6.1'
         }))
 '@
 }
@@ -31,7 +31,7 @@ elseif ($PLASTER_PARAM_Pester-eq '5') {
 # https://github.com/nightroman/Invoke-Build
 [void]$modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.11.1'
+            ModuleVersion = '5.11.3'
         }))
 # https://github.com/PowerShell/PSScriptAnalyzer
 [void]$modulesToInstall.Add(([PSCustomObject]@{

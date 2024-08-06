@@ -59,7 +59,7 @@ elseif ($PLASTER_PARAM_Pester-eq '5') {
 # https://github.com/pester/Pester
 [void]$modulesToInstall.Add(([PSCustomObject]@{
     ModuleName    = 'Pester'
-    ModuleVersion = '5.5.0'
+    ModuleVersion = '5.6.1'
     BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
     KeyPrefix     = ''
 }))
@@ -68,7 +68,7 @@ elseif ($PLASTER_PARAM_Pester-eq '5') {
 %>
 [void]$modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.11.1'
+            ModuleVersion = '5.11.3'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
             KeyPrefix     = ''
         }))
@@ -204,7 +204,14 @@ else {
             ErrorAction        = 'Stop'
         }
         try {
-            Install-Module @installSplat
+            if ($module.ModuleName -eq 'Pester' -and $IsWindows) {
+                # special case for Pester certificate mismatch with older Pester versions - https://github.com/pester/Pester/issues/2389
+                # this only affects windows builds
+                Install-Module @installSplat -SkipPublisherCheck
+            }
+            else {
+                Install-Module @installSplat
+            }
             Import-Module -Name $module.ModuleName -ErrorAction Stop
             '  - Successfully installed {0}' -f $module.ModuleName
         }
