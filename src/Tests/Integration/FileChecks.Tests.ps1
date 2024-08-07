@@ -1,10 +1,10 @@
-#-------------------------------------------------------------------------
-Set-Location -Path $PSScriptRoot
-#-------------------------------------------------------------------------
-$ModuleName = 'Catesta'
-$resourcePath1 = [System.IO.Path]::Combine( '..', '..', 'Artifacts', 'Resources')
-$manifests = Get-ChildItem -Path $resourcePath1 -Include '*.xml' -Recurse
-#-------------------------------------------------------------------------
+BeforeAll {
+    Set-Location -Path $PSScriptRoot
+    $ModuleName = 'Catesta'
+    $resourcePath1 = [System.IO.Path]::Combine( '..', '..', 'Artifacts', 'Resources')
+    $manifests = Get-ChildItem -Path $resourcePath1 -Include '*.xml' -Recurse
+}
+
 Describe 'File Checks' {
     BeforeAll {
         $WarningPreference = 'Continue'

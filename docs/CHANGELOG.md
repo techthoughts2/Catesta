@@ -5,13 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.13.0]
+## [2.16.0]
 
 - Catesta template module changes
     - CI/CD Changes:
         - Adjusted all action bootstrap for module installs to include a `SkipPublisherCheck` when installing Pester module on Windows builds. (https://github.com/pester/Pester/issues/2389)
         - Pester bumped from `5.5.0` to `5.6.1`
         - InvokeBuild bumped from `5.11.1` to `5.11.3`
+    - Sample pester tests for Pester v5 refactored to follow Pester 5 rules
+    - Refactored `ExportedFunctions.Tests.ps1` for better efficiency in loops
     - Minor spelling correction in sample Pester tests
     - `tasks.json`
         - `Test` task is now explicitly set as default test task
@@ -21,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Pester bumped from `5.5.0` to `5.6.1`
     - InvokeBuild bumped from `5.11.1` to `5.11.3`
     - Adjusted action bootstrap for module installs to include a `SkipPublisherCheck` when installing Pester module on Windows builds. (https://github.com/pester/Pester/issues/2389)
+    - Refactored all unit and infra tests to adhere to Pester 5 rules
+    - Refactored `ExportedFunctions.Tests.ps1` for better efficiency in loops
 
 ## [2.12.0]
 

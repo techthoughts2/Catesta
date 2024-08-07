@@ -268,10 +268,10 @@ Add-BuildTask Test {
         if ($env:CI -and $IsMacOS) {
             # the MacOS github action does not properly detect the relative path.
             Write-Build White "           CI: $env:CI and MacOS action detected. Hard coding path."
-            $pesterConfiguration.CodeCoverage.Path = "/Users/runner/work/Catesta/Catesta/src/Catesta/*/*.ps1"
+            $pesterConfiguration.CodeCoverage.Path = "/Users/runner/work/$ModuleName/$ModuleName/src/$ModuleName/*/*.ps1"
         }
         else {
-            $pesterConfiguration.CodeCoverage.Path = "..\..\..\$ModuleName\*\*.ps1"
+            $pesterConfiguration.CodeCoverage.Path = "..\..\..\src\$ModuleName\*\*.ps1"
         }
         $pesterConfiguration.TestResult.Enabled = $true
         $pesterConfiguration.TestResult.OutputPath = "$testOutPutPath\PesterTests.xml"
@@ -525,8 +525,6 @@ Add-BuildTask Build {
     Remove-Item "$script:ArtifactsPath\Private" -Recurse -Force -ErrorAction SilentlyContinue
     Write-Build Green '        ...Build Complete!'
 } #Build
-
-# TODO: schema generator step
 
 #Synopsis: Invokes all Pester Integration Tests in the Tests\Integration folder (if it exists)
 Add-BuildTask IntegrationTest {

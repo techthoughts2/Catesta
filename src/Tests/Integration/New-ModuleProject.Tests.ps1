@@ -1,17 +1,12 @@
-#-------------------------------------------------------------------------
-Set-Location -Path $PSScriptRoot
-#-------------------------------------------------------------------------
-$ModuleName = 'Catesta'
-#-------------------------------------------------------------------------
-#if the module is already in memory, remove it
-Get-Module $ModuleName | Remove-Module -Force
-$PathToManifest = [System.IO.Path]::Combine('..', '..', 'Artifacts', "$ModuleName.psd1")
-#-------------------------------------------------------------------------
-Import-Module $PathToManifest -Force
-#-------------------------------------------------------------------------
-$resourcePath1 = [System.IO.Path]::Combine( '..', '..', $ModuleName, 'Resources')
-# $manifests = Get-ChildItem -Path $resourcePath1 -Include '*.xml' -Recurse -Force
-#-------------------------------------------------------------------------
+BeforeAll {
+    Set-Location -Path $PSScriptRoot
+    $ModuleName = 'Catesta'
+    $PathToManifest = [System.IO.Path]::Combine('..', '..', 'Artifacts', "$ModuleName.psd1")
+    #if the module is already in memory, remove it
+    Get-Module $ModuleName -ErrorAction SilentlyContinue | Remove-Module -Force
+    Import-Module $PathToManifest -Force
+}
+
 Describe 'Module Integration Tests' {
 
     BeforeAll {
