@@ -5,6 +5,7 @@
     <!--
         CodingStyle
         FN          -g
+        psClasses   -g
         Help        -g
         ModuleName  -g
         Options
@@ -18,7 +19,7 @@
     <metadata>
         <name>Catesta</name>
         <id>258a61ba-566b-4c3a-8230-c2b6861a1a8d</id>
-        <version>2.12.0</version>
+        <version>2.20.0</version>
         <title>Catesta</title>
         <description>Scaffolds a new PowerShell module project</description>
         <author>Jake Morrison</author>
@@ -34,6 +35,10 @@
         <parameter name='Description' type='text' prompt='Enter a description for the module'/>
         <parameter name='Version' type='text' prompt='Enter the version number of the module' default='0.0.1'/>
         <parameter name='FN' type='user-fullname' store='text' prompt='Enter your full name'/>
+        <parameter name='psClasses' type='choice' default='0' store='text' prompt='Will you use classes in your module?'>
+            <choice label='&amp;No' help='Classes will not be used in this PowerShell module.' value='No'/>
+            <choice label='&amp;Yes' help='Classes will be used in this PowerShell module.' value='Yes'/>
+        </parameter>
         <!-- CI/CD -->
         <parameter name='CICD' type='choice' default='0' store='text' prompt='Which CICD tool will you use to build and deploy your project?'>
             <choice label='&amp;Module Only' help='Does not add CI/CD process files. Module scaffolding only.' value='NONE'/>
@@ -177,11 +182,13 @@
         <file source='' destination='src\${PLASTER_PARAM_ModuleName}'/>
         <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Public'/>
         <file source='' destination='src\${PLASTER_PARAM_ModuleName}\Private'/>
+        <file condition="$PLASTER_PARAM_psClasses -eq 'Yes'" source='' destination='src\${PLASTER_PARAM_ModuleName}\Classes'/>
 
         <!-- Module Files -->
 
         <templateFile source='..\Module\src\Module\Private\Get-Day.ps1' destination='src\${PLASTER_PARAM_ModuleName}\Private\Get-Day.ps1' />
         <templateFile source='..\Module\src\Module\Public\Get-HelloWorld.ps1' destination='src\${PLASTER_PARAM_ModuleName}\Public\Get-HelloWorld.ps1' />
+        <file condition="$PLASTER_PARAM_psClasses -eq 'Yes'" source='..\Module\src\Module\Classes\SampleClass.ps1' destination='src\${PLASTER_PARAM_ModuleName}\Classes\SampleClass.ps1' />
 
         <templateFile source='..\Module\src\PSModule.build.ps1' destination='src\${PLASTER_PARAM_ModuleName}.build.ps1'/>
         <file source='..\Module\src\PSModule.Settings.ps1' destination='src\${PLASTER_PARAM_ModuleName}.Settings.ps1'/>
@@ -326,7 +333,8 @@
         <!-- Manifest -->
         <newModuleManifest destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_Version' rootModule='${PLASTER_PARAM_ModuleName}.psm1' encoding='UTF8-NoBOM' openInEditor="true" author='$PLASTER_PARAM_FN' description='$PLASTER_PARAM_description'/>
         <file source='..\Module\src\Module\Imports.ps1' destination='src\${PLASTER_PARAM_ModuleName}\Imports.ps1'/>
-        <file source='..\Module\src\Module\Module.psm1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psm1' openInEditor="true"/>
+        <file condition="$PLASTER_PARAM_psClasses -eq 'No'" source='..\Module\src\Module\Module.psm1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psm1' openInEditor="true"/>
+        <file condition="$PLASTER_PARAM_psClasses -eq 'Yes'" source='..\Module\src\Module\Module_Classes.psm1' destination='src\${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psm1' openInEditor="true"/>
 
         <!-- Required modules -->
         <requireModule condition="$PLASTER_PARAM_Pester -eq '4'" name='Pester' minimumVersion='4.7.2' message='Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 4.5.0, VS Code will not display Pester warnings and errors in the Problems panel.'/>

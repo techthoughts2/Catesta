@@ -1,14 +1,12 @@
-#-------------------------------------------------------------------------
-Set-Location -Path $PSScriptRoot
-#-------------------------------------------------------------------------
-$ModuleName = 'Catesta'
-#-------------------------------------------------------------------------
-#if the module is already in memory, remove it
-Get-Module $ModuleName | Remove-Module -Force
-$PathToManifest = [System.IO.Path]::Combine('..', '..', '..', $ModuleName, "$ModuleName.psd1")
-#-------------------------------------------------------------------------
-Import-Module $PathToManifest -Force
-#-------------------------------------------------------------------------
+BeforeAll {
+    Set-Location -Path $PSScriptRoot
+    $ModuleName = 'Catesta'
+    $PathToManifest = [System.IO.Path]::Combine('..', '..', '..', $ModuleName, "$ModuleName.psd1")
+    #if the module is already in memory, remove it
+    Get-Module $ModuleName -ErrorAction SilentlyContinue | Remove-Module -Force
+    Import-Module $PathToManifest -Force
+}
+
 InModuleScope $ModuleName {
     $functionName = 'New-VaultProject'
     Describe "$functionName Function Tests" -Tag Unit {

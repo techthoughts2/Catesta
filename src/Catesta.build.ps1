@@ -268,10 +268,10 @@ Add-BuildTask Test {
         if ($env:CI -and $IsMacOS) {
             # the MacOS github action does not properly detect the relative path.
             Write-Build White "           CI: $env:CI and MacOS action detected. Hard coding path."
-            $pesterConfiguration.CodeCoverage.Path = "/Users/runner/work/Catesta/Catesta/src/Catesta/*/*.ps1"
+            $pesterConfiguration.CodeCoverage.Path = "/Users/runner/work/$ModuleName/$ModuleName/src/$ModuleName/*/*.ps1"
         }
         else {
-            $pesterConfiguration.CodeCoverage.Path = "..\..\..\$ModuleName\*\*.ps1"
+            $pesterConfiguration.CodeCoverage.Path = "..\..\..\src\$ModuleName\*\*.ps1"
         }
         $pesterConfiguration.TestResult.Enabled = $true
         $pesterConfiguration.TestResult.OutputPath = "$testOutPutPath\PesterTests.xml"
@@ -472,6 +472,7 @@ Add-BuildTask AssetCopy -Before Build {
     Copy-Item -Path "$script:ModuleSourcePath\*" -Destination $script:ArtifactsPath -Exclude *.psd1, *.psm1 -Recurse -ErrorAction Stop
     Copy-Item -Path "$script:ModuleSourcePath\Resources\Module\src\PSScriptAnalyzerSettings.psd1" -Destination "$script:ArtifactsPath\Resources\Module\src\PSScriptAnalyzerSettings.psd1" -ErrorAction Stop
     Copy-Item -Path "$script:ModuleSourcePath\Resources\Module\src\Module\Module.psm1" -Destination "$script:ArtifactsPath\Resources\Module\src\Module\Module.psm1" -ErrorAction Stop
+    Copy-Item -Path "$script:ModuleSourcePath\Resources\Module\src\Module\Module_Classes.psm1" -Destination "$script:ArtifactsPath\Resources\Module\src\Module\Module_Classes.psm1" -ErrorAction Stop
     # Copy-Item -Path "$script:ModuleSourcePath\Resources\Vault\src\PSVault\PSVault.psd1" -Destination "$script:ArtifactsPath\Resources\Vault\src\PSVault\PSVault.psd1" -ErrorAction Stop
     Copy-Item -Path "$script:ModuleSourcePath\Resources\Vault\src\PSVault\PSVault.psm1" -Destination "$script:ArtifactsPath\Resources\Vault\src\PSVault\PSVault.psm1" -ErrorAction Stop
     Copy-Item -Path "$script:ModuleSourcePath\Resources\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psd1" -Destination "$script:ArtifactsPath\Resources\Vault\src\PSVault\PSVault.Extension\PSVault.Extension.psd1" -ErrorAction Stop
@@ -525,8 +526,6 @@ Add-BuildTask Build {
     Remove-Item "$script:ArtifactsPath\Private" -Recurse -Force -ErrorAction SilentlyContinue
     Write-Build Green '        ...Build Complete!'
 } #Build
-
-# TODO: schema generator step
 
 #Synopsis: Invokes all Pester Integration Tests in the Tests\Integration folder (if it exists)
 Add-BuildTask IntegrationTest {

@@ -16,12 +16,12 @@ $modulesToInstall = New-Object System.Collections.Generic.List[object]
 # https://github.com/pester/Pester
 [void]$modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'Pester'
-            ModuleVersion = '5.5.0'
+            ModuleVersion = '5.6.1'
         }))
 # https://github.com/nightroman/Invoke-Build
 [void]$modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.11.1'
+            ModuleVersion = '5.11.3'
         }))
 # https://github.com/PowerShell/PSScriptAnalyzer
 [void]$modulesToInstall.Add(([PSCustomObject]@{
@@ -46,7 +46,14 @@ foreach ($module in $modulesToInstall) {
         ErrorAction     = 'Stop'
     }
     try {
-        Install-Module @installSplat
+        if ($module.ModuleName -eq 'Pester' -and $IsWindows) {
+            # special case for Pester certificate mismatch with older Pester versions - https://github.com/pester/Pester/issues/2389
+            # this only affects windows builds
+            Install-Module @installSplat -SkipPublisherCheck
+        }
+        else {
+            Install-Module @installSplat
+        }
         Import-Module -Name $module.ModuleName -ErrorAction Stop
         '  - Successfully installed {0}' -f $module.ModuleName
     }

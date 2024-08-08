@@ -1,17 +1,12 @@
-#-------------------------------------------------------------------------
-Set-Location -Path $PSScriptRoot
-#-------------------------------------------------------------------------
-$ModuleName = 'Catesta'
-#-------------------------------------------------------------------------
-#if the module is already in memory, remove it
-Get-Module $ModuleName | Remove-Module -Force
-$PathToManifest = [System.IO.Path]::Combine('..', '..', 'Artifacts', "$ModuleName.psd1")
-#-------------------------------------------------------------------------
-Import-Module $PathToManifest -Force
-#-------------------------------------------------------------------------
-$resourcePath1 = [System.IO.Path]::Combine( '..', '..', $ModuleName, 'Resources')
-# $manifests = Get-ChildItem -Path $resourcePath1 -Include '*.xml' -Recurse -Force
-#-------------------------------------------------------------------------
+BeforeAll {
+    Set-Location -Path $PSScriptRoot
+    $ModuleName = 'Catesta'
+    $PathToManifest = [System.IO.Path]::Combine('..', '..', 'Artifacts', "$ModuleName.psd1")
+    #if the module is already in memory, remove it
+    Get-Module $ModuleName -ErrorAction SilentlyContinue | Remove-Module -Force
+    Import-Module $PathToManifest -Force
+}
+
 Describe 'Module Integration Tests' {
 
     BeforeAll {
@@ -48,6 +43,7 @@ Describe 'Module Integration Tests' {
                         Description = 'text'
                         Version     = '0.0.1'
                         FN          = 'user full name'
+                        psClasses   = 'Yes'
                         CICD        = 'NONE'
                         RepoType    = 'NONE'
                         CodingStyle = 'Stroustrup'
@@ -74,6 +70,7 @@ Describe 'Module Integration Tests' {
                     $moduleOnlyFiles.Name.Contains('PSScriptAnalyzerSettings.psd1') | Should -BeExactly $true
                     $moduleOnlyFiles.Name.Contains('Get-HelloWorld.ps1') | Should -BeExactly $true
                     $moduleOnlyFiles.Name.Contains('Get-Day.ps1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('SampleClass.ps1') | Should -BeExactly $true
 
                     # Tests
                     $moduleOnlyFiles.Name.Contains('SampleIntegrationTest.Tests.ps1') | Should -BeExactly $true
@@ -147,6 +144,7 @@ Describe 'Module Integration Tests' {
                         Description = 'text'
                         Version     = '0.0.1'
                         FN          = 'user full name'
+                        psClasses   = 'No'
                         CICD        = 'NONE'
                         RepoType    = 'NONE'
                         CodingStyle = 'Stroustrup'
@@ -172,6 +170,7 @@ Describe 'Module Integration Tests' {
                         Description = 'text'
                         Version     = '0.0.1'
                         FN          = 'user full name'
+                        psClasses   = 'No'
                         CICD        = 'NONE'
                         RepoType    = 'NONE'
                         CodingStyle = 'Stroustrup'
@@ -196,6 +195,7 @@ Describe 'Module Integration Tests' {
                     $moduleOnlyFiles.Name.Contains('PSScriptAnalyzerSettings.psd1') | Should -BeExactly $true
                     $moduleOnlyFiles.Name.Contains('Get-HelloWorld.ps1') | Should -BeExactly $true
                     $moduleOnlyFiles.Name.Contains('Get-Day.ps1') | Should -BeExactly $true
+                    $moduleOnlyFiles.Name.Contains('SampleClass.ps1') | Should -BeExactly $false
 
                     # Tests
                     $moduleOnlyFiles.Name.Contains('SampleIntegrationTest.Tests.ps1') | Should -BeExactly $true
@@ -216,6 +216,7 @@ Describe 'Module Integration Tests' {
                         Description = 'text'
                         Version     = '0.0.1'
                         FN          = 'user full name'
+                        psClasses   = 'No'
                         CICD        = 'CODEBUILD'
                         AWSOptions  = 'ps', 'pwshcore', 'pwsh'
                         RepoType    = 'GITHUB'
@@ -278,6 +279,7 @@ Describe 'Module Integration Tests' {
                         Description = 'text'
                         Version     = '0.0.1'
                         FN          = 'user full name'
+                        psClasses   = 'No'
                         CICD        = 'CODEBUILD'
                         AWSOptions  = 'ps', 'pwshcore', 'pwsh'
                         RepoType    = 'GITLAB'
@@ -338,6 +340,7 @@ Describe 'Module Integration Tests' {
                         Description = 'text'
                         Version     = '0.0.1'
                         FN          = 'user full name'
+                        psClasses   = 'No'
                         CICD        = 'CODEBUILD'
                         AWSOptions  = 'ps', 'pwshcore', 'pwsh'
                         RepoType    = 'BITBUCKET'
@@ -397,6 +400,7 @@ Describe 'Module Integration Tests' {
                         Description = 'text'
                         Version     = '0.0.1'
                         FN          = 'user full name'
+                        psClasses   = 'No'
                         CICD        = 'CODEBUILD'
                         AWSOptions  = 'ps', 'pwshcore', 'pwsh'
                         RepoType    = 'CodeCommit'
@@ -449,6 +453,7 @@ Describe 'Module Integration Tests' {
                         Description = 'text'
                         Version     = '0.0.1'
                         FN          = 'user full name'
+                        psClasses   = 'No'
                         CICD        = 'CODEBUILD'
                         AWSOptions  = 'ps', 'pwshcore', 'pwsh'
                         RepoType    = 'AZURE'
@@ -486,6 +491,7 @@ Describe 'Module Integration Tests' {
                         Description = 'text'
                         Version     = '0.0.1'
                         FN          = 'user full name'
+                        psClasses   = 'No'
                         CICD        = 'CODEBUILD'
                         AWSOptions  = 'ps'
                         RepoType    = 'GITHUB'
@@ -542,6 +548,7 @@ Describe 'Module Integration Tests' {
                         Description = 'text'
                         Version     = '0.0.1'
                         FN          = 'user full name'
+                        psClasses   = 'No'
                         CICD        = 'CODEBUILD'
                         AWSOptions  = 'ps'
                         RepoType    = 'CodeCommit'
@@ -598,6 +605,7 @@ Describe 'Module Integration Tests' {
                         Description  = 'text'
                         Version      = '0.0.1'
                         FN           = 'user full name'
+                        psClasses    = 'No'
                         CICD         = 'AZURE'
                         AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
                         RepoType     = 'GITHUB'
@@ -637,6 +645,7 @@ Describe 'Module Integration Tests' {
                         Description  = 'text'
                         Version      = '0.0.1'
                         FN           = 'user full name'
+                        psClasses    = 'No'
                         CICD         = 'AZURE'
                         AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
                         RepoType     = 'AZURE'
@@ -676,6 +685,7 @@ Describe 'Module Integration Tests' {
                         Description  = 'text'
                         Version      = '0.0.1'
                         FN           = 'user full name'
+                        psClasses    = 'No'
                         CICD         = 'AZURE'
                         AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
                         RepoType     = 'BITBUCKET'
@@ -719,6 +729,7 @@ Describe 'Module Integration Tests' {
                         Description     = 'text'
                         Version         = '0.0.1'
                         FN              = 'user full name'
+                        psClasses       = 'No'
                         CICD            = 'APPVEYOR'
                         AppveyorOptions = 'windows', 'pwshcore', 'linux', 'macos'
                         RepoType        = 'GITHUB'
@@ -761,6 +772,7 @@ Describe 'Module Integration Tests' {
                         Description    = 'text'
                         Version        = '0.0.1'
                         FN             = 'user full name'
+                        psClasses      = 'No'
                         CICD           = 'GITHUB'
                         GitHubAOptions = 'windows', 'pwshcore', 'linux', 'macos'
                         RepoType       = 'GITHUB'
@@ -815,6 +827,7 @@ Describe 'Module Integration Tests' {
                         Description      = 'text'
                         Version          = '0.0.1'
                         FN               = 'user full name'
+                        psClasses        = 'No'
                         CICD             = 'GHACODEBUILD'
                         GitHubACBOptions = 'ps', 'pwshcore', 'pwsh'
                         RepoType         = 'GITHUB'
@@ -881,6 +894,7 @@ Describe 'Module Integration Tests' {
                         Description = 'text'
                         Version     = '0.0.1'
                         FN          = 'user full name'
+                        psClasses   = 'No'
                         CICD        = 'BITBUCKET'
                         RepoType    = 'BITBUCKET'
                         ReadtheDocs = 'NONE'
@@ -919,6 +933,7 @@ Describe 'Module Integration Tests' {
                         Description   = 'text'
                         Version       = '0.0.1'
                         FN            = 'user full name'
+                        psClasses     = 'No'
                         CICD          = 'GITLAB'
                         GitLabOptions = 'windows', 'pwshcore', 'linux'
                         RepoType      = 'GITLAB'
@@ -965,6 +980,7 @@ Describe 'Module Integration Tests' {
                         Description = 'text'
                         Version     = '0.0.1'
                         FN          = 'user full name'
+                        psClasses   = 'No'
                         CICD        = 'NONE'
                         RepoType    = 'CODECOMMIT'
                         ReadtheDocs = 'NONE'
@@ -1024,6 +1040,7 @@ Describe 'Module Integration Tests' {
                         Description = 'text'
                         Version     = '0.0.1'
                         FN          = 'user full name'
+                        psClasses   = 'No'
                         CICD        = 'NONE'
                         RepoType    = 'GITHUB'
                         ReadtheDocs = 'NONE'
@@ -1104,6 +1121,7 @@ Describe 'Module Integration Tests' {
                         Description = 'text'
                         Version     = '0.0.1'
                         FN          = 'user full name'
+                        psClasses   = 'No'
                         CICD        = 'NONE'
                         RepoType    = 'GITLAB'
                         ReadtheDocs = 'NONE'
@@ -1183,6 +1201,7 @@ Describe 'Module Integration Tests' {
                     Description = 'text'
                     Version     = '0.0.1'
                     FN          = 'user full name'
+                    psClasses   = 'No'
                     CICD        = 'NONE'
                     RepoType    = 'GITHUB'
                     ReadtheDocs = 'READTHEDOCS'
@@ -1228,6 +1247,7 @@ Describe 'Module Integration Tests' {
                     Description = 'text'
                     Version     = '0.0.1'
                     FN          = 'user full name'
+                    psClasses   = 'No'
                     CICD        = 'NONE'
                     RepoType    = 'GITHUB'
                     ReadtheDocs = 'READTHEDOCS'
@@ -1275,6 +1295,7 @@ Describe 'Module Integration Tests' {
                     Description = 'My awesome module is awesome'
                     Version     = '0.0.1'
                     FN          = 'user full name'
+                    psClasses   = 'No'
                     CICD        = 'NONE'
                     RepoType    = 'NONE'
                     CodingStyle = 'Stroustrup'
@@ -1295,6 +1316,7 @@ Describe 'Module Integration Tests' {
                     Description    = 'My awesome module is awesome'
                     Version        = '0.0.1'
                     FN             = 'user full name'
+                    psClasses      = 'No'
                     CICD           = 'GITHUB'
                     GitHubAOptions = 'windows', 'pwshcore', 'linux', 'macos'
                     RepoType       = 'GITHUB'
@@ -1324,6 +1346,7 @@ Describe 'Module Integration Tests' {
                     Description = 'My awesome module is awesome'
                     Version     = '0.0.1'
                     FN          = 'user full name'
+                    psClasses   = 'No'
                     CICD        = 'CODEBUILD'
                     AWSOptions  = 'ps', 'pwshcore', 'pwsh'
                     RepoType    = 'GITHUB'
@@ -1352,6 +1375,7 @@ Describe 'Module Integration Tests' {
                     Description  = 'My awesome module is awesome'
                     Version      = '0.0.1'
                     FN           = 'user full name'
+                    psClasses    = 'No'
                     CICD         = 'AZURE'
                     AzureOptions = 'windows', 'pwshcore', 'linux', 'macos'
                     RepoType     = 'GITHUB'
@@ -1379,6 +1403,7 @@ Describe 'Module Integration Tests' {
                     Description     = 'My awesome module is awesome'
                     Version         = '0.0.1'
                     FN              = 'user full name'
+                    psClasses       = 'No'
                     CICD            = 'APPVEYOR'
                     AppveyorOptions = 'windows', 'pwshcore', 'linux', 'macos'
                     RepoType        = 'GITHUB'
@@ -1407,6 +1432,7 @@ Describe 'Module Integration Tests' {
                     Description = 'My awesome module is awesome'
                     Version     = '0.0.1'
                     FN          = 'user full name'
+                    psClasses   = 'No'
                     CICD        = 'BITBUCKET'
                     RepoType    = 'BITBUCKET'
                     ReadtheDocs = 'NONE'
@@ -1434,6 +1460,7 @@ Describe 'Module Integration Tests' {
                     Description   = 'My awesome module is awesome'
                     Version       = '0.0.1'
                     FN            = 'user full name'
+                    psClasses     = 'No'
                     CICD          = 'GITLAB'
                     RepoType      = 'GITLAB'
                     ReadtheDocs   = 'READTHEDOCS'

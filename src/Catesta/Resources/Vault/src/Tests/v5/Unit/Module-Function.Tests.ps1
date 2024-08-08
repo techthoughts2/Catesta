@@ -1,16 +1,12 @@
-#-------------------------------------------------------------------------
-Set-Location -Path $PSScriptRoot
-#-------------------------------------------------------------------------
-$ModuleName = '<%=$PLASTER_PARAM_ModuleName%>'
-$vaultName = '<%=$PLASTER_PARAM_ModuleName%>'
-$PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
-#-------------------------------------------------------------------------
-if (Get-Module -Name $ModuleName -ErrorAction 'SilentlyContinue') {
+BeforeAll {
+    Set-Location -Path $PSScriptRoot
+    $ModuleName = '<%=$PLASTER_PARAM_ModuleName%>'
+    $vaultName = '<%=$PLASTER_PARAM_ModuleName%>'
+    $PathToManifest = [System.IO.Path]::Combine('..', '..', $ModuleName, "$ModuleName.psd1")
     #if the module is already in memory, remove it
-    Remove-Module -Name $ModuleName -Force
+    Get-Module $ModuleName -ErrorAction SilentlyContinue | Remove-Module -Force
+    Import-Module $PathToManifest -Force
 }
-Import-Module $PathToManifest -Force
-#-------------------------------------------------------------------------
 
 Describe '<%=$PLASTER_PARAM_ModuleName%> Vault Extension Tests' -Tag Unit {
     BeforeAll {
