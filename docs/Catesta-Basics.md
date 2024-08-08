@@ -33,6 +33,9 @@ New-VaultProject -DestinationPath $outPutPath
 * **Enter a description for the module:** *Description of what your module does*
 * **Enter the version number of the module (0.0.1)**: *Starting version #*
 * **Enter your full name**: *Module author name*
+* **Will you use classes in your module?**
+    * [N] No
+    * [Y] Yes
 * **Which CICD tool will you use to build and deploy your project?**: *Choose CI/CD tool for automated project build and deployment.*
     * [M] Module Only
     * [G] GitHub Actions

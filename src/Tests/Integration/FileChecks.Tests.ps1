@@ -75,6 +75,10 @@ Describe 'File Checks' {
             $srcFiles.Name.Contains('Get-Day.ps1') | Should -BeExactly $true
         } #it
 
+        It 'should have a class example' {
+            $srcFiles.Name.Contains('SampleClass.ps1') | Should -BeExactly $true
+        } #it
+
     } #context_module
 
     Context 'Vault Source Files' {

@@ -31,6 +31,14 @@ name : FN
 type : user-fullname
 default : 
 
+name : psClasses
+type : choice
+choices:
+    value : No
+    help : Classes will not be used in this PowerShell module.
+    value : Yes
+    help : Classes will be used in this PowerShell module.
+
 name : CICD
 type : choice
 choices:
@@ -254,6 +262,7 @@ ModuleName       = 'text'
 Description      = 'text'
 Version          = '0.0.1'
 FN               = 'user full name'
+psClasses        = 'No'
 CICD             = 'GITHUB'
 GitHubAOptions   = 'windows','pwshcore','linux','macos'
 AWSOptions       = 'ps','pwshcore','pwsh'
