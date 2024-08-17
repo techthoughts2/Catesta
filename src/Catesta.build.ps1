@@ -271,7 +271,7 @@ Add-BuildTask Test {
             $pesterConfiguration.CodeCoverage.Path = "/Users/runner/work/$ModuleName/$ModuleName/src/$ModuleName/*/*.ps1"
         }
         else {
-            $pesterConfiguration.CodeCoverage.Path = "..\..\..\src\$ModuleName\*\*.ps1"
+            $pesterConfiguration.CodeCoverage.Path = "..\..\..\$ModuleName\*\*.ps1"
         }
         $pesterConfiguration.TestResult.Enabled = $true
         $pesterConfiguration.TestResult.OutputPath = "$testOutPutPath\PesterTests.xml"

@@ -1,4 +1,4 @@
-BeforeAll {
+BeforeDiscovery {
     Set-Location -Path $PSScriptRoot
     $ModuleName = '<%=$PLASTER_PARAM_ModuleName%>'
     $PathToManifest = [System.IO.Path]::Combine('..', '..', '..', $ModuleName, "$ModuleName.psd1")

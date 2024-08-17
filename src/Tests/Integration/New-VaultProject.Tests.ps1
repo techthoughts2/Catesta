@@ -1,4 +1,4 @@
-BeforeAll {
+BeforeDiscovery {
     Set-Location -Path $PSScriptRoot
     $ModuleName = 'Catesta'
     $PathToManifest = [System.IO.Path]::Combine('..', '..', 'Artifacts', "$ModuleName.psd1")
