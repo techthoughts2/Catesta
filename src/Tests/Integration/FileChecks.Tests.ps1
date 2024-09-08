@@ -1,4 +1,4 @@
-BeforeAll {
+BeforeDiscovery {
     Set-Location -Path $PSScriptRoot
     $ModuleName = 'Catesta'
     $resourcePath1 = [System.IO.Path]::Combine( '..', '..', 'Artifacts', 'Resources')

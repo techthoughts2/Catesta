@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.22.0]
+
+- Catesta template module changes
+    - Improved Windows detection checks for Pester module installation
+- Catesta primary module changes
+    - Improved Windows detection checks for Pester module installation
+    - Fixed `FileChecks.Tests.ps1` where certain tests were not being run.
+
 ## [2.21.0]
 
 - Catesta template module changes
