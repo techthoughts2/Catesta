@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Improved Windows detection checks for Pester module installation
 - Catesta primary module changes
     - Improved Windows detection checks for Pester module installation
+    - Fixed `FileChecks.Tests.ps1` where certain tests were not being run.
 
 ## [2.21.0]
 
