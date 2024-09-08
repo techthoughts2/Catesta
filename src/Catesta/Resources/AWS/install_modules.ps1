@@ -204,7 +204,7 @@ else {
             ErrorAction        = 'Stop'
         }
         try {
-            if ($module.ModuleName -eq 'Pester' -and $IsWindows) {
+            if ($module.ModuleName -eq 'Pester' -and ($IsWindows -or $PSVersionTable.PSVersion -le [version]'5.1')) {
                 # special case for Pester certificate mismatch with older Pester versions - https://github.com/pester/Pester/issues/2389
                 # this only affects windows builds
                 Install-Module @installSplat -SkipPublisherCheck
