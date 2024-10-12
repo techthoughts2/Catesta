@@ -168,7 +168,11 @@ Add-BuildTask Analyze {
         Setting = 'PSScriptAnalyzerSettings.psd1'
     }
 
-    $filesToAnalyze = Get-ChildItem -Path $script:ModuleSourcePath -Exclude "PSVault.Extension*" -Recurse -File | Where-Object { $_.FullName -notlike '*\Tests\*' }
+    $filesToAnalyze = Get-ChildItem -Path $script:ModuleSourcePath -Exclude "PSVault.Extension*" -Recurse -File |
+    Where-Object {
+        $directoryPath = [System.IO.Path]::GetDirectoryName($_.FullName)
+        $directoryPath -notmatch 'Tests'
+    }
     $fileCount = $filesToAnalyze.Count
 
     Write-Build White ('      Performing Module ScriptAnalyzer checks for {0} files...' -f $fileCount)
