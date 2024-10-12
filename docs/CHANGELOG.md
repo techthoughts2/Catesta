@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.22.2]
+
+- Catesta template module changes
+    - Added PSScriptAnalyzer suppression rule to `MarkdownRepair.ps1`
+- Catesta primary module changes
+    - Addressed bug in `Catesta.build.ps1` where in certain circumstances PSScriptAnalyzer violations were not being properly detected
+    - Added PSScriptAnalyzer suppression rule to `MarkdownRepair.ps1`
+
 ## [2.22.0]
 
 - Catesta template module changes

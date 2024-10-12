@@ -165,22 +165,29 @@ Add-BuildTask Clean {
 Add-BuildTask Analyze {
 
     $scriptAnalyzerParams = @{
-        # Path    = $script:ModuleSourcePath
         Setting = 'PSScriptAnalyzerSettings.psd1'
-        # Recurse = $true
-        # Verbose = $false
     }
 
-    $filesToAnalyze = Get-ChildItem -Path $script:ModuleSourcePath -Exclude "PSVault.Extension*" -Recurse
+    $filesToAnalyze = Get-ChildItem -Path $script:ModuleSourcePath -Exclude "PSVault.Extension*" -Recurse -File | Where-Object { $_.FullName -notlike '*\Tests\*' }
+    $fileCount = $filesToAnalyze.Count
 
-    Write-Build White '      Performing Module ScriptAnalyzer checks...'
+    Write-Build White ('      Performing Module ScriptAnalyzer checks for {0} files...' -f $fileCount)
+    Import-Module -Name PSScriptAnalyzer -ErrorAction Stop
+
+    $scriptAnalyzerResults = New-Object System.Collections.Generic.List[Microsoft.Windows.PowerShell.ScriptAnalyzer.Generic.DiagnosticRecord]
+
     foreach ($file in $filesToAnalyze) {
-        $scriptAnalyzerResults = Invoke-ScriptAnalyzer @scriptAnalyzerParams -Path $file.FullName
+        $results = $null
+        $results = Invoke-ScriptAnalyzer @scriptAnalyzerParams -Path $file.FullName
+        if ($results) {
+            foreach ($result in $results) {
+                $scriptAnalyzerResults.Add($result)
+            }
+        }
     }
-    # $scriptAnalyzerResults = Invoke-ScriptAnalyzer @scriptAnalyzerParams
 
     if ($scriptAnalyzerResults) {
-        $scriptAnalyzerResults | Format-Table
+        $scriptAnalyzerResults | Format-List *
         throw '      One or more PSScriptAnalyzer errors/warnings where found.'
     }
     else {
