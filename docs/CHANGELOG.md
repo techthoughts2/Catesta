@@ -5,12 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.23.0]
+## [2.24.0]
 
 - Catesta template module changes
     - Updated all GitHub actions workflows from `actions/upload-artifact@v3` to `actions/upload-artifact@v4`
+    - CI/CD Changes:
+        - Pester bumped from `5.6.1` to `5.7.1`
+        - InvokeBuild bumped from `5.11.3` to `5.12.1`
+        - PSScriptAnalyzer bumped from `1.22.0` to `1.23.0`
 - Catesta primary module changes
     - Updated GitHub actions workflows from `actions/upload-artifact@v3` to `actions/upload-artifact@v4`
+    - Pester bumped from `5.6.1` to `5.7.1`
+    - InvokeBuild bumped from `5.11.3` to `5.12.1`
+    - PSScriptAnalyzer bumped from `1.22.0` to `1.23.0`
 
 ## [2.22.2]
 

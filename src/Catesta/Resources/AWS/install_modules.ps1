@@ -59,7 +59,7 @@ elseif ($PLASTER_PARAM_Pester-eq '5') {
 # https://github.com/pester/Pester
 [void]$modulesToInstall.Add(([PSCustomObject]@{
     ModuleName    = 'Pester'
-    ModuleVersion = '5.6.1'
+    ModuleVersion = '5.7.1'
     BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
     KeyPrefix     = ''
 }))
@@ -68,13 +68,13 @@ elseif ($PLASTER_PARAM_Pester-eq '5') {
 %>
 [void]$modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'InvokeBuild'
-            ModuleVersion = '5.11.3'
+            ModuleVersion = '5.12.1'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
             KeyPrefix     = ''
         }))
 [void]$modulesToInstall.Add(([PSCustomObject]@{
             ModuleName    = 'PSScriptAnalyzer'
-            ModuleVersion = '1.22.0'
+            ModuleVersion = '1.23.0'
             BucketName    = '<%=$PLASTER_PARAM_S3Bucket%>'
             KeyPrefix     = ''
         }))
