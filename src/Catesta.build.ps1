@@ -514,6 +514,8 @@ Add-BuildTask Build {
         $null = $scriptContent.AppendLine('')
     }
     $scriptContent.ToString() | Out-File -FilePath $script:BuildModuleRootFile -Encoding utf8 -Force
+    # Cleanup the combined root module and remove extra trailing lines at the end of the file.
+    Invoke-Formatter $script:BuildModuleRootFile -ErrorAction SilentlyContinue
     Write-Build Gray '        ...Module creation complete.'
 
     #here we update the parent level docs. If you would prefer not to update them, comment out this section.
