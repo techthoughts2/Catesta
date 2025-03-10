@@ -320,7 +320,6 @@ Add-BuildTask Test {
             else {
                 Write-Build Cyan "      $('Covered {0}% of {1} analyzed commands in {2} files.' -f $coveragePercent,$testResults.CodeCoverage.CommandsAnalyzedCount,$testResults.CodeCoverage.FilesAnalyzedCount)"
                 Write-Build Green '      ...Pester Unit Tests Complete!'
-
             }
         }
         else {
@@ -377,7 +376,7 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
     Write-Build Gray '           ...Markdown generation completed.'
 
     Write-Build Gray '           Replacing markdown elements...'
-    # Replace multi-line EXAMPLES
+    Write-Build DarkGray '             Replace multi-line EXAMPLES'
     $OutputDir = "$script:ArtifactsPath\docs\"
     $OutputDir | Get-ChildItem -File | ForEach-Object {
         # fix formatting in multiline examples
@@ -387,7 +386,7 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
             Set-Content -Path $_.FullName -Value $newContent -Force
         }
     }
-    # Replace each missing element we need for a proper generic module page .md file
+    Write-Build DarkGray '             Replace each missing element we need for a proper generic module page .md file'
     $ModulePageFileContent = Get-Content -Raw $ModulePage
     $ModulePageFileContent = $ModulePageFileContent -replace '{{Manually Enter Description Here}}', $script:ModuleDescription
     $script:FunctionsToExport | ForEach-Object {
@@ -396,6 +395,27 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
         $ReplacementText = (Get-Help -Detailed $_).Synopsis
         $ModulePageFileContent = $ModulePageFileContent -replace $TextToReplace, $ReplacementText
     }
+    Write-Build DarkGray '             Evaluating if running 7.4.0 or higher...'
+    # https://github.com/PowerShell/platyPS/issues/595
+    if ($PSVersionTable.PSVersion -ge [version]'7.4.0') {
+        Write-Build DarkGray '                Performing Markdown repair'
+        # dot source markdown repair
+        . $BuildRoot\MarkdownRepair.ps1
+        $OutputDir | Get-ChildItem -File | ForEach-Object {
+            Repair-PlatyPSMarkdown -Path $_.FullName
+        }
+    }
+    Write-Build DarkGray '             Add blank line after headers.'
+    $OutputDir | Get-ChildItem -File | ForEach-Object {
+        $content = Get-Content $_.FullName -Raw
+        $newContent = $content -replace '(?m)^(#{1,6}\s+.*)$\r?\n(?!\r?\n)', "`$1`r`n"
+        # $newContent = $content -replace '(?m)^(#{1,6}\s+.+?)$\r?\n(?!\r?\n)', "`$1`n"
+        # $newContent = $content -replace '(?m)^(#{1,6}\s+.*)$\r?\n(?!\r?\n)', "`$1`n"
+        if ($newContent -ne $content) {
+            Set-Content -Path $_.FullName -Value $newContent -Force
+        }
+    }
+    # *NOTE: it is not possible to adjust fenced code block at this location as conversion to MAML does not support language tags.
 
     $ModulePageFileContent | Out-File $ModulePage -Force -Encoding:utf8
     Write-Build Gray '           ...Markdown replacements complete.'
@@ -405,17 +425,6 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
     if ($MissingGUID.Count -gt 0) {
         Write-Build Yellow '             The documentation that got generated resulted in a generic GUID. Check the GUID entry of your module manifest.'
         throw 'Missing GUID. Please review and rebuild.'
-    }
-
-    Write-Build Gray '           Evaluating if running 7.4.0 or higher...'
-    # https://github.com/PowerShell/platyPS/issues/595
-    if ($PSVersionTable.PSVersion -ge [version]'7.4.0') {
-        Write-Build Gray '               Performing Markdown repair'
-        # dot source markdown repair
-        . $BuildRoot\MarkdownRepair.ps1
-        $OutputDir | Get-ChildItem -File | ForEach-Object {
-            Repair-PlatyPSMarkdown -Path $_.FullName
-        }
     }
 
     Write-Build Gray '           Checking for missing documentation in md files...'
@@ -431,7 +440,8 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
 
     Write-Build Gray '           Checking for missing SYNOPSIS in md files...'
     $fSynopsisOutput = @()
-    $synopsisEval = Select-String -Path "$script:ArtifactsPath\docs\*.md" -Pattern "^## SYNOPSIS$" -Context 0, 1
+    # $synopsisEval = Select-String -Path "$script:ArtifactsPath\docs\*.md" -Pattern "^## SYNOPSIS$" -Context 0, 1
+    $synopsisEval = Select-String -Path "$script:ArtifactsPath\docs\*.md" -Pattern "^## SYNOPSIS$\r?\n$" -Context 0, 2
     $synopsisEval | ForEach-Object {
         $chAC = $_.Context.DisplayPostContext.ToCharArray()
         if ($null -eq $chAC) {
@@ -444,8 +454,6 @@ Add-BuildTask CreateMarkdownHelp -After CreateHelpStart {
         throw 'SYNOPSIS information missing. Please review.'
     }
 
-    # Write-Host '      Creating markdown documentation with PlatyPS'
-    # Write-Host -ForegroundColor Green '...Complete!'
     Write-Build Gray '           ...Markdown generation complete.'
 } #CreateMarkdownHelp
 
@@ -457,6 +465,57 @@ Add-BuildTask CreateExternalHelp -After CreateMarkdownHelp {
 } #CreateExternalHelp
 
 Add-BuildTask CreateHelpComplete -After CreateExternalHelp {
+    Write-Build Gray '           Finalizing markdown documentation now that external help has been created...'
+    Write-Build DarkGray '             Add powershell language to unspecified fenced code blocks.'
+
+    $OutputDir = "$script:ArtifactsPath\docs\"
+
+    Get-ChildItem -Path $OutputDir -File | ForEach-Object {
+        $lines = Get-Content -Path $_.FullName
+        $insideCodeBlock = $false
+
+        for ($i = 0; $i -lt $lines.Count; $i++) {
+            # Regex captures everything after triple backticks (if present).
+            # e.g. ```yaml => captured group = "yaml"
+            #      ```    => captured group = ""
+            if ($lines[$i] -match '^\s*```(\S*)\s*$') {
+                $lang = $Matches[1]
+
+                if (-not $insideCodeBlock) {
+                    # We found an opening fence
+                    if ([string]::IsNullOrWhiteSpace($lang)) {
+                        # Bare triple backticks => add powershell
+                        $lines[$i] = '```powershell'
+                    }
+                    # Toggle "inside code block" on
+                    $insideCodeBlock = $true
+                }
+                else {
+                    # We found the closing fence -> set $insideCodeBlock off
+                    $insideCodeBlock = $false
+                    # Do *not* modify closing fence, leave it exactly as it is
+                }
+            }
+        }
+
+        Set-Content -Path $_.FullName -Value $lines
+    }
+    Write-Build DarkGray '             Ensuring exactly one trailing newline in final markdown file.'
+    Get-ChildItem -Path $OutputDir -File -Filter *.md | ForEach-Object {
+        # Read the file as an array of lines
+        $lines = Get-Content -Path $_.FullName
+
+        # Remove all blank lines at the end, but do not remove actual content
+        while ($lines.Count -gt 0 -and $lines[-1] -match '^\s*$') {
+            $lines = $lines[0..($lines.Count - 2)]
+        }
+
+        # Re-join with Windows line endings and add exactly one trailing newline
+        $content = ($lines -join "`r`n")
+        Set-Content -Path $_.FullName -Value $content -Force
+    }
+    Write-Build Gray '           ...Markdown documentation finalized.'
+
     Write-Build Green '      ...CreateHelp Complete!'
 } #CreateHelpStart
 

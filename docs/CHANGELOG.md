@@ -5,18 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.24.0]
+## [2.27.0]
 
 - Catesta template module changes
     - Updated all GitHub actions workflows from `actions/upload-artifact@v3` to `actions/upload-artifact@v4`
-    - `Invoke-Formatter` now runs at the end of `Build` step for final cleanup
+    - `*.build.ps1` Improvements:
+        - `Invoke-Formatter` now runs at the end of `Build` step for final cleanup
+        - Added new Markdown processing functionality to address two Markdown linting issues:
+            - `MD022/blanks-around-headings`
+            - `MD040/fenced-code-language`
     - CI/CD Changes:
         - Pester bumped from `5.6.1` to `5.7.1`
         - InvokeBuild bumped from `5.11.3` to `5.12.1`
         - PSScriptAnalyzer bumped from `1.22.0` to `1.23.0`
 - Catesta primary module changes
     - Updated GitHub actions workflows from `actions/upload-artifact@v3` to `actions/upload-artifact@v4`
-    - `Invoke-Formatter` now runs at the end of `Build` step for final cleanup
+    - `Catesta.build.ps1` Improvements:
+        - `Invoke-Formatter` now runs at the end of `Build` step for final cleanup
+        - Added new Markdown processing functionality to address two Markdown linting issues:
+            - `MD022/blanks-around-headings`
+            - `MD040/fenced-code-language`
     - Pester bumped from `5.6.1` to `5.7.1`
     - InvokeBuild bumped from `5.11.3` to `5.12.1`
     - PSScriptAnalyzer bumped from `1.22.0` to `1.23.0`

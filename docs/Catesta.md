@@ -2,7 +2,7 @@
 Module Name: Catesta
 Module Guid: 6796b193-9013-468a-b022-837749af2d06
 Download Help Link: NA
-Help Version: 2.24.0
+Help Version: 2.27.0
 Locale: en-US
 ---
 
@@ -16,5 +16,3 @@ Scaffolds a PowerShell module project for use with desired CICD platform for eas
 
 ### [New-VaultProject](New-VaultProject.md)
 Scaffolds a PowerShell SecretManagement vault project for use with desired CICD platform for easy cross platform PowerShell development.
-
-
