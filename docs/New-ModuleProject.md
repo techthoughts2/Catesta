@@ -243,7 +243,7 @@ New-ModuleProject -ModuleParameters $moduleParameters -DestinationPath $outPutPa
 ```
 
 Scaffolds a PowerShell module project for integration with GitLab CI/CD Pipelines with the project code stored on GitLab.
-A full set of repository supporting files are included. 
+A full set of repository supporting files are included.
 The project is set up for integration with Read the Docs.
 
 ## PARAMETERS
@@ -357,7 +357,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutBuffer, -OutVariable, -PipelineVariable, -Verbose, -WarningAction, -WarningVariable, and -ProgressAction. 
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutBuffer, -OutVariable, -PipelineVariable, -Verbose, -WarningAction, -WarningVariable, and -ProgressAction.
 For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
