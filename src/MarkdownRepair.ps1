@@ -11,6 +11,7 @@
 #>
 
 function Remove-CommonParameterFromMarkdown {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     <#
     .SYNOPSIS
         Remove a PlatyPS generated parameter block.

@@ -8,16 +8,18 @@ schema: 2.0.0
 # New-VaultProject
 
 ## SYNOPSIS
+
 Scaffolds a PowerShell SecretManagement vault project for use with desired CICD platform for easy cross platform PowerShell development.
 
 ## SYNTAX
 
-```
+```powershell
 New-VaultProject [-DestinationPath] <String> [[-VaultParameters] <Hashtable>] [-NoLogo] [-PassThru] [-Force]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
+
 Uses the Plaster framework to scaffold a PowerShell SecretManagement vault project that adheres to community best practices.
 Based on selections made, generates the files and configuration required to integrate with a variety of CI/CD platforms,
 including options for easy cross-platform verification on Windows, Linux, and MacOS.
@@ -30,7 +32,8 @@ If you pass in a full VaultParameters set, Plaster will not prompt you for any t
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+
+```powershell
 New-VaultProject -DestinationPath $outPutPath
 ```
 
@@ -38,7 +41,8 @@ Initiates Plaster template to scaffold a PowerShell SecretManagement vault proje
 Choices made during scaffolding will result in a PowerShell project tailored to the chosen CI/CD platform, or a standard PowerShell SecretManagement vault project with no CI/CD integration.
 
 ### EXAMPLE 2
-```
+
+```powershell
 New-VaultProject -DestinationPath $outPutPath -NoLogo
 ```
 
@@ -47,7 +51,8 @@ Choices made during scaffolding will result in a PowerShell project tailored to 
 The Plaster logo will be suppressed and not shown.
 
 ### EXAMPLE 3
-```
+
+```powershell
 New-VaultProject -DestinationPath $outPutPath -PassThru
 ```
 
@@ -56,7 +61,8 @@ Choices made during scaffolding will result in a PowerShell project tailored to 
 An object will be returned containing details of the Plaster template deployment.
 
 ### EXAMPLE 4
-```
+
+```powershell
 $vaultParameters = @{
     ModuleName       = 'SecretManagement.VaultName'
     Description      = 'My awesome vault is awesome'
@@ -75,7 +81,8 @@ Scaffolds a basic PowerShell SecretManagement vault project with no additional e
 You just get a basic PowerShell SecretManagement vault construct.
 
 ### EXAMPLE 5
-```
+
+```powershell
 $vaultParameters = @{
     ModuleName     = 'SecretManagement.VaultName'
     Description    = 'My awesome vault is awesome'
@@ -104,7 +111,8 @@ A full set of GitHub project supporting files is provided.
 The project is set up for integration with Read the Docs.
 
 ### EXAMPLE 6
-```
+
+```powershell
 $vaultParameters = @{
     ModuleName  = 'SecretManagement.VaultName'
     Description = 'My awesome vault is awesome'
@@ -131,7 +139,8 @@ Scaffolds a PowerShell SecretManagement vault project for integration with AWS C
 A full set of GitHub project supporting files is provided.
 
 ### EXAMPLE 7
-```
+
+```powershell
 $vaultParameters = @{
     ModuleName   = 'SecretManagement.VaultName'
     Description  = 'My awesome vault is awesome'
@@ -157,7 +166,8 @@ Scaffolds a PowerShell SecretManagement vault project for integration with Azure
 No repository supporting files are included.
 
 ### EXAMPLE 8
-```
+
+```powershell
 $vaultParameters = @{
     ModuleName      = 'SecretManagement.VaultName'
     Description     = 'My awesome vault is awesome'
@@ -184,7 +194,8 @@ Scaffolds a PowerShell SecretManagement vault project for integration with Appve
 No repository supporting files are included.
 
 ### EXAMPLE 9
-```
+
+```powershell
 $vaultParameters = @{
     ModuleName  = 'SecretManagement.VaultName'
     Description = 'My awesome vault is awesome'
@@ -210,7 +221,8 @@ Scaffolds a PowerShell SecretManagement vault project for integration with Bitbu
 A full set of repository supporting files are included.
 
 ### EXAMPLE 10
-```
+
+```powershell
 $vaultParameters = @{
     ModuleName    = 'SecretManagement.VaultName'
     Description   = 'My awesome vault is awesome'
@@ -241,6 +253,7 @@ The project is set up for integration with Read the Docs.
 ## PARAMETERS
 
 ### -DestinationPath
+
 File path where PowerShell SecretManagement vault project will be created
 
 ```yaml
@@ -256,6 +269,7 @@ Accept wildcard characters: False
 ```
 
 ### -VaultParameters
+
 Provide all Plaster decisions inside a Hashtable.
 If any decision choice is not provided, Plaster will still prompt you for a decision.
 See NOTES for additional limitations.
@@ -273,6 +287,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoLogo
+
 Suppresses the display of the Plaster logo.
 
 ```yaml
@@ -288,6 +303,7 @@ Accept wildcard characters: False
 ```
 
 ### -PassThru
+
 Returns an object containing details of Plaster template deployment.
 
 ```yaml
@@ -303,6 +319,7 @@ Accept wildcard characters: False
 ```
 
 ### -Force
+
 Skip Confirmation
 
 ```yaml
@@ -318,6 +335,7 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
+
 Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
@@ -334,6 +352,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
+
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
@@ -349,6 +368,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
+
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutBuffer, -OutVariable, -PipelineVariable, -Verbose, -WarningAction, -WarningVariable, and -ProgressAction. 
 For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -357,7 +377,9 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ### System.Management.Automation.PSCustomObject
+
 ## NOTES
+
 Author: Jake Morrison - @jakemorrison - https://www.techthoughts.info/
 
 ## RELATED LINKS

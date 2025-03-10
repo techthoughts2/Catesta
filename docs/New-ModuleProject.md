@@ -8,16 +8,18 @@ schema: 2.0.0
 # New-ModuleProject
 
 ## SYNOPSIS
+
 Scaffolds a PowerShell module project for use with desired CICD platform for easy cross platform PowerShell development.
 
 ## SYNTAX
 
-```
+```powershell
 New-ModuleProject [-DestinationPath] <String> [-ModuleParameters <Hashtable>] [-NoLogo] [-PassThru] [-Force]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
+
 Uses the Plaster framework to scaffold a PowerShell module that adheres to community best practices.
 Based on selections made, generates the files and configuration required to integrate with a variety of CI/CD platforms,
 including options for easy cross-platform verification on Windows, Linux, and MacOS.
@@ -31,7 +33,8 @@ If you pass in a full ModuleParameters set, Plaster will not prompt you for any 
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+
+```powershell
 New-ModuleProject -DestinationPath $outPutPath
 ```
 
@@ -39,7 +42,8 @@ Initiates Plaster template to scaffold a PowerShell module project with customiz
 Choices made during scaffolding will result in a PowerShell project tailored to the chosen CI/CD platform, or a standard PowerShell module project with no CI/CD integration.
 
 ### EXAMPLE 2
-```
+
+```powershell
 New-ModuleProject -DestinationPath $outPutPath -NoLogo
 ```
 
@@ -48,7 +52,8 @@ Choices made during scaffolding will result in a PowerShell project tailored to 
 The Plaster logo will be suppressed and not shown.
 
 ### EXAMPLE 3
-```
+
+```powershell
 New-ModuleProject -DestinationPath $outPutPath -PassThru
 ```
 
@@ -57,7 +62,8 @@ Choices made during scaffolding will result in a PowerShell project tailored to 
 An object will be returned containing details of the Plaster template deployment.
 
 ### EXAMPLE 4
-```
+
+```powershell
 $moduleParameters = @{
     ModuleName  = 'ModuleName'
     Description = 'My awesome module is awesome'
@@ -77,7 +83,8 @@ Scaffolds a basic PowerShell module project with no additional extras.
 You just get a basic PowerShell module construct.
 
 ### EXAMPLE 5
-```
+
+```powershell
 $moduleParameters = @{
     ModuleName     = 'ModuleName'
     Description    = 'My awesome module is awesome'
@@ -107,7 +114,8 @@ A full set of GitHub project supporting files is provided.
 The project is set up for integration with Read the Docs.
 
 ### EXAMPLE 6
-```
+
+```powershell
 $moduleParameters = @{
     ModuleName  = 'ModuleName'
     Description = 'My awesome module is awesome'
@@ -135,7 +143,8 @@ Scaffolds a PowerShell module project for integration with AWS CodeBuild with th
 A full set of GitHub project supporting files is provided.
 
 ### EXAMPLE 7
-```
+
+```powershell
 $moduleParameters = @{
     ModuleName   = 'ModuleName'
     Description  = 'My awesome module is awesome'
@@ -162,7 +171,8 @@ Scaffolds a PowerShell module project for integration with Azure Pipelines with 
 No repository supporting files are included.
 
 ### EXAMPLE 8
-```
+
+```powershell
 $moduleParameters = @{
     ModuleName      = 'ModuleName'
     Description     = 'My awesome module is awesome'
@@ -190,7 +200,8 @@ Scaffolds a PowerShell module project for integration with Appveyor with the pro
 No repository supporting files are included.
 
 ### EXAMPLE 9
-```
+
+```powershell
 $moduleParameters = @{
     ModuleName  = 'ModuleName'
     Description = 'My awesome module is awesome'
@@ -217,7 +228,8 @@ Scaffolds a PowerShell module project for integration with Bitbucket Pipelines w
 A full set of repository supporting files are included.
 
 ### EXAMPLE 10
-```
+
+```powershell
 $moduleParameters = @{
     ModuleName    = 'ModuleName'
     Description   = 'My awesome module is awesome'
@@ -249,6 +261,7 @@ The project is set up for integration with Read the Docs.
 ## PARAMETERS
 
 ### -DestinationPath
+
 File path where PowerShell Module project will be created
 
 ```yaml
@@ -264,6 +277,7 @@ Accept wildcard characters: False
 ```
 
 ### -ModuleParameters
+
 Provide all Plaster decisions inside a Hashtable.
 If any decision choice is not provided, Plaster will still prompt you for a decision.
 See NOTES for additional limitations.
@@ -281,6 +295,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoLogo
+
 Suppresses the display of the Plaster logo.
 
 ```yaml
@@ -296,6 +311,7 @@ Accept wildcard characters: False
 ```
 
 ### -PassThru
+
 Returns an object containing details of Plaster template deployment.
 
 ```yaml
@@ -311,6 +327,7 @@ Accept wildcard characters: False
 ```
 
 ### -Force
+
 Skip Confirmation
 
 ```yaml
@@ -326,6 +343,7 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
+
 Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
@@ -342,6 +360,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
+
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
@@ -357,6 +376,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
+
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutBuffer, -OutVariable, -PipelineVariable, -Verbose, -WarningAction, -WarningVariable, and -ProgressAction. 
 For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -365,7 +385,9 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ### System.Management.Automation.PSCustomObject
+
 ## NOTES
+
 Author: Jake Morrison - @jakemorrison - https://www.techthoughts.info/
 
 Catesta Plaster templates have dynamic choices.
